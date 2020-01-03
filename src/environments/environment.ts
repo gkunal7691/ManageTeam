@@ -7,8 +7,7 @@ export const environment = {
   envName: 'dev',
   paths: {
 
-  api: 'http://localhost:3030/api',
-  //  api: 'https://robocore-api-dev.herokuapp.com/api',
+  api: 'http://localhost:3000/api',
   },
 };
 
