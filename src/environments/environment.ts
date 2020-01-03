@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  envName: 'dev',
+  envName: 'local',
   paths: {
 
   api: 'http://localhost:3000/api',
