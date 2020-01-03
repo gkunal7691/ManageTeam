@@ -2,7 +2,7 @@
   "name": "softobotics-app",
   "version": "0.0.0",
   "engines": {
-    "node": "8.9.4"
+    "node": "12.14.0"
   },
   "scripts": {
     "ng": "ng",
