@@ -1,0 +1,338 @@
+<div class="content-heading">
+  <div>Leave Board
+    <small>View total leaves of employee's throughout the Organization.</small>
+  </div>
+</div>
+
+<!-- MODAL1 -->
+
+<div class="modal fade leaveRequestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title mt-0">Enter following information :</h4>
+        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close" (click)="formReset()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group row fontStyle">
+          <div class="col-3">
+            <label class="mt-1 mb-0">Choose Dates :</label>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" #dp="bsDatepicker" [(ngModel)]="selectedStartDate" bsDatepicker
+              placeholder="From" name="dp-basic" [bsConfig]="bsConfig" (bsValueChange)="getFromDate($event)"
+              value="{{ selectedStartDate | date:'dd-MM-yyyy' }}">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="To" name="dp-basic"
+              [(ngModel)]="selectedEndDate" [bsConfig]="bsConfig" (bsValueChange)="getNoOfDays($event)"
+              value="{{ selectedEndDate | date:'dd-MM-yyyy' }}">
+          </div>
+        </div>
+        <h5 *ngIf="invalidDate" class="text-danger font-italic date-error">Please choose valid dates</h5>
+        <div class="form-group row fontStyle mt-3">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-6"> <label class="mt-2 mb-0">Total Days :</label>
+              </div>
+              <div class="col-6">
+                <label class="checkbox c-checkbox float-right mt-2 mb-0" *ngIf="isvalid">
+                  <input type="checkbox" [checked]="isHalfDay" (change)=gethalfday($event.target.checked) />
+                  <span class="fa fa-check"></span>Half day</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <input class="form-control" [formControl]="leaveRequestForm.controls['totalDays']">
+          </div>
+        </div>
+        <div class="dropdown row fontStyle mt-3">
+          <div class="col-6">
+            <label class="mt-2 mb-0">Choose Leave Type :</label>
+          </div>
+          <div class="col-6">
+            <select class="form-control" [formControl]="leaveRequestForm.controls['type']">
+              <option [selected]="true" value="">Select</option>
+              <option value="casual">Casual</option>
+              <option value="optional">Optional</option>
+              <option value="earned">Earned</option>
+              <option value="comp-off">Comp-off</option>
+            </select>
+          </div>
+        </div>
+        <div class="fontStyle">
+          <label class="mt-2  mb-0">Enter Leave Request Reason :</label>
+        </div>
+        <div class="mt-1">
+          <textarea [formControl]="leaveRequestForm.controls['reason']">
+              </textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal"
+          (click)="formReset()">Cancel</button>
+        <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal"
+          (click)="createLeaveRequest()" [disabled]="!leaveRequestForm.valid">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL2 -->
+<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title mt-0">Enter following information :</h4>
+        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <fieldset>
+          <div class="form-group row fontStyle">
+            <div class="col-5">
+              <label>Choose Dates :</label>
+            </div>
+            <div class="col-7">
+              <input class="form-control" [formControl]="leaveRequestForm.controls['dates']"
+                placeholder="Choose Date Here" #drp="bsDaterangepicker" bsDaterangepicker [bsConfig]="bsConfig"
+                (bsValueChange)="getNoOfDays($event)">
+            </div>
+          </div>
+          <div class="form-group row fontStyle mt-2">
+            <div class="col-5">
+              <label>No Of Days Applied :</label>
+            </div>
+            <div class="col-7">
+              <input class="form-control" [formControl]="leaveRequestForm.controls['totalDays']"
+                placeholder="Choose Date First..">
+            </div>
+          </div>
+          <div class="fontStyle mt-2">
+            <label>Enter Comment :</label>
+          </div>
+          <div class="mt-2">
+            <textarea placeholder="Start Typing..." [formControl]="leaveRequestForm.controls['reason']"></textarea>
+          </div>
+        </fieldset>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal"
+          (click)="createLeaveRequest()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-3 col-lg-6">
+    <!-- START card 1-->
+    <div class="card bg-warning border-0">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="col-9 text-right">
+            <div class="text-lg">{{leaveData?.earned !== undefined ? leaveData?.earned : 0 | number: '1.2-2'}}</div>
+            <p class="m-0">Earned Leaves</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END card 1-->
+  </div>
+  <div class="col-xl-3 col-lg-6">
+    <!-- START card 2-->
+    <div class="card bg-danger border-0">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <i class="fas fa-briefcase-medical"></i>
+          </div>
+          <div class="col-9 text-right">
+            <div class="text-lg">{{leaveData?.casual !== undefined ? leaveData?.casual : 0 | number: '1.2-2'}}</div>
+            <p class="m-0">Casual Leaves</p>
+          </div>
+        </div>
+      </div>
+      <!-- END card 2-->
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6">
+    <!-- START card 3-->
+    <div class="card bg-green border-0">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <i class="fas fa-calendar-times"></i>
+          </div>
+          <div class="col-9 text-right">
+            <div class="text-lg">{{leaveData?.optional !== undefined ? leaveData?.optional : 0 | number: '1.2-2'}}</div>
+            <p class="m-0">Optional Leaves</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END card 3-->
+  </div>
+  <div class="col-xl-3 col-lg-6">
+    <!-- START card 4-->
+    <div class="card bg-primary border-0">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <i class="far fa-calendar-alt"></i>
+          </div>
+          <div class="col-9 text-right">
+            <div class="text-lg">{{leaveData?.compoff !== undefined ? leaveData?.compoff : 0 | number: '1.2-2'}}</div>
+            <p class="m-0">Comp Off</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END card 4-->
+  </div>
+</div>
+
+<!--FAQs-->
+
+<div class="row">
+  <div class="col-3">
+    <div class="btn-group mb-2 w-100" dropdown>
+      <button class="btn btn-primary btn-lg" style="width: 85%;font-size: 15px;" data-toggle="modal"
+        data-target=".leaveRequestModal">Apply Leave</button>
+      <button class="btn dropdown-toggle dropdown-toggle-split btn-primary" style="width: 15%;" type="button"
+        dropdownToggle>
+        <span class="caret"></span>
+        <span class="sr-only">Secondary</span>
+      </button>
+      <div *dropdownMenu class="dropdown-menu" style="width: 100%!important;" role="menu">
+        <a class="dropdown-item" data-toggle="modal" data-target="#con-close-modal" href="#">Request
+          Comp Off</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    <accordion [closeOthers]="true">
+      <accordion-group panelClass="b0" [isOpen]="true">
+        <div accordion-heading>
+          <small>
+            <em class="fa fa-plus text-primary mr-2"></em>
+          </small>
+          <span style="font-size: 17px;">Your Leave History</span>
+        </div>
+        <!--Filter Dropdown-->
+        <div class="btn-group float-right" style="margin-right: 10px;" dropdown>
+          <button class="btn btn-secondary" type="button" style="font-size: 15px;position: relative;bottom: 60px;"
+            dropdownToggle>
+            <em class="fa-2x mr-2 fas fa-filter" style="font-size: 15px;"></em>
+            Filter<b class="caret"></b>
+          </button>
+          <!--CheckBox-->
+          <div *dropdownMenu class="dropdown-menu dropdown-top" role="menu">
+            <div class="form-check-inline">
+              <label class="checkbox c-checkbox">
+                <input type="checkbox" class="form-check-input" [checked]="allLeave"
+                  (change)="all($event.target.checked)"><span class="fa fa-check"></span>All
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="checkbox c-checkbox">
+                <input type="checkbox" class="form-check-input" [checked]="pendingLeave"
+                  (change)="pending($event.target.checked)" checked><span class="fa fa-check"></span>Pending
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="checkbox c-checkbox">
+                <input type="checkbox" class="form-check-input" [checked]="approvedLeave"
+                  (change)="approve($event.target.checked)"><span class="fa fa-check"></span>Approved
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="checkbox c-checkbox">
+                <input type="checkbox" class="form-check-input" [checked]="rejectedLeave"
+                  (change)="reject($event.target.checked)"><span class="fa fa-check"></span>Rejected
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="checkbox c-checkbox">
+                <input type="checkbox" class="form-check-input" [checked]="cancelledLeave"
+                  (change)="cancel($event.target.checked)"><span class="fa fa-check"></span>Cancelled
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="checkbox c-checkbox">
+                <input type="checkbox" class="form-check-input" [checked]="addedLeave"
+                  (change)="add($event.target.checked)"><span class="fa fa-check"></span>Added
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Material table -->
+        <div class="row w-100 ml-1">
+          <div class="card card-default w-100">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="fromDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>From</th>
+                <td mat-cell *matCellDef="let leaveRequest">{{leaveRequest?.fromDate | date:longDate}}</td>
+              </ng-container>
+              <ng-container matColumnDef="toDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> To </th>
+                <td mat-cell *matCellDef="let leaveRequest">{{leaveRequest?.toDate | date:longDate}}</td>
+              </ng-container>
+              <ng-container matColumnDef="noOfdays">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Days </th>
+                <td mat-cell *matCellDef="let leaveRequest"> {{leaveRequest?.noOfdays}}</td>
+              </ng-container>
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                <td mat-cell *matCellDef="let leaveRequest"> {{leaveRequest?.type}} </td>
+              </ng-container>
+              <ng-container matColumnDef="reason">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Reason </th>
+                <td mat-cell *matCellDef="let leaveRequest">
+                  <ng-template #toolTipTemplate>
+                    {{leaveRequest?.reason}}
+                  </ng-template>
+                  <a href="#" [tooltip]="toolTipTemplate">{{leaveRequest?.reason | slice:0:5}}</a>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let leaveRequest">
+                  <span class="badge" [ngClass]="{'badge-success': leaveRequest?.status=='approved', 
+                'badge-warning':leaveRequest?.status=='pending', 
+                'badge-danger':leaveRequest?.status=='rejected',
+                'badge-secondary':leaveRequest?.status=='cancelled',
+                'badge-primary':leaveRequest?.status=='added' }">{{leaveRequest?.status}}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Requested On </th>
+                <td mat-cell *matCellDef="let leaveRequest">{{leaveRequest?.createdAt | date:longDate}} </td>
+              </ng-container>
+              <ng-container matColumnDef="choose_response">
+                <th mat-header-cell *matHeaderCellDef> Choose Response </th>
+                <td mat-cell *matCellDef="let leaveRequest">
+                  <button [disabled]="leaveRequest.status != 'pending'" class="btn btn-primary"
+                    (click)="updateStatus(leaveRequest.leaveId)">Cancel</button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>

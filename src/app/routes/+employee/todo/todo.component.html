@@ -1,0 +1,124 @@
+<div class="content-heading">
+  <div class="col-7">Todo List
+    <small>Keeping track of tasks</small></div>
+  <div class="col-5">
+    <div class="row">
+      <div class="col-9">
+        <div class="row">
+          <div class="col-4"> <label class="mb-0 lable-font">Select User:</label>
+          </div>
+          <div class="col-6 p-0">
+            <select class="form-control" (change)="selectAdminTodo($event.target.value)" [(ngModel)]="currentUserId">
+              <option *ngFor="let admin of adminList" [value]="admin.id">{{admin.firstName}} {{admin.lastName}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary float-right" data-toggle="modal" data-target=".AddTodoModalCenter"
+          id="openTodoModal" (click)="emptyForm()">Add
+          Todo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD TODO -->
+
+<div class="modal AddTodoModalCenter">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="ml-2 mt-2">{{editingTodo ? 'Edit Todo' : 'Add Todo'}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeTodoModal"> <span
+            aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <form class="mb-4" (submit)="addTodo()">
+          <div class="form-group">
+            <input class="form-control" type="text" name="todoTitle" [(ngModel)]="todo.title" placeholder="Task title.."
+              required="required" autofocus />
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" name="todoDescription" [(ngModel)]="todo.description"
+              placeholder="Type a description.." rows="8"></textarea>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit"
+            [disabled]="!(todo.title)">{{editingTodo ? 'Edit Todo' : 'Add Todo'}} </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TODO LIST -->
+
+<div class="row todo">
+  <div class="col-lg-8 todo-item-list">
+    <div class="lead text-muted text-center" *ngIf="no_items">No tasks...</div>
+    <accordion [closeOthers]="true" *ngFor="let item of notComplateTask; let i = index">
+      <accordion-group panelClass="todo-item {{item.complete?'todo-complete':''}}">
+        <div accordion-heading [ngStyle]="{'background-color': item.star ? '#FCFCB6' : 'transparent'}"
+          style="padding: 10px;">
+          <a class="float-right text-muted ml-2 mt-1" (click)="favTask(item.star,item.todoId)">
+            <em [ngClass]="item.star ? 'fa fa-star text-warning' : 'far fa-star'"></em>
+          </a>
+          <span class="close text-danger mt-1" (click)="removeTodo(i, $event,'notComplete')">Delete</span>
+          <span class="close mr-4 mt-1" (click)="editTodo(i, $event)">Edit</span>
+          <div class="inline checkbox c-checkbox">
+            <label (click)="$event.stopPropagation()" class="mb-0">
+              <input type="checkbox" [checked]="item.complete"
+                (change)="completeTodo(i,$event.target.checked,'notComplete')" />
+              <span class="fa fa-check"></span>
+            </label>
+          </div>
+          <span class="todo-title" [innerHTML]="item.title">Task title</span>
+        </div>
+        <p>
+          <span [innerHTML]="item.description"></span>
+          <span class="text-muted" *ngIf="item.description === ''">No item description</span>
+        </p>
+      </accordion-group>
+    </accordion>
+    <p class="text-right" *ngIf="!no_items">
+      <span>{{ this.completeTask?.count }} Completed</span>-
+      <span>{{  this.notComplateTask.length }} Pending</span>
+    </p>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="pr-3">
+      <h3>Completed</h3>
+      <div class="lead text-muted text-center" *ngIf="no_itemscompleted">No tasks...</div>
+      <accordion [closeOthers]="true">
+        <accordion-group panelClass="todo-item {{item.complete?'todo-complete':''}}"
+          *ngFor="let item of completeTask?.rows; let i = index" [isDisabled]>
+          <div accordion-heading style="padding: 10px;">
+            <span class="close text-danger mt-1" (click)="removeTodo(i, $event,'complete')">Delete</span>
+            <div class="inline checkbox c-checkbox">
+              <label (click)="$event.stopPropagation()" class="mb-0">
+                <input type="checkbox" [checked]="item.complete"
+                  (change)="completeTodo(i,$event.target.checked,'complete')" id="{{'todo-item-'+$index}}" />
+                <span class="fa fa-check"></span>
+              </label>
+            </div>
+            <span class="todo-title" [innerHTML]="item.title">Task title</span>
+          </div>
+          <p>
+            <span [innerHTML]="item.description"></span>
+            <span class="text-muted" *ngIf="item.description === ''">No item description</span>
+          </p>
+        </accordion-group>
+      </accordion>
+      <p class="text-right" *ngIf="!no_itemscompleted">
+        <span> Showing 1</span>-
+        <span> {{completeTask?.rows?.length}} of</span>
+        <span> {{ this.completeTask?.count }} - </span>
+        <a routerLink="/employee/todo/completed/{{selectAdminId}}">
+          <span>Show All</span>
+        </a>
+      </p>
+    </div>
+  </div>
+</div>

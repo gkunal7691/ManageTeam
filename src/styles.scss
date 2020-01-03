@@ -1,0 +1,232 @@
+/* You can add global styles to this file, and also import other style files */
+
+//== Vendor
+@import "~@fortawesome/fontawesome-free-webfonts/css/fa-brands.css";
+@import "~@fortawesome/fontawesome-free-webfonts/css/fa-regular.css";
+@import "~@fortawesome/fontawesome-free-webfonts/css/fa-solid.css";
+@import "~@fortawesome/fontawesome-free-webfonts/css/fontawesome.css";
+@import url("../node_modules/source-sans-pro/source-sans-pro.css");
+@import "~simple-line-icons/css/simple-line-icons.css";
+@import "~weather-icons/css/weather-icons.css";
+@import "~weather-icons/css/weather-icons-wind.css";
+
+// @import '~spinkit/css/spinkit.css';
+@import "~loaders.css/loaders.css";
+
+@import "~angular2-toaster/toaster.css";
+
+@import "~ng2-dnd/bundles/style.css";
+
+@import "~ika.jvectormap/jquery-jvectormap-1.2.2.css";
+
+@import "~jqcloud2/dist/jqcloud.css";
+
+@import "~summernote/dist/summernote.css";
+
+@import "~fullcalendar/dist/fullcalendar.min.css";
+
+@import "~codemirror/lib/codemirror.css";
+
+// @import '~sweetalert/dist/sweetalert.css';
+
+@import "~ngx-bootstrap/datepicker/bs-datepicker.css";
+
+//== Bootstrap
+@import "./app/shared/styles/bootstrap.scss";
+//== Application
+@import "./app/shared/styles/app.scss";
+
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.toast-top-right {
+  position: relative;
+  top: 60px;
+}
+
+.button.toaster-close-button {
+  position: relative !important;
+  top: -15px !important;
+}
+
+fieldset {
+  border-bottom: 0px;
+}
+
+.dataTables_wrapper {
+  padding: 10px;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  padding: 0px !important;
+  margin-top: 11px;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  width: 94px !important;
+  height: 32px !important ;
+  border-radius: 5px !important;
+}
+.dataTables_length {
+  float: left;
+}
+
+.dataTables_filter {
+  float: left !important;
+  margin-bottom: 5px;
+}
+.dataTables_wrapper .dataTables_filter {
+  float: right !important;
+  text-align: right !important;
+}
+.dataTables_paginate {
+  border: 1.2px solid lightgrey !important;
+  border-radius: 4px !important;
+  color: black !important;
+  float: right !important;
+  text-decoration: none !important;
+}
+.dataTables_paginate a {
+  border-right-width: 2px !important;
+  border-right-style: solid !important;
+  border-right-color: lightgrey !important;
+  padding: 0.5rem 0.75rem !important;
+  margin-left: -1px !important;
+  color: #000 !important;
+  cursor: pointer !important;
+}
+.dataTables_paginate a:hover {
+  background-color: lightgrey !important;
+}
+.dataTables_paginate .current {
+  background: #348cd4 !important;
+  border-color: #348cd4 !important;
+}
+.dataTables_paginate .last {
+  border-right: 0px !important;
+}
+.dataTables_paginate .disabled:hover {
+  background-color: white !important;
+}
+.dataTables_paginate .disabled {
+  color: grey !important;
+  pointer-events: none !important;
+  cursor: auto !important;
+  padding-top: 0.4rem !important;
+  padding-bottom: 0.4rem !important;
+}
+.dataTables_info {
+  position: relative !important;
+  top: 20px !important;
+  font-size: 14px !important;
+  font-weight: 600;
+}
+.dataTables_paginate .ellipsis {
+  border-right-width: 2px !important;
+  border-right-style: solid !important;
+  border-radius: 5px !important;
+  border-right-color: lightgrey !important;
+  padding: 0.5rem 0.75rem !important;
+  margin-left: -1px !important;
+  color: #000 !important;
+}
+
+.placeholder {
+  height: 40px !important;
+  width: 220px !important;
+  border-radius: 20px !important;
+}
+[type="search"] {
+  outline-offset: -2px !important;
+  -webkit-appearance: none !important;
+  border-radius: 7px !important;
+  height: 32px !important;
+  width: 216px !important;
+  margin-left: 8px !important;
+  border: 1px solid #cccccc;
+}
+
+.card .table > thead > tr > th {
+  border-top: 0;
+  border-bottom: 0;
+}
+table.dataTable.no-footer {
+  border-bottom: none !important;
+}
+
+.afu-upload-btn {
+  margin-left: 120px;
+  margin-bottom: 15px;
+}
+.afu-select-btn {
+  margin-top: 15px;
+  margin-left: 120px;
+}
+.afu-constraints-info {
+  margin-bottom: 0;
+  margin-top: 0 !important;
+  margin-left: 25px;
+}
+.resetBtn {
+  display: none;
+}
+.ngx-select_multiple {
+  height: auto !important;
+  padding: 0 !important;
+  border: 1px solid !important;
+  color: darkgrey !important;
+}
+
+.bs-datepicker-head > bs-datepicker-navigation-view {
+  display: flex;
+  justify-content: space-around;
+}
+.theme-angle {
+  .bs-datepicker-head {
+    background-color: $info;
+  }
+  .bs-datepicker-body table td {
+    span.selected,
+    &.selected span,
+    span[class*="select-"]:after,
+    &[class*="select-"] span:after {
+      background-color: $info;
+    }
+    &.week span {
+      color: $info;
+    }
+  }
+}
+
+.panel.card.todo-item > .panel-heading.card-header {
+  padding: 0px !important;
+}
+
+// For header color change
+.topnavbar {
+  background-color: #3a3f51 !important;
+  background-image: linear-gradient(to right, #3a3f51 0%, #000 100%) !important;
+  background-repeat: repeat-x !important;
+}
+
+// For mat table
+.mat-table td,
+.mat-table th {
+  border: 1px solid #eee;
+  padding: 8px !important;
+}
+
+.mat-table tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+.mat-table tr:hover {
+  background-color: #ddd;
+}
+
+.mat-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #fafbfc;
+  color: black;
+}

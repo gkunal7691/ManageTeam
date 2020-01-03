@@ -1,0 +1,60 @@
+<div class="content-heading">
+    <div>
+        Profile
+        <small>Your basic user information.</small>
+    </div>
+</div>
+
+<!-- START panel - Account Information -->
+<div class="row">
+    <div class="col-xl-12">
+        <!-- START widget-->
+        <div class="card card-default" id="cardChart9">
+            <div class="card-header">
+                <div class="card-title">Account Information</div>
+            </div>
+            <!-- Activation card -- tdis will need to be dynamic -->
+            <div class="card-body">
+                <p>Please contact us if you have any issues or questions.</p><br />
+                <!-- User core info from user base login profile -->
+                <h6><b> Employee Information</b></h6>
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td>{{currentUser?.firstName}} {{currentUser?.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b></td>
+                        <td>{{currentUser?.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Designation</b></td>
+                        <td>{{userDeatils?.designation}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Secondary Email</b></td>
+                        <td>{{userDeatils?.secondaryEmail}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Permanent Address</b></td>
+                        <td>{{userDeatils?.permanentAddress}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Current Address</b></td>
+                        <td>{{userDeatils?.tempAddress}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Mobile Number</b></td>
+                        <td>{{userDeatils?.mobile}}</td>
+                    </tr>
+                </table><br /><br />
+            </div>
+        </div>
+        <!-- END widget-->
+    </div>
+</div>
+<!-- End Account Information panel -->

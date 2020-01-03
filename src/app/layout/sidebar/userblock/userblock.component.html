@@ -1,0 +1,15 @@
+<div class="item user-block" *ngIf="userBlockIsVisible()">
+    <!-- User picture-->
+    <!-- <div class="user-block-picture">
+        <div class="user-block-status"> -->
+            <!-- <img class="img-thumbnail rounded-circle" [src]="user.picture" alt="Avatar" /> -->
+            <!-- <div class="circle bg-success circle-lg"></div> -->
+        <!-- </div>
+    </div> -->
+    <!-- Name and Job-->
+    <div class="user-block-info">
+        <span *ngIf="user" class="user-block-name text-align">{{ 'sidebar.WELCOME' | translate }}  {{user.firstName}} {{user.lastName}}</span>
+        <span *ngIf="user?.roleId == 1" class="user-block-role text-align">Member since {{user.createdAt | date: 'yyyy' }}</span>
+        <span *ngIf="user?.roleId == 2" class="user-block-role text-align">Role: Admin, Since: {{user.createdAt | date: 'MM/dd/yyyy'}}</span>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="content-heading">
+  <div class="col-7">Completed Todo List
+    <small>Keeping track of tasks</small></div>
+</div>
+
+<div class="row todo">
+  <div class="col-lg-8">
+    <div class="pr-3">
+      <h3>Completed</h3>
+      <div class="lead text-muted text-center" *ngIf="no_itemscompleted">No tasks...</div>
+      <accordion [closeOthers]="true">
+        <accordion-group panelClass="todo-item {{item.complete?'todo-complete':''}}"
+          *ngFor="let item of completeTask?.rows; let i = index" [isDisabled]>
+          <div accordion-heading style="padding: 10px;">
+            <span class="close text-danger mt-1" (click)="removeTodo(i, $event)">Delete</span>
+            <div class="inline checkbox c-checkbox">
+              <label (click)="$event.stopPropagation()" class="mb-0">
+                <input type="checkbox" [checked]="item.complete" (change)="completeTodo(i,$event.target.checked)"
+                  id="{{'todo-item-'+$index}}" />
+                <span class="fa fa-check"></span>
+              </label>
+            </div>
+            <span class="todo-title" [innerHTML]="item.title">Task title</span>
+          </div>
+          <p>
+            <span [innerHTML]="item.description"></span>
+            <span class="text-muted" *ngIf="item.description === ''">No item description</span>
+          </p>
+        </accordion-group>
+      </accordion>
+    </div>
+  </div>
+</div>

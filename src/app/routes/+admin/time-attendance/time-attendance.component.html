@@ -1,0 +1,122 @@
+<div class="content-heading">
+    <div class="col-4">
+        Time & Attendance
+    </div>
+    <div class="col-4">
+        <select class="form-control mb-1" (change)="selectedUserTask($event.target.value)">
+            <option>Please Select an Employee</option>
+            <option *ngFor="let user of userList" [value]="user.id">{{user.firstName}}
+                <span class="mr-2">{{user.lastName}}</span>
+            </option>
+        </select>
+    </div>
+    <div class="col-4">
+        <label class="checkbox c-checkbox float-right weekoff mb-0">
+            <input type="checkbox" checked (change)=showWeekoff($event.target.checked)>
+            <span class="fa fa-check"></span>Exclude Week Off
+        </label>
+    </div>
+</div>
+
+<!-- loader -->
+<div *ngIf="showLoader" class="loader-demo d-flex align-items-center justify-content-center time-loader">
+    <div class="line-spin-fade-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+
+<div class="row w-100 justify-content-center">
+    <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousMonth()"></button>
+    <h4 class="ml-1 mb-0 mt-1">{{firstDay}}</h4>
+    <h4 class="ml-1 mb-0 mt-1">{{presentdate | date : 'LLLL'}} - </h4>
+    <h4 class="ml-1 mb-0 mt-1">{{lastDay}}</h4>
+    <h4 class="ml-1 mb-0 mt-1">{{presentdate | date : 'LLLL'}}</h4>
+    <button style="cursor: pointer;" type="button" class="fa fa-caret-right" (click)="getNextMonth()"></button>
+</div>
+<div class="row w-100 justify-content-center">
+    <h3>{{presentdate | date : 'yyy'}}</h3>
+</div>
+
+<br />
+<div class="row heading">
+    <div *ngIf="hideMonday" class="col">
+        <div class="row justify-content-center">
+            <h4>Monday</h4>
+        </div>
+        <div *ngFor="let day of mondayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+    <div *ngIf="hideTuesday" class="col">
+        <div class="row justify-content-center">
+            <h4>Tuesday</h4>
+        </div>
+        <div *ngFor="let day of tuesdayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+
+    <div *ngIf="hideWednesday" class="col">
+        <div class="row justify-content-center">
+            <h4>Wednesday</h4>
+        </div>
+        <div *ngFor="let day of wednesdayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+    <div *ngIf="hideThrusday" class="col">
+        <div class="row justify-content-center">
+            <h4>Thrusday</h4>
+        </div>
+        <div *ngFor="let day of thrusdayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+    <div *ngIf="hideFriday" class="col">
+        <div class="row justify-content-center">
+            <h4>Friday</h4>
+        </div>
+        <div *ngFor="let day of fridayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+    <div *ngIf="hideSaturday" class="col">
+        <div class="row justify-content-center">
+            <h4>Saturday</h4>
+        </div>
+        <div *ngFor="let day of saturdayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+    <div *ngIf="hideSunday" class="col">
+        <div class="row justify-content-center">
+            <h4>Sunday</h4>
+        </div>
+        <div *ngFor="let day of sundayArray">
+            <app-day-overview [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+                [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
+            </app-day-overview>
+        </div>
+    </div>
+</div>
+<div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>

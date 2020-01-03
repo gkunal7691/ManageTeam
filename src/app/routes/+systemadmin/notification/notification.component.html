@@ -1,0 +1,26 @@
+<div class="col-xl-8">
+  <div class="card card-default">
+    <div class="card-header">
+      <div class="card-title"><b>Email Notification</b></div>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover table-bordered">
+        <tr>
+          <th><b>Type</b></th>
+          <th><b>Action</b></th>
+        </tr>
+        <tr>
+          <td><b>Due Date</b></td>
+          <td>
+            <div class="ml-auto">
+              <label class="switch switch-lg m-0">
+                <input type="checkbox"  [checked] = "selectedValue" (change)=selectMailNotification($event.target.checked) />
+                <span></span>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

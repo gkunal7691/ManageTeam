@@ -1,0 +1,47 @@
+<div class="content-heading">
+  <div class="row w-100 justify-content-center">
+    <div class="col-12 justify-content-center">
+      <div class="row w-100 justify-content-center">
+        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'EEEE'}},</h4>
+        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'MMMM d'}},</h4>
+        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'y'}}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-default">
+  <div class="card-body">
+    <div class="row w-100 justify-content-center mb-3">
+      <button type="button" class="btn btn-success" (click)="goToPresentDay()">Current Day</button>
+    </div>
+    <!-- loader -->
+    <div *ngIf="showLoader" class="loader-demo d-flex align-items-center justify-content-center time-loader">
+      <div class="line-spin-fade-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="parent">
+      <div>
+        <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousDate()"></button>
+      </div>
+      <div class="child">
+        <app-day-detail [showRecentDate]="convertedDate" [allTasksList]="taskList" (updateTaskList)="getTaskList()">
+        </app-day-detail>
+      </div>
+      <div>
+        <button style="cursor: pointer;" type="button" class="fa fa-caret-right" (click)="getNextDate()"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>

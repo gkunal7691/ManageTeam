@@ -1,0 +1,157 @@
+<div class="content-heading">
+  <div class="row w-100">
+    <div class="col-6">
+      Day Off
+      <small>Select the day off Holiday throughout the Organization.</small>
+    </div>
+    <div class="col-6">
+      <button  type="button" class="btn btn-primary add-btn" data-toggle="modal"
+        data-target=".AdddayffModal" (click)="formReset()">Add
+        Day Off</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="card card-default">
+  <div class="card-body">
+    <table [border]="1">
+      <thead>
+        <tr class="header-color">
+          <th>Every Week Dayoff</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="header-color">
+          <td>
+            <ng-container *ngFor="let daysName of dayOffNameList">
+              <span class="pr-1">{{daysName.weekdayId}},</span>
+            </ng-container>
+          </td>
+          <td>
+            <button type="button" class="mr-1 btn-primary" data-toggle="modal" data-target=".EditDayoffModal">
+              <em class="icon-pencil"></em></button>
+            <button type="button" class="mr-1 btn-danger">
+              <em class="far fa-times-circle"></em></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add Modal -->
+
+<div class="modal fade AdddayffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <h4>Add Holiday</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+            aria-hidden="true">&times;</span> </button>
+      </div>
+      <form [formGroup]=addDayoffForm>
+        <div class="modal-body">
+          <div class="row pl-3 pr-3">
+            <label>Week Off</label>
+            <ngx-select (data)="value" [multiple]="true" [items]="weekdayList" (data)="refreshValue($event)"
+              optionValueField="weekdayId" optionTextField="weekday" (selected)="selected($event)"
+              (removed)="removed($event)" class="multiselect-box ml-2" placeholder="Select a Client"
+              [formControl]="addDayoffForm.controls['weekdayoff']" [(ngModel)]="sortedDaysList">
+            </ngx-select>
+            <div class="alert alert-danger" *ngIf="addDayoffForm.controls['weekdayoff'].invalid &&
+            addDayoffForm.controls['weekdayoff'].touched">
+              <i>You must enter Holiday Date</i></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+            (click)="formReset()">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="!addDayoffForm.valid" data-dismiss="modal"
+            aria-label="Close" (click)="createDayoff()">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+
+<div class="modal fade EditDayoffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <h4>Add Holiday</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+            aria-hidden="true">&times;</span> </button>
+      </div>
+      <form [formGroup]=editdayoffForm>
+        <div class="modal-body">
+          <div class="row pl-3 pr-3">
+            <label>Week Off</label>
+            <ngx-select (data)="value" [multiple]="true" [items]="dayOffNameList" (data)="refreshValue($event)"
+              optionValueField="dayoffId" optionTextField="weekdayOff" (selected)="selected($event)"
+              (removed)="removed($event)" class="multiselect-box ml-2" placeholder="Select a Client"
+              [formControl]="editdayoffForm.controls['dayOffIds']">
+              <!-- <ng-template ngx-select-option let-option let-text="text">
+                {{option.data.weekdayOff}}
+              </ng-template> -->
+            </ngx-select>
+            <div class="alert alert-danger" *ngIf="editdayoffForm.controls['dayOffIds'].invalid &&
+            editdayoffForm.controls['dayOffIds'].touched">
+              <i>You must enter Holiday Date</i>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+            (click)="formReset()">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="!editdayoffForm.valid" data-dismiss="modal"
+            aria-label="Close" (click)="updateDayoff()">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+
+<div class="modal fade EditDayoffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <h4>Add Holiday</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+            aria-hidden="true">&times;</span> </button>
+      </div>
+      <form [formGroup]=editdayoffForm>
+        <div class="modal-body">
+          <div class="row pl-3 pr-3">
+            <label>Week Off</label>
+            <ngx-select (data)="value" [multiple]="true" [items]="dayOffNameList" (data)="refreshValue($event)"
+              optionValueField="dayoffId" optionTextField="weekdayOff" (selected)="selected($event)"
+              (removed)="removed($event)" class="multiselect-box ml-2" placeholder="Select a Client"
+              [formControl]="editdayoffForm.controls['dayOffIds']" >
+              <!-- <ng-template ngx-select-option let-option let-text="text">
+                {{option.data.weekdayOff}}
+              </ng-template> -->
+            </ngx-select>
+            <div class="alert alert-danger" *ngIf="editdayoffForm.controls['dayOffIds'].invalid &&
+            editdayoffForm.controls['dayOffIds'].touched">
+              <i>You must enter Holiday Date</i>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+            (click)="formReset()">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="!editdayoffForm.valid" data-dismiss="modal"
+            aria-label="Close" (click)="updateDayoff()">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

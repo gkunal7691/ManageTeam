@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="logo-wrapper">
+      <div class="logo text-center">
+        <img alt title="Softobotics" src="../assets/img/logo.png">
+      </div>
+    </div>
+    <div class="row justify-content-center align-items-center">
+        <div class="form-wrapper loginform col-md-6 col-md-offset-3">
+            <form [formGroup]="loginForm" class="form-group">
+                <!-- <legend>Login</legend> -->
+                <fieldset>
+                   <label for="email" class="input">Email</label>
+                    <input name="email" class="form-control email" type="email" placeholder=""
+                           [formControl]="loginForm.controls['email']"><br>
+                    <!-- <div class="alert alert-danger"
+                         *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched">
+                          <i>Incorrect email!</i>                  
+                    </div> -->
+                  <label for="password" class="input">Password</label>
+                  <input name="password" class="form-control password" type="password" placeholder=""
+                           [formControl]="loginForm.controls['password']">
+                    <!-- <div class="alert alert-danger"
+                         *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
+                          <i>Invalid password!</i>                   
+                    </div> -->
+
+                    <div class="alert alert-danger"
+                         *ngIf="loginFailText">
+                          <!-- <i>{{loginFailText}}</i> -->
+                          <i>That didn't work. Please try again.</i>                   
+                    </div><br>
+                    <button [disabled]="!loginForm.valid" class="btn btn-primary" (click)="onLogin()">Login</button>
+                    <br>
+                    <a [routerLink]="['forgotpassword']">Forgot password</a>
+                </fieldset>
+            </form>
+        </div>
+
+    </div>
+    <div class="row justify-content-center align-items-center">
+    	<a [routerLink]="['registration']">Create an Account</a><br>
+	  </div>
+</div>

@@ -1,0 +1,54 @@
+@import "~ngx-bootstrap/datepicker/bs-datepicker.css";
+
+.logo-wrapper .logo {
+  width: 14%;
+  margin: 0 auto;
+}
+
+.logo-wrapper .logo img {
+  width: 100%;
+}
+
+.form-wrapper {
+    padding: 40px 10px;
+}
+
+.form-wrapper form {
+    padding: 40px 80px;
+    background: #fff;
+    border: 0px solid #ccc;
+    color: grey;
+    box-shadow: 0 7px 14px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    animation-name: fadein;
+    animation-duration: 2s;
+}
+
+.form-wrapper button {
+  background-color: #000;
+}
+
+.form-wrapper button:hover {
+  background-color: #EF7745;
+}
+
+.input-group>.form-control {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.fieldsetcenter {
+  text-align:center;
+}
+
+.alert-beta {
+   background-color: #ffeebf;
+   color: #464646;
+   border-color: #FFB347;
+}

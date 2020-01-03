@@ -1,0 +1,22 @@
+.sidebar-nav{
+    z-index: 1;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-250%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+}
+.sidebar:not(.show-scrollbar) {
+  margin-right: -16px;
+  overflow-y: scroll;
+}
+.user-text { background-color: #f9fffb;
+             position: relative;bottom: 9px;
+             border-bottom-width: 1px;
+             border-bottom-color: #000;
+           }

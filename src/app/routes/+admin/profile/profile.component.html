@@ -1,0 +1,40 @@
+<div class="content-heading">
+    <div>
+        Profile
+        <small>Your basic user information.</small>
+    </div>
+</div>
+
+<!-- START panel - Account Information -->
+<div class="row">
+    <div class="col-xl-12">
+        <!-- START widget-->
+        <div class="card card-default" id="cardChart9">
+            <div class="card-header">
+                <div class="card-title">Account Information</div>
+            </div>
+            <!-- Activation card -- this will need to be dynamic -->
+            <div class="card-body">
+                <p>Please contact us if you have any issues or questions.</p><br/>
+                <!-- User core info from user base login profile -->
+                <h6><b> User Login Info</b></h6>
+                <table class="table table-hover table-bordered">
+                  <tr>
+                    <th><b>Field</b></th>
+                    <th><b>Value</b></th>
+                  </tr>
+                  <tr>
+                    <td><b>Name:</b></td>
+                    <td>{{currentUser?.firstName}} {{currentUser?.lastName}}</td>
+                  </tr>
+                  <tr>
+                    <td>Email:</td>
+                    <td>{{currentUser?.email}}</td>
+                  </tr>
+                </table><br/><br/>
+            </div>
+        </div>
+        <!-- END widget-->
+    </div>
+</div>
+<!-- End Account Information panel -->
