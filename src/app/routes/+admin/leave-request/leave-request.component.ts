@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { LeaveRequestService } from '../../../services/leave-request.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -12,12 +12,12 @@ const swal = require('sweetalert');
   templateUrl: './leave-request.component.html',
   styleUrls: ['./leave-request.component.scss']
 })
-export class LeaveRequestComponent implements OnInit {
 
+export class LeaveRequestComponent implements OnInit {
   leaveRequestAdminForm: FormGroup;
   public leaveRequestList: any[] = [];
-  toaster: any;
-  toasterConfig: any;
+  // toaster: any;
+  // toasterConfig: any;
 
   pendingLeave: boolean;
   approvedLeave: boolean;
@@ -26,17 +26,16 @@ export class LeaveRequestComponent implements OnInit {
   addedLeave: boolean;
   allLeave: boolean;
 
-  toasterconfig: ToasterConfig = new ToasterConfig({
-    positionClass: 'toast-top-right',
-    showCloseButton: true,
-    timeout: 10000
-  });
+  // toasterconfig: ToasterConfig = new ToasterConfig({
+  //   positionClass: 'toast-top-right',
+  //   showCloseButton: true,
+  //   timeout: 10000
+  // });
   windowWidth: any;
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.windowWidth = window.innerWidth;
-
   }
 
   displayedColumns: string[] = ["employee", "fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
@@ -44,9 +43,7 @@ export class LeaveRequestComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private leaveRequestService: LeaveRequestService, private fb: FormBuilder,
-    public toasterService: ToasterService) {
-  }
+  constructor(private leaveRequestService: LeaveRequestService, private fb: FormBuilder) { }
 
   ngAfterViewChecked() {
     this.onResize();
@@ -72,7 +69,6 @@ export class LeaveRequestComponent implements OnInit {
   search(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
-
 
   pending(value) {
     this.pendingLeave = value
@@ -114,7 +110,6 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   filterRequestLeave() {
-
     let status = {}
     status['ispending'] = this.pendingLeave;
     status['isapprove'] = this.approvedLeave;
@@ -135,27 +130,6 @@ export class LeaveRequestComponent implements OnInit {
 
   }
 
-  approvedPopUp(leaveId) {
-    console.log(leaveId)
-    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'approved' }).subscribe(
-      (res: any) => {
-        console.log(res)
-        this.toasterService.pop("success", "Success", "Leave Request Approved!");
-        this.filterRequestLeave()
-      })
-  }
-
-
-  rejectedPopUp(leaveId) {
-    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'rejected' }).subscribe(
-      (res: any) => {
-        console.log(res)
-        this.toasterService.pop("warning", "Rejected", "Leave Request Rejected!");
-        this.filterRequestLeave()
-      })
-  };
-
-
   // Approved Sweet Alert 
   approvedSweetAlert(leaveId) {
     swal({
@@ -164,28 +138,51 @@ export class LeaveRequestComponent implements OnInit {
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willAprrove) => {
+    }).then((willAprrove) => {
       if (willAprrove) {
         this.approvedPopUp(leaveId);
+      } else {
+        swal('Cancelled', 'Leave is not granted :)', 'error');
       }
-    });    
+    });
   }
+
+  approvedPopUp(leaveId) {
+    console.log(leaveId);
+    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'approved' }).subscribe(
+      (res: any) => {
+        console.log(res)
+        // this.toasterService.pop("success", "Success", "Leave Request Approved!");
+        swal('Success', 'Leave request approved! :)', 'success');
+        this.filterRequestLeave();
+      })
+  }
+
   //Rejected Sweet Alert 
   rejectedSweetAlert(leaveId) {
     swal({
       title: "Are you sure?",
-      text: "Leave will be approved to the employee!",
+      text: "Leave will be rejected for the employee!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willReject) => {
+    }).then((willReject) => {
       if (willReject) {
         this.rejectedPopUp(leaveId);
+      } else {
+        swal('Cancelled', 'Leave is not rejected :)', 'error');
       }
-    });    
+    });
   }
 
+  rejectedPopUp(leaveId) {
+    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'rejected' }).subscribe(
+      (res: any) => {
+        console.log(res)
+        // this.toasterService.pop("warning", "Rejected", "Leave Request Rejected!");
+        swal('Success', 'Leave request rejected! :)', 'success');
+        this.filterRequestLeave();
+      })
+  };
 
 }

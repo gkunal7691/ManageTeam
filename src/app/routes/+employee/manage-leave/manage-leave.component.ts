@@ -6,12 +6,14 @@ import { DayoffService } from '../../../services/dayoff.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-manage-leave',
   templateUrl: './manage-leave.component.html',
   styleUrls: ['./manage-leave.component.scss']
 })
+
 export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
@@ -56,15 +58,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private manageLeaveService: ManageLeaveService, private fb: FormBuilder,
-    private holidayService: HolidayService, private dayoffService: DayoffService) {
-
-  }
+    private holidayService: HolidayService, private dayoffService: DayoffService) { }
 
   leaveRequestList: any[] = [];
 
   ngOnInit() {
     this.leaveRequestForm = this.fb.group({
-      dates:[],
+      dates: [],
       totalDays: [{ value: '', disabled: true }],
       type: ['', [Validators.required]],
       reason: ['', [Validators.required]]
@@ -163,9 +163,10 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       reason: this.leaveRequestForm.get('reason').value
     }).subscribe(
       (res: any) => {
-        console.log(res)
+        console.log(res);
+        swal('Success', 'Leave request successfully sent :)', 'success');
         this.filterRequestLeave();
-        this.leaveCalculation();
+        this.leaveCalculation(); 
         this.formReset();
       })
   }
@@ -174,10 +175,35 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
-  updateStatus(leaveId) {
+  // updateStatus(leaveId) {
+  //   this.manageLeaveService.updateStatus({ leaveId }).subscribe(
+  //     (result: any) => {
+  //       console.log(result)
+  //       this.filterRequestLeave();
+  //     })
+  // }
+
+  updateStatusSwal(leaveId) {
+    swal({
+      title: "Are you sure ?",
+      text: "Leave request(#" +leaveId+ ") will be cancelled!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willRemove) => {
+      if (willRemove) {
+        this.updateStatusPopUp(leaveId);
+      } else {
+        swal('Cancelled', 'Leave request(#' +'leaveId'+ ') is not removed :)', 'error');
+      }
+    });
+  }
+
+  updateStatusPopUp(leaveId) {
+    console.log(leaveId);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        console.log(result)
+        swal('Success', 'Leave request(#' +'leaveId'+ ') has been removed :)', 'success');
         this.filterRequestLeave();
       })
   }
@@ -207,7 +233,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       })
       this.holidayList = this.holidayList.map(x => x.holidayDate);
       console.log(this.holidayList)
-
     })
   }
 
