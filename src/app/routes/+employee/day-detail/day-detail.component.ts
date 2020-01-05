@@ -3,6 +3,7 @@ import { ColorsService } from '../../../shared/colors/colors.service';
 import { TaskService } from '../../../services/task.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-day-detail',
@@ -11,7 +12,6 @@ import { Router } from '@angular/router';
 })
 
 export class DayDetailComponent implements OnInit, OnChanges {
-
   @Input() showRecentDate;
   @Input() allTasksList;
   @Output() updateTaskList = new EventEmitter();
@@ -65,7 +65,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.newStacked = [];
     this._date = this.showRecentDate;
     this.taskList = this.allTasksList
-    this.getTaskList();    
+    this.getTaskList();
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     }
@@ -200,7 +200,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
     else {
       this.estimateTimeModalForm.reset();
     }
-    this.status = status
+    this.status = status;
+    console.log(this.status)
     this.taskId = task.taskId;
     this.showForm = true;
     if (status != 'completed') {
@@ -209,6 +210,11 @@ export class DayDetailComponent implements OnInit, OnChanges {
       }).subscribe((res: any) => {
         this.getTaskList();
         this.getupadtedTask();
+        let st: any;
+        if (this.status == 'progress') {
+          this.status = 'In Progress';
+        }
+        swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
       })
     }
   }
@@ -237,6 +243,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     }).subscribe((res: any) => {
       this.exitModal();
       this.getupadtedTask();
+      swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
     })
   }
 

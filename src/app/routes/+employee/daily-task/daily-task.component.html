@@ -207,7 +207,7 @@
                 </button>
               </div>
               <div class="col-8 pl-0">
-                <button type="button" class="btn btn-danger" (click)="deleteTask()">Delete Task</button>
+                <button type="button" class="btn btn-danger" (click)="deleteTaskSwal()">Delete Task</button>
               </div>
             </div>
           </div>
@@ -221,7 +221,8 @@
                 <button *ngIf="showTextButton" type="submit" class="btn btn-info" data-dismiss="modal"
                   [disabled]="taskForm.invalid" (click)="addTask()">{{buttonText}}
                 </button>
-                <button *ngIf="!showTextButton" type="button" class="btn btn-info" (click)="enableTask($event)">Edit
+                <button *ngIf="!showTextButton" type="button" class="btn btn-info" (click)="enableTask($event)">
+                  Edit
                 </button>
               </div>
             </div>
@@ -245,7 +246,7 @@
           </div>
         </div>
       </div>
-      <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+      <!-- <toaster-container [toasterconfig]="toasterconfig"></toaster-container> -->
     </div>
   </div>
 </div>

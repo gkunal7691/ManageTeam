@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 const swal = require('sweetalert');
 
 @Component({
@@ -11,8 +11,8 @@ const swal = require('sweetalert');
   templateUrl: './daily-task.component.html',
   styleUrls: ['./daily-task.component.scss']
 })
-export class DailyTaskComponent implements OnInit, OnChanges {
 
+export class DailyTaskComponent implements OnInit, OnChanges {
   taskForm: FormGroup
   commentForm: FormGroup
   taskDate: any;
@@ -31,14 +31,14 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   showTextButton: boolean = true;
   sumOfEstimatedTime: number;
   showModalFooter: boolean = true;
-  toaster: any;
-  toasterConfig: any;
+  // toaster: any;
+  // toasterConfig: any;
 
-  toasterconfig: ToasterConfig = new ToasterConfig({
-    positionClass: 'toast-top-right',
-    showCloseButton: true,
-    timeout: 10000
-  });
+  // toasterconfig: ToasterConfig = new ToasterConfig({
+  //   positionClass: 'toast-top-right',
+  //   showCloseButton: true,
+  //   timeout: 10000
+  // });
 
   @Input() showDate: any;
   @Output() showTask = new EventEmitter();
@@ -59,8 +59,9 @@ export class DailyTaskComponent implements OnInit, OnChanges {
     this.validateEstimateTime();
     this.ref.detectChanges();
   }
+
   constructor(private ref: ChangeDetectorRef, private fb: FormBuilder, private taskService: TaskService,
-    private userService: SuperAdminService, private loginService: LoginService, public toasterService: ToasterService) { }
+    private userService: SuperAdminService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.taskForm = this.fb.group({
@@ -121,10 +122,11 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value, taskId: this.taskId
       }).subscribe((res: any) => {
-        this.toasterService.pop("success", "Success", "Task is edited!")
+        // this.toasterService.pop("success", "Success", "Task is edited!");
+        swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
-        var x = document.getElementById("day-detail")
+        var x = document.getElementById("day-detail");
         setTimeout(() => { x.classList.add("show") }, 350);
       })
     }
@@ -149,8 +151,9 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value
       }).subscribe((res: any) => {
-        this.toasterService.pop("success", "Added", "Task is added!");
-        this.showTask.emit()
+        // this.toasterService.pop("success", "Added", "Task is added!");
+        swal('Success', 'Task is added :)', 'success');
+        this.showTask.emit();
         document.getElementById("cancel").click();
         this.taskForm.reset();
         this.showCommentSecton = false;
@@ -335,12 +338,10 @@ export class DailyTaskComponent implements OnInit, OnChanges {
     if (hour == 8) {
       this.taskForm.get('estimatedMin').setValue('00');
       this.taskForm.get('estimatedMin').disable();
-    }
-    else {
+    } else {
       this.taskForm.get('estimatedMin').enable();
     }
   }
-
 
   validateEstimateMin(min) {
     if (min == '60') {
@@ -349,25 +350,28 @@ export class DailyTaskComponent implements OnInit, OnChanges {
     }
   }
 
-  onDeleteTask() {
-    this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
-      this.toasterService.pop("warning", "Deleted", "Task is deleted!");
-      this.showTask.emit();
-    });
-  }
-
-  deleteTask() {
+  deleteTaskSwal() {
     swal({
       title: "Are you sure?",
-      text: "Task will be deleted from database!",
+      text: "Task(#" + this.taskId + ") will be deleted from database!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((task) => {
-      if (task) {
-        document.getElementById("cancel").click();
-        this.onDeleteTask();
+    }).then((willRemove) => {
+      if (willRemove) {
+        // document.getElementById("cancel").click();
+        this.onDeleteTaskPopUp();
+      } else {
+        swal('Cancelled', 'Task(#' + this.taskId + ') is not deleted :)', 'error');
       }
+    });
+  }
+
+  onDeleteTaskPopUp() {
+    this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
+      // this.toasterService.pop("warning", "Deleted", "Task is deleted!");
+      swal('Success', 'Task(#' + this.taskId + ') has been removed :)', 'success');
+      this.showTask.emit();
     });
   }
 
