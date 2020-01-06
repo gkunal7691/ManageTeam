@@ -13,7 +13,7 @@ router.post('/', async function (req, res, next) {
   req.body.createdById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
   var compareDueDate = dueDate.getDate();
-  if (compareDueDate < compareConvertedDate) {
+  if (compareDueDate < compareConvertedDate || req.body.estimatedTime > 480) {
     res.json({ success: true, data: "Error Cant Add" });
   }
   else {
