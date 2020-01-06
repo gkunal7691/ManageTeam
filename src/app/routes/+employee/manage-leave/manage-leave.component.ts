@@ -154,6 +154,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.manageLeaveService.getTotalLeaves().subscribe(
       (res: any) => {
         this.leaveData = res.data;
+        console.log(this.leaveData)
       })
   }
 
@@ -165,9 +166,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     }).subscribe(
       (res: any) => {
         console.log(res);
-        swal('Success', 'Leave request successfully sent :)', 'success');
         this.filterRequestLeave();
-        this.leaveCalculation(); 
+        this.leaveCalculation();
+        swal('Success', 'Leave request for ' +res.data.noOfdays+' days successfully sent :)', 'success');
         this.formReset();
       })
   }
@@ -176,27 +177,30 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
-  updateStatusSwal(leaveId) {
+  updateStatusSwal(value) {
+    console.log(value);
     swal({
       title: "Are you sure ?",
-      text: "Leave request(#" +leaveId+ ") will be cancelled!",
+      text: "Leave request for " +value.noOfdays+ " days will be cancelled!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {
-        this.updateStatusPopUp(leaveId);
+        this.updateStatusPopUp(value);
       } else {
-        swal('Cancelled', 'Leave request(#' +'leaveId'+ ') is not removed :)', 'error');
+        swal('Cancelled', 'Leave request for ' +value.noOfdays+ ' days is not removed :)', 'error');
       }
     });
   }
 
-  updateStatusPopUp(leaveId) {
+  updateStatusPopUp(value) {
+    console.log(value);
+    let leaveId = value.leaveId;
     console.log(leaveId);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        swal('Success', 'Leave request(#' +'leaveId'+ ') has been removed :)', 'success');
+        swal('Deleted', 'Leave request for ' +value.noOfdays+ ' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
@@ -205,7 +209,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     if (date != null) {
       this.fromDate = date;
       if (this.toDate) {
-        this.getNoOfDays(this.toDate)
+        this.getNoOfDays(this.toDate);
       }
     }
   }
