@@ -10,6 +10,7 @@ import { MatSort} from '@angular/material/sort';
   templateUrl: './admin-employee.component.html',
   styleUrls: ['./admin-employee.component.scss']
 })
+
 export class AdminEmployeeComponent implements OnInit {
   private apiPath: string;
   private employeeList:any;
@@ -23,6 +24,7 @@ export class AdminEmployeeComponent implements OnInit {
   constructor(private EmployeeService:EmployeeService) {
     this.employeeList = 'user'
   }
+
   search(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
@@ -30,6 +32,7 @@ export class AdminEmployeeComponent implements OnInit {
   ngOnInit() {
     this.getEmployeeList();
     this.dtTrigger.next();
+
   }
 
   getEmployeeList(){
@@ -43,8 +46,8 @@ export class AdminEmployeeComponent implements OnInit {
         this.dtTrigger.next();
       })
   }
-  onViewClick(value)
-  {
+
+  onViewClick(value) {
     console.log(value)
   }
 
