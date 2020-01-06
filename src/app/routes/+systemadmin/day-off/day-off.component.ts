@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DayoffService } from '../../../services/dayoff.service';
 import { WeekdayService } from '../../../services/weekday.service';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-day-off',
@@ -17,7 +18,6 @@ export class DayOffComponent implements OnInit {
   weekdayList: any[] = [];
   slicedDays: any[] = [];
   addDayoff: boolean = true;
-
 
   public days: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
@@ -46,7 +46,8 @@ export class DayOffComponent implements OnInit {
     this.value = value;
   }
 
-  constructor(private fb: FormBuilder, private dayoffService: DayoffService, private weekdayService: WeekdayService) { }
+  constructor(private fb: FormBuilder,
+    private dayoffService: DayoffService, private weekdayService: WeekdayService) { }
 
   ngOnInit() {
     this.addDayoffForm = this.fb.group({
@@ -58,6 +59,7 @@ export class DayOffComponent implements OnInit {
     });
     this.getWeekDay();
     this.getDayoff();
+
   }
 
   formReset() {
@@ -82,11 +84,11 @@ export class DayOffComponent implements OnInit {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
       console.log(res.data)
       let presentdayIds = res.data.map(id => id.weekdayId)
-      let weekdayIds  = this.weekdayList.map(id => id.weekdayId)
+      let weekdayIds = this.weekdayList.map(id => id.weekdayId)
       console.log(presentdayIds)
       console.log(weekdayIds)
-      let m1= [];
-      m1.push(presentdayIds,weekdayIds) 
+      let m1 = [];
+      m1.push(presentdayIds, weekdayIds)
       console.log(m1)
       console.log(this.slicedDays)
       this.dayOffNameList = res.data;
@@ -122,20 +124,42 @@ export class DayOffComponent implements OnInit {
       if (this.dayOffNameList != null) {
         this.addDayoff = false;
         this.filterDayOff();
-      }
-      else {
+      } else {
         this.addDayoff = true;
       }
     })
   }
 
   createDayoff() {
+    let dayName;
+    let dayId = this.addDayoffForm.get('weekdayoff').value;
+    if (dayId == 1) {
+      dayName = 'Monday';
+    }
+    if (dayId == 2) {
+      dayName = 'Tuesday';
+    }
+    if (dayId == 3) {
+      dayName = 'Wednesday';
+    }
+    if (dayId == 4) {
+      dayName = 'Thursday';
+    }
+    if (dayId == 5) {
+      dayName = 'Friday';
+    }
+    if (dayId == 6) {
+      dayName = 'Saturday';
+    }
+    if (dayId == 7) {
+      dayName = 'Sunday';
+    }
     this.dayoffService.createDayoffList(this.addDayoffForm.get('weekdayoff').value).subscribe((res: any) => {
       console.log(res);
+      swal('Success', 'New day off ' + dayName + ' is added to the Dayoff List successfully :)', 'success');
       this.getDayoff();
     })
   }
-
 
   updateDayoff() {
     this.dayoffService.updateDayoff({ dayoffId: this.editdayoffForm.get('dayOffIds').value }).subscribe((res: any) => {

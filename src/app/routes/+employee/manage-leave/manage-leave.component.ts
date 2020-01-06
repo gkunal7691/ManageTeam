@@ -80,6 +80,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.leaveCalculation();
     this.getDayoff();
     this.getAllHolidayList();
+    
   }
 
   formReset() {
@@ -175,14 +176,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
-  // updateStatus(leaveId) {
-  //   this.manageLeaveService.updateStatus({ leaveId }).subscribe(
-  //     (result: any) => {
-  //       console.log(result)
-  //       this.filterRequestLeave();
-  //     })
-  // }
-
   updateStatusSwal(leaveId) {
     swal({
       title: "Are you sure ?",
@@ -216,6 +209,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
   gethalfday(value) {
     if (this.totaldaysOff == 1 && value) {
       this.leaveRequestForm.get("totalDays").setValue(this.totaldaysOff / 2);
@@ -266,7 +260,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       }
       console.log(totaldate)
       totaldate.forEach(x => {
-
         if (x.getDay() == 0) {
           x.day = 'sunday'
         }
@@ -289,19 +282,18 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
           x.day = 'saturday'
         }
       })
-      console.log(totaldate)
+      console.log(totaldate);
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) && !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
-      console.log(y)
+      console.log(y);
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {
         this.isvalid = true;
-
       } else {
         this.isvalid = false;
       }
-
     }
   }
+
 }

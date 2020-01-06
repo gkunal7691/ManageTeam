@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { LeaveRequestService } from '../../../services/leave-request.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -16,21 +15,12 @@ const swal = require('sweetalert');
 export class LeaveRequestComponent implements OnInit {
   leaveRequestAdminForm: FormGroup;
   public leaveRequestList: any[] = [];
-  // toaster: any;
-  // toasterConfig: any;
-
   pendingLeave: boolean;
   approvedLeave: boolean;
   rejectedLeave: boolean;
   cancelledLeave: boolean;
   addedLeave: boolean;
   allLeave: boolean;
-
-  // toasterconfig: ToasterConfig = new ToasterConfig({
-  //   positionClass: 'toast-top-right',
-  //   showCloseButton: true,
-  //   timeout: 10000
-  // });
   windowWidth: any;
 
   @HostListener('window:resize', ['$event'])
@@ -55,7 +45,6 @@ export class LeaveRequestComponent implements OnInit {
       type: [''],
       reason: ['']
     })
-
     this.pendingLeave = true;
     this.approvedLeave = false;
     this.rejectedLeave = false;
@@ -127,7 +116,6 @@ export class LeaveRequestComponent implements OnInit {
         this.dataSource.sort = this.sort;
         console.log(this.leaveRequestList)
       })
-
   }
 
   // Approved Sweet Alert 
@@ -151,8 +139,7 @@ export class LeaveRequestComponent implements OnInit {
     console.log(leaveId);
     this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'approved' }).subscribe(
       (res: any) => {
-        console.log(res)
-        // this.toasterService.pop("success", "Success", "Leave Request Approved!");
+        console.log(res);
         swal('Success', 'Leave request approved! :)', 'success');
         this.filterRequestLeave();
       })
@@ -179,8 +166,7 @@ export class LeaveRequestComponent implements OnInit {
     this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'rejected' }).subscribe(
       (res: any) => {
         console.log(res)
-        // this.toasterService.pop("warning", "Rejected", "Leave Request Rejected!");
-        swal('Success', 'Leave request rejected! :)', 'success');
+        swal('Rejected', 'Leave request rejected! :)', 'warning');
         this.filterRequestLeave();
       })
   };

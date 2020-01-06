@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './complete-todo-task.component.html',
   styleUrls: ['./complete-todo-task.component.scss']
 })
-export class CompleteTodoTaskComponent implements OnInit {
 
+export class CompleteTodoTaskComponent implements OnInit {
   completeTask: any;
   no_itemscompleted: boolean = true;
   selectAdminId: any;
@@ -53,4 +53,5 @@ export class CompleteTodoTaskComponent implements OnInit {
         this.router.navigateByUrl('/employee/todo/' + this.selectAdminId);
       })
   }
+  
 }

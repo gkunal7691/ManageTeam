@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
-// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 const swal = require('sweetalert');
 
 @Component({
@@ -31,14 +30,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   showTextButton: boolean = true;
   sumOfEstimatedTime: number;
   showModalFooter: boolean = true;
-  // toaster: any;
-  // toasterConfig: any;
-
-  // toasterconfig: ToasterConfig = new ToasterConfig({
-  //   positionClass: 'toast-top-right',
-  //   showCloseButton: true,
-  //   timeout: 10000
-  // });
 
   @Input() showDate: any;
   @Output() showTask = new EventEmitter();
@@ -122,7 +113,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value, taskId: this.taskId
       }).subscribe((res: any) => {
-        // this.toasterService.pop("success", "Success", "Task is edited!");
         swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
@@ -151,7 +141,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value
       }).subscribe((res: any) => {
-        // this.toasterService.pop("success", "Added", "Task is added!");
         swal('Success', 'Task is added :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
@@ -369,8 +358,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
 
   onDeleteTaskPopUp() {
     this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
-      // this.toasterService.pop("warning", "Deleted", "Task is deleted!");
-      swal('Success', 'Task(#' + this.taskId + ') has been removed :)', 'success');
+      swal('Deleted', 'Task(#' + this.taskId + ') has been removed :)', 'warning');
       this.showTask.emit();
     });
   }
