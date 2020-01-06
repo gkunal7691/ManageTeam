@@ -210,7 +210,6 @@ export class TimeAttendanceComponent implements OnInit {
         this.totalClientTime += time.clientTime;
       })
     });
-
   }
 
   getDayoff() {

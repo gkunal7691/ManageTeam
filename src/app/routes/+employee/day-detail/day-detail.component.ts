@@ -64,7 +64,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.stacked = [];
     this.newStacked = [];
     this._date = this.showRecentDate;
-    this.taskList = this.allTasksList
+    this.taskList = this.allTasksList;
     this.getTaskList();
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
@@ -283,7 +283,6 @@ export class DayDetailComponent implements OnInit, OnChanges {
     }
     if (this.nextDate) {
       console.log(this.nextDate)
-      console.log('qwerqwrw')
       this.taskService.addTask({
         title: this.taskDeatils.title, description: this.taskDeatils.description,
         dueDate: this.nextDate, priority: this.taskDeatils.priority, status: this.taskDeatils.status,

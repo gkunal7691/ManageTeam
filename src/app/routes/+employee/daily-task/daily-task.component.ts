@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
+import { isObjectEmpty } from 'ngx-bootstrap/chronos/utils/type-checks';
 // import { ToasterService, ToasterConfig } from 'angular2-toaster';
 const swal = require('sweetalert');
 
@@ -152,7 +153,13 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         assignee: this.taskForm.get('assignee').value
       }).subscribe((res: any) => {
         // this.toasterService.pop("success", "Added", "Task is added!");
-        swal('Success', 'Task is added :)', 'success');
+        console.log(res)
+        if (res.data != "Error Cant Add") {
+          swal('Success', 'Task is added :)', 'success');
+        }
+        else {
+          swal('Warning', 'Task is cannot be added for previous date :)', 'error')
+        }
         this.showTask.emit();
         document.getElementById("cancel").click();
         this.taskForm.reset();
@@ -162,7 +169,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   updateTask() {
-    this.validateEstimateTime();
     let currentDate: Date = new Date();
     let convertedDate: Date;
     this.taskDeatils = this.editTask;
@@ -270,7 +276,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   cancelTask() {
-    console.log("adsada")
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
 
@@ -302,6 +307,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   validateEstimateTime() {
+    console.log(this.editTask)
     this.sumOfEstimatedTime = 0;
     this.allTasksList.forEach(task => {
       if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + (new Date(task.dueDate).getFullYear())) == (new Date(this.taskDate).getDate() + '/' + (new Date(this.taskDate).getMonth() + 1) + '/' + (new Date(this.taskDate).getFullYear()))) {
@@ -312,16 +318,24 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       // this.showModalFooter = false;
       this.taskForm.disable();
     }
-    else if (this.sumOfEstimatedTime < 480 && this.sumOfEstimatedTime != 0 && !this.editBtn) {
-      // console.log("sdasdd")
+    else if (this.sumOfEstimatedTime < 480 && this.sumOfEstimatedTime != 0 && this.editTask == null) {
+      console.log("sdasdd", this.sumOfEstimatedTime)
       // this.showModalFooter = true;
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
     }
-    else if (this.sumOfEstimatedTime < 480 && this.sumOfEstimatedTime != 0 && this.editBtn) {
-      // console.log("qweq")
+    else if (this.sumOfEstimatedTime == 0) {
+      console.log("hellp")
+      // this.showModalFooter = true;
+      let hours = Math.floor(this.sumOfEstimatedTime / 60);
+      let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
+      this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
+      this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
+    }
+    else if (this.sumOfEstimatedTime < 480 && this.sumOfEstimatedTime != 0 && this.editTask != null) {
+      console.log("qweq")
       // this.showModalFooter = true;
       let editSum = 480 - this.sumOfEstimatedTime
       let editHour = Math.floor(editSum / 60);
