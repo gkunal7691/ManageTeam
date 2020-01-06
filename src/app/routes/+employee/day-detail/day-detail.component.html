@@ -75,7 +75,8 @@
                             {{ task.title }}
                           </ng-template>
                           <em [tooltip]="toolTipTemplate">
-                            #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                            #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }}
+                            <span *ngIf="task?.title.length > 45">...</span>
                           </em>
                         </a>
                       </div>
