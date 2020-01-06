@@ -12,8 +12,8 @@ var compareConvertedDate = convertedDate.getDate()
 router.post('/', async function (req, res, next) {
   req.body.createdById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
-  var compareDueDate = dueDate.getDate()
-  if (compareDueDate < compareConvertedDate) {
+  var compareDueDate = dueDate.getDate();
+  if (compareDueDate < compareConvertedDate || req.body.estimatedTime > 480) {
     res.json({ success: true, data: "Error Cant Add" });
   }
   else {
@@ -54,8 +54,10 @@ router.post('/getTask/dueDate', async function (req, res, next) {
 })
 
 router.post('/getSingleTask', async function (req, res, next) {
+  let newDueDate = new Date(req.body.dueDate);
+  newDueDate.setHours(newDueDate.getHours() + 5, 30);
   task.findAll({
-    where: { dueDate: new Date(req.body.dueDate), organizationId: req.user.orgId, userId: req.user.id },
+    where: { dueDate: newDueDate, organizationId: req.user.orgId, userId: req.user.id },
     include: [
       {
         model: Comment, include: [
