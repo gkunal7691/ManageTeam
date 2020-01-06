@@ -7,12 +7,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { CustomValidators } from 'ng2-validation';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
+
 export class AdminComponent implements OnInit {
   addUserForm: FormGroup;
   addUserInfoForm: FormGroup;
@@ -52,9 +54,9 @@ export class AdminComponent implements OnInit {
       permanentAddress: ['', [Validators.required, Validators.maxLength(5000)]],
       mobile: ['', [Validators.pattern('^[0-9]+$'), Validators.required, Validators.minLength(10), Validators.maxLength(10)]]
     })
-
     this.getAdminList();
     this.getUserList();
+
   }
 
   createUser() {
@@ -79,6 +81,8 @@ export class AdminComponent implements OnInit {
       mobile: this.addUserInfoForm.get('mobile').value, userId: this.userId
     }).subscribe(
       (res: any) => {
+        swal('Success', 'User(' +this.addUserForm.get('firstName').value+' '+
+          this.addUserForm.get('lastName').value+') is added to the organization successfully :)', 'success');
         this.closeAddUserModal();
         this.getUserList();
         this.getAdminList();
@@ -101,7 +105,6 @@ export class AdminComponent implements OnInit {
   getUserList() {
     this.superAdminService.getUserList().subscribe(
       (res: any) => {
-
         res.data.forEach(user => {
           if (user.roleId == 1) {
             user.roleId = 'Employee'

@@ -9,6 +9,7 @@ import { TaskService } from '../../../services/task.service';
   templateUrl: './time-attendance.component.html',
   styleUrls: ['./time-attendance.component.scss']
 })
+
 export class TimeAttendanceComponent implements OnInit {
 
   constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
@@ -52,6 +53,7 @@ export class TimeAttendanceComponent implements OnInit {
     this.getDayoff();
     this.getHolidayList();
     this.getUserList();
+
   }
 
   showWeekoff(value) {
@@ -153,7 +155,6 @@ export class TimeAttendanceComponent implements OnInit {
     this.getUpdatedTaskList();
   }
 
-
   getUpdatedTaskList() {
     let firstdate = new Date(this.firstDate)
     let FirstDay;
@@ -200,27 +201,21 @@ export class TimeAttendanceComponent implements OnInit {
       if (this.firstDayofMonth.getDay() > 1) {
         this.mondayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 2) {
         this.tuesdayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 3) {
         this.wednesdayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 4) {
         this.thrusdayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 5) {
         this.fridayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 6) {
         this.saturdayArray.unshift({});
       }
-
       if ((this.firstDayofMonth.getDay() - 6) > 0) {
         this.sundayArray.unshift({});
       }
@@ -249,6 +244,5 @@ export class TimeAttendanceComponent implements OnInit {
         this.userList = res.data;
       })
   }
-
 
 }

@@ -4,13 +4,15 @@
       Holiday
       <small>Add and search for Holiday throughout the Organization.</small>
     </div>
-    <div class="col-6">
+    <div class="col-6 pr-0">
       <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target=".AddHolidayModal"
-        (click)="formReset()">Add
-        Holiday</button>
+        (click)="formReset()">Add Holiday
+      </button>
     </div>
   </div>
 </div>
+
+<!--Material Table -->
 
 <div class="container-fluid">
   <div class="row">
@@ -25,23 +27,22 @@
             </div>
           </div>
           <div class="card card-default">
-            <!-- Table -->
             <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
               <ng-container matColumnDef="holidayDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Holiday Date</th>
                 <td mat-cell *matCellDef="let holiday">{{holiday.holidayDate | date: 'MM/dd/yyyy' }}</td>
               </ng-container>
               <ng-container matColumnDef="holidayType">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Holiday Type </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Holiday Type</th>
                 <td mat-cell *matCellDef="let holiday">{{holiday.holidayType }}</td>
               </ng-container>
               <ng-container matColumnDef="occasion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Occasion </th>
-                <td mat-cell *matCellDef="let holiday"> {{holiday.occasion}}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Occasion</th>
+                <td mat-cell *matCellDef="let holiday">{{holiday.occasion}}</td>
               </ng-container>
               <ng-container matColumnDef="choose_response">
-                <th mat-header-cell *matHeaderCellDef> Choose Response </th>
-                <td mat-cell *matCellDef="let leaveRequest">
+                <th mat-header-cell *matHeaderCellDef>Choose Response</th>
+                <td mat-cell *matCellDef="let holiday">
                   <button type="button" class="mr-1 btn-primary"
                     [ngClass]="{'btn':windowWidth >= 1227 ,'btn-sm':(windowWidth < 1227 && windowWidth >= 1116),'btn-xs':( windowWidth < 1116)}"
                     (click)="editHoliday(holiday)" data-toggle="modal" data-target=".EditHolidayModal">
@@ -49,7 +50,7 @@
                   </button>
                   <button type="button" class="mr-1 btn-danger"
                     [ngClass]="{'btn':windowWidth >= 1227 , 'btn-sm':(windowWidth < 1227 && windowWidth >= 1116),'btn-xs':( windowWidth < 1116)}"
-                    (click)="deleteHoliday(holiday)">
+                    (click)="deleteHolidaySwal(holiday)">
                     <em class="far fa-times-circle"></em>
                   </button>
                 </td>
@@ -64,31 +65,32 @@
     </div>
   </div>
 
-  <!-- Add Client Modal -->
+  <!-- Add Holiday Modal -->
 
   <div class="modal fade AddHolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header pb-0">
-          <h4>Add Holiday</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-              aria-hidden="true">&times;</span> </button>
+          <h4>Add Holiday Details :</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <form [formGroup]=AddHolidayForm>
           <div class="modal-body">
             <div class="row pl-3 pr-3">
-              <label>Holiday Date</label>
+              <label><b>Holiday Date :</b></label>
               <input type="text" class="form-control" [formControl]="AddHolidayForm.controls['holidayDate']"
                 #dp="bsDatepicker" bsDatepicker [bsValue]="bsValue" name="dp-basic" [bsConfig]="bsConfig">
               <!-- <div class="alert alert-danger" *ngIf="AddHolidayForm.controls['holidaydate'].invalid &&
-              AddHolidayForm.controls['holidaydate'].touched">
-              <i>You must enter Holiday Date</i></div> -->
+                AddHolidayForm.controls['holidaydate'].touched">
+                <i>You must enter Holiday Date</i></div> -->
             </div>
             <div class="row mt-3 pl-3 pr-3 w-100">
-              <label class="pt-1">Holiday Type</label>
+              <label class="pt-1"><b>Holiday Type :</b></label>
             </div>
-            <div class="row mt-3 pl-3 pr-3 w-100">
+            <div class="row pl-3 pr-3 w-100">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" id="Optional" [formControl]="AddHolidayForm.controls['holidayType']"
                   type="radio" name="inlineRadioOptions" value="optional" />
@@ -102,48 +104,53 @@
             </div>
             <div class="alert alert-danger" *ngIf="AddHolidayForm.controls['holidayType'].invalid &&
               AddHolidayForm.controls['holidayType'].touched">
-              <i>You must enter Holiday Type.</i></div>
-            <div class="row mt-2 pl-3 pr-3">
-              <label>Occasion</label>
+              <i>You must enter Holiday Type.</i>
+            </div>
+            <div class="row mt-3 pl-3 pr-3">
+              <label><b>Occasion :</b></label>
               <input type="text" class="form-control mb-1" [formControl]="AddHolidayForm.controls['occasion']">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
-              (click)="formReset()">Close</button>
+              (click)="formReset()">Close
+            </button>
             <button type="button" class="btn btn-primary" [disabled]="!AddHolidayForm.valid" data-dismiss="modal"
-              aria-label="Close" (click)="createHoliday()">Save</button>
+              aria-label="Close" (click)="createHoliday()">Save
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- Edit Holiday Modal -->
 
-  <!-- Edit Modal -->
   <div class="modal fade EditHolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header pb-0">
-          <h4>Add Holiday</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-              aria-hidden="true">&times;</span> </button>
+          <h4>Add Holiday Details :</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <form [formGroup]=EditHolidayForm>
           <div class="modal-body">
             <div class="row pl-3 pr-3">
-              <label>Holiday Date</label>
+              <label><b>Holiday Date :</b></label>
               <input type="text" class="form-control" [formControl]="EditHolidayForm.controls['holidayDate']"
                 #dp="bsDatepicker" bsDatepicker [bsValue]="bsValue" name="dp-basic" [bsConfig]="bsConfig">
               <div class="alert alert-danger" *ngIf="EditHolidayForm.controls['holidayDate'].invalid &&
-            EditHolidayForm.controls['holidayDate'].touched">
-                <i>You must enter Holiday Date</i></div>
+                EditHolidayForm.controls['holidayDate'].touched">
+                <i>You must enter Holiday Date</i>
+              </div>
             </div>
             <div class="row mt-3 pl-3 pr-3 w-100">
-              <label class="pt-1">Holiday Type</label>
+              <label class="pt-1 mb-1"><b>Holiday Type :</b></label>
             </div>
-            <div class="row mt-3 pl-3 pr-3 w-100">
+            <div class="row pl-3 pr-3 w-100">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" id="Optional" [formControl]="EditHolidayForm.controls['holidayType']"
                   type="radio" name="inlineRadioOptions" value="Optional" />
@@ -155,20 +162,22 @@
                 <label class="form-check-label" for="Mandatory">Mandatory</label>
               </div>
               <div class="alert alert-danger" *ngIf="EditHolidayForm.controls['holidayType'].invalid &&
-            EditHolidayForm.controls['holidayType'].touched">
+                EditHolidayForm.controls['holidayType'].touched">
                 <i>You must enter Holiday Type.</i>
               </div>
             </div>
-            <div class="row pl-3 pr-3">
-              <label>Occasion</label>
+            <div class="row mt-3 pl-3 pr-3">
+              <label><b>Occasion :</b></label>
               <input type="text" class="form-control mb-1" [formControl]="EditHolidayForm.controls['occasion']">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
-              (click)="formReset()">Close</button>
+              (click)="formReset()">Close
+            </button>
             <button type="button" class="btn btn-primary" [disabled]="!EditHolidayForm.valid" data-dismiss="modal"
-              aria-label="Close" (click)="saveHoliday()">Save</button>
+              aria-label="Close" (click)="saveHoliday()">Save
+            </button>
           </div>
         </form>
       </div>

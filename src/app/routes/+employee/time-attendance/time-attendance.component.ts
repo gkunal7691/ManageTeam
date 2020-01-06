@@ -210,7 +210,6 @@ export class TimeAttendanceComponent implements OnInit {
         this.totalClientTime += time.clientTime;
       })
     });
-
   }
 
   getDayoff() {
@@ -245,29 +244,23 @@ export class TimeAttendanceComponent implements OnInit {
       if (this.firstDayofMonth.getDay() > 2) {
         this.tuesdayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 3) {
         this.wednesdayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 4) {
         this.thrusdayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 5) {
         this.fridayArray.unshift({});
       }
-
       if (this.firstDayofMonth.getDay() > 6) {
         this.saturdayArray.unshift({});
       }
-
       if ((this.firstDayofMonth.getDay() - 6) > 0) {
         this.sundayArray.unshift({});
       }
     }
   }
-
 
   getHolidayList() {
     this.holidayService.getHolidayList().subscribe((res: any) => {
