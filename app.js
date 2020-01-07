@@ -36,7 +36,7 @@ const originsWhitelist = [
 originsWhitelist.push('http://localhost:4200');
 originsWhitelist.push('http://localhost:8000');
 originsWhitelist.push('https://employee.softobotics.com');
-// originsWhitelist.push('https://softobotics.herokuapp.com');
+originsWhitelist.push('https://softobotics.herokuapp.com');
 
 app.use(logger('dev'));
 app.use(express.json());
