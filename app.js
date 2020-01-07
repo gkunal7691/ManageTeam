@@ -42,7 +42,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(express.static('dist'));
-app.use(cookieParser());
 
 app.use('/edashboard',express.static('dist/testApp'));
 app.use('/eprofile',express.static('dist/testApp'));
@@ -52,6 +51,7 @@ app.use('/todo',express.static('dist/testApp'));
 app.use('/todo/:id',express.static('dist/testApp'));
 app.use('/todo/completed/:id',express.static('dist/testApp'));
 app.use(express.static('dist/testApp'));
+app.use(cookieParser());
 
 //Enabling CORS
 
