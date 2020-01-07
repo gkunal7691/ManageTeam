@@ -38,19 +38,11 @@ originsWhitelist.push('http://localhost:8000');
 originsWhitelist.push('https://employee.softobotics.com');
 originsWhitelist.push('https://softobotics.herokuapp.com');
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(express.static('dist'));
-
-app.use('/edashboard',express.static('dist/testApp'));
-app.use('/eprofile',express.static('dist/testApp'));
-app.use('/time-attendance',express.static('dist/testApp'));
-app.use('/manage-leave',express.static('dist/testApp'));
-app.use('/todo',express.static('dist/testApp'));
-app.use('/todo/:id',express.static('dist/testApp'));
-app.use('/todo/completed/:id',express.static('dist/testApp'));
-app.use(express.static('dist/testApp'));
+app.use(express.static('dist'));
 app.use(cookieParser());
 
 //Enabling CORS
