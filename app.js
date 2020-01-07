@@ -45,6 +45,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('dist'));
 app.use(cookieParser());
 
+app.use('/employee/edashboard',express.static('dist/testApp'));
+app.use('/employee/eprofile',express.static('dist/testApp'));
+app.use('/employee/time-attendance',express.static('dist/testApp'));
+app.use('/employee/manage-leave',express.static('dist/testApp'));
+app.use('/employee/todo',express.static('dist/testApp'));
+app.use('/employee/todo/:id',express.static('dist/testApp'));
+app.use('/employee/todo/completed/:id',express.static('dist/testApp'));
+
 //Enabling CORS
 
 app.use(cors({

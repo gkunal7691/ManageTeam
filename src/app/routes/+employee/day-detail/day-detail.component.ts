@@ -72,6 +72,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.taskCalculation();
     this.ref.detectChanges();
   }
+
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
     private taskService: TaskService, private fb: FormBuilder, private router: Router) { }
 
@@ -249,6 +250,9 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   getNewDate(val) {
     this.calenderDate = val;
+    if(this.nextDateModalForm.get('newNextDate').value == '') {
+      this.nextDateValue = true;
+    }
   }
 
   getSelectedTaskDeatils(task) {
@@ -298,12 +302,12 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   moveToNextDate() {
     this.nextDateValue = false;
-    console.log(this._date)
+    console.log(this._date);
     let addnextDate = (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getDate() + 1) + '/' + (new Date(this._date).getFullYear());
     this.nextDate = new Date(addnextDate);
     this.nextDate.setHours(this.nextDate.getHours() + 5, 30);
-    console.log(this.nextDate)
-    this.nextDateModalForm.get('newNextDate').setValue(addnextDate)
+    console.log(this.nextDate);
+    this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
   }
 
 }

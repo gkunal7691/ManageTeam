@@ -206,7 +206,7 @@
                   Add Comment
                 </button>
               </div>
-              <div class="col-8 pl-0">
+              <div class="col-8 pl-0" *ngIf="taskTitle != 'Add Task'">
                 <button type="button" class="btn btn-danger" (click)="deleteTaskSwal()">Delete Task</button>
               </div>
             </div>
@@ -214,7 +214,8 @@
           <div class="col-6 pr-0">
             <div class="row float-right">
               <div class="col-6 pr-0">
-                <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel">Cancel
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel">
+                  Cancel
                 </button>
               </div>
               <div class="col-6">
