@@ -297,29 +297,25 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       }
     })
     if (this.sumOfEstimatedTime == 480) {
-      // this.showModalFooter = false;
       this.taskForm.disable();
     }
-    else if (this.sumOfEstimatedTime == 0) {
+    else if (this.sumOfEstimatedTime == 0 && this.taskForm) {
       console.log("hellp")
-      // this.showModalFooter = true;
-      let hours = Math.floor(this.sumOfEstimatedTime / 60);
-      let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
     }
-    if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task') {
-      console.log("sdasdd", this.sumOfEstimatedTime)
-      // this.showModalFooter = true;
+    if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
+      console.log("sdasdd")
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
     }
-    else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task') {
+    else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
       console.log("qweq")
-      // this.showModalFooter = true;
       let editSum = 480 - this.sumOfEstimatedTime
+      // editSum = editSum + this.taskDeatils.estimatedTime;
+      console.log(editSum,this.taskDeatils.estimatedTime)
       let editHour = Math.floor(editSum / 60);
       let editMinute = Math.floor(editSum - editHour * 60);
       console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
