@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
+import { add } from 'ngx-bootstrap/chronos/public_api';
 const swal = require('sweetalert');
 
 @Component({
@@ -87,6 +88,9 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   addTask() {
+    if (this.showDate.getHours() != 0) {
+      this.showDate.setHours(0, 0, 0);
+    }
     let addDueDate = new Date(this.showDate)
     addDueDate.setHours(addDueDate.getHours() + 5, 30);
     if (this.showTaskUpdated == true) {
@@ -297,29 +301,25 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       }
     })
     if (this.sumOfEstimatedTime == 480) {
-      // this.showModalFooter = false;
       this.taskForm.disable();
     }
-    else if (this.sumOfEstimatedTime == 0) {
-      console.log("hellp")
-      // this.showModalFooter = true;
-      let hours = Math.floor(this.sumOfEstimatedTime / 60);
-      let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
+    else if (this.sumOfEstimatedTime == 0 && this.taskForm) {
+      console.log("addnew")
       this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
     }
-    if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task') {
-      console.log("sdasdd", this.sumOfEstimatedTime)
-      // this.showModalFooter = true;
+    if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
+      console.log("add")
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
     }
-    else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task') {
-      console.log("qweq")
-      // this.showModalFooter = true;
+    else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
+      console.log("edit")
       let editSum = 480 - this.sumOfEstimatedTime
+      // editSum = editSum + this.taskDeatils.estimatedTime;
+      console.log(editSum, this.taskDeatils.estimatedTime)
       let editHour = Math.floor(editSum / 60);
       let editMinute = Math.floor(editSum - editHour * 60);
       console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
