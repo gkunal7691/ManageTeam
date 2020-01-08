@@ -217,7 +217,7 @@
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
         <h4 class="ml-2">Enter Following Times</h4>
-        <button type="button" class="close" (click)="exitModal()" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" (click)="closeEstimateTimeModal()" data-dismiss="modal" aria-label="Close">
           <span>&times;</span>
         </button>
       </div>
@@ -332,11 +332,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="exitModal()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="closeEstimateTimeModal()">
           Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save"
-          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Save
+          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Move
         </button>
       </div>
     </div>
@@ -377,9 +377,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col p-0">
               <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
                   nextDateModalForm.controls['newDate'].touched ">
@@ -420,9 +418,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col pl-4 pr-0">
               <tr>
                 <td class="form-group">
@@ -453,7 +449,7 @@
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save" (click)="addNewTask()"
           [disabled]="nextDateModalForm.invalid">
-          Save
+          Move
         </button>
       </div>
     </div>

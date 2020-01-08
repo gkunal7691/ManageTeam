@@ -215,12 +215,12 @@ export class DayDetailComponent implements OnInit, OnChanges {
         if (this.status == 'progress') {
           this.status = 'In Progress';
         }
-        swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
+        swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' tasks', 'success');
       })
     }
   }
 
-  exitModal() {
+  closeEstimateTimeModal() {
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
     this.estimateTimeModalForm.reset();
@@ -242,15 +242,15 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.taskService.editTask({
       originalTime: this.totalOriginalTime, clientTime: this.totalClientTime, taskId: this.taskId, status: this.status
     }).subscribe((res: any) => {
-      this.exitModal();
+      swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' tasks', 'success');
+      this.closeEstimateTimeModal();
       this.getupadtedTask();
-      swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
     })
   }
 
   getNewDate(val) {
     this.calenderDate = val;
-    if(this.nextDateModalForm.get('newNextDate').value == '') {
+    if (this.nextDateModalForm.get('newNextDate').value == '') {
       this.nextDateValue = true;
     }
   }
@@ -265,27 +265,41 @@ export class DayDetailComponent implements OnInit, OnChanges {
     let newEstimatedHour = this.nextDateModalForm.get('newEstimatedHour').value;
     let newEstimatedMin = this.nextDateModalForm.get('newEstimatedMin').value;
     this.totalEstimatedTime = (newEstimatedHour * 60) + newEstimatedMin;
+
     this.taskService.editTask({
       taskId: this.taskDeatils.taskId, clonned: 'Yes'
     }).subscribe((res: any) => {
+      console.log("1one");
       this.closeNextDateModal();
       this.getupadtedTask();
     })
+
     console.log(this.calenderDate)
     console.log(this.nextDate)
+    //for moving task to selected date.
     if (this.calenderDate) {
+      console.log("2two");
       this.taskService.addTask({
         title: this.taskDeatils.title, description: this.taskDeatils.description,
         dueDate: this.calenderDate, priority: this.taskDeatils.priority, status: this.taskDeatils.status,
         estimatedTime: this.totalEstimatedTime, originalTime: this.taskDeatils.originalTime, clientTime: this.taskDeatils.clientTime,
         assignee: this.taskDeatils.userId,
       }).subscribe((res: any) => {
-        console.log(res.data)
-        this.closeNextDateModal();
-        this.getupadtedTask();
+        console.log(res.data);
+        let newDate = (new Date(this.calenderDate).getMonth() + 1) + '/' + (new Date(this.calenderDate).getDate() + 1) + '/' + (new Date(this.calenderDate).getFullYear());
+        if (res.data == 'Error Cant Add') {
+          swal('Warning', 'Task(#' + this.taskDeatils.taskId + ') can not be moved to ' + newDate, 'error');
+        }
+        else {
+          swal('Success', 'Task(#' + this.taskDeatils.taskId + ') has been moved to ' + newDate, 'success');
+          this.closeNextDateModal();
+          this.getupadtedTask();
+        }
       })
     }
+    //for moving task to next date.
     if (this.nextDate) {
+      console.log("3three");
       console.log(this.nextDate)
       this.taskService.addTask({
         title: this.taskDeatils.title, description: this.taskDeatils.description,
@@ -293,8 +307,14 @@ export class DayDetailComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedTime, originalTime: this.taskDeatils.originalTime, clientTime: this.taskDeatils.clientTime,
         assignee: this.taskDeatils.userId,
       }).subscribe((res: any) => {
-        console.log(res.data)
-        this.exitModal();
+        console.log(res.data);
+        let newDate = (new Date(this.nextDate).getMonth() + 1) + '/' + (new Date(this.nextDate).getDate()) + '/' + (new Date(this.nextDate).getFullYear());
+        if (res.data == 'Error Cant Add') {
+          swal('Warning', 'Task(#' + this.taskDeatils.taskId + ') can not be moved to ' + newDate, 'error');
+        } else {
+          swal('Success', 'Task(#' + this.taskDeatils.taskId + ') has been moved to ' + newDate, 'success');
+        }
+        this.closeNextDateModal();
         this.getupadtedTask();
       })
     }
@@ -303,7 +323,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
   moveToNextDate() {
     this.nextDateValue = false;
     console.log(this._date);
-    let addnextDate = (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getDate() + 1) + '/' + (new Date(this._date).getFullYear());
+    let addnextDate = (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getDate()) + '/' + (new Date(this._date).getFullYear());
     this.nextDate = new Date(addnextDate);
     this.nextDate.setHours(this.nextDate.getHours() + 5, 30);
     console.log(this.nextDate);
