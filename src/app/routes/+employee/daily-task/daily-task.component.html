@@ -206,8 +206,8 @@
                   Add Comment
                 </button>
               </div>
-              <div class="col-8 pl-0" *ngIf="taskTitle != 'Add Task'">
-                <button type="button" class="btn btn-danger" (click)="deleteTaskSwal()">Delete Task</button>
+              <div class="col-8 pl-0">
+                <button type="button" class="btn btn-danger" *ngIf="taskTitle != 'Add Task'" (click)="deleteTaskSwal()">Delete Task</button>
               </div>
             </div>
           </div>
