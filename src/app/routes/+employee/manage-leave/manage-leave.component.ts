@@ -37,6 +37,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     containerClass: 'theme-angle'
   }
 
+  isPastDate: boolean = false;
   pendingLeave: boolean;
   approvedLeave: boolean;
   rejectedLeave: boolean;
@@ -208,6 +209,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   getFromDate(date) {
     if (date != null) {
       this.fromDate = date;
+      let currentDate: Date = new Date();
+      var noOfDates = this.fromDate.getDate() - currentDate.getDate();
+      if(noOfDates < 0) {
+        this.isPastDate = true;
+      } else{
+        this.isPastDate = false;
+      }
       if (this.toDate) {
         this.getNoOfDays(this.toDate);
       }
@@ -242,10 +250,14 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   getNoOfDays(val) {
-    this.toDate = val
+    this.toDate = val;
     if (val != null) {
       if (val) {
+        console.log(val);
+        console.log(val.getTime());
+        console.log(this.fromDate.getTime());
         var Difference_In_Time = val.getTime() - this.fromDate.getTime();
+        console.log((Difference_In_Time / (1000 * 3600 * 24)) + 1);
         //  this.leaveRequestForm.get("totalDays").setValue(((Difference_In_Time / (1000 * 3600 * 24)) + 1));
         // this.totaldaysOff = ((Difference_In_Time / (1000 * 3600 * 24)) + 1);
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
@@ -254,9 +266,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
           this.invalidDate = false;
         }
       }
-      var totaldate = []
-      let fromdate = new Date(this.fromDate)
-      let todate = new Date(this.toDate)
+      var totaldate = [];
+      let fromdate = new Date(this.fromDate);
+      let todate = new Date(this.toDate);
       for (let date = fromdate.getDate(); date <= todate.getDate(); date++) {
         let day: Date = new Date(fromdate);
         totaldate.push(day);
