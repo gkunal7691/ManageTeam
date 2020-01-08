@@ -42,6 +42,13 @@ originsWhitelist.push('https://softobotics.herokuapp.com');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use('/employee/edashboard',express.static('dist'));
+app.use('/employee/eprofile',express.static('dist'));
+app.use('/employee/time-attendance',express.static('dist'));
+app.use('/employee/manage-leave',express.static('dist'));
+app.use('/employee/todo',express.static('dist'));
+app.use('/employee/todo/:id',express.static('dist'));
+app.use('/employee/todo/completed/:id',express.static('dist'));
 app.use(express.static('dist'));
 app.use(cookieParser());
 

@@ -13,7 +13,10 @@
 <div class="card card-default">
   <div class="card-body">
     <div class="row w-100 justify-content-center mb-3">
-      <button type="button" class="btn btn-success" (click)="goToPresentDay()">Current Day</button>
+      <button type="button" class="btn btn-success" (click)="goToPresentDay()">
+        <!-- *ngIf="showButton" -->
+        Current Day
+      </button>
     </div>
     <!-- loader -->
     <div *ngIf="showLoader" class="loader-demo d-flex align-items-center justify-content-center time-loader">
