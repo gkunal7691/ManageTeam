@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
 const swal = require('sweetalert');
 
 @Component({
@@ -11,8 +10,8 @@ const swal = require('sweetalert');
   templateUrl: './daily-task.component.html',
   styleUrls: ['./daily-task.component.scss']
 })
-export class DailyTaskComponent implements OnInit, OnChanges {
 
+export class DailyTaskComponent implements OnInit, OnChanges {
   taskForm: FormGroup
   commentForm: FormGroup
   taskDate: any;
@@ -31,14 +30,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   showTextButton: boolean = true;
   sumOfEstimatedTime: number;
   showModalFooter: boolean = true;
-  toaster: any;
-  toasterConfig: any;
-
-  toasterconfig: ToasterConfig = new ToasterConfig({
-    positionClass: 'toast-top-right',
-    showCloseButton: true,
-    timeout: 10000
-  });
 
   @Input() showDate: any;
   @Output() showTask = new EventEmitter();
@@ -59,8 +50,9 @@ export class DailyTaskComponent implements OnInit, OnChanges {
     this.validateEstimateTime();
     this.ref.detectChanges();
   }
+
   constructor(private ref: ChangeDetectorRef, private fb: FormBuilder, private taskService: TaskService,
-    private userService: SuperAdminService, private loginService: LoginService, public toasterService: ToasterService) { }
+    private userService: SuperAdminService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.taskForm = this.fb.group({
@@ -121,21 +113,16 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value, taskId: this.taskId
       }).subscribe((res: any) => {
-        this.toasterService.pop("success", "Success", "Task is edited!")
+        swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
-        var x = document.getElementById("day-detail")
+        var x = document.getElementById("day-detail");
         setTimeout(() => { x.classList.add("show") }, 350);
       })
     }
     else {
       let estimatedHour = this.taskForm.get('estimatedHour').value;
       let estimatedMin = this.taskForm.get('estimatedMin').value;
-      if (estimatedMin == 60) {
-        estimatedHour = estimatedHour + 1;
-        estimatedMin = 0;
-        this.totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
-      }
       this.totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
       let clientHour = this.taskForm.get('clientHour').value;
       let clientdMin = this.taskForm.get('clientMin').value;
@@ -149,8 +136,13 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value
       }).subscribe((res: any) => {
-        this.toasterService.pop("success", "Added", "Task is added!");
-        this.showTask.emit()
+        if (res.data != "Error Cant Add") {
+          swal('Success', 'Task is added :)', 'success');
+        }
+        else {
+          swal('Warning', 'Task cannot be added :)', 'error')
+        }
+        this.showTask.emit();
         document.getElementById("cancel").click();
         this.taskForm.reset();
         this.showCommentSecton = false;
@@ -159,7 +151,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   updateTask() {
-    this.validateEstimateTime();
     let currentDate: Date = new Date();
     let convertedDate: Date;
     this.taskDeatils = this.editTask;
@@ -188,6 +179,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       let estimatedGetTime = this.taskDeatils.estimatedTime;
       let convEstimatedHours = Math.floor(estimatedGetTime / 60);
       let convEstimatedmin = estimatedGetTime % 60;
+      console.log(convEstimatedHours, convEstimatedmin)
       let clientGetTime = this.taskDeatils.clientTime;
       let convclientHours = Math.floor(clientGetTime / 60);
       let convclientMin = clientGetTime % 60;
@@ -267,7 +259,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   cancelTask() {
-    console.log("adsada")
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
 
@@ -306,21 +297,25 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       }
     })
     if (this.sumOfEstimatedTime == 480) {
-      // this.showModalFooter = false;
       this.taskForm.disable();
     }
-    else if (this.sumOfEstimatedTime < 480 && this.sumOfEstimatedTime != 0 && !this.editBtn) {
-      // console.log("sdasdd")
-      // this.showModalFooter = true;
+    else if (this.sumOfEstimatedTime == 0 && this.taskForm) {
+      console.log("hellp")
+      this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
+      this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
+    }
+    if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
+      console.log("sdasdd")
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
     }
-    else if (this.sumOfEstimatedTime < 480 && this.sumOfEstimatedTime != 0 && this.editBtn) {
-      // console.log("qweq")
-      // this.showModalFooter = true;
+    else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
+      console.log("qweq")
       let editSum = 480 - this.sumOfEstimatedTime
+      // editSum = editSum + this.taskDeatils.estimatedTime;
+      console.log(editSum,this.taskDeatils.estimatedTime)
       let editHour = Math.floor(editSum / 60);
       let editMinute = Math.floor(editSum - editHour * 60);
       console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
@@ -333,41 +328,41 @@ export class DailyTaskComponent implements OnInit, OnChanges {
 
   validateEstimateHour(hour) {
     if (hour == 8) {
-      this.taskForm.get('estimatedMin').setValue('00');
+      this.taskForm.get('estimatedMin').setValue(0);
       this.taskForm.get('estimatedMin').disable();
-    }
-    else {
+    } else {
       this.taskForm.get('estimatedMin').enable();
     }
   }
 
-
   validateEstimateMin(min) {
     if (min == '60') {
       this.taskForm.get('estimatedHour').setValue(this.taskForm.get('estimatedHour').value + 1);
-      this.taskForm.get('estimatedMin').setValue('00');
+      this.taskForm.get('estimatedMin').setValue(0);
     }
   }
 
-  onDeleteTask() {
-    this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
-      this.toasterService.pop("warning", "Deleted", "Task is deleted!");
-      this.showTask.emit();
-    });
-  }
-
-  deleteTask() {
+  deleteTaskSwal() {
     swal({
       title: "Are you sure?",
-      text: "Task will be deleted from database!",
+      text: "Task(#" + this.taskId + ") will be deleted from database!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((task) => {
-      if (task) {
-        document.getElementById("cancel").click();
-        this.onDeleteTask();
+    }).then((willRemove) => {
+      if (willRemove) {
+        // document.getElementById("cancel").click();
+        this.onDeleteTaskPopUp();
+      } else {
+        swal('Cancelled', 'Task(#' + this.taskId + ') is not deleted :)', 'error');
       }
+    });
+  }
+
+  onDeleteTaskPopUp() {
+    this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
+      swal('Deleted', 'Task(#' + this.taskId + ') has been removed :)', 'warning');
+      this.showTask.emit();
     });
   }
 

@@ -12,7 +12,6 @@ import { TreeModule } from 'angular-tree-component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminEmployeeComponent } from './admin-employee/admin-employee.component';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
-import { ToasterService } from 'angular2-toaster';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -49,8 +48,8 @@ import { CustomDatePipe } from './custom-date.pipe';
     NgDragDropModule.forRoot(),
   ],
   providers: [
-    ChildAuthGuard,
-    ToasterService
+    ChildAuthGuard
   ]
 })
+
 export class AdminModule { }

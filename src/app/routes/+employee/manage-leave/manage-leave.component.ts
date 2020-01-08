@@ -6,12 +6,14 @@ import { DayoffService } from '../../../services/dayoff.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-manage-leave',
   templateUrl: './manage-leave.component.html',
   styleUrls: ['./manage-leave.component.scss']
 })
+
 export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
@@ -56,15 +58,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private manageLeaveService: ManageLeaveService, private fb: FormBuilder,
-    private holidayService: HolidayService, private dayoffService: DayoffService) {
-
-  }
+    private holidayService: HolidayService, private dayoffService: DayoffService) { }
 
   leaveRequestList: any[] = [];
 
   ngOnInit() {
     this.leaveRequestForm = this.fb.group({
-      dates:[],
+      dates: [],
       totalDays: [{ value: '', disabled: true }],
       type: ['', [Validators.required]],
       reason: ['', [Validators.required]]
@@ -80,6 +80,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.leaveCalculation();
     this.getDayoff();
     this.getAllHolidayList();
+    
   }
 
   formReset() {
@@ -153,6 +154,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.manageLeaveService.getTotalLeaves().subscribe(
       (res: any) => {
         this.leaveData = res.data;
+        console.log(this.leaveData)
       })
   }
 
@@ -163,9 +165,10 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       reason: this.leaveRequestForm.get('reason').value
     }).subscribe(
       (res: any) => {
-        console.log(res)
+        console.log(res);
         this.filterRequestLeave();
         this.leaveCalculation();
+        swal('Success', 'Leave request for ' +res.data.noOfdays+' days successfully sent :)', 'success');
         this.formReset();
       })
   }
@@ -174,10 +177,30 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
-  updateStatus(leaveId) {
+  updateStatusSwal(value) {
+    console.log(value);
+    swal({
+      title: "Are you sure ?",
+      text: "Leave request for " +value.noOfdays+ " days will be cancelled!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willRemove) => {
+      if (willRemove) {
+        this.updateStatusPopUp(value);
+      } else {
+        swal('Cancelled', 'Leave request for ' +value.noOfdays+ ' days is not removed :)', 'error');
+      }
+    });
+  }
+
+  updateStatusPopUp(value) {
+    console.log(value);
+    let leaveId = value.leaveId;
+    console.log(leaveId);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        console.log(result)
+        swal('Deleted', 'Leave request for ' +value.noOfdays+ ' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
@@ -186,10 +209,11 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     if (date != null) {
       this.fromDate = date;
       if (this.toDate) {
-        this.getNoOfDays(this.toDate)
+        this.getNoOfDays(this.toDate);
       }
     }
   }
+
   gethalfday(value) {
     if (this.totaldaysOff == 1 && value) {
       this.leaveRequestForm.get("totalDays").setValue(this.totaldaysOff / 2);
@@ -207,7 +231,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       })
       this.holidayList = this.holidayList.map(x => x.holidayDate);
       console.log(this.holidayList)
-
     })
   }
 
@@ -241,7 +264,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       }
       console.log(totaldate)
       totaldate.forEach(x => {
-
         if (x.getDay() == 0) {
           x.day = 'sunday'
         }
@@ -264,19 +286,18 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
           x.day = 'saturday'
         }
       })
-      console.log(totaldate)
+      console.log(totaldate);
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) && !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
-      console.log(y)
+      console.log(y);
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {
         this.isvalid = true;
-
       } else {
         this.isvalid = false;
       }
-
     }
   }
+
 }

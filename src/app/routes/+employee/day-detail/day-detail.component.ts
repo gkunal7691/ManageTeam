@@ -3,6 +3,7 @@ import { ColorsService } from '../../../shared/colors/colors.service';
 import { TaskService } from '../../../services/task.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-day-detail',
@@ -11,7 +12,6 @@ import { Router } from '@angular/router';
 })
 
 export class DayDetailComponent implements OnInit, OnChanges {
-
   @Input() showRecentDate;
   @Input() allTasksList;
   @Output() updateTaskList = new EventEmitter();
@@ -64,14 +64,15 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.stacked = [];
     this.newStacked = [];
     this._date = this.showRecentDate;
-    this.taskList = this.allTasksList
-    this.getTaskList();    
+    this.taskList = this.allTasksList;
+    this.getTaskList();
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     }
     this.taskCalculation();
     this.ref.detectChanges();
   }
+
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
     private taskService: TaskService, private fb: FormBuilder, private router: Router) { }
 
@@ -200,7 +201,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
     else {
       this.estimateTimeModalForm.reset();
     }
-    this.status = status
+    this.status = status;
+    console.log(this.status)
     this.taskId = task.taskId;
     this.showForm = true;
     if (status != 'completed') {
@@ -209,6 +211,11 @@ export class DayDetailComponent implements OnInit, OnChanges {
       }).subscribe((res: any) => {
         this.getTaskList();
         this.getupadtedTask();
+        let st: any;
+        if (this.status == 'progress') {
+          this.status = 'In Progress';
+        }
+        swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
       })
     }
   }
@@ -237,11 +244,15 @@ export class DayDetailComponent implements OnInit, OnChanges {
     }).subscribe((res: any) => {
       this.exitModal();
       this.getupadtedTask();
+      swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
     })
   }
 
   getNewDate(val) {
     this.calenderDate = val;
+    if(this.nextDateModalForm.get('newNextDate').value == '') {
+      this.nextDateValue = true;
+    }
   }
 
   getSelectedTaskDeatils(task) {
@@ -276,7 +287,6 @@ export class DayDetailComponent implements OnInit, OnChanges {
     }
     if (this.nextDate) {
       console.log(this.nextDate)
-      console.log('qwerqwrw')
       this.taskService.addTask({
         title: this.taskDeatils.title, description: this.taskDeatils.description,
         dueDate: this.nextDate, priority: this.taskDeatils.priority, status: this.taskDeatils.status,
@@ -292,12 +302,12 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   moveToNextDate() {
     this.nextDateValue = false;
-    console.log(this._date)
+    console.log(this._date);
     let addnextDate = (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getDate() + 1) + '/' + (new Date(this._date).getFullYear());
     this.nextDate = new Date(addnextDate);
     this.nextDate.setHours(this.nextDate.getHours() + 5, 30);
-    console.log(this.nextDate)
-    this.nextDateModalForm.get('newNextDate').setValue(addnextDate)
+    console.log(this.nextDate);
+    this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
   }
 
 }

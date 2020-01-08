@@ -75,7 +75,8 @@
                             {{ task.title }}
                           </ng-template>
                           <em [tooltip]="toolTipTemplate">
-                            #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                            #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }}
+                            <span *ngIf="task?.title.length > 45">...</span>
                           </em>
                         </a>
                       </div>
@@ -253,9 +254,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col pr-0">
               <tr>
                 <td class="form-group">
@@ -308,9 +307,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col pr-0">
               <tr>
                 <td class="form-group">
@@ -339,8 +336,7 @@
           Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save"
-          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">
-          Save
+          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Save
         </button>
       </div>
     </div>
@@ -352,7 +348,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
-        <h4 class="ml-2">Enter Following Details</h4>
+        <h4 class="ml-2">Enter Following Details :</h4>
         <button type="button" class="close" (click)="closeNextDateModal()" data-dismiss="modal" aria-label="Close">
           <span>&times;</span>
         </button>
@@ -371,7 +367,8 @@
                 [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
 
               <input *ngIf="!nextDateValue" type="text" class="form-control"
-                [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)">
+                [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)" 
+                (keyup)="getNewDate($event)">
             </div>
             <div class="col-3 p-0 mt-1 pl-3">
               <a class="removeUnderLine" style="font-size: 16px;" href="#" (click)="moveToNextDate()">

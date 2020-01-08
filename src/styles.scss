@@ -13,7 +13,7 @@
 // @import '~spinkit/css/spinkit.css';
 @import "~loaders.css/loaders.css";
 
-@import "~angular2-toaster/toaster.css";
+// @import "~angular2-toaster/toaster.css";
 
 @import "~ng2-dnd/bundles/style.css";
 
@@ -38,15 +38,15 @@
 
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-.toast-top-right {
-  position: relative;
-  top: 60px;
-}
+// .toast-top-right {
+//   position: relative;
+//   top: 60px;
+// }
 
-.button.toaster-close-button {
-  position: relative !important;
-  top: -15px !important;
-}
+// .button.toaster-close-button {
+//   position: relative !important;
+//   top: -15px !important;
+// }
 
 fieldset {
   border-bottom: 0px;

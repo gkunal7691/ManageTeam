@@ -24,7 +24,20 @@ config.production = {
     },
 };
 
-config.development = {
+config.development = {    
+    // db: {
+    //     username: "root",
+    //     password: "",
+    //     database: "gauranrc_softobotics-tms",
+    //     host: "127.0.0.1",
+    //     dialect: "mysql",
+    //     migrationStorage: "json",
+    //     define: {
+    //         charset: 'utf8',
+    //         collate: 'utf8_general_ci',
+    //         timestamps: true
+    //     }
+    // },
     db: {
         username: "gauranrc_tms",
         password: "tms@123456",
@@ -45,6 +58,19 @@ config.development = {
 };
 
 config.local = {
+    // db: {
+    //     username: "root",
+    //     password: "",
+    //     database: "gauranrc_softobotics-tms",
+    //     host: "127.0.0.1",
+    //     dialect: "mysql",
+    //     migrationStorage: "json",
+    //     define: {
+    //         charset: 'utf8',
+    //         collate: 'utf8_general_ci',
+    //         timestamps: true
+    //     }
+    // },
     db: {
         username: "gauranrc_tms",
         password: "tms@123456",

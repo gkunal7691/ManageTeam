@@ -20,12 +20,14 @@
             [max]="(plannedTaskList.length+inProgressTaskList.length+completedTaskList.length)">
           </progressbar>
           <span style="font-size: 10px;">Completed / Progress / Planned ({{completedTaskList.length}}
-            / {{inProgressTaskList.length}} / {{(plannedTaskList.length)}})</span>
+            / {{inProgressTaskList.length}} / {{(plannedTaskList.length)}})
+          </span>
         </a>
         <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
           <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
-          <span style="font-size: 10px;">Spent / Estimated / Total ({{orginalSpentTime | customDate}}
-            / {{estimatedTime | customDate}} / {{480 | customDate}})</span>
+          <span style="font-size: 10px;">S: {{orginalSpentTime | customDate}}
+            / E: {{estimatedTime | customDate}} / T: {{480 | customDate}}
+          </span>
         </a>
       </div>
       <div style="display: flex;flex-direction: row-reverse;">

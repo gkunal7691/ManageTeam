@@ -6,8 +6,8 @@ import { ColorsService } from '../../../shared/colors/colors.service';
   templateUrl: './daily-overview-box.component.html',
   styleUrls: ['./daily-overview-box.component.scss']
 })
-export class DailyOverviewBoxComponent implements OnInit, OnChanges {
 
+export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   firstDay: any;
   lastDay: any;
   clickedDate: any;
@@ -47,21 +47,16 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   @Input() iscurrentDate: any;
   @Input() leaveData: any;
 
-
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   getHoliday() {
-
     this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' + (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) == (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear())));
-
   }
 
   showDay(val) {
     this.clickedDate = val;
     this.openModalDate.emit(this.clickedDate);
   }
-
 
   filterTaskList() {
     let d = new Date(this.date)
@@ -72,7 +67,6 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     this.inProgressTaskList = this.allTasksList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
     this.completedTaskList = this.allTasksList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
   }
-
 
   taskCalculation() {
     this.clientTime = 0;
@@ -95,7 +89,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
       value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
       type: "danger"
     });
-
+    
     this.newStacked.push({
       value: this.completedTaskList.length,
       type: "success"

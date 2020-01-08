@@ -21,8 +21,6 @@ import { MatTableModule } from '@angular/material/table';
 import { DailyTaskComponent } from './daily-task/daily-task.component';
 import { CustomDatePipe } from './custom-date.pipe';
 import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
-import { ToasterService } from 'angular2-toaster';
-
 
 @NgModule({
   declarations: [
@@ -53,8 +51,7 @@ import { ToasterService } from 'angular2-toaster';
   ],
   providers: [
     ChildAuthGuard,
-    DatePipe,
-    ToasterService
+    DatePipe
   ]
 })
 

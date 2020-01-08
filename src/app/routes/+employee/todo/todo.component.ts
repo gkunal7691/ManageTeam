@@ -3,14 +3,15 @@ import { TodoService } from '../../../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../../services';
 import { EmployeeService } from '../../../services/employee.service';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss']
 })
-export class TodoComponent implements OnInit {
 
+export class TodoComponent implements OnInit {
   items: any;
   completeTask: any;
   notComplateTask: any;
@@ -40,9 +41,7 @@ export class TodoComponent implements OnInit {
     this.getAdminList();
   }
 
-
   favTask(star, todoId) {
-
     this.todoService.updateStar({ star: !star, todoId: todoId, userId: this.selectAdminId }).subscribe(
       (res: any) => {
         this.getIncompleteTodoList();
@@ -50,7 +49,6 @@ export class TodoComponent implements OnInit {
   }
 
   emptyForm() {
-
     if (!this.editingTodo) {
       this.todo.title = '';
       this.todo.description = '';
@@ -58,20 +56,18 @@ export class TodoComponent implements OnInit {
   }
 
   getAdminList() {
-
     this.employeeService.getEmployeeList().subscribe(
       (res: any) => {
         this.adminList = res.data;
       })
   }
 
-
   addTodo() {
-
     if (this.editingTodo) {
       this.todoService.updateTodo({ todoId: this.todo.todoId, title: this.todo.title, description: this.todo.description, userId: this.selectAdminId }).subscribe(
         (res: any) => {
-          console.log(res)
+          console.log(res);
+          swal('Success', 'Todo(' +this.todo.title+ ') is updated :)', 'success');
           this.todo.title = '';
           this.todo.description = '';
           this.editingTodo = false;
@@ -82,14 +78,14 @@ export class TodoComponent implements OnInit {
     } else {
       this.todoService.addTodo({ title: this.todo.title, description: this.todo.description, complete: false }).subscribe(
         (res: any) => {
-          console.log(res)
+          console.log(res);
+          swal('Success', 'Todo(' +this.todo.title+ ') is added :)', 'success');
           this.todo.title = '';
           this.todo.description = '';
           this.getCompleteTodoList();
           this.getIncompleteTodoList();
           document.getElementById("closeTodoModal").click();
         })
-
     }
   }
 
@@ -119,15 +115,12 @@ export class TodoComponent implements OnInit {
           this.no_items = true;
         }
       })
-
   }
 
   selectAdminTodo(userId) {
-
     this.selectAdminId = userId;
     this.getCompleteTodoList();
     this.getIncompleteTodoList();
-
   }
 
   editTodo(index, $event) {
@@ -172,8 +165,6 @@ export class TodoComponent implements OnInit {
           this.getIncompleteTodoList();
         })
     }
-
-
   }
 
 }
