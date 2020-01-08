@@ -51,6 +51,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   isHalfDay: boolean = false;
   selectedStartDate: any;
   selectedEndDate: any;
+  leaveOffDays:any;
 
   displayedColumns: string[] = ["fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
@@ -206,6 +207,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   getFromDate(date) {
+    console.log(date)
     if (date != null) {
       this.fromDate = date;
       if (this.toDate) {
@@ -290,6 +292,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) && !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
       console.log(y);
+      this.leaveOffDays = y
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {
@@ -298,6 +301,32 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.isvalid = false;
       }
     }
+    // this.getHolidayList();
+    this.getDayOffList();
   }
 
+  getDayOffList()
+  {
+    this.dayoffService.getDayoffList().subscribe(
+      (result:any) => {
+        console.log(result)
+      }
+    )
+  }
+
+  // getHolidayList()
+  // {
+  //   this.holidayService.getHolidayList().subscribe(
+  //     (result:any) => {
+  //       let x;
+  //       console.log(result)
+  //       console.log(this.leaveOffDays)
+  //       result.data.forEach(x => {
+  //        x =  x.holidayDate.includes(this.leaveOffDays)
+  //       })
+  //       console.log(x)
+  //     }
+  //   )
+  // }
+   
 }
