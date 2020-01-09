@@ -211,6 +211,23 @@
   </div>
   <!-- </div> -->
 
+<<<<<<< HEAD
+<div class="modal newEstimateTimeModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+  aria-labelledby="myModalLabel" data-focus-on="modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pt-3 pb-1">
+        <h4 class="ml-2">Enter Following Times</h4>
+        <button type="button" class="close" (click)="closeEstimateTimeModal()" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="showForm">
+        <form>
+          <div class="row">
+            <div class="col-4 mt-2 ml-2">
+              <label>Enter Original Time :</label>
+=======
   <div class="modal newEstimateTimeModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
     aria-labelledby="myModalLabel" data-focus-on="modal">
     <div class="modal-dialog modal-dialog-centered">
@@ -252,6 +269,7 @@
                   </tr>
                 </div>
               </div>
+>>>>>>> develop
             </div>
             <div class="row">
               <div class="col-3 p-0"></div>
@@ -329,6 +347,18 @@
                 </tr>
               </div>
             </div>
+<<<<<<< HEAD
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="closeEstimateTimeModal()">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save"
+          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Move
+        </button>
+=======
           </form>
         </div>
         <div class="modal-footer">
@@ -339,6 +369,7 @@
             (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Save
           </button>
         </div>
+>>>>>>> develop
       </div>
     </div>
   </div>
@@ -378,9 +409,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col p-0">
               <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
                   nextDateModalForm.controls['newDate'].touched ">
@@ -421,9 +450,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col pl-4 pr-0">
               <tr>
                 <td class="form-group">
@@ -454,7 +481,7 @@
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save" (click)="addNewTask()"
           [disabled]="nextDateModalForm.invalid">
-          Save
+          Move
         </button>
       </div>
     </div>
