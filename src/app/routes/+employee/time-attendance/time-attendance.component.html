@@ -45,12 +45,14 @@
 <div style="display: flex;flex-direction: column;align-items: center;">
   <div>
     <h4 class="mb-2">
-      <button style="cursor: pointer" type="button" class="fa fa-caret-left pt-2" (click)="getPreviousMonth()"></button>
+      <button style="cursor: pointer" type="button" class="fa fa-caret-left side-btn pt-2"
+        (click)="getPreviousMonth()"></button>
       <span class="ml-1 mb-0 mt-1">{{firstDay}}</span>
       <span class="ml-1 mb-0 mt-1">{{presentdate | date : 'LLLL'}} - </span>
       <span class="ml-1 mb-0 mt-1">{{lastDay}}</span>
       <span class="ml-1 mb-0 mt-1">{{presentdate | date : 'LLLL'}}</span>
-      <button style="cursor: pointer;" type="button" class="fa fa-caret-right pt-2" (click)="getNextMonth()"></button>
+      <button style="cursor: pointer;" type="button" class="fa fa-caret-right side-btn pt-2"
+        (click)="getNextMonth()"></button>
     </h4>
   </div>
   <div>
@@ -133,8 +135,8 @@
 </div>
 <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>
 
-<div class="modal fade dayDetailModal pl-2 pr-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="day-detail"
-  aria-hidden="true">
+<div class="modal fade dayDetailModal pl-2 pr-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  id="day-detail" aria-hidden="true">
   <app-day-detail [showRecentDate]="recentDateClicked" [allTasksList]="taskList"
     (updateTaskList)="getUpdatedTaskList()">
   </app-day-detail>
