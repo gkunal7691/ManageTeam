@@ -119,14 +119,14 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
-    if ((this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length) <= 10) {
+    if ((this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length) <= 5) {
       for (var i = 0; i < x.length; i++) {
-        // x[i].style.height = '450px';
+        x[i].style.height = '300px';
       }
     }
     else {
       for (var i = 0; i < x.length; i++) {
-        // x[i].style.height = '800px';
+        x[i].style.height = 'unset';
       }
     }
 

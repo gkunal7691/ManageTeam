@@ -120,8 +120,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
-        var x = document.getElementById("day-detail");
-        setTimeout(() => { x.classList.add("show") }, 350);
+        this.cancelTask();
       })
     }
     else {
@@ -147,7 +146,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
           swal('Warning', 'Task cannot be added :)', 'error')
         }
         this.showTask.emit();
-        document.getElementById("cancel").click();
+        this.cancelTask();
         this.taskForm.reset();
         this.showCommentSecton = false;
       })
@@ -183,7 +182,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       let estimatedGetTime = this.taskDeatils.estimatedTime;
       let convEstimatedHours = Math.floor(estimatedGetTime / 60);
       let convEstimatedmin = estimatedGetTime % 60;
-      console.log(convEstimatedHours, convEstimatedmin)
       let clientGetTime = this.taskDeatils.clientTime;
       let convclientHours = Math.floor(clientGetTime / 60);
       let convclientMin = clientGetTime % 60;
@@ -265,7 +263,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   cancelTask() {
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
-
+    // this.taskForm.reset();
     // var x = document.getElementById("day-detail")
     // setTimeout(() => { x.classList.add("show") }, 350);
   }
