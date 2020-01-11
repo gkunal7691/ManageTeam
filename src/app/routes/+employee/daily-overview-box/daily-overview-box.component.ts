@@ -36,7 +36,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     this.getHoliday();
     this.filterTaskList();
     this.taskCalculation();
-    // this.filterLeaveList();
+    this.filterisLeave();
     this.ref.detectChanges();
   }
 
