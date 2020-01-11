@@ -1,8 +1,8 @@
 <div *ngIf="(date | json) == '{}'" style="height: 160px; width: 100%;justify-content: flex-end; margin-bottom: 1.5rem;">
 </div>
-<div *ngIf="(date | json) != '{}'" style="cursor: pointer;"
-  [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" class="card card-default" data-toggle="modal"
-  data-target=".dayDetailModal" (click)="showDay(date)">
+<div *ngIf="(date | json) != '{}'" style="cursor: pointer;" class="card card-default" data-toggle="modal"
+  [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" data-target=".dayDetailModal"
+  (click)="showDay(date)">
   <div style="height: 160px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
       <div>
@@ -11,7 +11,12 @@
             style="text-decoration: none;color: #656565;float: right;">
             <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
           </a>
-          <!-- <em *ngIf="isLeaveDay" class="fa-2x mr-2 fas fa-suitcase float-right"></em> 'background': holiday ? 'lightgray' : 'none',-->
+          <a *ngIf="showLeave && !holiday" href="#" [tooltip]="toolTipLeaveTemplate"
+            style="text-decoration: none;color: #656565;float: right;">
+            <em [ngClass]="{'leaveApproved':leaveStatus == 'approved','leavePending':leaveStatus == 'pending'}"
+              class="fa-lg mr-2 fas fa-briefcase float-right pt-1">
+            </em>
+          </a>
         </div>
       </div>
       <div style="padding-top: 12%;text-align: center;">
@@ -54,4 +59,8 @@
 <ng-template #toolTipHolidayTemplate style="width:300px;">
   <p>Occasion : {{holiday.occasion | titlecase}}</p>
   <p>Type : {{holiday.holidayType | titlecase}}</p>
+</ng-template>
+
+<ng-template #toolTipLeaveTemplate style="width:300px;">
+  <p>Status : {{leaveStatus}}</p>
 </ng-template>

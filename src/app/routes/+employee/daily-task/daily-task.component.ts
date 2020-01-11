@@ -42,8 +42,8 @@ export class DailyTaskComponent implements OnInit, OnChanges {
     if (!this.editBtn && this.taskForm) {
       this.taskForm.get('priority').setValue("normal");
       this.taskForm.get('status').setValue("planned");
-      this.taskForm.get('estimatedMin').setValidators([Validators.maxLength(2), Validators.max(8)])
-      this.taskForm.get('estimatedHour').setValidators([Validators.maxLength(2), Validators.max(59)])
+      // this.taskForm.get('estimatedMin').setValidators([Validators.maxLength(2), Validators.max(8), Validators.required])
+      // this.taskForm.get('estimatedHour').setValidators([Validators.maxLength(2), Validators.max(59), Validators.required])
     }
     this.getUserList();
     this.updateTask();
@@ -299,8 +299,8 @@ export class DailyTaskComponent implements OnInit, OnChanges {
     if (this.sumOfEstimatedTime == 480) {
       this.taskForm.disable();
     }
-    else if (this.sumOfEstimatedTime == 0 && this.taskForm) {
-      console.log("hellp")
+    if (this.sumOfEstimatedTime == 0 && this.taskForm) {
+      console.log("addnew")
       this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
     }
@@ -308,8 +308,21 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       console.log("sdasdd")
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
+      console.log(hours, minutes)
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+      // if (minutes == 0) {
+      //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(8 - hours), Validators.required, Validators.maxLength(2)]);
+      //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+      // }
+      // // else if (minutes != 0 && hours == 7) {
+      // //   this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
+      // //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+      // // }
+      // else {
+      //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
+
+      // }
     }
     else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
       console.log("qweq")
@@ -327,12 +340,38 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   validateEstimateHour(hour) {
+
     if (hour == 8) {
       this.taskForm.get('estimatedMin').setValue(0);
       this.taskForm.get('estimatedMin').disable();
     } else {
       this.taskForm.get('estimatedMin').enable();
     }
+    // if (this.sumOfEstimatedTime == 0 && this.taskForm) {
+    //   console.log("addnew")
+    //   this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
+    //   this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
+    // }
+    // if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
+    //   console.log("add")
+    //   let hours = Math.floor(this.sumOfEstimatedTime / 60);
+    //   let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
+    //   this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
+    //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+    // }
+    // else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
+    //   console.log("edit")
+    //   let editSum = 480 - this.sumOfEstimatedTime
+    //   // editSum = editSum + this.taskDeatils.estimatedTime;
+    //   console.log(editSum, this.taskDeatils.estimatedTime)
+    //   let editHour = Math.floor(editSum / 60);
+    //   let editMinute = Math.floor(editSum - editHour * 60);
+    //   console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
+    //   let m1 = (59 - (this.taskForm.get('estimatedMin').value - editMinute));
+    //   console.log(m1)
+    //   this.taskForm.get('estimatedHour').setValidators([Validators.max(this.taskForm.get('estimatedHour').value + editHour), Validators.maxLength(2)]);
+    //   this.taskForm.get('estimatedMin').setValidators([Validators.max(this.taskForm.get('estimatedMin').value + editMinute), Validators.maxLength(2)]);
+    // }
   }
 
   validateEstimateMin(min) {
