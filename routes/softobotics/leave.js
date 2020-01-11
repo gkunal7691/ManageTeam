@@ -53,8 +53,32 @@ router.post('/', async function (req, res, next) {
    let todate = new Date(req.body.toDate)
 
    dayOff.findAll({ where: { organizationId: req.user.orgId } }).then((dayOffList) => {
-      dayOffList = dayOffList.map(x => x.weekdayOff);
+      dayOffList = dayOffList.map(x => x.weekdayId);
+      for (let i = 0; i < dayOffList.length; i++) {
+         if (dayOffList[i] == 0) {
+            dayOffList[i] = 'sunday';
+         }
+         else if (dayOffList[i] == 1) {
+            dayOffList[i] = 'monday';
+         }
+         else if (dayOffList[i] == 2) {
+            dayOffList[i] = 'tuesday';
+         }
+         else if (dayOffList[i] == 3) {
+            dayOffList[i] = 'wednesday';
+         }
+         else if (dayOffList[i] == 4) {
+            dayOffList[i] = 'thursday';
+         }
+         else if (dayOffList[i] == 5) {
+            dayOffList[i] = 'friday';
+         }
+         else if (dayOffList[i] == 6) {
+            dayOffList[i] = 'saturday';
+         }
+      }
       Holiday.findAll({ where: { organizationId: req.user.orgId } }).then((holidayList) => {
+
          holidayList.forEach(x => {
             holidayDateList.push((new Date(x.holidayDate).getMonth() + 1) + '/' + new Date(x.holidayDate).getDate() + '/' + new Date(x.holidayDate).getFullYear())
          })
@@ -87,7 +111,7 @@ router.post('/', async function (req, res, next) {
                x.day = 'saturday'
             }
          })
-         let totalLeaveDay = totaldate.filter(x => !dayOffList.includes(x.day) && !holidayDateList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
+         let totalLeaveDay = totaldate.filter(x => !dayOffList.includes(x.day) && !holidayDateList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
          let noOfdays
          if (req.body.halfday) {
             noOfdays = -0.5

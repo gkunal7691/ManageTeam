@@ -11,10 +11,18 @@ p{
   margin: 0;
 }
 
-.holidayColor{
-  background: lightgrey;
+.holidayColor {
+  background: lightgrey !important;
 }
 
 .currentDate{
   background: #c8f3cb;
+}
+
+.leaveApproved {
+  color: #27c24c;
+}
+
+.leavePending {
+  color: #ff902b;
 }
