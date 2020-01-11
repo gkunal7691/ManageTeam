@@ -89,7 +89,7 @@ export class TimeAttendanceComponent implements OnInit {
     this.createMonthDateArray(new Date());
     this.getDayoff();
     this.getHolidayList();
-    this.filterRequestLeave();
+    // this.filterRequestLeave();
   }
 
   showWeekoff(value) {
@@ -313,17 +313,17 @@ export class TimeAttendanceComponent implements OnInit {
     }
   }
 
-  filterRequestLeave() {
+  // filterRequestLeave() {
 
-    let status = {}
-    status['ispending'] = true;
-    status['isapprove'] = true;
+  //   let status = {}
+  //   status['ispending'] = true;
+  //   status['isapprove'] = true;
 
-    this.manageLeaveService.getManageLeaveList(status).subscribe(
-      (result: any) => {
-        this.leaveRequestList = result.data;
-      })
+  //   this.manageLeaveService.getManageLeaveList(status).subscribe(
+  //     (result: any) => {
+  //       this.leaveRequestList = result.data;
+  //     })
 
-  }
+  // }
 
 }

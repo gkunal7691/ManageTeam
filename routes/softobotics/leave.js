@@ -117,8 +117,7 @@ router.post('/', async function (req, res, next) {
 router.post('/manageleavelist', async function (req, res, next) {
 
    let condition = {}
-   condition['organizationId', 'userId'] = req.user.orgId;
-   condition['userId'] = req.user.id;
+   condition['organizationId', 'userId'] = req.user.id, req.user.orgId;
 
    condition['$or'] = [];
 
