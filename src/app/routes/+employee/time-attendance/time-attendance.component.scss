@@ -5,16 +5,11 @@
 h1 {
   font-family: "Times New Roman", Times, serif;
 }
-
 .fa {
   background: transparent !important;
   border: transparent !important;
   font-size: 28px;
   position: relative;
-
-}
-
-.side-btn {
   top: 5px;
 }
 
@@ -22,13 +17,12 @@ h1 {
   padding: 0px;
 }
 
-.c-checkbox input[type="checkbox"]:checked+span,
-.c-radio input[type="checkbox"]:checked+span {
+.c-checkbox input[type="checkbox"]:checked + span,
+.c-radio input[type="checkbox"]:checked + span {
   border-color: #5d9cec !important;
   top: -2px;
   background-color: #5d9cec !important;
 }
-
 .c-checkbox span,
 .c-radio span {
   border: 1px solid #ccc !important;
@@ -59,7 +53,7 @@ h1 {
   right: 0%;
 }
 
-.details span {
+.details span{
   font-size: 14px;
   color: black;
 }

@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
-import { add } from 'ngx-bootstrap/chronos/public_api';
 const swal = require('sweetalert');
 
 @Component({
@@ -88,9 +87,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   addTask() {
-    if (this.showDate.getHours() != 0) {
-      this.showDate.setHours(0, 0, 0);
-    }
     let addDueDate = new Date(this.showDate)
     addDueDate.setHours(addDueDate.getHours() + 5, 30);
     if (this.showTaskUpdated == true) {
@@ -304,22 +300,22 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       this.taskForm.disable();
     }
     else if (this.sumOfEstimatedTime == 0 && this.taskForm) {
-      console.log("addnew")
+      console.log("hellp")
       this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
     }
     if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
-      console.log("add")
+      console.log("sdasdd")
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
     }
     else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
-      console.log("edit")
+      console.log("qweq")
       let editSum = 480 - this.sumOfEstimatedTime
       // editSum = editSum + this.taskDeatils.estimatedTime;
-      console.log(editSum, this.taskDeatils.estimatedTime)
+      console.log(editSum,this.taskDeatils.estimatedTime)
       let editHour = Math.floor(editSum / 60);
       let editMinute = Math.floor(editSum - editHour * 60);
       console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
