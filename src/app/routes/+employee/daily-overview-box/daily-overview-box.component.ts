@@ -15,6 +15,8 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   completedTaskList: [] = [];
   inProgressTaskList: [] = [];
   holiday: any;
+  leaveStatus: any;
+  showLeave: any;
   showCurrentDate: boolean;
   isLeaveDay: boolean;
   stacked: any[] = [];
@@ -89,7 +91,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
       value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
       type: "danger"
     });
-    
+
     this.newStacked.push({
       value: this.completedTaskList.length,
       type: "success"
@@ -102,23 +104,18 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     })
   }
 
-  // filterLeaveList() {
-  //   let d, m1, convertedFromDate, m3, convertedToDate, m4;
-  //   this.leaveData.forEach(date => {
-  //     m1 = date.fromDate;
-  //     d = new Date(m1);
-  //     convertedFromDate = (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear()
-  //     m4 = date.toDate;
-  //     m3 = new Date(m4)
-  //     convertedToDate = (m3.getMonth() + 1) + '/' + m3.getDate() + '/' + m3.getFullYear()
-  //   })
-  //   let dd = new Date(this.date)
-  //   let selectDate = (dd.getMonth() + 1) + '/' + dd.getDate() + '/' + dd.getFullYear()
-  //   if (selectDate <= convertedToDate && selectDate >= convertedFromDate) {
-  //     console.log(this.date)
-  //     this.isLeaveDay = true
-  //   }
-  // }
+  filterisLeave() {
+    if (this.leaveData) {
+      this.leaveData.forEach(d => {
+        let isLeavefromDate = new Date(d.fromDate).setHours(0, 0, 0);
+        let isLeavetoDate = new Date(d.toDate).setHours(0, 0, 0);
+        if (this.date >= isLeavefromDate && this.date <= isLeavetoDate) {
+          this.showLeave = true;
+          this.leaveStatus = d.status;
+        }
+      })
+    }
+  }
 
 
 }
