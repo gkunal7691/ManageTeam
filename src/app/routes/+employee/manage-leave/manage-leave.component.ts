@@ -52,7 +52,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   isHalfDay: boolean = false;
   selectedStartDate: any;
   selectedEndDate: any;
-  leaveOffDays:any;
+  leaveOffDays: any;
 
   displayedColumns: string[] = ["fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
@@ -82,7 +82,8 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.leaveCalculation();
     this.getDayoff();
     this.getAllHolidayList();
-    
+    this.getDayOffList();
+
   }
 
   formReset() {
@@ -170,7 +171,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         console.log(res);
         this.filterRequestLeave();
         this.leaveCalculation();
-        swal('Success', 'Leave request for ' +res.data.noOfdays+' days successfully sent :)', 'success');
+        swal('Success', 'Leave request for ' + res.data.noOfdays + ' days successfully sent :)', 'success');
         this.formReset();
       })
   }
@@ -183,7 +184,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     console.log(value);
     swal({
       title: "Are you sure ?",
-      text: "Leave request for " +value.noOfdays+ " days will be cancelled!",
+      text: "Leave request for " + value.noOfdays + " days will be cancelled!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -191,7 +192,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       if (willRemove) {
         this.updateStatusPopUp(value);
       } else {
-        swal('Cancelled', 'Leave request for ' +value.noOfdays+ ' days is not removed :)', 'error');
+        swal('Cancelled', 'Leave request for ' + value.noOfdays + ' days is not removed :)', 'error');
       }
     });
   }
@@ -202,7 +203,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     console.log(leaveId);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        swal('Deleted', 'Leave request for ' +value.noOfdays+ ' days has been removed :)', 'warning');
+        swal('Deleted', 'Leave request for ' + value.noOfdays + ' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
@@ -213,9 +214,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       this.fromDate = date;
       let currentDate: Date = new Date();
       var noOfDates = this.fromDate.getDate() - currentDate.getDate();
-      if(noOfDates < 0) {
+      if (noOfDates < 0) {
         this.isPastDate = true;
-      } else{
+      } else {
         this.isPastDate = false;
       }
       if (this.toDate) {
@@ -246,7 +247,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   getDayoff() {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
-      this.dayOffList = res.data.map(x => x.weekdayOff);
+      this.dayOffList = res.data.map(x => x.weekdayId);
       console.log(this.dayOffList)
     })
   }
@@ -301,8 +302,10 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         }
       })
       console.log(totaldate);
+      console.log(this.dayOffList);
 
-      let y = totaldate.filter(x => !this.dayOffList.includes(x.day) && !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
+      let y = totaldate.filter(x => !this.dayOffList.includes(x.day) &&
+      !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
       console.log(y);
       this.leaveOffDays = y
       this.leaveRequestForm.get("totalDays").setValue(y.length);
@@ -313,32 +316,15 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.isvalid = false;
       }
     }
-    // this.getHolidayList();
-    this.getDayOffList();
   }
 
-  getDayOffList()
-  {
+  getDayOffList() {
+    // console.log(this.dayoffService.getDayoffList())
     this.dayoffService.getDayoffList().subscribe(
-      (result:any) => {
+      (result: any) => {
         console.log(result)
       }
     )
   }
 
-  // getHolidayList()
-  // {
-  //   this.holidayService.getHolidayList().subscribe(
-  //     (result:any) => {
-  //       let x;
-  //       console.log(result)
-  //       console.log(this.leaveOffDays)
-  //       result.data.forEach(x => {
-  //        x =  x.holidayDate.includes(this.leaveOffDays)
-  //       })
-  //       console.log(x)
-  //     }
-  //   )
-  // }
-   
 }
