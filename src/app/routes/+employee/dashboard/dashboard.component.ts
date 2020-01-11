@@ -40,7 +40,7 @@ export class Dashboardv3Component implements OnInit {
     this.taskList = [];
     this.currentDate.setDate(this.currentDate.getDate() - 1);
     this.convertedDate = new Date(this.currentDate);
-    let previousDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();  
+    let previousDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
     this.taskService.getSingleTask({ dueDate: previousDate }).subscribe((res: any) => {
       this.taskList = res.data;
       this.showLoader = false;

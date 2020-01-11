@@ -37,6 +37,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     containerClass: 'theme-angle'
   }
 
+  isPastDate: boolean = false;
   pendingLeave: boolean;
   approvedLeave: boolean;
   rejectedLeave: boolean;
@@ -51,6 +52,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   isHalfDay: boolean = false;
   selectedStartDate: any;
   selectedEndDate: any;
+  leaveOffDays:any;
 
   displayedColumns: string[] = ["fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
@@ -206,8 +208,16 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   getFromDate(date) {
+    console.log(date)
     if (date != null) {
       this.fromDate = date;
+      let currentDate: Date = new Date();
+      var noOfDates = this.fromDate.getDate() - currentDate.getDate();
+      if(noOfDates < 0) {
+        this.isPastDate = true;
+      } else{
+        this.isPastDate = false;
+      }
       if (this.toDate) {
         this.getNoOfDays(this.toDate);
       }
@@ -242,10 +252,14 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   getNoOfDays(val) {
-    this.toDate = val
+    this.toDate = val;
     if (val != null) {
       if (val) {
+        console.log(val);
+        console.log(val.getTime());
+        console.log(this.fromDate.getTime());
         var Difference_In_Time = val.getTime() - this.fromDate.getTime();
+        console.log((Difference_In_Time / (1000 * 3600 * 24)) + 1);
         //  this.leaveRequestForm.get("totalDays").setValue(((Difference_In_Time / (1000 * 3600 * 24)) + 1));
         // this.totaldaysOff = ((Difference_In_Time / (1000 * 3600 * 24)) + 1);
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
@@ -254,9 +268,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
           this.invalidDate = false;
         }
       }
-      var totaldate = []
-      let fromdate = new Date(this.fromDate)
-      let todate = new Date(this.toDate)
+      var totaldate = [];
+      let fromdate = new Date(this.fromDate);
+      let todate = new Date(this.toDate);
       for (let date = fromdate.getDate(); date <= todate.getDate(); date++) {
         let day: Date = new Date(fromdate);
         totaldate.push(day);
@@ -290,6 +304,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) && !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
       console.log(y);
+      this.leaveOffDays = y
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {
@@ -298,6 +313,32 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.isvalid = false;
       }
     }
+    // this.getHolidayList();
+    this.getDayOffList();
   }
 
+  getDayOffList()
+  {
+    this.dayoffService.getDayoffList().subscribe(
+      (result:any) => {
+        console.log(result)
+      }
+    )
+  }
+
+  // getHolidayList()
+  // {
+  //   this.holidayService.getHolidayList().subscribe(
+  //     (result:any) => {
+  //       let x;
+  //       console.log(result)
+  //       console.log(this.leaveOffDays)
+  //       result.data.forEach(x => {
+  //        x =  x.holidayDate.includes(this.leaveOffDays)
+  //       })
+  //       console.log(x)
+  //     }
+  //   )
+  // }
+   
 }

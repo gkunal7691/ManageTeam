@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { LoginService } from '../../../services';
+import { add } from 'ngx-bootstrap/chronos/public_api';
 const swal = require('sweetalert');
 
 @Component({
@@ -87,6 +88,9 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   addTask() {
+    if (this.showDate.getHours() != 0) {
+      this.showDate.setHours(0, 0, 0);
+    }
     let addDueDate = new Date(this.showDate)
     addDueDate.setHours(addDueDate.getHours() + 5, 30);
     if (this.showTaskUpdated == true) {
@@ -116,8 +120,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
-        var x = document.getElementById("day-detail");
-        setTimeout(() => { x.classList.add("show") }, 350);
+        this.cancelTask();
       })
     }
     else {
@@ -143,7 +146,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
           swal('Warning', 'Task cannot be added :)', 'error')
         }
         this.showTask.emit();
-        document.getElementById("cancel").click();
+        this.cancelTask();
         this.taskForm.reset();
         this.showCommentSecton = false;
       })
@@ -179,7 +182,6 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       let estimatedGetTime = this.taskDeatils.estimatedTime;
       let convEstimatedHours = Math.floor(estimatedGetTime / 60);
       let convEstimatedmin = estimatedGetTime % 60;
-      console.log(convEstimatedHours, convEstimatedmin)
       let clientGetTime = this.taskDeatils.clientTime;
       let convclientHours = Math.floor(clientGetTime / 60);
       let convclientMin = clientGetTime % 60;
@@ -261,7 +263,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   cancelTask() {
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
-
+    // this.taskForm.reset();
     // var x = document.getElementById("day-detail")
     // setTimeout(() => { x.classList.add("show") }, 350);
   }
@@ -300,22 +302,22 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       this.taskForm.disable();
     }
     else if (this.sumOfEstimatedTime == 0 && this.taskForm) {
-      console.log("hellp")
+      console.log("addnew")
       this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
     }
     if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
-      console.log("sdasdd")
+      console.log("add")
       let hours = Math.floor(this.sumOfEstimatedTime / 60);
       let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
       this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
       this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
     }
     else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
-      console.log("qweq")
+      console.log("edit")
       let editSum = 480 - this.sumOfEstimatedTime
       // editSum = editSum + this.taskDeatils.estimatedTime;
-      console.log(editSum,this.taskDeatils.estimatedTime)
+      console.log(editSum, this.taskDeatils.estimatedTime)
       let editHour = Math.floor(editSum / 60);
       let editMinute = Math.floor(editSum - editHour * 60);
       console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
