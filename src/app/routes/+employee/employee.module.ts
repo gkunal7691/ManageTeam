@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { DailyTaskComponent } from './daily-task/daily-task.component';
 import { CustomDatePipe } from './custom-date.pipe';
 import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
+import { PositiveValuePipe } from './positive-value.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
     CompleteTodoTaskComponent,
     DayDetailComponent,
     DailyTaskComponent,
-    CustomDatePipe,    
+    CustomDatePipe,
+    PositiveValuePipe
   ],
   imports: [
     CommonModule,
