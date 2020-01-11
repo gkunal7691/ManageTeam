@@ -1,8 +1,8 @@
 <div *ngIf="(date | json) == '{}'" style="height: 160px; width: 100%;justify-content: flex-end; margin-bottom: 1.5rem;">
 </div>
 <div *ngIf="(date | json) != '{}'" style="cursor: pointer;"
-  [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate,'leaveColor': showLeave}" class="card card-default"
-  data-toggle="modal" data-target=".dayDetailModal" (click)="showDay(date)">
+  [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" class="card card-default" data-toggle="modal"
+  data-target=".dayDetailModal" (click)="showDay(date)">
   <div style="height: 160px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
       <div>
@@ -11,7 +11,7 @@
             style="text-decoration: none;color: #656565;float: right;">
             <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
           </a>
-          <em *ngIf="showLeave" class="fa-2x mr-2 fas fa-snowflake float-right"></em>
+          <!-- <em *ngIf="isLeaveDay" class="fa-2x mr-2 fas fa-suitcase float-right"></em> 'background': holiday ? 'lightgray' : 'none',-->
         </div>
       </div>
       <div style="padding-top: 12%;text-align: center;">

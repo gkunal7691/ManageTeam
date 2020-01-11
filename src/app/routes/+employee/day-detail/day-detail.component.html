@@ -209,7 +209,7 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
+<!-- </div> -->
 
 <div class="modal newEstimateTimeModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
   aria-labelledby="myModalLabel" data-focus-on="modal">
@@ -217,7 +217,7 @@
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
         <h4 class="ml-2">Enter Following Times</h4>
-        <button type="button" class="close" (click)="closeEstimateTimeModal()" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" (click)="exitModal()" data-dismiss="modal" aria-label="Close">
           <span>&times;</span>
         </button>
       </div>
@@ -227,91 +227,116 @@
             <div class="col-4 mt-2 ml-2">
               <label>Enter Original Time :</label>
             </div>
-            <div class="row">
-              <div class="col-3 p-0"></div>
-              <div class="col pr-0">
+            <div class="col p-0">
+              <div class="row">
                 <tr>
                   <td class="form-group">
-                    <div class="text-danger pl-4" *ngIf="estimateTimeModalForm.controls['newOriginalHour'].invalid &&
-                      estimateTimeModalForm.controls['newOriginalHour'].touched">
-                      <i>Invalid Original Hour(s).</i>
-                    </div>
+                    <input type="number" class="form-control text-center"
+                      [formControl]="estimateTimeModalForm.controls['newOriginalHour']" placeholder="HH"
+                      style="width: 70px;margin-left:3%;">
                   </td>
-                </tr>
-              </div>
-              <div class="col p-0 pl-1">
-                <tr>
-                  <td class="form-group">
-                    <div class="text-danger" *ngIf="estimateTimeModalForm.controls['newOriginalMin'].invalid &&
-                      estimateTimeModalForm.controls['newOriginalMin'].touched ">
-                      <i>Invalid Original Minute(s).</i>
-                    </div>
+                  <td class="pl-2">
+                    &nbsp; Hour(s) &nbsp;
                   </td>
-                </tr>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-4 ml-2 mt-2">
-                <label>Enter client Time :</label>
-              </div>
-              <div class="col p-0">
-                <div class="row">
-                  <tr>
-                    <td class="form-group">
-                      <input type="number" class="form-control text-center"
-                        [formControl]="estimateTimeModalForm.controls['newClientHour']" placeholder="HH"
-                        style="width: 70px;margin-left: 3%;">
-                    </td>
-                    <td class="pl-2">
-                      &nbsp; Hour(s) &nbsp;
-                    </td>
-                    <td class="pl-1">
-                      <b> &nbsp; : &nbsp; </b>
-                    </td>
-                    <td class="form-group pl-2">
-                      <input type="number" class="form-control text-center"
-                        [formControl]="estimateTimeModalForm.controls['newClientMin']" placeholder="MM"
-                        style="width: 70px;margin-left: 1%;">
-                    </td>
-                    <td class="pl-2">
-                      &nbsp; Minute(s) &nbsp;
-                    </td>
-                  </tr>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3 p-0"></div>
-              <div class="col pr-0">
-                <tr>
-                  <td class="form-group">
-                    <div class="text-danger pl-4" *ngIf="estimateTimeModalForm.controls['newClientHour'].invalid &&
-                    estimateTimeModalForm.controls['newClientHour'].touched ">
-                      <i>Invalid client Hour(s).</i>
-                    </div>
+                  <td class="pl-1">
+                    <b> &nbsp; : &nbsp; </b>
                   </td>
-                </tr>
-              </div>
-              <div class="col p-0 pl-1">
-                <tr>
-                  <td class="form-group">
-                    <div class="text-danger" *ngIf="estimateTimeModalForm.controls['newClientMin'].invalid &&
-                    estimateTimeModalForm.controls['newClientMin'].touched">
-                      <i>Invalid client Minute(s).</i>
-                    </div>
+                  <td class="form-group pl-2">
+                    <input type="number" class="form-control text-center"
+                      [formControl]="estimateTimeModalForm.controls['newOriginalMin']" placeholder="MM"
+                      style="width: 70px;margin-left:1%;">
+                  </td>
+                  <td class="pl-2">
+                    &nbsp; Minute(s) &nbsp;
                   </td>
                 </tr>
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-3 p-0"></div>
+            <div class="col pr-0">
+              <tr>
+                <td class="form-group">
+                  <div class="text-danger pl-4" *ngIf="estimateTimeModalForm.controls['newOriginalHour'].invalid &&
+                      estimateTimeModalForm.controls['newOriginalHour'].touched">
+                    <i>Invalid Original Hour(s).</i>
+                  </div>
+                </td>
+              </tr>
+            </div>
+            <div class="col p-0 pl-1">
+              <tr>
+                <td class="form-group">
+                  <div class="text-danger" *ngIf="estimateTimeModalForm.controls['newOriginalMin'].invalid &&
+                      estimateTimeModalForm.controls['newOriginalMin'].touched ">
+                    <i>Invalid Original Minute(s).</i>
+                  </div>
+                </td>
+              </tr>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-4 ml-2 mt-2">
+              <label>Enter client Time :</label>
+            </div>
+            <div class="col p-0">
+              <div class="row">
+                <tr>
+                  <td class="form-group">
+                    <input type="number" class="form-control text-center"
+                      [formControl]="estimateTimeModalForm.controls['newClientHour']" placeholder="HH"
+                      style="width: 70px;margin-left: 3%;">
+                  </td>
+                  <td class="pl-2">
+                    &nbsp; Hour(s) &nbsp;
+                  </td>
+                  <td class="pl-1">
+                    <b> &nbsp; : &nbsp; </b>
+                  </td>
+                  <td class="form-group pl-2">
+                    <input type="number" class="form-control text-center"
+                      [formControl]="estimateTimeModalForm.controls['newClientMin']" placeholder="MM"
+                      style="width: 70px;margin-left: 1%;">
+                  </td>
+                  <td class="pl-2">
+                    &nbsp; Minute(s) &nbsp;
+                  </td>
+                </tr>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 p-0"></div>
+            <div class="col pr-0">
+              <tr>
+                <td class="form-group">
+                  <div class="text-danger pl-4" *ngIf="estimateTimeModalForm.controls['newClientHour'].invalid &&
+                    estimateTimeModalForm.controls['newClientHour'].touched ">
+                    <i>Invalid client Hour(s).</i>
+                  </div>
+                </td>
+              </tr>
+            </div>
+            <div class="col p-0 pl-1">
+              <tr>
+                <td class="form-group">
+                  <div class="text-danger" *ngIf="estimateTimeModalForm.controls['newClientMin'].invalid &&
+                    estimateTimeModalForm.controls['newClientMin'].touched">
+                    <i>Invalid client Minute(s).</i>
+                  </div>
+                </td>
+              </tr>
+            </div>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="closeEstimateTimeModal()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="exitModal()">
           Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save"
-          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Move
+          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Save
         </button>
       </div>
     </div>
@@ -342,7 +367,7 @@
                 [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
 
               <input *ngIf="!nextDateValue" type="text" class="form-control"
-                [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)"
+                [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)" 
                 (keyup)="getNewDate($event)">
             </div>
             <div class="col-3 p-0 mt-1 pl-3">
@@ -352,7 +377,9 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0"></div>
+            <div class="col-3 p-0">
+
+            </div>
             <div class="col p-0">
               <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
                   nextDateModalForm.controls['newDate'].touched ">
@@ -393,7 +420,9 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0"></div>
+            <div class="col-3 p-0">
+
+            </div>
             <div class="col pl-4 pr-0">
               <tr>
                 <td class="form-group">
@@ -424,7 +453,7 @@
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save" (click)="addNewTask()"
           [disabled]="nextDateModalForm.invalid">
-          Move
+          Save
         </button>
       </div>
     </div>

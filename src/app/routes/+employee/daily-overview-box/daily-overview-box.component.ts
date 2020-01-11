@@ -15,9 +15,8 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   completedTaskList: [] = [];
   inProgressTaskList: [] = [];
   holiday: any;
-  isLeave: any;
-  showLeave: any;
   showCurrentDate: boolean;
+  isLeaveDay: boolean;
   stacked: any[] = [];
   newStacked: any[] = [];
   clientTime: number = 0;
@@ -35,8 +34,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     this.getHoliday();
     this.filterTaskList();
     this.taskCalculation();
-
-    this.filterisLeave();
+    // this.filterLeaveList();
     this.ref.detectChanges();
   }
 
@@ -49,15 +47,10 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   @Input() iscurrentDate: any;
   @Input() leaveData: any;
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   getHoliday() {
-    this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' +
-      (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) ==
-      (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' +
-        (new Date(this.date).getFullYear())));
+    this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' + (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) == (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear())));
   }
 
   showDay(val) {
@@ -96,7 +89,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
       value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
       type: "danger"
     });
-
+    
     this.newStacked.push({
       value: this.completedTaskList.length,
       type: "success"
@@ -109,16 +102,23 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     })
   }
 
-  filterisLeave() {
-    this.isLeave = this.leaveData.find(x => x.status == 'approved');
-    if (this.isLeave) {
-      let isLeavefromDate = new Date(this.isLeave.fromDate).setHours(0, 0, 0);
-      let isLeavetoDate = new Date(this.isLeave.toDate).setHours(0, 0, 0);
-      if (this.date >= isLeavefromDate && this.date <= isLeavetoDate) {
-        this.showLeave = true
-      }
-    }
-  }
+  // filterLeaveList() {
+  //   let d, m1, convertedFromDate, m3, convertedToDate, m4;
+  //   this.leaveData.forEach(date => {
+  //     m1 = date.fromDate;
+  //     d = new Date(m1);
+  //     convertedFromDate = (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear()
+  //     m4 = date.toDate;
+  //     m3 = new Date(m4)
+  //     convertedToDate = (m3.getMonth() + 1) + '/' + m3.getDate() + '/' + m3.getFullYear()
+  //   })
+  //   let dd = new Date(this.date)
+  //   let selectDate = (dd.getMonth() + 1) + '/' + dd.getDate() + '/' + dd.getFullYear()
+  //   if (selectDate <= convertedToDate && selectDate >= convertedFromDate) {
+  //     console.log(this.date)
+  //     this.isLeaveDay = true
+  //   }
+  // }
 
 
 }
