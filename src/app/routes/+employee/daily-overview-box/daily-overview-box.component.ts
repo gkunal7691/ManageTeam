@@ -18,6 +18,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   leaveStatus: any;
   showLeave: any;
   showCurrentDate: boolean;
+  isLeaveDay: boolean;
   stacked: any[] = [];
   newStacked: any[] = [];
   clientTime: number = 0;
@@ -35,8 +36,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     this.getHoliday();
     this.filterTaskList();
     this.taskCalculation();
-
-    this.filterisLeave();
+    // this.filterLeaveList();
     this.ref.detectChanges();
   }
 
