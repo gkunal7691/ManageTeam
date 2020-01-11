@@ -15,6 +15,7 @@ const swal = require('sweetalert');
 })
 
 export class ManageLeaveComponent implements OnInit, AfterViewInit {
+  isPastDate: boolean;
 
   ngAfterViewInit(): void {
     document.getElementsByClassName('panel-collapse')[0].setAttribute('style', 'width:134%;background:white;position:relative;right:34.5%;top:10px;border-radius: 5px');
@@ -51,6 +52,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   isHalfDay: boolean = false;
   selectedStartDate: any;
   selectedEndDate: any;
+  leaveOffDays: any;
 
   displayedColumns: string[] = ["fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
@@ -80,7 +82,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.leaveCalculation();
     this.getDayoff();
     this.getAllHolidayList();
-    
+
   }
 
   formReset() {
@@ -92,53 +94,52 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   pending(value) {
-    this.pendingLeave = value
-    this.allLeave = false
-    this.filterRequestLeave()
+    this.pendingLeave = value;
+    this.allLeave = false;
+    this.filterRequestLeave();
   }
 
   approve(value) {
-    this.approvedLeave = value
-    this.allLeave = false
-    this.filterRequestLeave()
+    this.approvedLeave = value;
+    this.allLeave = false;
+    this.filterRequestLeave();
   }
 
   reject(value) {
-    this.rejectedLeave = value
-    this.allLeave = false
-    this.filterRequestLeave()
+    this.rejectedLeave = value;
+    this.allLeave = false;
+    this.filterRequestLeave();
   }
 
   add(value) {
-    this.addedLeave = value
-    this.allLeave = false
-    this.filterRequestLeave()
+    this.addedLeave = value;
+    this.allLeave = false;
+    this.filterRequestLeave();
   }
 
   cancel(value) {
-    this.cancelledLeave = value
-    this.allLeave = false
-    this.filterRequestLeave()
+    this.cancelledLeave = value;
+    this.allLeave = false;
+    this.filterRequestLeave();
   }
 
   all(value) {
-    this.allLeave = value
-    this.approvedLeave = value
-    this.cancelledLeave = value
-    this.addedLeave = value
-    this.rejectedLeave = value
-    this.pendingLeave = value
-    this.filterRequestLeave()
+    this.allLeave = value;
+    this.approvedLeave = value;
+    this.cancelledLeave = value;
+    this.addedLeave = value;
+    this.rejectedLeave = value;
+    this.pendingLeave = value;
+    this.filterRequestLeave();
   }
 
   filterRequestLeave() {
-    let status = {}
+    let status = {};
     status['ispending'] = this.pendingLeave;
     status['isapprove'] = this.approvedLeave;
     status['isreject'] = this.rejectedLeave;
     status['isadd'] = this.addedLeave;
     status['iscancel'] = this.cancelledLeave;
-    console.log(status)
 
     this.manageLeaveService.getManageLeaveList(status).subscribe(
       (result: any) => {
@@ -154,7 +155,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.manageLeaveService.getTotalLeaves().subscribe(
       (res: any) => {
         this.leaveData = res.data;
-        console.log(this.leaveData)
       })
   }
 
@@ -165,10 +165,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       reason: this.leaveRequestForm.get('reason').value
     }).subscribe(
       (res: any) => {
-        console.log(res);
         this.filterRequestLeave();
         this.leaveCalculation();
-        swal('Success', 'Leave request for ' +res.data.noOfdays+' days successfully sent :)', 'success');
+        swal('Success', 'Leave request for ' + res.data.noOfdays + ' days successfully sent :)', 'success');
         this.formReset();
       })
   }
@@ -178,10 +177,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   updateStatusSwal(value) {
-    console.log(value);
     swal({
       title: "Are you sure ?",
-      text: "Leave request for " +value.noOfdays+ " days will be cancelled!",
+      text: "Leave request for " + value.noOfdays + " days will be cancelled!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -189,18 +187,16 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       if (willRemove) {
         this.updateStatusPopUp(value);
       } else {
-        swal('Cancelled', 'Leave request for ' +value.noOfdays+ ' days is not removed :)', 'error');
+        swal('Cancelled', 'Leave request for ' + value.noOfdays + ' days is not removed :)', 'error');
       }
     });
   }
 
   updateStatusPopUp(value) {
-    console.log(value);
     let leaveId = value.leaveId;
-    console.log(leaveId);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        swal('Deleted', 'Leave request for ' +value.noOfdays+ ' days has been removed :)', 'warning');
+        swal('Deleted', 'Leave request for ' + value.noOfdays + ' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
@@ -208,6 +204,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   getFromDate(date) {
     if (date != null) {
       this.fromDate = date;
+      let currentDate: Date = new Date();
+      var noOfDates = this.fromDate.getDate() - currentDate.getDate();
+      if (noOfDates < 0) {
+        this.isPastDate = true;
+      } else {
+        this.isPastDate = false;
+      }
       if (this.toDate) {
         this.getNoOfDays(this.toDate);
       }
@@ -226,70 +229,87 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.holidayService.getHolidayList().subscribe((res: any) => {
       this.holidayList = res.data;
       this.holidayList.forEach(x => {
-        var date = new Date(x.holidayDate)
-        x.holidayDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+        var date = new Date(x.holidayDate);
+        x.holidayDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
       })
       this.holidayList = this.holidayList.map(x => x.holidayDate);
-      console.log(this.holidayList)
     })
   }
 
   getDayoff() {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
-      this.dayOffList = res.data.map(x => x.weekdayOff);
-      console.log(this.dayOffList)
+      this.dayOffList = res.data.map(x => x.weekdayId);
+      for(let i=0; i<this.dayOffList.length; i++) {
+        if(this.dayOffList[i] == 0) {
+          this.dayOffList[i] = 'sunday';
+        }
+        else if(this.dayOffList[i] == 1) {
+          this.dayOffList[i] = 'monday';
+        }
+        else if(this.dayOffList[i] == 2) {
+          this.dayOffList[i] = 'tuesday';
+        }
+        else if(this.dayOffList[i] == 3) {
+          this.dayOffList[i] = 'wednesday';
+        }
+        else if(this.dayOffList[i] == 4) {
+          this.dayOffList[i] = 'thursday';
+        }
+        else if(this.dayOffList[i] == 5) {
+          this.dayOffList[i] = 'friday';
+        }
+        else if(this.dayOffList[i] == 6) {
+          this.dayOffList[i] = 'saturday';
+        }
+      }
     })
   }
 
   getNoOfDays(val) {
-    this.toDate = val
+    this.toDate = val;
     if (val != null) {
       if (val) {
         var Difference_In_Time = val.getTime() - this.fromDate.getTime();
-        //  this.leaveRequestForm.get("totalDays").setValue(((Difference_In_Time / (1000 * 3600 * 24)) + 1));
-        // this.totaldaysOff = ((Difference_In_Time / (1000 * 3600 * 24)) + 1);
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
           this.invalidDate = true;
         } else {
           this.invalidDate = false;
         }
       }
-      var totaldate = []
-      let fromdate = new Date(this.fromDate)
-      let todate = new Date(this.toDate)
+      var totaldate = [];
+      let fromdate = new Date(this.fromDate);
+      let todate = new Date(this.toDate);
       for (let date = fromdate.getDate(); date <= todate.getDate(); date++) {
         let day: Date = new Date(fromdate);
         totaldate.push(day);
         fromdate.setDate(fromdate.getDate() + 1);
       }
-      console.log(totaldate)
       totaldate.forEach(x => {
         if (x.getDay() == 0) {
-          x.day = 'sunday'
+          x.day = 'sunday';
         }
         if (x.getDay() == 1) {
-          x.day = 'monday'
+          x.day = 'monday';
         }
         if (x.getDay() == 2) {
-          x.day = 'tuesday'
+          x.day = 'tuesday';
         }
         if (x.getDay() == 3) {
-          x.day = 'wednesday'
+          x.day = 'wednesday';
         }
         if (x.getDay() == 4) {
-          x.day = 'thursday'
+          x.day = 'thursday';
         }
         if (x.getDay() == 5) {
-          x.day = 'friday'
+          x.day = 'friday';
         }
         if (x.getDay() == 6) {
-          x.day = 'saturday'
+          x.day = 'saturday';
         }
       })
-      console.log(totaldate);
 
-      let y = totaldate.filter(x => !this.dayOffList.includes(x.day) && !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()))
-      console.log(y);
+      let y = totaldate.filter(x => !this.dayOffList.includes(x.day) &&
+      !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {
