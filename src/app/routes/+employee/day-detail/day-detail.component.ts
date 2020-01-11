@@ -163,7 +163,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
         this.orginalSpentTime += task.originalTime;
         this.estimatedTime += task.estimatedTime;
       }
-    })
+    });
     this.stacked.push({
       value: this.orginalSpentTime,
       type: "success"

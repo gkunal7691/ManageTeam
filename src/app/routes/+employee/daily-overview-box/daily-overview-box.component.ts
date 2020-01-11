@@ -15,7 +15,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   completedTaskList: [] = [];
   inProgressTaskList: [] = [];
   holiday: any;
-  isLeave: any;
+  leaveStatus: any;
   showLeave: any;
   showCurrentDate: boolean;
   stacked: any[] = [];
@@ -49,15 +49,10 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   @Input() iscurrentDate: any;
   @Input() leaveData: any;
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   getHoliday() {
-    this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' +
-      (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) ==
-      (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' +
-        (new Date(this.date).getFullYear())));
+    this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' + (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) == (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear())));
   }
 
   showDay(val) {
@@ -110,13 +105,15 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   }
 
   filterisLeave() {
-    this.isLeave = this.leaveData.find(x => x.status == 'approved');
-    if (this.isLeave) {
-      let isLeavefromDate = new Date(this.isLeave.fromDate).setHours(0, 0, 0);
-      let isLeavetoDate = new Date(this.isLeave.toDate).setHours(0, 0, 0);
-      if (this.date >= isLeavefromDate && this.date <= isLeavetoDate) {
-        this.showLeave = true
-      }
+    if (this.leaveData) {
+      this.leaveData.forEach(d => {
+        let isLeavefromDate = new Date(d.fromDate).setHours(0, 0, 0);
+        let isLeavetoDate = new Date(d.toDate).setHours(0, 0, 0);
+        if (this.date >= isLeavefromDate && this.date <= isLeavetoDate) {
+          this.showLeave = true;
+          this.leaveStatus = d.status;
+        }
+      })
     }
   }
 

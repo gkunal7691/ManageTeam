@@ -12,13 +12,17 @@ p {
 }
 
 .holidayColor {
-  background: lightgrey!important;
+  background: lightgrey !important;
 }
 
 .currentDate {
   background: #c8f3cb;
 }
 
-// .leaveColor {
-//   // background: lightblue;
-// }
+.leaveApproved {
+  color: #27c24c;
+}
+
+.leavePending {
+  color: #ff902b;
+}

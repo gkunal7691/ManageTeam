@@ -93,7 +93,7 @@ export class TimeAttendanceComponent implements OnInit {
   }
 
   showWeekoff(value) {
-    if (value) {
+    if (value && this.weekdayIds) {
       this.weekdayIds.forEach(id => {
         if (id == 1) {
           this.mondayArray = [];
@@ -293,7 +293,12 @@ export class TimeAttendanceComponent implements OnInit {
     this.monthArray.forEach(allday => {
       this.holidayList.forEach(date => {
         if (((allday.getMonth() + 1) + '/' + allday.getDate() + '/' + allday.getFullYear()) == date.holidayDate) {
-          holidayDaycount++;
+          this.weekdayIds.forEach(dayoff => {
+            // console.log(allday.getDay(),dayoff,new Date(date.holidayDate).getDate())
+            if (dayoff != allday.getDay()) {
+              holidayDaycount++;
+            }
+          })
         }
       })
     })
