@@ -167,7 +167,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       (res: any) => {
         this.filterRequestLeave();
         this.leaveCalculation();
-        swal('Success', 'Leave request for ' + res.data.noOfdays + ' days successfully sent :)', 'success');
+        swal('Success', 'Leave request for ' + this.leaveRequestForm.get("totalDays").value + ' days successfully sent :)', 'success');
         this.formReset();
       })
   }
@@ -177,9 +177,12 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   updateStatusSwal(value) {
+    let totalLeaveDays = value.noOfdays;
+    if (totalLeaveDays < 0)
+      totalLeaveDays = Math.abs(totalLeaveDays);
     swal({
       title: "Are you sure ?",
-      text: "Leave request for " + value.noOfdays + " days will be cancelled!",
+      text: "Leave request for " + totalLeaveDays + " days will be cancelled!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -187,16 +190,19 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       if (willRemove) {
         this.updateStatusPopUp(value);
       } else {
-        swal('Cancelled', 'Leave request for ' + value.noOfdays + ' days is not removed :)', 'error');
+        swal('Cancelled', 'Leave request for ' + totalLeaveDays + ' days is not removed :)', 'error');
       }
     });
   }
 
   updateStatusPopUp(value) {
     let leaveId = value.leaveId;
+    let totalLeaveDays = value.noOfdays;
+    if (totalLeaveDays < 0)
+      totalLeaveDays = Math.abs(totalLeaveDays);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        swal('Deleted', 'Leave request for ' + value.noOfdays + ' days has been removed :)', 'warning');
+        swal('Deleted', 'Leave request for ' + totalLeaveDays + ' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
@@ -239,26 +245,26 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   getDayoff() {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
       this.dayOffList = res.data.map(x => x.weekdayId);
-      for(let i=0; i<this.dayOffList.length; i++) {
-        if(this.dayOffList[i] == 0) {
+      for (let i = 0; i < this.dayOffList.length; i++) {
+        if (this.dayOffList[i] == 0) {
           this.dayOffList[i] = 'sunday';
         }
-        else if(this.dayOffList[i] == 1) {
+        else if (this.dayOffList[i] == 1) {
           this.dayOffList[i] = 'monday';
         }
-        else if(this.dayOffList[i] == 2) {
+        else if (this.dayOffList[i] == 2) {
           this.dayOffList[i] = 'tuesday';
         }
-        else if(this.dayOffList[i] == 3) {
+        else if (this.dayOffList[i] == 3) {
           this.dayOffList[i] = 'wednesday';
         }
-        else if(this.dayOffList[i] == 4) {
+        else if (this.dayOffList[i] == 4) {
           this.dayOffList[i] = 'thursday';
         }
-        else if(this.dayOffList[i] == 5) {
+        else if (this.dayOffList[i] == 5) {
           this.dayOffList[i] = 'friday';
         }
-        else if(this.dayOffList[i] == 6) {
+        else if (this.dayOffList[i] == 6) {
           this.dayOffList[i] = 'saturday';
         }
       }
@@ -309,7 +315,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       })
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) &&
-      !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
+        !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {
@@ -318,15 +324,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.isvalid = false;
       }
     }
-  }
-
-  getDayOffList() {
-    // console.log(this.dayoffService.getDayoffList())
-    this.dayoffService.getDayoffList().subscribe(
-      (result: any) => {
-        console.log(result)
-      }
-    )
   }
 
 }
