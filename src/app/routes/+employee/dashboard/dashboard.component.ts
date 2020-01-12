@@ -20,7 +20,7 @@ export class Dashboardv3Component implements OnInit {
   ngOnInit() {
     this.divHeight = (window.innerHeight - 49) + 'px';
     this.getTaskList();
-    this.currentDate.setHours(0, 0, 0);
+    this.currentDate.setHours(this.currentDate.getHours() + 5, 30);
     this.goToPresentDay();
 
   }
@@ -40,7 +40,7 @@ export class Dashboardv3Component implements OnInit {
     this.taskList = [];
     this.currentDate.setDate(this.currentDate.getDate() - 1);
     this.convertedDate = new Date(this.currentDate);
-    let previousDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();  
+    let previousDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
     this.taskService.getSingleTask({ dueDate: previousDate }).subscribe((res: any) => {
       this.taskList = res.data;
       this.showLoader = false;
@@ -69,17 +69,5 @@ export class Dashboardv3Component implements OnInit {
       this.taskList = res.data;
       this.showLoader = false;
     })
-    // //for disable button
-    // console.log(currentDay);
-    // console.log(newDate);
-    // let compareDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
-    // console.log(compareDate);
-    // if(currentDay == compareDate) {
-    //   console.log("in current day");
-    //   this.showButton = false;
-    // } else{
-    //   console.log("in different day");
-    //   this.showButton = true;
-    // }
   }
 }
