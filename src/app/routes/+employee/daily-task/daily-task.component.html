@@ -23,7 +23,7 @@
                 <label class="mb-0 mt-2">Title</label>
               </div>
               <div class="row">
-                <input type="text" class="form-control mb-1" [formControl]="taskForm.controls['title']" required>
+                <input type="text" class="form-control mb-1" [formControl]="taskForm.controls['title']">
                 <div class="text-danger" *ngIf="taskForm.controls['title'].invalid &&
                     taskForm.controls['title'].touched">
                   <i>You must enter the title.</i>

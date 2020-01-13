@@ -167,7 +167,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       (res: any) => {
         this.filterRequestLeave();
         this.leaveCalculation();
-        swal('Success', 'Leave request for ' + this.leaveRequestForm.get("totalDays").value + ' days successfully sent :)', 'success');
+        swal('Success', 'Leave request for '+ this.leaveRequestForm.get("totalDays").value +' days successfully sent :)', 'success');
         this.formReset();
       })
   }
@@ -190,7 +190,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       if (willRemove) {
         this.updateStatusPopUp(value);
       } else {
-        swal('Cancelled', 'Leave request for ' + totalLeaveDays + ' days is not removed :)', 'error');
+        swal('Cancelled', 'Leave request for '+ totalLeaveDays +' days is not removed :)', 'error');
       }
     });
   }
@@ -202,7 +202,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       totalLeaveDays = Math.abs(totalLeaveDays);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        swal('Deleted', 'Leave request for ' + totalLeaveDays + ' days has been removed :)', 'warning');
+        swal('Deleted', 'Leave request for '+ totalLeaveDays +' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
