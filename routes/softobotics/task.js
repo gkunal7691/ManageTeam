@@ -6,8 +6,7 @@ const User = require('../../models').User;
 var currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
 var convertedDate = new Date(currentDate);
-var compareConvertedDate = convertedDate.getDate()
-
+var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
   req.body.createdById = req.user.id;
@@ -30,7 +29,6 @@ router.post('/', async function (req, res, next) {
 
 
 router.post('/getTask/dueDate', async function (req, res, next) {
-  console.log(req.body.firstDay, req.body.lastDay)
   task.findAll({
     where: {
       dueDate: {
@@ -57,7 +55,7 @@ router.post('/getSingleTask', async function (req, res, next) {
   let newDueDate = new Date(req.body.dueDate);
   newDueDate.setHours(newDueDate.getHours() + 5, 30);
   task.findAll({
-    where: { dueDate: newDueDate, organizationId: req.user.orgId, userId: req.user.id },
+    where: { dueDate: req.body.dueDate, organizationId: req.user.orgId, userId: req.user.id },
     include: [
       {
         model: Comment, include: [

@@ -3,7 +3,6 @@ import { DayoffService } from '../../../services/dayoff.service';
 import { HolidayService } from '../../../services/holiday.service';
 import { TaskService } from '../../../services/task.service';
 import { ManageLeaveService } from '../../../services/manage-leave.service';
-import { empty } from 'rxjs';
 import { ColorsService } from '../../../shared/colors/colors.service';
 
 @Component({
@@ -93,7 +92,7 @@ export class TimeAttendanceComponent implements OnInit {
   }
 
   showWeekoff(value) {
-    if (value) {
+    if (value && this.weekdayIds) {
       this.weekdayIds.forEach(id => {
         if (id == 1) {
           this.mondayArray = [];
@@ -293,7 +292,12 @@ export class TimeAttendanceComponent implements OnInit {
     this.monthArray.forEach(allday => {
       this.holidayList.forEach(date => {
         if (((allday.getMonth() + 1) + '/' + allday.getDate() + '/' + allday.getFullYear()) == date.holidayDate) {
-          holidayDaycount++;
+          this.weekdayIds.forEach(dayoff => {
+            // console.log(allday.getDay(),dayoff,new Date(date.holidayDate).getDate())
+            if (dayoff != allday.getDay()) {
+              holidayDaycount++;
+            }
+          })
         }
       })
     })
@@ -314,11 +318,9 @@ export class TimeAttendanceComponent implements OnInit {
   }
 
   filterRequestLeave() {
-
     let status = {}
     status['ispending'] = true;
     status['isapprove'] = true;
-
     this.manageLeaveService.getManageLeaveList(status).subscribe(
       (result: any) => {
         this.leaveRequestList = result.data;

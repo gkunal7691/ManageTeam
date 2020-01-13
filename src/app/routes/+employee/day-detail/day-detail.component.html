@@ -1,5 +1,5 @@
 <!-- <div class="modal fade dayDetailModal pl-2 pr-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="delay"
-  aria-hidden="true"> -->
+  aria-hidden="true" style="position: relative;"> -->
 <div [ngClass]="modalCenter == true ? 'modal-dialog modal-dialog-centered' : 'modal-dialog modal-width m-0 mb-3'"
   class="modal-lg">
   <div class="modal-content">
@@ -309,7 +309,7 @@
               <tr>
                 <td class="form-group">
                   <div class="text-danger pl-4" *ngIf="estimateTimeModalForm.controls['newClientHour'].invalid &&
-            estimateTimeModalForm.controls['newClientHour'].touched ">
+                    estimateTimeModalForm.controls['newClientHour'].touched ">
                     <i>Invalid client Hour(s).</i>
                   </div>
                 </td>
@@ -319,7 +319,7 @@
               <tr>
                 <td class="form-group">
                   <div class="text-danger" *ngIf="estimateTimeModalForm.controls['newClientMin'].invalid &&
-            estimateTimeModalForm.controls['newClientMin'].touched">
+                    estimateTimeModalForm.controls['newClientMin'].touched">
                     <i>Invalid client Minute(s).</i>
                   </div>
                 </td>
@@ -329,17 +329,17 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="exitModal()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+          (click)="closeEstimateTimeModal()">
           Close
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save"
-          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Save
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move"
+          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Move
         </button>
       </div>
     </div>
   </div>
 </div>
-<!-- </div> -->
 
 <div class="modal nextDateModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
   aria-labelledby="myModalLabel" data-focus-on="modal">
@@ -377,8 +377,10 @@
           <div class="row">
             <div class="col-3 p-0"></div>
             <div class="col p-0">
+              <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
+              <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span>
               <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
-                  nextDateModalForm.controls['newDate'].touched ">
+                  nextDateModalForm.controls['newDate'].touched">
                 <i>Invalid Date.</i>
               </div>
             </div>
@@ -445,7 +447,7 @@
           (click)="closeNextDateModal()">
           Close
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save" (click)="addNewTask()"
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="addNewTask()"
           [disabled]="nextDateModalForm.invalid">
           Move
         </button>
