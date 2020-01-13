@@ -4,7 +4,7 @@
     class="modal-lg">
     <div class="modal-content">
       <div class="modal-header pb-1">
-        <div class="col-8">
+        <div class="col-8 pl-0" style="color: rgba(15, 14, 14, 0.87);">
           <h4 class="pt-2">{{_date | date:'fullDate'}}</h4>
         </div>
         <div class="float-right">
@@ -32,7 +32,7 @@
                 <tabset class="bg-white p-0" justified="true">
                   <tab>
                     <ng-template tabHeading>
-                      <em class="far fa-clock fa-fw"></em> Planned Tasks
+                      <em class="far fa-clock fa-fw"></em>Planned Tasks
                     </ng-template>
                     <div class="list-group mb-0" *ngFor="let task of plannedTaskList">
                       <div class="list-group-item">
@@ -84,7 +84,7 @@
                   </tab>
                   <tab>
                     <ng-template tabHeading>
-                      <em class="fas fa-hourglass-half"></em> In Progress Tasks
+                      <em class="fas fa-hourglass-half"></em>In Progress Tasks
                     </ng-template>
                     <div class="list-group mb-0" *ngFor="let task of progressTaskList">
                       <div class="list-group-item">
@@ -134,7 +134,7 @@
                   </tab>
                   <tab>
                     <ng-template tabHeading>
-                      <em class="fas fa-check-circle normalColor"></em> Completed Tasks
+                      <em class="fas fa-check-circle normalColor"></em>Completed Tasks
                     </ng-template>
                     <div class="list-group mb-0" *ngFor="let task of completedTaskList">
                       <div class="list-group-item">
@@ -217,7 +217,7 @@
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
         <h4 class="ml-2">Enter Following Times</h4>
-        <button type="button" class="close" (click)="exitModal()" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" (click)="closeEstimateTimeModal()" data-dismiss="modal" aria-label="Close">
           <span>&times;</span>
         </button>
       </div>
@@ -332,11 +332,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="exitModal()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="closeEstimateTimeModal()">
           Close
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save"
-          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Save
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move"
+          (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Move
         </button>
       </div>
     </div>
@@ -377,12 +377,12 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col p-0">
+              <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
+              <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span>
               <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
-                  nextDateModalForm.controls['newDate'].touched ">
+                  nextDateModalForm.controls['newDate'].touched">
                 <i>Invalid Date.</i>
               </div>
             </div>
@@ -420,9 +420,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 p-0">
-
-            </div>
+            <div class="col-3 p-0"></div>
             <div class="col pl-4 pr-0">
               <tr>
                 <td class="form-group">
@@ -451,9 +449,9 @@
           (click)="closeNextDateModal()">
           Close
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save" (click)="addNewTask()"
-          [disabled]="nextDateModalForm.invalid">
-          Save
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" 
+          (click)="addNewTask()" [disabled]="nextDateModalForm.invalid">
+          Move
         </button>
       </div>
     </div>
