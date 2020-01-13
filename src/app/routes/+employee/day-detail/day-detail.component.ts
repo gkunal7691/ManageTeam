@@ -69,18 +69,16 @@ export class DayDetailComponent implements OnInit, OnChanges {
   leaveRequestList: any;
 
   ngOnChanges(changes: SimpleChanges) {
+    this.ngOnInit();
     this.nextDateValue = true;
-
     this.stacked = [];
     this.newStacked = [];
     this._date = this.showRecentDate;
     this.taskList = this.allTasksList;
     this.getTaskList();
-
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     }
-
     this.taskCalculation();
     this.ref.detectChanges();
   }
@@ -240,7 +238,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   closeEstimateTimeModal() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    setTimeout(() => { x.classList.add("modal-open") }, 400);
     this.estimateTimeModalForm.reset();
 
     if (this.nextDateModalForm.get('newNextDate').value == '') {
@@ -250,7 +248,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   closeNextDateModal() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    setTimeout(() => { x.classList.add("modal-open") }, 420);
     this.nextDateModalForm.reset();
 
     if (this.nextDateModalForm.get('newNextDate').value == '') {
@@ -270,7 +268,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
       originalTime: this.totalOriginalTime, clientTime: this.totalClientTime, taskId: this.taskId, status: this.status
     }).subscribe((res: any) => {
       swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' tasks', 'success');
-      this.closeEstimateTimeModal();
+      document.getElementById("cancel").click();
+      // this.closeEstimateTimeModal();
       this.getupadtedTask();
     })
   }
@@ -414,7 +413,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.taskService.editTask({
       taskId: this.taskDeatils.taskId, clonned: 'Yes'
     }).subscribe((res: any) => {
-      this.closeNextDateModal();
+      document.getElementById("cancel").click();
+      // this.closeNextDateModal();
       this.getupadtedTask();
     })
 
@@ -461,7 +461,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
         else {
           swal('Success', 'Task(#' + this.taskDeatils.taskId + ') has been moved to ' + newDate, 'success');
         }
-        this.closeEstimateTimeModal();
+        // this.closeEstimateTimeModal();
         this.getupadtedTask();
       })
     }

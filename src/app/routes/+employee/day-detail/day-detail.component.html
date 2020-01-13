@@ -59,11 +59,11 @@
                       </div>
                       <a data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
                         <span *ngIf="task.clientTime != 0" class="badge badge-success float-right mr-1">C :
-                          {{task.clientTime | customDate}}</span>
+                          {{task?.clientTime | customDate}}</span>
                         <span *ngIf="task.clientTime != 0" class="badge badge-warning float-right mr-1">S :
-                          {{task.originalTime | customDate}}</span>
-                        <span class="badge badge-info float-right mr-1">E : {{task.estimatedTime | customDate}}</span>
-                        <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task.comments.length}})</em>
+                          {{task?.originalTime | customDate}}</span>
+                        <span class="badge badge-info float-right mr-1">E : {{task?.estimatedTime | customDate}}</span>
+                        <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
                         <em *ngIf="task.clonned" class="fas fa-copy mr-2"></em>
                         <em class="far fa-clock fa-fw mr-2"></em>
                         <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
@@ -71,10 +71,10 @@
                         <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                         <ng-template #toolTipTemplate>
-                          {{ task.title }}
+                          {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }}
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task?.title | slice:0:45 }}
                           <span *ngIf="task?.title.length > 45">...</span>
                         </em>
                       </a>
@@ -110,21 +110,21 @@
                       </div>
                       <a data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
                         <span *ngIf="task.clientTime != 0" class="badge badge-success float-right mr-1">C :
-                          {{task.clientTime | customDate}}</span>
+                          {{task?.clientTime | customDate}}</span>
                         <span *ngIf="task.clientTime != 0" class="badge badge-warning float-right mr-1">S :
-                          {{task.originalTime | customDate}}</span>
-                        <span class="badge badge-info float-right mr-1">E : {{task.estimatedTime | customDate}}</span>
-                        <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task.comments.length}})</em>
+                          {{task?.originalTime | customDate}}</span>
+                        <span class="badge badge-info float-right mr-1">E : {{task?.estimatedTime | customDate}}</span>
+                        <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
                         <em class="fas fa-hourglass-half mr-2"></em>
                         <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                         <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
                         <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                         <ng-template #toolTipTemplate>
-                          {{ task.title }}
+                          {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
                         </em>
                       </a>
                     </div>
@@ -153,21 +153,21 @@
                         </div>
                       </div>
                       <a data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
-                        <span class="badge badge-success float-right mr-1">C : {{task.clientTime | customDate}}</span>
+                        <span class="badge badge-success float-right mr-1">C : {{task?.clientTime | customDate}}</span>
                         <span class="badge badge-warning float-right mr-1">S :
-                          {{task.originalTime | customDate}}</span>
-                        <span class="badge badge-info float-right mr-1">E : {{task.estimatedTime | customDate}}</span>
-                        <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task.comments.length}})</em>
+                          {{task?.originalTime | customDate}}</span>
+                        <span class="badge badge-info float-right mr-1">E : {{task?.estimatedTime | customDate}}</span>
+                        <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
                         <em class="fas fa-check-circle normalColor mr-2"></em>
                         <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                         <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
                         <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                         <ng-template #toolTipTemplate>
-                          {{ task.title }}
+                          {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                          #&nbsp;{{ task.taskId }}&nbsp;: {{ task?.title | slice:0:45 }} ...
                         </em>
                       </a>
                     </div>
@@ -181,24 +181,26 @@
     </div>
     <div class="modal-footer">
       <div class="col-4">
-        <a href="#" [tooltip]="toolTipTaskTemplate" style="text-decoration: none;color: #656565;">
-          <progressbar class="progress" [value]="newStacked"
+        <a href="#" *ngIf="completedTaskList || progressTaskList || plannedTaskList" [tooltip]="toolTipTaskTemplate"
+          style="text-decoration: none;color: #656565;">
+          <progressbar *ngIf="newStacked" class="progress" [value]="newStacked"
             [max]="(plannedTaskList.length+progressTaskList.length+completedTaskList.length)">
           </progressbar>
-          <span style="font-size: 10px;margin-bottom:5px">Completed / Progress / Planned ({{completedTaskList.length}}
-            / {{progressTaskList.length}} / {{(plannedTaskList.length)}})
+          <span style="font-size: 10px;margin-bottom:5px">Completed / Progress / Planned ({{completedTaskList?.length}}
+            / {{progressTaskList?.length}} / {{(plannedTaskList?.length)}})
           </span>
         </a>
       </div>
       <div class="col-5 pr-0 mr-0">
-        <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
-          <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
-          <span style="font-size: 10px;margin-bottom:5px">Spent / Estimated / Total Time
-            ({{orginalSpentTime | customDate}}
-            / {{estimatedTime | customDate}} / {{480 | customDate}})</span>
+        <a href="#" *ngIf="orginalSpentTime || estimatedTime" [tooltip]="toolTipTimeTemplate"
+          style="text-decoration: none;color: #656565;">
+          <progressbar *ngIf="stacked" class="progress" [value]="stacked" [max]="480"></progressbar>
+          <span *ngIf="orginalSpentTime || estimatedTime" style="font-size: 10px;margin-bottom:5px">Spent / Estimated /
+            Total Time ({{orginalSpentTime | customDate}} / {{estimatedTime | customDate}} /
+            {{480 | customDate}})</span>
         </a>
       </div>
-      <div *ngIf="clientTime" class="col-3">
+      <div *ngIf="clientTime || orginalSpentTime" class="col-3">
         <div class="sparkline inline float-right" [sparkline]="sparkOptionsInfo"
           values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
         </div>

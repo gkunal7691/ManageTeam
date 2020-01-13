@@ -92,17 +92,16 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
         this.estimatedTime += task.estimatedTime;
       }
     })
-
-      this.stacked.push({
-        value: this.orginalSpentTime,
-        type: "success"
-      }, {
-        value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
-        type: "info"
-      }, {
-        value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
-        type: "danger"
-      });
+    this.stacked.push({
+      value: this.orginalSpentTime,
+      type: "success"
+    }, {
+      value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
+      type: "info"
+    }, {
+      value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
+      type: "danger"
+    });
   }
 
   filterisLeave() {
