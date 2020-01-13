@@ -3,6 +3,9 @@ import { ColorsService } from '../../../shared/colors/colors.service';
 import { TaskService } from '../../../services/task.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DayoffService } from '../../../services/dayoff.service';
+import { HolidayService } from '../../../services/holiday.service';
+import { ManageLeaveService } from '../../../services/manage-leave.service';
 const swal = require('sweetalert');
 
 @Component({
@@ -24,6 +27,11 @@ export class DayDetailComponent implements OnInit, OnChanges {
   taskDeatils: any;
   status: any;
   showForm: boolean;
+
+  dayOffList: any;
+  isDayOff: boolean;
+  isHoliday: boolean;
+  isLeaveRequested: boolean;
 
   modalCenter: boolean;
 
@@ -57,6 +65,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
   bsConfig = {
     containerClass: 'theme-angle'
   }
+  holidayList: any;
+  leaveRequestList: any;
 
   ngOnChanges(changes: SimpleChanges) {
     this.nextDateValue = true;
@@ -66,14 +76,18 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this._date = this.showRecentDate;
     this.taskList = this.allTasksList;
     this.getTaskList();
+
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     }
+
     this.taskCalculation();
     this.ref.detectChanges();
   }
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
+    private dayoffService: DayoffService, private holidayService: HolidayService,
+    private manageLeaveService: ManageLeaveService,
     private taskService: TaskService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
@@ -90,6 +104,10 @@ export class DayDetailComponent implements OnInit, OnChanges {
       newDate: [''],
       newNextDate: ['']
     })
+
+    this.isDayOff = false;
+    this.isHoliday = false;
+
   }
 
   getTaskList() {
@@ -220,16 +238,24 @@ export class DayDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  exitModal() {
+  closeEstimateTimeModal() {
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
     this.estimateTimeModalForm.reset();
+
+    if (this.nextDateModalForm.get('newNextDate').value == '') {
+      this.nextDateValue = true;
+    }
   }
 
   closeNextDateModal() {
     var x = document.getElementById("testing")
     setTimeout(() => { x.classList.add("modal-open") }, 350);
     this.nextDateModalForm.reset();
+
+    if (this.nextDateModalForm.get('newNextDate').value == '') {
+      this.nextDateValue = true;
+    }
   }
 
   addNewEstimateTime() {
@@ -239,62 +265,203 @@ export class DayDetailComponent implements OnInit, OnChanges {
     let newOriginalHour = this.estimateTimeModalForm.get('newOriginalHour').value;
     let newOriginalMin = this.estimateTimeModalForm.get('newOriginalMin').value;
     this.totalOriginalTime = (newOriginalHour * 60) + newOriginalMin;
+
     this.taskService.editTask({
       originalTime: this.totalOriginalTime, clientTime: this.totalClientTime, taskId: this.taskId, status: this.status
     }).subscribe((res: any) => {
-      this.exitModal();
+      swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' tasks', 'success');
+      this.closeEstimateTimeModal();
       this.getupadtedTask();
-      swal('Success', 'Task(#' + this.taskId + ') has been moved to ' + this.status + ' Tasks', 'success');
     })
   }
 
   getNewDate(val) {
     this.calenderDate = val;
-    if(this.nextDateModalForm.get('newNextDate').value == '') {
+    console.log(this.calenderDate);
+
+    if (this.nextDateModalForm.get('newNextDate').value == '') {
       this.nextDateValue = true;
     }
+
+    let selectedDay;
+    if (this.calenderDate) {
+      selectedDay = this.calenderDate.getDay();
+    }
+    if (selectedDay == 0) {
+      selectedDay = 'sunday';
+    }
+    else if (selectedDay == 1) {
+      selectedDay = 'monday';
+    }
+    else if (selectedDay == 2) {
+      selectedDay = 'tuesday';
+    }
+    else if (selectedDay == 3) {
+      selectedDay = 'wednesday';
+    }
+    else if (selectedDay == 4) {
+      selectedDay = 'thursday';
+    }
+    else if (selectedDay == 5) {
+      selectedDay = 'friday';
+    }
+    else if (selectedDay == 6) {
+      selectedDay = 'saturday';
+    }
+
+    this.dayoffService.getDayoffList().subscribe((res: any) => {
+      this.dayOffList = res.data.map(x => x.weekdayId);
+      for (let i = 0; i < this.dayOffList.length; i++) {
+        if (this.dayOffList[i] == 0) {
+          this.dayOffList[i] = 'sunday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+        else if (this.dayOffList[i] == 1) {
+          this.dayOffList[i] = 'monday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+        else if (this.dayOffList[i] == 2) {
+          this.dayOffList[i] = 'tuesday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+        else if (this.dayOffList[i] == 3) {
+          this.dayOffList[i] = 'wednesday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+        else if (this.dayOffList[i] == 4) {
+          this.dayOffList[i] = 'thursday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+        else if (this.dayOffList[i] == 5) {
+          this.dayOffList[i] = 'friday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+        else if (this.dayOffList[i] == 6) {
+          this.dayOffList[i] = 'saturday';
+          if (this.dayOffList[i] == selectedDay) {
+            this.isDayOff = true;
+            break;
+          } else {
+            this.isDayOff = false;
+          }
+        }
+      }
+    })
+
+    this.holidayService.getHolidayList().subscribe((res: any) => {
+      this.isHoliday = false;
+      let date = new Date(this.calenderDate);
+      this.calenderDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+      this.holidayList = res.data;
+      this.holidayList.forEach(x => {
+        let date = new Date(x.holidayDate);
+        x.holidayDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+        if (x.holidayDate == this.calenderDate) {
+          this.isHoliday = true;
+        }
+      })
+      this.holidayList = this.holidayList.map(x => x.holidayDate);
+    })
+
+    this.manageLeaveService.getManageLeaveList(status).subscribe(
+      (result: any) => {
+        this.leaveRequestList = result.data;
+      })
+
   }
 
   getSelectedTaskDeatils(task) {
     this.showForm = true;
     this.taskDeatils = task;
-    console.log(this.taskDeatils)
+    console.log(this.taskDeatils);
   }
 
   addNewTask() {
     let newEstimatedHour = this.nextDateModalForm.get('newEstimatedHour').value;
     let newEstimatedMin = this.nextDateModalForm.get('newEstimatedMin').value;
     this.totalEstimatedTime = (newEstimatedHour * 60) + newEstimatedMin;
+
     this.taskService.editTask({
       taskId: this.taskDeatils.taskId, clonned: 'Yes'
     }).subscribe((res: any) => {
       this.closeNextDateModal();
       this.getupadtedTask();
     })
-    console.log(this.calenderDate)
-    console.log(this.nextDate)
+
+    //for moving task to selected date.
+
     if (this.calenderDate) {
+      console.log(this.calenderDate);
       this.taskService.addTask({
         title: this.taskDeatils.title, description: this.taskDeatils.description,
         dueDate: this.calenderDate, priority: this.taskDeatils.priority, status: this.taskDeatils.status,
         estimatedTime: this.totalEstimatedTime, originalTime: this.taskDeatils.originalTime, clientTime: this.taskDeatils.clientTime,
         assignee: this.taskDeatils.userId,
       }).subscribe((res: any) => {
-        console.log(res.data)
+        console.log(res.data);
+        let newDate = (new Date(this.calenderDate).getMonth() + 1) + '/' +
+          (new Date(this.calenderDate).getDate() + 1) + '/' + (new Date(this.calenderDate).getFullYear());
+        if (res.data == 'Error Cant Add') {
+          swal('Warning', 'Task(#' + this.taskDeatils.taskId + ') can not be moved to ' + newDate, 'error');
+        }
+        else {
+          swal('Success', 'Task(#' + this.taskDeatils.taskId + ') has been moved to ' + newDate, 'success');
+        }
         this.closeNextDateModal();
         this.getupadtedTask();
       })
     }
+
+    //for moving task to next date(tomorrow).
+
     if (this.nextDate) {
-      console.log(this.nextDate)
+      console.log(this.nextDate);
       this.taskService.addTask({
         title: this.taskDeatils.title, description: this.taskDeatils.description,
         dueDate: this.nextDate, priority: this.taskDeatils.priority, status: this.taskDeatils.status,
         estimatedTime: this.totalEstimatedTime, originalTime: this.taskDeatils.originalTime, clientTime: this.taskDeatils.clientTime,
         assignee: this.taskDeatils.userId,
       }).subscribe((res: any) => {
-        console.log(res.data)
-        this.exitModal();
+        console.log(res.data);
+        let newDate = (new Date(this.nextDate).getMonth() + 1) + '/' +
+          (new Date(this.nextDate).getDate()) + '/' + (new Date(this.nextDate).getFullYear());
+        if (res.data == 'Error Cant Add') {
+          swal('Warning', 'Task(#' + this.taskDeatils.taskId + ') can not be moved to ' + newDate, 'error');
+        }
+        else {
+          swal('Success', 'Task(#' + this.taskDeatils.taskId + ') has been moved to ' + newDate, 'success');
+        }
+        this.closeEstimateTimeModal();
         this.getupadtedTask();
       })
     }
@@ -303,11 +470,14 @@ export class DayDetailComponent implements OnInit, OnChanges {
   moveToNextDate() {
     this.nextDateValue = false;
     console.log(this._date);
-    let addnextDate = (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getDate() + 1) + '/' + (new Date(this._date).getFullYear());
+    let addnextDate = (new Date(this._date).getMonth() + 1) + '/' +
+      (new Date(this._date).getDate() + 1) + '/' + (new Date(this._date).getFullYear());
     this.nextDate = new Date(addnextDate);
     this.nextDate.setHours(this.nextDate.getHours() + 5, 30);
     console.log(this.nextDate);
     this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
+
+    this.getNewDate(addnextDate);
   }
 
 }

@@ -6,8 +6,7 @@ const User = require('../../models').User;
 var currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
 var convertedDate = new Date(currentDate);
-var compareConvertedDate = convertedDate.getDate()
-
+var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
   req.body.createdById = req.user.id;
