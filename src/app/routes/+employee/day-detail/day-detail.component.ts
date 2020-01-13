@@ -168,7 +168,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
       value: this.orginalSpentTime,
       type: "success"
     }, {
-      value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : -1 * (this.estimatedTime - this.orginalSpentTime),
+      value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
       type: "info"
     }, {
       value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,

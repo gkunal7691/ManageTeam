@@ -30,16 +30,6 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     height: 30
   };
 
-  ngOnChanges(): void {
-    this.stacked = [];
-    this.newStacked = [];
-    this.getHoliday();
-    this.filterTaskList();
-    this.taskCalculation();
-    this.filterisLeave();
-    this.ref.detectChanges();
-  }
-
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService) { }
 
   @Input() date: any;
@@ -50,6 +40,16 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   @Input() leaveData: any;
 
   ngOnInit() { }
+
+  ngOnChanges(): void {
+    this.stacked = [];
+    this.newStacked = [];
+    this.getHoliday();
+    this.filterTaskList();
+    this.taskCalculation();
+    this.filterisLeave();
+    this.ref.detectChanges();
+  }
 
   getHoliday() {
     this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' + (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) == (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear())));
@@ -68,6 +68,17 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     this.plannedTaskList = this.allTasksList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
     this.inProgressTaskList = this.allTasksList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
     this.completedTaskList = this.allTasksList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
+
+    this.newStacked.push({
+      value: this.completedTaskList.length,
+      type: "success"
+    }, {
+      value: this.inProgressTaskList.length,
+      type: "info"
+    }, {
+      value: (this.plannedTaskList.length + this.inProgressTaskList.length + this.completedTaskList.length),
+      type: "danger"
+    })
   }
 
   taskCalculation() {
@@ -81,27 +92,17 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
         this.estimatedTime += task.estimatedTime;
       }
     })
-    this.stacked.push({
-      value: this.orginalSpentTime,
-      type: "success"
-    }, {
-      value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : -1 * (this.estimatedTime - this.orginalSpentTime),
-      type: "info"
-    }, {
-      value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
-      type: "danger"
-    });
 
-    this.newStacked.push({
-      value: this.completedTaskList.length,
-      type: "success"
-    }, {
-      value: this.inProgressTaskList.length,
-      type: "info"
-    }, {
-      value: (this.plannedTaskList.length + this.inProgressTaskList.length + this.completedTaskList.length),
-      type: "danger"
-    })
+      this.stacked.push({
+        value: this.orginalSpentTime,
+        type: "success"
+      }, {
+        value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
+        type: "info"
+      }, {
+        value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
+        type: "danger"
+      });
   }
 
   filterisLeave() {
