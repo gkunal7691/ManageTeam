@@ -36,6 +36,7 @@
         <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousDate()"></button>
       </div>
       <div class="child">
+        <!-- <button class="btn" #showModal data-toggle="modal" href=".dayDetailModal" style="display: none;">Test</button> -->
         <app-day-detail [showRecentDate]="convertedDate" [allTasksList]="taskList" (updateTaskList)="getTaskList()">
         </app-day-detail>
       </div>
@@ -45,6 +46,4 @@
     </div>
   </div>
 </div>
-
-
 <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>

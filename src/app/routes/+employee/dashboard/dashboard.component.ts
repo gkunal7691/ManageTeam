@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { TaskService } from '../../../services/task.service';
 
 @Component({
@@ -7,14 +7,14 @@ import { TaskService } from '../../../services/task.service';
   styleUrls: ['./dashboard.component.scss']
 })
 
-export class Dashboardv3Component implements OnInit {
+export class Dashboardv3Component implements OnInit, AfterViewInit {
   currentDate: Date = new Date();
   convertedDate: Date;
   taskList: any[] = [];
   showLoader: boolean = true;
   showButton: boolean = true;
   divHeight: any;
-
+  @ViewChild('showModal', { static: true }) myDiv: ElementRef<HTMLElement>;
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
@@ -22,7 +22,11 @@ export class Dashboardv3Component implements OnInit {
     this.getTaskList();
     this.currentDate.setHours(this.currentDate.getHours() + 5, 30);
     this.goToPresentDay();
+  }
 
+  ngAfterViewInit() {
+    let el: HTMLElement = this.myDiv.nativeElement;
+    el.click();
   }
 
   getTaskList() {

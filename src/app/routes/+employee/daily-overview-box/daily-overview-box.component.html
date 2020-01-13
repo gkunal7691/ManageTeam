@@ -19,7 +19,8 @@
           </a>
         </div>
       </div>
-      <div style="padding-top: 12%;text-align: center;">
+      <div *ngIf="plannedTaskList || inProgressTaskList || completedTaskList"
+        style="padding-top: 12%;text-align: center;">
         <a href="#" [tooltip]="toolTipTaskTemplate" style="text-decoration: none;color: #656565;">
           <progressbar class="progress" [value]="newStacked"
             [max]="(plannedTaskList.length+inProgressTaskList.length+completedTaskList.length)">

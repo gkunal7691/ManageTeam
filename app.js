@@ -11,7 +11,7 @@ const usersRouter = require('./routes/core/users');
 const orgMetaRouter = require('./routes/core/orgMeta');
 const organizationRouter = require('./routes/core/organization');
 const userMetaRouter = require('./routes/core/userMeta');
- 
+
 
 /* softobotics */
 
@@ -42,13 +42,29 @@ originsWhitelist.push('https://softobotics.herokuapp.com');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/employee/edashboard',express.static('dist'));
-app.use('/employee/eprofile',express.static('dist'));
-app.use('/employee/time-attendance',express.static('dist'));
-app.use('/employee/manage-leave',express.static('dist'));
-app.use('/employee/todo',express.static('dist'));
-app.use('/employee/todo/:id',express.static('dist'));
-app.use('/employee/todo/completed/:id',express.static('dist'));
+app.use('/login', express.static('dist'));
+app.use('/registration', express.static('dist'));
+app.use('/forgotpassword', express.static('dist'));
+app.use('/resetpassword/:id', express.static('dist'));
+app.use('/employee/edashboard', express.static('dist'));
+app.use('/employee/eprofile', express.static('dist'));
+app.use('/employee/time-attendance', express.static('dist'));
+app.use('/employee/manage-leave', express.static('dist'));
+app.use('/employee/todo', express.static('dist'));
+app.use('/employee/todo/:id', express.static('dist'));
+app.use('/employee/todo/completed/:id', express.static('dist'));
+app.use('/admin/adashboard', express.static('dist'));
+app.use('/admin/aprofile', express.static('dist'));
+app.use('/admin/leave-request', express.static('dist'));
+app.use('/admin/admin-employee', express.static('dist'));
+app.use('/admin/time-attendance', express.static('dist'));
+
+app.use('/superadmin/sadashboard', express.static('dist'));
+app.use('/superadmin/admin', express.static('dist'));
+app.use('/superadmin/notification', express.static('dist'));
+app.use('/superadmin/holiday', express.static('dist'));
+app.use('/superadmin/dayoff', express.static('dist'));
+
 app.use(express.static('dist'));
 app.use(cookieParser());
 
@@ -76,20 +92,20 @@ app.use('/api/auth', authRouter);
 
 app.use('/api/users', /*roleMiddleware,*/ usersRouter);
 app.use('/api/organization', organizationRouter);
-app.use('/api/userMeta',  passport.authenticate('jwt', { session: false }), /*roleMiddleware,*/ userMetaRouter);
+app.use('/api/userMeta', passport.authenticate('jwt', { session: false }), /*roleMiddleware,*/ userMetaRouter);
 app.use('/api/orgMeta',   /*roleMiddleware,*/ orgMetaRouter);
 
 /* softobotics */
 
 app.use('/api/user', /*roleMiddleware,*/ userRouter);
-app.use('/api/task',passport.authenticate('jwt', { session: false }), taskRouter);
-app.use('/api/comment',passport.authenticate('jwt', { session: false }),commentRouter );
+app.use('/api/task', passport.authenticate('jwt', { session: false }), taskRouter);
+app.use('/api/comment', passport.authenticate('jwt', { session: false }), commentRouter);
 app.use('/api/leave', passport.authenticate('jwt', { session: false }), Leave);
 app.use('/api/holiday', passport.authenticate('jwt', { session: false }), Holiday);
 app.use('/api/dayoff', passport.authenticate('jwt', { session: false }), Dayoff);
-app.use('/api/todo',passport.authenticate('jwt', { session: false }), todoRouter);
+app.use('/api/todo', passport.authenticate('jwt', { session: false }), todoRouter);
 app.use('/api/weekday', passport.authenticate('jwt', { session: false }), Weekday);
-app.use('/api/userInfo',  passport.authenticate('jwt', { session: false }), UserInfoRouter);
+app.use('/api/userInfo', passport.authenticate('jwt', { session: false }), UserInfoRouter);
 
 // error handler, don't remove next
 
