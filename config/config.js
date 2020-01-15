@@ -25,24 +25,11 @@ config.production = {
 };
 
 config.development = {
-    // db: {
-    //     username: "root",
-    //     password: "",
-    //     database: "gauranrc_softobotics-tms",
-    //     host: "127.0.0.1",
-    //     dialect: "mysql",
-    //     migrationStorage: "json",
-    //     define: {
-    //         charset: 'utf8',
-    //         collate: 'utf8_general_ci',
-    //         timestamps: true
-    //     }
-    // },
     db: {
-        username: "root",
-        password: "",
+        username: "gauranrc_tms",
+        password: "tms@123456",
         database: "gauranrc_softobotics-tms",
-        host: "127.0.0.1",
+        host: "162.215.241.152",
         dialect: "mysql",
         migrationStorage: "json",
         define: {
@@ -58,24 +45,11 @@ config.development = {
 };
 
 config.local = {
-    db: {
-        username: "root",
-        password: "",
-        database: "gauranrc_softobotics-tms",
-        host: "127.0.0.1",
-        dialect: "mysql",
-        migrationStorage: "json",
-        define: {
-            charset: 'utf8',
-            collate: 'utf8_general_ci',
-            timestamps: true
-        }
-    },
     // db: {
-    //     username: "gauranrc_tms",
-    //     password: "tms@123456",
+    //     username: "root",
+    //     password: "",
     //     database: "gauranrc_softobotics-tms",
-    //     host: "162.215.241.152",
+    //     host: "127.0.0.1",
     //     dialect: "mysql",
     //     migrationStorage: "json",
     //     define: {
@@ -84,6 +58,19 @@ config.local = {
     //         timestamps: true
     //     }
     // },
+    db: {
+        username: "gauranrc_tms",
+        password: "tms@123456",
+        database: "gauranrc_softobotics-tms",
+        host: "162.215.241.152",
+        dialect: "mysql",
+        migrationStorage: "json",
+        define: {
+            charset: 'utf8',
+            collate: 'utf8_general_ci',
+            timestamps: true
+        }
+    },
     jwt: {
         secret: '1TJ!$v:BcQ^/Qy7|j9T8]+(B{~/Uyuh%fNiEPoj4{;VE{}(9~Y#31E?]u:MN;ai',
         algorithm: 'HS512'

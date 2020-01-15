@@ -6,6 +6,7 @@ import { DayDetailComponent } from './components/day-detail/day-detail.component
 import { SharedModule } from '../../shared/shared.module';
 import { CustomDatePipe } from '../../services/pipes/custom-date.pipe';
 import { PositiveValuePipe } from '../../services/pipes/positive-value.pipe';
+import { TimeAttendanceComponent } from './components/time-attendance/time-attendance.component';
 
 @NgModule({
   declarations: [
@@ -13,19 +14,24 @@ import { PositiveValuePipe } from '../../services/pipes/positive-value.pipe';
     PositiveValuePipe,
     DailyOverviewBoxComponent,
     DailyTaskComponent,
-    DayDetailComponent
+    DayDetailComponent,
+    TimeAttendanceComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
   ],
   providers: [
-    DatePipe
+    CustomDatePipe,
+    PositiveValuePipe
   ],
   exports: [
     DailyOverviewBoxComponent,
     DailyTaskComponent,
-    DayDetailComponent
+    DayDetailComponent,
+    TimeAttendanceComponent,
+    CustomDatePipe,
+    PositiveValuePipe
   ]
 })
 
