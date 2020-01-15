@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TaskService } from '../../../services/task.service';
-import { SuperAdminService } from '../../../services/super-admin.service';
-import { LoginService } from '../../../services';
+import { TaskService } from '../../../../services/task.service';
+import { SuperAdminService } from '../../../../services/super-admin.service';
+import { LoginService } from '../../../../services';
 const swal = require('sweetalert');
 
 @Component({

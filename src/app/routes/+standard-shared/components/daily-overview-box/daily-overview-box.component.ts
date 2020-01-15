@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { ColorsService } from '../../../shared/colors/colors.service';
+import { ColorsService } from '../../../../shared/colors/colors.service';
 
 @Component({
   selector: 'app-daily-overview-box',
