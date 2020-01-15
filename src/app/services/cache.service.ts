@@ -8,16 +8,16 @@ export class CacheService {
   constructor() {}
 
   setCache(name, val) {
-    localStorage.setItem('robocore-' + name, JSON.stringify(val));
+    localStorage.setItem('softobotics-' + name, JSON.stringify(val));
   }
 
   getCache(name) {
-    const cache = localStorage.getItem('robocore-' + name);
+    const cache = localStorage.getItem('softobotics-' + name);
     return cache ? JSON.parse(cache) : null;
   }
 
   removeCache(name) {
-    localStorage.removeItem('robocore-' + name);
+    localStorage.removeItem('softobotics-' + name);
   }
 
   setOrgDetails(val){

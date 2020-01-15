@@ -19,7 +19,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { TimeAttendanceComponent } from './time-attendance/time-attendance.component';
 import { DayOverviewComponent } from './day-overview/day-overview.component';
-import { CustomDatePipe } from './custom-date.pipe';
+import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
+import { CustomDatePipe } from '../../services/pipes/custom-date.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CustomDatePipe } from './custom-date.pipe';
     CustomDatePipe
   ],
   imports: [
+    StandardSharedModule,
     CommonModule,
     AdminRoutingModule,
     NgxSelectModule,

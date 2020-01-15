@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TaskService } from '../../../services/task.service';
-import { SuperAdminService } from '../../../services/super-admin.service';
-import { LoginService } from '../../../services';
+import { TaskService } from '../../../../services/task.service';
+import { SuperAdminService } from '../../../../services/super-admin.service';
+import { LoginService } from '../../../../services';
 const swal = require('sweetalert');
 
 @Component({
@@ -37,13 +37,13 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   @Input() editBtn: boolean;
   @Input() allTasksList: any;
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges) {
+    this.ngOnInit();
     this.taskDate = this.showDate;
     if (!this.editBtn && this.taskForm) {
+      this.taskForm.enable();
       this.taskForm.get('priority').setValue("normal");
       this.taskForm.get('status').setValue("planned");
-      // this.taskForm.get('estimatedMin').setValidators([Validators.maxLength(2), Validators.max(8), Validators.required])
-      // this.taskForm.get('estimatedHour').setValidators([Validators.maxLength(2), Validators.max(59), Validators.required])
     }
     this.getUserList();
     this.updateTask();
@@ -116,8 +116,8 @@ export class DailyTaskComponent implements OnInit, OnChanges {
         swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
         this.showTask.emit();
         document.getElementById("cancel").click();
-        var x = document.getElementById("day-detail");
-        setTimeout(() => { x.classList.add("show") }, 350);
+        // var x = document.getElementById("day-detail");
+        // setTimeout(() => { x.classList.add("show") }, 350);
       })
     }
     else {
@@ -207,12 +207,12 @@ export class DailyTaskComponent implements OnInit, OnChanges {
       this.showCommentButton = false;
       this.showCommentSecton = false;
       if (this.taskForm) {
+        this.taskForm.enable();
         this.taskForm.get('title').reset();
         this.taskForm.get('title').setValidators([Validators.required])
         this.taskForm.get('description').reset();
         this.taskForm.get('estimatedHour').reset();
         this.taskForm.get('estimatedMin').reset();
-        this.taskForm.enable();
         this.taskForm.get('clientHour').reset();
         this.taskForm.get('clientMin').reset();
         this.taskForm.get('originalHour').reset();
@@ -227,20 +227,19 @@ export class DailyTaskComponent implements OnInit, OnChanges {
 
   enableTask(value) {
     this.showTextButton = true;
+    this.showModalFooter = true;
+    this.buttonText = "Save";
+    this.taskForm.enable();
     if (value && this.taskForm.get('status').value == 'planned' || this.taskForm.get('status').value == 'progress') {
-      this.showModalFooter = true;
-      this.buttonText = "Save";
-      this.taskForm.enable();
+      // this.buttonText = "Save";
       this.taskForm.get('clientHour').disable();
       this.taskForm.get('clientMin').disable();
       this.taskForm.get('originalHour').disable();
       this.taskForm.get('originalMin').disable();
     }
-    if (value && this.taskForm.get('status').value == 'completed') {
-      this.showModalFooter = true;
-      this.buttonText = "Save";
-      this.taskForm.enable();
-    }
+    // if (value && this.taskForm.get('status').value == 'completed') {
+    //   this.showModalFooter = true;
+    // }
   }
 
   addComment() {
@@ -259,7 +258,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
 
   cancelTask() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    setTimeout(() => { x.classList.add("modal-open") }, 380);
 
     // var x = document.getElementById("day-detail")
     // setTimeout(() => { x.classList.add("show") }, 350);

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChildAuthGuard } from '../../services/guards/child-auth-guard.service';
 import { Dashboardv3Component } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
-import { TimeAttendanceComponent } from './time-attendance/time-attendance.component';
+import { TimeAttendanceComponent } from '../+standard-shared/components/time-attendance/time-attendance.component';
 import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
 import { TodoComponent } from './todo/todo.component';
 import { CompleteTodoTaskComponent } from './complete-todo-task/complete-todo-task.component';
