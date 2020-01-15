@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
-import { ColorsService } from '../../../shared/colors/colors.service';
-import { TaskService } from '../../../services/task.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DayoffService } from '../../../services/dayoff.service';
-import { HolidayService } from '../../../services/holiday.service';
-import { ManageLeaveService } from '../../../services/manage-leave.service';
+import { ColorsService } from '../../../../shared/colors/colors.service';
+import { TaskService } from '../../../../services/task.service';
+import { DayoffService } from '../../../../services/dayoff.service';
+import { HolidayService } from '../../../../services/holiday.service';
+import { ManageLeaveService } from '../../../../services/manage-leave.service';
 const swal = require('sweetalert');
 
 @Component({
