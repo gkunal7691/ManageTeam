@@ -30,11 +30,11 @@ export class Dashboardv3Component implements OnInit, AfterViewInit {
   }
 
   getTaskList() {
+    // , userId: this.currentUserId
     this.showLoader = true;
     this.convertedDate = new Date(this.currentDate);
     let currentDay = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
-    this.taskService.getSingleTask({ dueDate: currentDay }).subscribe((res: any) => {
-      console.log(res.data);
+    this.taskService.getTaskList({ firstDay: currentDay, lastDay: currentDay }).subscribe((res: any) => {
       this.taskList = res.data;
       this.showLoader = false;
     });
