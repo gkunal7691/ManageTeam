@@ -17,20 +17,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { TimeAttendanceComponent } from './time-attendance/time-attendance.component';
-import { DayOverviewComponent } from './day-overview/day-overview.component';
 import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
-import { CustomDatePipe } from '../../services/pipes/custom-date.pipe';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ProfileComponent,
     LeaveRequestComponent,
-    AdminEmployeeComponent,
-    TimeAttendanceComponent,
-    DayOverviewComponent,
-    CustomDatePipe
+    AdminEmployeeComponent
   ],
   imports: [
     StandardSharedModule,
