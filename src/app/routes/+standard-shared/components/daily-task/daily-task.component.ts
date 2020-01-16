@@ -85,7 +85,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
 
   addTask() {
     let addDueDate = new Date(this.showDate)
-    addDueDate.setHours(0, 0, 0);
+    addDueDate.setHours(0, 0, 0)
     if (this.showTaskUpdated == true) {
       let estimatedHour = this.taskForm.get('estimatedHour').value;
       let estimatedMin = this.taskForm.get('estimatedMin').value;

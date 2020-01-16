@@ -48,6 +48,7 @@ export class TaskService {
   }
 
   addTask(val) {
+    console.log(val)
     return this.httpClient.post<object>(`${this.apiPath}/${this.task}/`, val, this.getHeaders())
   }
 
