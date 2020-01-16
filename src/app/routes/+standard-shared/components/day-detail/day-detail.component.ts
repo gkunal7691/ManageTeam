@@ -15,6 +15,8 @@ const swal = require('sweetalert');
 })
 
 export class DayDetailComponent implements OnInit, OnChanges {
+  @Input() currentUserId: any;
+  @Input() userList: any;
   @Input() showRecentDate;
   @Input() allTasksList;
   @Output() updateTaskList = new EventEmitter();
@@ -174,7 +176,10 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.orginalSpentTime = 0;
     this.estimatedTime = 0;
     this.allTasksList.forEach(task => {
-      if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + (new Date(task.dueDate).getFullYear())) == (new Date(this._date).getDate() + '/' + (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getFullYear()))) {
+      if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + 
+        (new Date(task.dueDate).getFullYear())) == (new Date(this._date).getDate() + '/' + 
+        (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getFullYear()))) {
+          
         this.clientTime += task.clientTime;
         this.orginalSpentTime += task.originalTime;
         this.estimatedTime += task.estimatedTime;
