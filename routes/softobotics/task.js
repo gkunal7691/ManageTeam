@@ -17,7 +17,8 @@ router.post('/', async function (req, res, next) {
     res.json({ success: true, data: "Error Cant Add" });
   }
   else {
-    if (req.user.orgId == 3) {
+    const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
+    if (env === 'local') {
       dueDate.setHours(dueDate.getHours() + 5, 30)
     }
     else {
