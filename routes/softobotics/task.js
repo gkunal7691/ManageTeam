@@ -21,7 +21,7 @@ router.post('/', async function (req, res, next) {
       dueDate.setHours(dueDate.getHours() + 5, 30)
     }
     else {
-      dueDate.setHours(dueDate.getHours() + 7, 00)
+      dueDate.setHours(dueDate.getHours() + 6, 00)
     }
     task.create({
       title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
