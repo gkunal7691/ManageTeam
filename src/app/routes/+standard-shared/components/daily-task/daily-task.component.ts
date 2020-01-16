@@ -17,7 +17,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   taskDate: any;
   taskDeatils: any;
   taskId: number;
-  userList: any[] = [];
+  // userList: any[] = [];
   commentList: any[] = [];
   buttonText: any;
   taskTitle: any;
@@ -31,6 +31,8 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   sumOfEstimatedTime: number;
   showModalFooter: boolean = true;
 
+  @Input() currentUserId: any;
+  @Input() userList: any;
   @Input() showDate: any;
   @Output() showTask = new EventEmitter();
   @Input() editTask: any;
@@ -52,7 +54,7 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   constructor(private ref: ChangeDetectorRef, private fb: FormBuilder, private taskService: TaskService,
-    private userService: SuperAdminService, private loginService: LoginService) { }
+    private userService: SuperAdminService) { }
 
   ngOnInit() {
     this.taskForm = this.fb.group({
@@ -76,13 +78,8 @@ export class DailyTaskComponent implements OnInit, OnChanges {
   }
 
   getUserList() {
-    const User: any = this.loginService.currentUser;
-    this.userService.getUserList().subscribe(
-      (res: any) => {
-        this.userList = res.data;
-      })
     if (this.taskForm) {
-      this.taskForm.get('assignee').setValue(User.id)
+      this.taskForm.get('assignee').setValue(this.currentUserId);
     }
   }
 

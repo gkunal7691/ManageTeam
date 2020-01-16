@@ -4,16 +4,18 @@ import { HolidayService } from '../../../../services/holiday.service';
 import { TaskService } from '../../../../services/task.service';
 import { ManageLeaveService } from '../../../../services/manage-leave.service';
 import { ColorsService } from '../../../../shared/colors/colors.service';
+import { LoginService } from '../../../../services/login.service';
+import { SuperAdminService } from '../../../../services/super-admin.service';
 
 @Component({
   selector: 'app-task',
   templateUrl: './time-attendance.component.html',
   styleUrls: ['./time-attendance.component.scss']
 })
-export class TimeAttendanceComponent implements OnInit {
 
-  constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
-    private taskService: TaskService, private manageLeaveService: ManageLeaveService, public colors: ColorsService) { }
+export class TimeAttendanceComponent implements OnInit {
+  currentUserId: any;
+  userList: any;
 
   divHeight: any;
   monthArray = [];
@@ -81,6 +83,13 @@ export class TimeAttendanceComponent implements OnInit {
     ],
   }];
 
+  constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
+    private taskService: TaskService, private manageLeaveService: ManageLeaveService,
+    public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService) {
+    this.currentUserId = this.logService.currentUser.id;
+    console.log(this.currentUserId);
+  }
+
   ngOnInit() {
     this.totalHolidays = 0;
     this.divHeight = window.innerHeight + 'px';
@@ -89,6 +98,8 @@ export class TimeAttendanceComponent implements OnInit {
     this.getDayoff();
     this.getHolidayList();
     this.filterRequestLeave();
+    this.getUserList();
+
   }
 
   showWeekoff(value) {
@@ -199,8 +210,9 @@ export class TimeAttendanceComponent implements OnInit {
     let LastDay = lastdate.getFullYear() + '-' + (lastdate.getMonth() + 1) + '-' + lastdate.getDate();
     this.showLoader = true;
     this.taskList = [];
-    this.taskService.getTaskList({ firstDay: FirstDay, lastDay: LastDay }).subscribe((res: any) => {
+    this.taskService.getTaskList({ firstDay: FirstDay, lastDay: LastDay, userId: this.currentUserId }).subscribe((res: any) => {
       this.taskList = res.data
+      console.log(this.taskList.length);
       this.showLoader = false;
       this.totalSpentTime = 0;
       this.totalClientTime = 0;
@@ -259,6 +271,13 @@ export class TimeAttendanceComponent implements OnInit {
         this.sundayArray.unshift({});
       }
     }
+  }
+
+  getUserList() {
+    this.userService.getUserList().subscribe(
+      (res: any) => {
+        this.userList = res.data;
+      })
   }
 
   getHolidayList() {
@@ -325,7 +344,6 @@ export class TimeAttendanceComponent implements OnInit {
       (result: any) => {
         this.leaveRequestList = result.data;
       })
-
   }
 
 }

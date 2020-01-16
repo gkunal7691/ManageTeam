@@ -16,9 +16,9 @@ router.post('/', async function (req, res, next) {
     res.json({ success: true, data: "Error Cant Add" });
   }
   else {
-    dueDate.setHours(dueDate.getHours() + 5, 30)
+    // dueDate.setHours(dueDate.getHours() + 5, 30)
     task.create({
-      title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
+      title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
       organizationId: req.user.orgId, userId: req.body.assignee,
     })
@@ -34,7 +34,7 @@ router.post('/getTask/dueDate', async function (req, res, next) {
     where: {
       dueDate: {
         $between: [req.body.firstDay, req.body.lastDay]
-      }, organizationId: req.user.orgId, userId: req.user.id
+      }, organizationId: req.user.orgId, userId: req.body.userId
     },
     include: [
       {
