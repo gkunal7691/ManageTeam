@@ -19,14 +19,14 @@ export class Dashboardv3Component implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.divHeight = (window.innerHeight - 49) + 'px';
+    this.currentDate.setHours(0, 0, 0);
     this.getTaskList();
-    this.currentDate.setHours(this.currentDate.getHours() + 5, 30);
     this.goToPresentDay();
   }
 
   ngAfterViewInit() {
-    let el: HTMLElement = this.myDiv.nativeElement;
-    el.click();
+    // let el: HTMLElement = this.myDiv.nativeElement;
+    // el.click();
   }
 
   getTaskList() {
@@ -36,7 +36,7 @@ export class Dashboardv3Component implements OnInit, AfterViewInit {
     this.taskService.getSingleTask({ dueDate: currentDay }).subscribe((res: any) => {
       this.taskList = res.data;
       this.showLoader = false;
-    })
+    });
   }
 
   getPreviousDate() {
@@ -48,7 +48,7 @@ export class Dashboardv3Component implements OnInit, AfterViewInit {
     this.taskService.getSingleTask({ dueDate: previousDate }).subscribe((res: any) => {
       this.taskList = res.data;
       this.showLoader = false;
-    })
+    });
   }
 
   getNextDate() {
