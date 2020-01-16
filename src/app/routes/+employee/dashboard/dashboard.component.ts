@@ -18,9 +18,11 @@ export class Dashboardv3Component implements OnInit, AfterViewInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
+    console.log(this.convertedDate)
     this.divHeight = (window.innerHeight - 49) + 'px';
     this.currentDate.setHours(0, 0, 0);
     this.getTaskList();
+    console.log(this.convertedDate)
     this.goToPresentDay();
   }
 
