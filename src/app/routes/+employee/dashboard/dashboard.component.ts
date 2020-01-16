@@ -30,6 +30,7 @@ export class Dashboardv3Component implements OnInit, AfterViewInit {
   }
 
   getTaskList() {
+    // , userId: this.currentUserId
     this.showLoader = true;
     this.convertedDate = new Date(this.currentDate);
     let currentDay = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
