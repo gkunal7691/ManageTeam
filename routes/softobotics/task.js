@@ -9,14 +9,20 @@ var convertedDate = new Date(currentDate);
 var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
+  console.log(res.data)
   req.body.createdById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
   var compareDueDate = dueDate.getDate();
   if (compareDueDate < compareConvertedDate || req.body.estimatedTime > 480) {
     res.json({ success: true, data: "Error Cant Add" });
   }
-  else {    
-    dueDate.setHours(dueDate.getHours() + 5, 30)
+  else {
+    if (req.user.orgId == 3) {
+      dueDate.setHours(dueDate.getHours() + 5, 30)
+    }
+    else {
+      dueDate.setHours(dueDate.getHours() + 7, 00)
+    }
     task.create({
       title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
