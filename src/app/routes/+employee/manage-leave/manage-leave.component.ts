@@ -176,7 +176,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
-  updateStatusSwal(value) {
+  cancelLeaveRequestSwal(value) {
     let totalLeaveDays = value.noOfdays;
     if (totalLeaveDays < 0)
       totalLeaveDays = Math.abs(totalLeaveDays);
@@ -188,14 +188,14 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {
-        this.updateStatusPopUp(value);
+        this.cancelLeaveRequestPopUp(value);
       } else {
         swal('Cancelled', 'Leave request for '+ totalLeaveDays +' days is not removed :)', 'error');
       }
     });
   }
 
-  updateStatusPopUp(value) {
+  cancelLeaveRequestPopUp(value) {
     let leaveId = value.leaveId;
     let totalLeaveDays = value.noOfdays;
     if (totalLeaveDays < 0)
