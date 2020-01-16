@@ -15,11 +15,10 @@ router.post('/', async function (req, res, next) {
   if (compareDueDate < compareConvertedDate || req.body.estimatedTime > 480) {
     res.json({ success: true, data: "Error Cant Add" });
   }
-  else {
-    console.log(req.body.dueDate)
-    // dueDate.setHours(dueDate.getHours() + 5, 30)
+  else {    
+    dueDate.setHours(dueDate.getHours() + 5, 30)
     task.create({
-      title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
+      title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
       organizationId: req.user.orgId, userId: req.body.assignee,
     })
