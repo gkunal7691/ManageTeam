@@ -470,6 +470,6 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-daily-task [showDate]="_date" [editTask]="taskValue" [editBtn]="edit" (showTask)="getupadtedTask()"
-  [allTasksList]="taskList">
+<app-daily-task [currentUserId]="currentUserId" [userList]="userList" [showDate]="_date" [editTask]="taskValue"
+  [editBtn]="edit" (showTask)="getupadtedTask()" [allTasksList]="taskList">
 </app-daily-task>

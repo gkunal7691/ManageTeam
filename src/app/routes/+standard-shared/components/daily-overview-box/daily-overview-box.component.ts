@@ -32,6 +32,7 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService) { }
 
+  @Input() currentUserId: any;
   @Input() date: any;
   @Input() holidayList: any;
   @Input() allTasksList: any;
@@ -52,7 +53,9 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
   }
 
   getHoliday() {
-    this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' + (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) == (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear())));
+    this.holiday = this.holidayList.find(d => (new Date(d.holidayDate).getDate() + '/' + 
+      (new Date(d.holidayDate).getMonth() + 1) + '/' + (new Date(d.holidayDate).getFullYear())) == 
+      (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear())));
   }
 
   showDay(val) {
@@ -86,7 +89,10 @@ export class DailyOverviewBoxComponent implements OnInit, OnChanges {
     this.orginalSpentTime = 0;
     this.estimatedTime = 0;
     this.allTasksList.forEach(task => {
-      if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + (new Date(task.dueDate).getFullYear())) == (new Date(this.date).getDate() + '/' + (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear()))) {
+      if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + 
+        (new Date(task.dueDate).getFullYear())) == (new Date(this.date).getDate() + '/' + 
+        (new Date(this.date).getMonth() + 1) + '/' + (new Date(this.date).getFullYear()))) {
+          
         this.clientTime += task.clientTime;
         this.orginalSpentTime += task.originalTime;
         this.estimatedTime += task.estimatedTime;
