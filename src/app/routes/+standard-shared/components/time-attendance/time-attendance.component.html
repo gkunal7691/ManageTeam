@@ -65,7 +65,7 @@
       <h4>Monday</h4>
     </div>
     <div *ngFor="let day of mondayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -75,7 +75,7 @@
       <h4>Tuesday</h4>
     </div>
     <div *ngFor="let day of tuesdayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -85,7 +85,7 @@
       <h4>Wednesday</h4>
     </div>
     <div *ngFor="let day of wednesdayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -95,7 +95,7 @@
       <h4>Thrusday</h4>
     </div>
     <div *ngFor="let day of thrusdayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -105,7 +105,7 @@
       <h4>Friday</h4>
     </div>
     <div *ngFor="let day of fridayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -115,7 +115,7 @@
       <h4>Saturday</h4>
     </div>
     <div *ngFor="let day of saturdayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -125,7 +125,7 @@
       <h4>Sunday</h4>
     </div>
     <div *ngFor="let day of sundayArray">
-      <app-daily-overview-box [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
+      <app-daily-overview-box [currentUserId]="currentUserId" [holidayList]="holidayList" [date]="day" (openModalDate)="onGetModalDate($event)"
         [allTasksList]="taskList" [iscurrentDate]="iscurrentDate" [leaveData]="leaveRequestList">
       </app-daily-overview-box>
     </div>
@@ -135,7 +135,7 @@
 
 <div class="modal fade dayDetailModal pl-2 pr-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   id="day-detail" aria-hidden="true">
-  <app-day-detail [showRecentDate]="recentDateClicked" [allTasksList]="taskList"
+  <app-day-detail [currentUserId]="currentUserId" [userList]="userList" [showRecentDate]="recentDateClicked" [allTasksList]="taskList"
     (updateTaskList)="getUpdatedTaskList()">
   </app-day-detail>
 </div>

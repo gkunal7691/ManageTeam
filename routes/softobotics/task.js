@@ -9,6 +9,7 @@ var convertedDate = new Date(currentDate);
 var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
+  console.log(res.data)
   req.body.createdById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
   var compareDueDate = dueDate.getDate();
@@ -16,9 +17,15 @@ router.post('/', async function (req, res, next) {
     res.json({ success: true, data: "Error Cant Add" });
   }
   else {
-    dueDate.setHours(dueDate.getHours() + 5, 30)
+    const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
+    if (env === 'local') {
+      dueDate.setHours(dueDate.getHours() + 5, 30)
+    }
+    else {
+      dueDate.setHours(dueDate.getHours() + 6, 00)
+    }
     task.create({
-      title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
+      title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
       organizationId: req.user.orgId, userId: req.body.assignee,
     })
@@ -34,7 +41,7 @@ router.post('/getTask/dueDate', async function (req, res, next) {
     where: {
       dueDate: {
         $between: [req.body.firstDay, req.body.lastDay]
-      }, organizationId: req.user.orgId, userId: req.user.id
+      }, organizationId: req.user.orgId, userId: req.body.userId
     },
     include: [
       {
