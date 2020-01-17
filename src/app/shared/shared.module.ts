@@ -23,7 +23,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { FlotDirective } from './directives/flot/flot.directive';
 import { SparklineDirective } from './directives/sparkline/sparkline.directive';
-import { EasypiechartDirective } from './directives/easypiechart/easypiechart.directive';
 import { ColorsService } from './colors/colors.service';
 import { CheckallDirective } from './directives/checkall/checkall.directive';
 import { VectormapDirective } from './directives/vectormap/vectormap.directive';
@@ -62,7 +61,6 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
     declarations: [
         FlotDirective,
         SparklineDirective,
-        EasypiechartDirective,
         CheckallDirective,
         VectormapDirective,
         NowDirective,
@@ -94,7 +92,6 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         TypeaheadModule,
         FlotDirective,
         SparklineDirective,
-        EasypiechartDirective,
         CheckallDirective,
         VectormapDirective,
         NowDirective,

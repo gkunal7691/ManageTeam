@@ -33,3 +33,11 @@
   width: 100%;
   margin: 0 1% 0 1%;
 }
+
+
+.modal:nth-of-type(even) {
+  z-index: 1052 !important;
+}
+.modal-backdrop.show:nth-of-type(even) {
+  z-index: 1051 !important;
+}
