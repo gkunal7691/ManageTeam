@@ -199,8 +199,8 @@
                     {{leaveRequest?.reason}}
                   </ng-template>
                   <a href="#" [tooltip]="toolTipTemplate">
-                    {{leaveRequest?.reason | slice:0:5}}
-                    <span *ngIf="leaveRequest?.reason.length > 5">...</span>
+                    {{leaveRequest?.reason | slice:0:50}}
+                    <span *ngIf="leaveRequest?.reason.length > 50">...</span>
                   </a>
                 </td>
               </ng-container>
