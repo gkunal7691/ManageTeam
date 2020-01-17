@@ -6,13 +6,6 @@ const User = require('../../models').User;
 const dayOff = require('../../models').DayOff;
 const Holiday = require('../../models').Holiday;
 
-// get oneLeave
-router.get('/hihi', async function (req, res, next) {
-   Leave.findOne({ where: { userId: req.user.id } }).then((user) => {
-      res.json({ success: true, data: user })
-   })
-})
-
 
 router.get('/', async function (req, res, next) {
    Leave.findAll({
@@ -38,7 +31,6 @@ router.get('/', async function (req, res, next) {
       data.forEach(e => {
          leave[e.dataValues.type] = e.dataValues.sum.toFixed(2);
       })
-      console.log(leave)
       res.json({ success: true, data: leave })
    })
 })

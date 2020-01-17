@@ -6,12 +6,12 @@ import { LoginService } from '../../../../services';
 const swal = require('sweetalert');
 
 @Component({
-  selector: 'app-daily-task',
-  templateUrl: './daily-task.component.html',
-  styleUrls: ['./daily-task.component.scss']
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.scss']
 })
 
-export class DailyTaskComponent implements OnInit, OnChanges {
+export class TaskComponent implements OnInit, OnChanges {
   taskForm: FormGroup
   commentForm: FormGroup
   taskDate: any;

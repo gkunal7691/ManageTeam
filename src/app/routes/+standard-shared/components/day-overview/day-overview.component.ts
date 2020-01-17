@@ -2,12 +2,12 @@ import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetect
 import { ColorsService } from '../../../../shared/colors/colors.service';
 
 @Component({
-  selector: 'app-daily-overview-box',
-  templateUrl: './daily-overview-box.component.html',
-  styleUrls: ['./daily-overview-box.component.scss']
+  selector: 'app-day-overview',
+  templateUrl: './day-overview.component.html',
+  styleUrls: ['./day-overview.component.scss']
 })
 
-export class DailyOverviewBoxComponent implements OnInit, OnChanges {
+export class DayOverviewComponent implements OnInit, OnChanges {
   firstDay: any;
   lastDay: any;
   clickedDate: any;

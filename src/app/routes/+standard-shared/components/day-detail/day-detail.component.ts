@@ -152,7 +152,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     if ('/employee/edashboard' == this.router.url) {
       this.modalCenter = false;
     }
-    if ('/employee/time-attendance' == this.router.url) {
+    if ('/employee/month-view' == this.router.url) {
       this.modalCenter = true;
     }
   }

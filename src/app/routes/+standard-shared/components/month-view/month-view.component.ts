@@ -8,12 +8,12 @@ import { LoginService } from '../../../../services/login.service';
 import { SuperAdminService } from '../../../../services/super-admin.service';
 
 @Component({
-  selector: 'app-task',
-  templateUrl: './time-attendance.component.html',
-  styleUrls: ['./time-attendance.component.scss']
+  selector: 'app-month-view',
+  templateUrl: './month-view.component.html',
+  styleUrls: ['./month-view.component.scss']
 })
 
-export class TimeAttendanceComponent implements OnInit {
+export class MonthViewComponent implements OnInit {
   currentUserId: any;
   userList: any;
 
