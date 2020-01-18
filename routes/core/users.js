@@ -56,8 +56,6 @@ router.post('/', function (req, res, next) {
     }).catch(next);
 });
 
-
-
 // Reset password
 
 router.put('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
@@ -99,19 +97,6 @@ router.post('/countuser', passport.authenticate('jwt', { session: false }), func
     }).then((data) => {
 
         res.json({ success: true, data: data });
-    }).catch(next)
-});
-
-// Employee List
-
-router.get('/employee', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-
-    User.findAll({
-        where: { organizationId: req.user.orgId, roleId: 1 }, order: [['updatedAt', 'DESC']],
-    }).then((employeelist) => {
-
-        res.json({ success: true, data: employeelist });
-
     }).catch(next)
 });
 
