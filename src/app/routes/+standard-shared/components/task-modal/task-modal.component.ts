@@ -1,17 +1,15 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
-import { SuperAdminService } from '../../../../services/super-admin.service';
-import { LoginService } from '../../../../services';
 const swal = require('sweetalert');
 
 @Component({
-  selector: 'app-task',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  selector: 'app-task-modal',
+  templateUrl: './task-modal.component.html',
+  styleUrls: ['./task-modal.component.scss']
 })
 
-export class TaskComponent implements OnInit, OnChanges {
+export class TaskModalComponent implements OnInit, OnChanges {
   taskForm: FormGroup
   commentForm: FormGroup
   taskDate: any;
@@ -53,8 +51,7 @@ export class TaskComponent implements OnInit, OnChanges {
     this.ref.detectChanges();
   }
 
-  constructor(private ref: ChangeDetectorRef, private fb: FormBuilder, private taskService: TaskService,
-    private userService: SuperAdminService) { }
+  constructor(private ref: ChangeDetectorRef, private fb: FormBuilder, private taskService: TaskService) { }
 
   ngOnInit() {
     this.taskForm = this.fb.group({
@@ -250,15 +247,12 @@ export class TaskComponent implements OnInit, OnChanges {
 
   cancelComment() {
     var x = document.getElementById("testing");
-    setTimeout(() => { x.classList.add("modal-open") }, 330);
+    setTimeout(() => { x.classList.add("modal-open") }, 120);
   }
 
   cancelTask() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 380);
-
-    // var x = document.getElementById("day-detail")
-    // setTimeout(() => { x.classList.add("show") }, 350);
+    setTimeout(() => { x.classList.add("modal-open") }, 120);
   }
 
   onStatusCompleted(value) {

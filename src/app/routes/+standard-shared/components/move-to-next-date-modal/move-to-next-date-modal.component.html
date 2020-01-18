@@ -1,0 +1,114 @@
+<div class="modal nextDateModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+  aria-labelledby="myModalLabel" data-focus-on="modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pt-3 pb-1">
+        <h4 class="ml-2">Enter Following Details :</h4>
+        <button type="button" class="close" (click)="closeNextDateModal()" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pr-0" *ngIf="showForm">
+        <form>
+          <div class="row">
+            <div class="col-3 pr-0 pl-1" style="text-align: center;align-self: center;">
+              <label style="margin-bottom: 0px;">
+                <b>Choose Date :</b>
+              </label>
+            </div>
+            <div class="col-3 pl-0 pr-0">
+              <input *ngIf="nextDateValue" type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
+                placeholder="Choose Here..." [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
+                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
+
+              <input *ngIf="!nextDateValue" type="text" class="form-control"
+                [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)"
+                (keyup)="getNewDate($event)">
+            </div>
+            <div class="col-3 p-0 mt-1 pl-3">
+              <a class="removeUnderLine" style="font-size: 16px;" href="#" (click)="moveToNextDate()">
+                Select next date
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 p-0"></div>
+            <div class="col p-0">
+              <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
+              <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span>
+              <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
+                  nextDateModalForm.controls['newDate'].touched">
+                <i>Invalid Date.</i>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-4 pl-0 mt-2" style="text-align: center;align-self: center;">
+              <label style="margin-bottom: 0px;">
+                <b>Estimated Time :</b>
+              </label>
+            </div>
+            <div class="col p-0">
+              <div class="row mt-2">
+                <tr>
+                  <td class="form-group">
+                    <input type="number" class="form-control text-center"
+                      [formControl]="nextDateModalForm.controls['newEstimatedHour']" placeholder="HH"
+                      style="width: 70px;margin-left: 1%;">
+                  </td>
+                  <td class="pl-2">
+                    &nbsp; Hour(s) &nbsp;
+                  </td>
+                  <td class="pl-3">
+                    <b> &nbsp; : &nbsp; </b>
+                  </td>
+                  <td class="form-group pl-4">
+                    <input type="number" class="form-control text-center"
+                      [formControl]="nextDateModalForm.controls['newEstimatedMin']" placeholder="MM"
+                      style="width: 70px;margin-left: 1%;">
+                  </td>
+                  <td class="pl-2">
+                    &nbsp; Minute(s) &nbsp;
+                  </td>
+                </tr>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 p-0"></div>
+            <div class="col pl-4 pr-0">
+              <tr>
+                <td class="form-group">
+                  <div class="text-danger pl-1" *ngIf="nextDateModalForm.controls['newEstimatedHour'].invalid &&
+                    nextDateModalForm.controls['newEstimatedHour'].touched">
+                    <i>Invalid Estimated Hour(s).</i>
+                  </div>
+                </td>
+              </tr>
+            </div>
+            <div class="col p-0">
+              <tr>
+                <td class="form-group">
+                  <div class="text-danger" *ngIf="nextDateModalForm.controls['newEstimatedMin'].invalid &&
+                    nextDateModalForm.controls['newEstimatedMin'].touched">
+                    <i>Invalid Estimated Minute(s).</i>
+                  </div>
+                </td>
+              </tr>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+          (click)="closeNextDateModal()">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="addNewTask()"
+          [disabled]="nextDateModalForm.invalid">
+          Move
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

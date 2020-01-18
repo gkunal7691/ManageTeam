@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DayDetailComponent } from './day-detail.component';
+import { CommentModalComponent } from './comment-modal.component';
 
-describe('DayDetailComponent', () => {
-  let component: DayDetailComponent;
-  let fixture: ComponentFixture<DayDetailComponent>;
+describe('CommentModalComponent', () => {
+  let component: CommentModalComponent;
+  let fixture: ComponentFixture<CommentModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DayDetailComponent ]
+      declarations: [ CommentModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DayDetailComponent);
+    fixture = TestBed.createComponent(CommentModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

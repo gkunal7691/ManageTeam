@@ -9,9 +9,9 @@ import { ManageLeaveService } from '../../../../services/manage-leave.service';
 const swal = require('sweetalert');
 
 @Component({
-  selector: 'app-day-detail',
-  templateUrl: './day-detail.component.html',
-  styleUrls: ['./day-detail.component.scss']
+  selector: 'app-day-detail-modal',
+  templateUrl: './day-detail-modal.component.html',
+  styleUrls: ['./day-detail-modal.component.scss']
 })
 
 export class DayDetailComponent implements OnInit, OnChanges {
@@ -77,7 +77,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.newStacked = [];
     this._date = this.showRecentDate;
     this.taskList = this.allTasksList;
-    this.getTaskList();
+    //this.getTaskList();
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     }
@@ -110,52 +110,52 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   }
 
-  getTaskList() {
-    let d = new Date(this._date)
-    if (this.allTasksList) {
-      this.plannedTaskList = this.allTasksList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
-      let plannedCrticalTask = this.plannedTaskList.filter(task => task.priority == "critical");
-      let plannedHighTask = this.plannedTaskList.filter(task => task.priority == "high");
-      let plannedNormalTask = this.plannedTaskList.filter(task => task.priority == "normal");
-      let plannedLowTask = this.plannedTaskList.filter(task => task.priority == "low");
-      this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask)
+  // getTaskList() {
+  //   let d = new Date(this._date)
+  //   if (this.allTasksList) {
+  //     this.plannedTaskList = this.allTasksList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
+  //     let plannedCrticalTask = this.plannedTaskList.filter(task => task.priority == "critical");
+  //     let plannedHighTask = this.plannedTaskList.filter(task => task.priority == "high");
+  //     let plannedNormalTask = this.plannedTaskList.filter(task => task.priority == "normal");
+  //     let plannedLowTask = this.plannedTaskList.filter(task => task.priority == "low");
+  //     this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask)
 
-      this.progressTaskList = this.allTasksList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
-      let progressCriticalTask = this.progressTaskList.filter(task => task.priority == "critical");
-      let progressHighTask = this.progressTaskList.filter(task => task.priority == "high");
-      let progressNormalTask = this.progressTaskList.filter(task => task.priority == "normal");
-      let progressLowTask = this.progressTaskList.filter(task => task.priority == "low");
-      this.progressTaskList = progressCriticalTask.concat(progressHighTask, progressNormalTask, progressLowTask)
+  //     this.progressTaskList = this.allTasksList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
+  //     let progressCriticalTask = this.progressTaskList.filter(task => task.priority == "critical");
+  //     let progressHighTask = this.progressTaskList.filter(task => task.priority == "high");
+  //     let progressNormalTask = this.progressTaskList.filter(task => task.priority == "normal");
+  //     let progressLowTask = this.progressTaskList.filter(task => task.priority == "low");
+  //     this.progressTaskList = progressCriticalTask.concat(progressHighTask, progressNormalTask, progressLowTask)
 
-      this.completedTaskList = this.allTasksList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
-      let completedCriticalTask = this.completedTaskList.filter(task => task.priority == "critical");
-      let completedHighTask = this.completedTaskList.filter(task => task.priority == "high");
-      let completedNormalTask = this.completedTaskList.filter(task => task.priority == "normal");
-      let completedLowTask = this.completedTaskList.filter(task => task.priority == "low");
-      this.completedTaskList = completedCriticalTask.concat(completedHighTask, completedNormalTask, completedLowTask)
-    }
+  //     this.completedTaskList = this.allTasksList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
+  //     let completedCriticalTask = this.completedTaskList.filter(task => task.priority == "critical");
+  //     let completedHighTask = this.completedTaskList.filter(task => task.priority == "high");
+  //     let completedNormalTask = this.completedTaskList.filter(task => task.priority == "normal");
+  //     let completedLowTask = this.completedTaskList.filter(task => task.priority == "low");
+  //     this.completedTaskList = completedCriticalTask.concat(completedHighTask, completedNormalTask, completedLowTask)
+  //   }
 
-    // To set the hieght of tabset
-    var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
-    if ((this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length) > 10) {
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.height = 'unset';
-      }
-    }
-    else {
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.height = '300px';
-      }
-    }
+  //   // To set the hieght of tabset
+  //   var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
+  //   if ((this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length) > 10) {
+  //     for (var i = 0; i < x.length; i++) {
+  //       x[i].style.height = 'unset';
+  //     }
+  //   }
+  //   else {
+  //     for (var i = 0; i < x.length; i++) {
+  //       x[i].style.height = '300px';
+  //     }
+  //   }
 
-    // To set the modal in center  
-    if ('/employee/edashboard' == this.router.url) {
-      this.modalCenter = false;
-    }
-    if ('/employee/month-view' == this.router.url) {
-      this.modalCenter = true;
-    }
-  }
+  //   // To set the modal in center  
+  //   if ('/employee/edashboard' == this.router.url) {
+  //     this.modalCenter = false;
+  //   }
+  //   if ('/employee/month-view' == this.router.url) {
+  //     this.modalCenter = true;
+  //   }
+  // }
 
   getupadtedTask() {
     this.updateTaskList.emit();
@@ -230,7 +230,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
       this.taskService.editTask({
         status: status, taskId: task.taskId
       }).subscribe((res: any) => {
-        this.getTaskList();
+        //this.getTaskList();
         this.getupadtedTask();
         let st: any;
         if (this.status == 'progress') {
@@ -243,7 +243,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   closeEstimateTimeModal() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 400);
+    setTimeout(() => { x.classList.add("modal-open") }, 200);
     this.estimateTimeModalForm.reset();
 
     if (this.nextDateModalForm.get('newNextDate').value == '') {
@@ -253,7 +253,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   closeNextDateModal() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 420);
+    setTimeout(() => { x.classList.add("modal-open") }, 200);
     this.nextDateModalForm.reset();
 
     if (this.nextDateModalForm.get('newNextDate').value == '') {

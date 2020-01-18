@@ -1,21 +1,29 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { DayOverviewComponent } from './components/day-overview/day-overview.component';
-import { TaskComponent } from './components/task/task.component';
-import { DayDetailComponent } from './components/day-detail/day-detail.component';
+import { TaskModalComponent } from './components/task-modal/task-modal.component';
+import { DayDetailComponent } from './components/day-detail-modal/day-detail-modal.component';
 import { SharedModule } from '../../shared/shared.module';
 import { CustomDatePipe } from '../../services/pipes/custom-date.pipe';
 import { PositiveValuePipe } from '../../services/pipes/positive-value.pipe';
 import { MonthViewComponent } from './components/month-view/month-view.component';
+import { DayModalContentComponent } from './components/day-modal-content/day-modal-content.component';
+import { MoveToCompletedModalComponent } from './components/move-to-completed-modal/move-to-completed-modal.component';
+import { MoveToNextDateModalComponent } from './components/move-to-next-date-modal/move-to-next-date-modal.component';
+import { CommentModalComponent } from './components/comment-modal/comment-modal.component';
 
 @NgModule({
   declarations: [
     CustomDatePipe,
     PositiveValuePipe,
     DayOverviewComponent,
-    TaskComponent,
+    TaskModalComponent,
     DayDetailComponent,
-    MonthViewComponent
+    MonthViewComponent,
+    DayModalContentComponent,
+    MoveToCompletedModalComponent,
+    MoveToNextDateModalComponent,
+    CommentModalComponent
   ],
   imports: [
     CommonModule,
@@ -26,12 +34,16 @@ import { MonthViewComponent } from './components/month-view/month-view.component
     PositiveValuePipe
   ],
   exports: [
+    CustomDatePipe,
+    PositiveValuePipe,
     DayOverviewComponent,
-    TaskComponent,
+    TaskModalComponent,
     DayDetailComponent,
     MonthViewComponent,
-    CustomDatePipe,
-    PositiveValuePipe
+    DayModalContentComponent,
+    MoveToCompletedModalComponent,
+    MoveToNextDateModalComponent,
+    CommentModalComponent
   ]
 })
 

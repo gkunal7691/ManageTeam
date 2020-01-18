@@ -222,7 +222,7 @@
           <div class="col-6 pr-0">
             <div class="row float-right">
               <div class="col-6 pr-0">
-                <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel">
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel" (click)="cancelTask()">
                   Cancel
                 </button>
               </div>
@@ -258,30 +258,4 @@
     </div>
   </div>
 </div>
-
-<div class="modal addCommentModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
-  data-focus-on="modal">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header pt-3 pb-1">
-        <h4 class="ml-2">Add Comment</h4>
-        <button type="button" class="close" (click)="cancelComment()" data-dismiss="modal" aria-label="Close">
-          <span>&times;</span>
-        </button>
-      </div>
-      <!-- <form [formGroup]="commentForm"> -->
-      <div class="modal-body">
-        <textarea class="form-control" cols="73" rows="5" [formControl]="commentForm.controls['comment']"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelComment()"
-          aria-label="Close">Cancel
-        </button>
-        <button id="saveComment" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close"
-          (click)="addComment()">Save
-        </button>
-      </div>
-      <!-- </form> -->
-    </div>
-  </div>
-</div>
+<app-comment-modal></app-comment-modal>
