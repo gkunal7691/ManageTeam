@@ -13,10 +13,10 @@ import { Router } from '@angular/router';
 export class DayModalContentComponent implements OnInit {
 
 
-  @Input() currentUserId: any;
+  @Input() userId: number;
   @Input() userList: any;
-  @Input() showRecentDate;
-  @Input() allTasksList;
+  @Input() dueDate;
+
   @Output() updateTaskList = new EventEmitter();
 
 
@@ -38,7 +38,6 @@ export class DayModalContentComponent implements OnInit {
   nextDate: any;
   nextDateValue: boolean;
 
-  _date: Date;
   showDate: boolean;
   plannedTaskList: any[] = [];
   progressTaskList: any[] = [];
@@ -68,24 +67,24 @@ export class DayModalContentComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    console.log("currentUserId",this.currentUserId)
-    console.log("userList",this.userList)
-    console.log("showRecentDate",this.showRecentDate)
-    console.log("allTasksList",this.allTasksList)
-    console.log("currentUserId",this.currentUserId)
+     console.log("userId",this.userId);
+     console.log("userList",this.userList);
+     console.log("dueDate",this.dueDate);
+    // console.log("allTasksList",this.allTasksList)
+    // console.log("currentUserId",this.currentUserId)
 
 
     this.ngOnInit();
-    this.nextDateValue = true;
-    this.stacked = [];
-    this.newStacked = [];
-    this._date = this.showRecentDate;
-    this.taskList = this.allTasksList;
-    this.getTaskList();
-    if (this.taskValue) {
-      this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
-    }
-    this.taskCalculation();
+    // this.nextDateValue = true;
+    // this.stacked = [];
+    // this.newStacked = [];
+    // this._date = this.showRecentDate;
+    // this.taskList = this.allTasksList;
+    //this.getDayTask();
+    //if (this.taskValue) {
+      //this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
+    //}
+    //this.taskCalculation();
     this.ref.detectChanges();
   }
 
@@ -94,40 +93,50 @@ export class DayModalContentComponent implements OnInit {
 
   ngOnInit() {
 
-    this.isDayOff = false;
-    this.isHoliday = false;
+    // this.isDayOff = false;
+    // this.isHoliday = false;
     
+    this.getDayTask();
+  }
+
+  getDayTask() {
+    this.taskList = [];
+    let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
+    this.taskService.getDayDetails(this.userId, dueDate ).subscribe((res: any) => {
+      this.taskList = res.data;
+      this.filterTaskList();
+    });
 
   }
 
-  getTaskList() {
-    let d = new Date(this._date)
-    if (this.allTasksList) {
-      this.plannedTaskList = this.allTasksList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
+  filterTaskList() {
+    let d = new Date(this.dueDate)
+    console.log(this.taskList);
+    if (this.taskList) {
+      this.plannedTaskList = this.taskList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
       let plannedCrticalTask = this.plannedTaskList.filter(task => task.priority == "critical");
       let plannedHighTask = this.plannedTaskList.filter(task => task.priority == "high");
       let plannedNormalTask = this.plannedTaskList.filter(task => task.priority == "normal");
       let plannedLowTask = this.plannedTaskList.filter(task => task.priority == "low");
       this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask)
-
-      this.progressTaskList = this.allTasksList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
+      console.log(this.plannedTaskList);
+      this.progressTaskList = this.taskList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
       let progressCriticalTask = this.progressTaskList.filter(task => task.priority == "critical");
       let progressHighTask = this.progressTaskList.filter(task => task.priority == "high");
       let progressNormalTask = this.progressTaskList.filter(task => task.priority == "normal");
       let progressLowTask = this.progressTaskList.filter(task => task.priority == "low");
       this.progressTaskList = progressCriticalTask.concat(progressHighTask, progressNormalTask, progressLowTask)
-
-      this.completedTaskList = this.allTasksList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
+      console.log(this.progressTaskList);
+      this.completedTaskList = this.taskList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
       let completedCriticalTask = this.completedTaskList.filter(task => task.priority == "critical");
       let completedHighTask = this.completedTaskList.filter(task => task.priority == "high");
       let completedNormalTask = this.completedTaskList.filter(task => task.priority == "normal");
       let completedLowTask = this.completedTaskList.filter(task => task.priority == "low");
       this.completedTaskList = completedCriticalTask.concat(completedHighTask, completedNormalTask, completedLowTask)
+      console.log(this.completedTaskList);
     }
 
-    console.log(this.plannedTaskList);
-    console.log(this.progressTaskList);
-    console.log(this.completedTaskList);
+    
 
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
@@ -169,10 +178,10 @@ export class DayModalContentComponent implements OnInit {
     this.clientTime = 0;
     this.orginalSpentTime = 0;
     this.estimatedTime = 0;
-    this.allTasksList.forEach(task => {
+    this.taskList.forEach(task => {
       if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' +
-        (new Date(task.dueDate).getFullYear())) == (new Date(this._date).getDate() + '/' +
-          (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getFullYear()))) {
+        (new Date(task.dueDate).getFullYear())) == (new Date(this.dueDate).getDate() + '/' +
+          (new Date(this.dueDate).getMonth() + 1) + '/' + (new Date(this.dueDate).getFullYear()))) {
 
         this.clientTime += task.clientTime;
         this.orginalSpentTime += task.originalTime;
@@ -218,7 +227,6 @@ export class DayModalContentComponent implements OnInit {
       taskId: this.taskDeatils.taskId, clonned: 'Yes'
     }).subscribe((res: any) => {
       document.getElementById("cancel").click();
-      // this.closeNextDateModal();
       this.getupadtedTask();
     })
   }

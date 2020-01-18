@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ChildAuthGuard } from '../../services/guards/child-auth-guard.service';
-import { Dashboardv3Component } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NgDragDropModule } from 'ng-drag-drop';
 import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
@@ -16,10 +16,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
+import { UserService } from '../../services/user.service';
 
 @NgModule({
   declarations: [
-    Dashboardv3Component,
+    DashboardComponent,
     ProfileComponent,
     ManageLeaveComponent,
     TodoComponent,
@@ -40,7 +41,8 @@ import { StandardSharedModule } from '../+standard-shared/standard-shared.module
     StandardSharedModule
   ],
   providers: [
-    ChildAuthGuard
+    ChildAuthGuard,
+    UserService
   ]
 })
 

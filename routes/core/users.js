@@ -104,7 +104,7 @@ router.post('/countuser', passport.authenticate('jwt', { session: false }), func
 
 // Employee List
 
-router.get('/employee/employeelist', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+router.get('/employee', passport.authenticate('jwt', { session: false }), function (req, res, next) {
 
     User.findAll({
         where: { organizationId: req.user.orgId, roleId: 1 }, order: [['updatedAt', 'DESC']],

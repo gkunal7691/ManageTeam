@@ -2,9 +2,9 @@
   <div class="row w-100">
     <div class="col-12">
       <div class="row w-100 justify-content-center m-0" style="color: rgba(15, 14, 14, 0.87);">
-        <h4 class="mb-0 mt-1">{{convertedDate | date : 'EEEE'}},</h4>
-        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'MMMM d'}},</h4>
-        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'y'}}</h4>
+        <h4 class="mb-0 mt-1">{{dueDate | date : 'EEEE'}},</h4>
+        <h4 class="ml-1 mb-0 mt-1">{{dueDate | date : 'MMMM d'}},</h4>
+        <h4 class="ml-1 mb-0 mt-1">{{dueDate | date : 'y'}}</h4>
       </div>
     </div>
   </div>
@@ -35,8 +35,8 @@
         <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousDate()"></button>
       </div>
       <div class="child">
-        <app-day-modal-content [currentUserId]="currentUserId" [userList]="userList"
-          [showRecentDate]="recentDateClicked" [allTasksList]="taskList" (updateTaskList)="getUpdatedTaskList()">
+        <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
+          (updateTaskList)="getUpdatedTaskList()">
         </app-day-modal-content>
       </div>
       <div>
@@ -45,9 +45,10 @@
     </div>
   </div>
 </div>
-<div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>
+<!-- <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div> -->
 
 <app-move-to-completed-modal></app-move-to-completed-modal>
+
 <app-move-to-next-date-modal></app-move-to-next-date-modal>
 
 <ng-template #toolTipTimeTemplate>
@@ -62,6 +63,6 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-task-modal [currentUserId]="currentUserId" [userList]="userList" [showDate]="_date" [editTask]="taskValue"
-  [editBtn]="edit" (showTask)="getupadtedTask()" [allTasksList]="taskList">
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" [editTask]="taskValue" [editBtn]="edit"
+  (showTask)="getupadtedTask()" [taskList]="taskList">
 </app-task-modal>

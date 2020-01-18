@@ -41,8 +41,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        clonned: {
-            type: DataTypes.ENUM('Yes','No'),
+        isCloned: {
+            type: DataTypes.BOOLEAN,
             allowNull: true,
         }
 

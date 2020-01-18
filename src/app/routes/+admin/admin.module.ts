@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
+import { UserService } from '../../services/user.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { StandardSharedModule } from '../+standard-shared/standard-shared.module
     NgDragDropModule.forRoot(),
   ],
   providers: [
-    ChildAuthGuard
+    ChildAuthGuard,
+    UserService
   ]
 })
 

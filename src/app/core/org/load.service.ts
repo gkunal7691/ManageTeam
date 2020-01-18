@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.prod';
-import { CacheService } from '../../services';
+import { CacheService } from '../../services/cache.service';
 
 @Injectable()
 export class LoadService {

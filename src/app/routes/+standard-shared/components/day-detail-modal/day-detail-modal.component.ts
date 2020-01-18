@@ -91,20 +91,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     private taskService: TaskService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    this.estimateTimeModalForm = this.fb.group({
-      newOriginalHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
-      newOriginalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
-      newClientHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
-      newClientMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]]
-    })
-
-    this.nextDateModalForm = this.fb.group({
-      newEstimatedHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
-      newEstimatedMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
-      newDate: [''],
-      newNextDate: ['']
-    })
-
+    
     this.isDayOff = false;
     this.isHoliday = false;
 

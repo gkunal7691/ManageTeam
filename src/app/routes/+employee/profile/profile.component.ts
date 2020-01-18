@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService, AccountService } from '../../../services';
+import { UserService } from '../../../services/user.service';
+import { LoginService } from '../../../services/login.service';
+
 import { SuperAdminService } from '../../../services/super-admin.service';
 
 @Component({
@@ -12,7 +14,7 @@ export class ProfileComponent implements OnInit {
   userDeatils: any;
 
   constructor(private loginService: LoginService,
-    public accountService: AccountService, private superAdminService: SuperAdminService) { }
+    public userService: UserService, private superAdminService: SuperAdminService) { }
 
   ngOnInit() {
     this.getUserDeatils();
@@ -22,7 +24,7 @@ export class ProfileComponent implements OnInit {
   getUserDeatils() {
     const currentUser = this.loginService.currentUser;
 
-    this.accountService.get({ email: currentUser.email }).subscribe((result: any) => {
+    this.userService.get({ email: currentUser.email }).subscribe((result: any) => {
       if (result.data) {
         this.currentUser = result.data[0];
         console.log(this.currentUser)

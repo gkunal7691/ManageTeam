@@ -1,8 +1,9 @@
 <div class="modal fade dayDetailModal pl-2 pr-2" aria-hidden="true">
   <div [ngClass]="modalCenter == true ? 'modal-dialog modal-dialog-centered' : 'modal-dialog modal-width m-0 mb-3'"
     class="modal-lg">
-    <app-day-modal-content [currentUserId]="currentUserId" [userList]="userList" [showRecentDate]="recentDateClicked"
-    [allTasksList]="taskList" (updateTaskList)="getUpdatedTaskList()"></app-day-modal-content>
+    <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
+      (updateTaskList)="getUpdatedTaskList()">
+    </app-day-modal-content>
   </div>
 </div>
 
@@ -21,6 +22,6 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-task-modal [currentUserId]="currentUserId" [userList]="userList" [showDate]="_date" [editTask]="taskValue"
-  [editBtn]="edit" (showTask)="getupadtedTask()" [allTasksList]="taskList">
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" [editTask]="taskValue" [editBtn]="edit"
+  (showTask)="getupadtedTask()" [taskList]="taskList">
 </app-task-modal>

@@ -11,7 +11,7 @@ const swal = require('sweetalert');
 
 export class TaskModalComponent implements OnInit, OnChanges {
   taskForm: FormGroup
-  commentForm: FormGroup
+
   taskDate: any;
   taskDeatils: any;
   taskId: number;
@@ -29,25 +29,26 @@ export class TaskModalComponent implements OnInit, OnChanges {
   sumOfEstimatedTime: number;
   showModalFooter: boolean = true;
 
-  @Input() currentUserId: any;
+  @Input() userId: any;
   @Input() userList: any;
-  @Input() showDate: any;
+  @Input() dueDate: any;
   @Output() showTask = new EventEmitter();
   @Input() editTask: any;
   @Input() editBtn: boolean;
-  @Input() allTasksList: any;
+  @Input() taskList: any;
 
   ngOnChanges(changes: SimpleChanges) {
+
     this.ngOnInit();
-    this.taskDate = this.showDate;
+    this.taskDate = this.dueDate;
     if (!this.editBtn && this.taskForm) {
       this.taskForm.enable();
       this.taskForm.get('priority').setValue("normal");
       this.taskForm.get('status').setValue("planned");
     }
-    this.getUserList();
+
     this.updateTask();
-    this.validateEstimateTime();
+    //this.validateEstimateTime();
     this.ref.detectChanges();
   }
 
@@ -69,19 +70,16 @@ export class TaskModalComponent implements OnInit, OnChanges {
       originalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
     });
 
-    this.commentForm = this.fb.group({
-      'comment': ['', [Validators.maxLength(5000)]]
-    })
   }
 
   getUserList() {
     if (this.taskForm) {
-      this.taskForm.get('assignee').setValue(this.currentUserId);
+      this.taskForm.get('assignee').setValue(this.userId);
     }
   }
 
   addTask() {
-    let addDueDate = new Date(this.showDate)
+    let addDueDate = new Date(this.dueDate)
     addDueDate.setHours(0, 0, 0)
     if (this.showTaskUpdated == true) {
       let estimatedHour = this.taskForm.get('estimatedHour').value;
@@ -236,19 +234,6 @@ export class TaskModalComponent implements OnInit, OnChanges {
     // }
   }
 
-  addComment() {
-    this.taskService.addComment({ comment: this.commentForm.get('comment').value, taskId: this.taskId }).subscribe((res: any) => {
-      this.editBtn = true
-      this.cancelComment();
-      this.showTask.emit();
-    })
-    this.commentForm.reset();
-  }
-
-  cancelComment() {
-    var x = document.getElementById("testing");
-    setTimeout(() => { x.classList.add("modal-open") }, 120);
-  }
 
   cancelTask() {
     var x = document.getElementById("testing")
@@ -280,7 +265,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
 
   validateEstimateTime() {
     this.sumOfEstimatedTime = 0;
-    this.allTasksList.forEach(task => {
+    this.taskList.forEach(task => {
       if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + (new Date(task.dueDate).getFullYear())) == (new Date(this.taskDate).getDate() + '/' + (new Date(this.taskDate).getMonth() + 1) + '/' + (new Date(this.taskDate).getFullYear()))) {
         this.sumOfEstimatedTime += task.estimatedTime
       }

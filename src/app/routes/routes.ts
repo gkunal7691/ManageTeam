@@ -1,6 +1,6 @@
 import { LayoutComponent } from '../layout/layout.component';
 
-import { AuthGuard } from '../services';
+import { AuthGuard } from '../services/guards/auth-guard.service';
 
 export const routes = [
     {
