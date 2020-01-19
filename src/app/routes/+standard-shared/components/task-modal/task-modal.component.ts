@@ -379,6 +379,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
   }
 
   updateTaskComment() {
+    console.log('Piyush')
     this.updateTaskList.emit();
   }
 

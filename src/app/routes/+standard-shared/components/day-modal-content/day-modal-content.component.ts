@@ -68,6 +68,7 @@ export class DayModalContentComponent implements OnInit {
     console.log("userList", this.userList);
     console.log("dueDate", this.dueDate);
     console.log(this.updatedTaskList);
+    console.log(this.updateTaskComment());
     // console.log("allTasksList",this.allTasksList)
     // console.log("currentUserId",this.currentUserId)  
     this.dateChange();  
@@ -238,5 +239,8 @@ export class DayModalContentComponent implements OnInit {
   dateChange(){
     console.log(this.dueDate)
     this.getDayTask();
+  }
+  updateTaskComment(){
+    console.log('Piyush')
   }
 }
