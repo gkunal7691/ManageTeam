@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommentService } from '../../../../services/comment.service';
 
@@ -12,7 +12,8 @@ export class CommentModalComponent implements OnInit {
   constructor(private fb: FormBuilder,private commentService: CommentService) { }
 
   commentForm: FormGroup;
-  taskId:number;
+  @Input() taskId: any;
+  @Output() updateTask = new EventEmitter();
 
   ngOnInit() {
     this.commentForm = this.fb.group({
@@ -21,9 +22,12 @@ export class CommentModalComponent implements OnInit {
   }
 
   addComment() {
+    console.log(this.commentForm.value)
     this.commentService.addComment({ comment: this.commentForm.get('comment').value, taskId: this.taskId }).subscribe((res: any) => {
+      console.log(res)
+      this.updateTask.emit();
       // this.editBtn = true
-      // this.cancelComment();
+       this.cancelComment();
       // this.showTask.emit();
     })
     this.commentForm.reset();

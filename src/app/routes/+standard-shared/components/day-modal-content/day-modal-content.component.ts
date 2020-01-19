@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
+const swal = require('sweetalert');
 
 
 @Component({
@@ -15,16 +16,14 @@ export class DayModalContentComponent implements OnInit {
 
   @Input() userId: number;
   @Input() userList: any;
+  @Input() updatedTaskList: any;
   @Input() dueDate;
+  @Output() getTask = new EventEmitter();
+  // @Output() updateTaskList = new EventEmitter();
 
-  @Output() updateTaskList = new EventEmitter();
 
-
-  taskId: number;
   calenderDate: any;
   taskDeatils: any;
-  status: any;
-  showForm: boolean;
 
   dayOffList: any;
   isDayOff: boolean;
@@ -43,8 +42,6 @@ export class DayModalContentComponent implements OnInit {
   progressTaskList: any[] = [];
   completedTaskList: any[] = [];
   showupdatedtask: boolean;
-  taskValue: any;
-  edit: boolean = false;
   selectedTask: any;
   stacked: any[] = [];
   newStacked: any[] = [];
@@ -67,22 +64,23 @@ export class DayModalContentComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
 
-     console.log("userId",this.userId);
-     console.log("userList",this.userList);
-     console.log("dueDate",this.dueDate);
+    console.log("userId", this.userId);
+    console.log("userList", this.userList);
+    console.log("dueDate", this.dueDate);
+    console.log(this.updatedTaskList);
+    console.log(this.updateTaskComment());
     // console.log("allTasksList",this.allTasksList)
-    // console.log("currentUserId",this.currentUserId)
-
-
-    this.ngOnInit();
+    // console.log("currentUserId",this.currentUserId)  
+    this.dateChange();
+    this.getDayTask();
     // this.nextDateValue = true;
-    // this.stacked = [];
-    // this.newStacked = [];
+    this.stacked = [];
+    this.newStacked = [];
     // this._date = this.showRecentDate;
     // this.taskList = this.allTasksList;
     //this.getDayTask();
     //if (this.taskValue) {
-      //this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
+    //this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     //}
     //this.taskCalculation();
     this.ref.detectChanges();
@@ -95,15 +93,17 @@ export class DayModalContentComponent implements OnInit {
 
     // this.isDayOff = false;
     // this.isHoliday = false;
-    
-    this.getDayTask();
+
+    // this.getDayTask();
   }
 
   getDayTask() {
+    console.log(this.dueDate)
     this.taskList = [];
     let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
-    this.taskService.getDayDetails(this.userId, dueDate ).subscribe((res: any) => {
+    this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
       this.taskList = res.data;
+      console.log(this.taskList)
       this.filterTaskList();
     });
 
@@ -136,7 +136,7 @@ export class DayModalContentComponent implements OnInit {
       console.log(this.completedTaskList);
     }
 
-    
+
 
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
@@ -160,18 +160,22 @@ export class DayModalContentComponent implements OnInit {
     }
   }
 
-  getupadtedTask() {
-    this.updateTaskList.emit();
-  }
+  // getParticularTask(){
+  //   this.taskList.find(x => )
+  // }
+
+  // getupadtedTask() {
+  //   this.updateTaskList.emit();
+  // }
 
   editTask(task) {
-    this.taskValue = task;
-    this.edit = true;
+    console.log(task)
+    this.getTask.emit(task);
   }
 
   addTask() {
-    this.taskValue = {};
-    this.edit = false;
+    // this.task = {};
+    //console.log(this.task)
   }
 
   taskCalculation() {
@@ -213,21 +217,30 @@ export class DayModalContentComponent implements OnInit {
 
 
   getSelectedTaskDeatils(task) {
-    this.showForm = true;
     this.taskDeatils = task;
     console.log(this.taskDeatils);
   }
 
-  addNewTask() {
-    let newEstimatedHour = this.nextDateModalForm.get('newEstimatedHour').value;
-    let newEstimatedMin = this.nextDateModalForm.get('newEstimatedMin').value;
-    this.totalEstimatedTime = (newEstimatedHour * 60) + newEstimatedMin;
 
-    this.taskService.editTask({
-      taskId: this.taskDeatils.taskId, clonned: 'Yes'
-    }).subscribe((res: any) => {
-      document.getElementById("cancel").click();
-      this.getupadtedTask();
-    })
+  updateStatus(task, status) {
+    if (status != 'completed') {
+      this.taskService.editTask({
+        status: status, taskId: task.taskId, dueDate: task.dueDate
+      }).subscribe((res: any) => {
+        this.getDayTask();
+        if (status == 'progress') {
+          status = 'In Progress';
+        }
+        swal('Success', 'Task #' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
+      })
+    }
+  }
+
+  dateChange() {
+    console.log(this.dueDate)
+    this.getDayTask();
+  }
+  updateTaskComment(){
+    console.log('Piyush')
   }
 }
