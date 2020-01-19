@@ -32,7 +32,6 @@ export class TaskModalComponent implements OnInit, OnChanges {
   @Input() userId: any;
   @Input() userList: any;
   @Input() dueDate: any;
-  //@Output() showTask = new EventEmitter();
   @Output() updateTaskList = new EventEmitter();
   @Input() task: any;
 
@@ -40,7 +39,6 @@ export class TaskModalComponent implements OnInit, OnChanges {
     console.log(this.task)
     this.ngOnInit();
     this.taskDate = this.dueDate;
-
     // if (!this.editBtn && this.taskForm) {
     //   this.taskForm.enable();
     //   this.taskForm.get('priority').setValue("normal");
@@ -379,5 +377,11 @@ export class TaskModalComponent implements OnInit, OnChanges {
       this.updateTaskList.emit();
     });
   }
+
+  updateTaskComment() {
+    console.log('Piyush')
+    this.updateTaskList.emit();
+  }
+
 
 }
