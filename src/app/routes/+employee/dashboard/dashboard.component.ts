@@ -52,4 +52,9 @@ export class DashboardComponent implements OnInit {
     this.dayDetail.dateChange();
   }
 
+  goToPresentDay(){
+    this.dueDate = new Date();
+    this.dayDetail.dateChange();
+  }
+
 }

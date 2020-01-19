@@ -71,11 +71,11 @@ export class DayModalContentComponent implements OnInit {
     console.log(this.updateTaskComment());
     // console.log("allTasksList",this.allTasksList)
     // console.log("currentUserId",this.currentUserId)  
-    this.dateChange();  
+    this.dateChange();
     this.getDayTask();
     // this.nextDateValue = true;
-    // this.stacked = [];
-    // this.newStacked = [];
+    this.stacked = [];
+    this.newStacked = [];
     // this._date = this.showRecentDate;
     // this.taskList = this.allTasksList;
     //this.getDayTask();
@@ -225,7 +225,7 @@ export class DayModalContentComponent implements OnInit {
   updateStatus(task, status) {
     if (status != 'completed') {
       this.taskService.editTask({
-        status: status, taskId: task.taskId
+        status: status, taskId: task.taskId, dueDate: task.dueDate
       }).subscribe((res: any) => {
         this.getDayTask();
         if (status == 'progress') {
@@ -236,7 +236,7 @@ export class DayModalContentComponent implements OnInit {
     }
   }
 
-  dateChange(){
+  dateChange() {
     console.log(this.dueDate)
     this.getDayTask();
   }
