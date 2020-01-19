@@ -11,7 +11,6 @@ var convertedDate = new Date(currentDate);
 var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
-   console.log(req.data)
    req.body.createdById = req.user.id;
    var dueDate = new Date(req.body.dueDate)
   // var compareDueDate = dueDate.getDate();
@@ -28,7 +27,7 @@ router.post('/', async function (req, res, next) {
       dueDate.setHours(dueDate.getHours() + 6, 00)
     }
     task.create({
-      title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
+      title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
       organizationId: req.user.orgId, userId: req.body.assignee,
     })
