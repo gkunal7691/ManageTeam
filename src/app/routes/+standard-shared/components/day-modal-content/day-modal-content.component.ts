@@ -20,8 +20,9 @@ export class DayModalContentComponent implements OnInit {
   @Input() updatedTaskList: any;
   @Input() dueDate;
   @Output() getTask = new EventEmitter();
+  @Output() addNewTask = new EventEmitter();
   // @Output() updateTaskList = new EventEmitter();
-  @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
+
 
   calenderDate: any;
   taskDeatils: any;
@@ -167,7 +168,7 @@ export class DayModalContentComponent implements OnInit {
   }
 
   addTask() {
-    this.taskModal.addNewTask();
+    this.addNewTask.emit();
   }
 
   taskCalculation() {

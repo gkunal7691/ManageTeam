@@ -144,7 +144,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
 
   addNewTask() {
     this.task = null;
-    this.taskForm.reset();
+    this.updateTask();
   }
 
   updateTask() {
