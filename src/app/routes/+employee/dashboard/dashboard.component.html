@@ -36,7 +36,7 @@
       </div>
       <div class="child">
         <app-day-modal-content  [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
-          (updateTaskList)="getUpdatedTaskList()" (getTask)="getTask($event)">
+           [updatedTaskList]="updatedTaskList" (getTask)="getTask($event)">
         </app-day-modal-content >
       </div>
       <div>

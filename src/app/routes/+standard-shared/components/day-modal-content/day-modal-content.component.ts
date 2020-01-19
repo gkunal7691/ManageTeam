@@ -16,6 +16,7 @@ export class DayModalContentComponent implements OnInit {
 
   @Input() userId: number;
   @Input() userList: any;
+  @Input() updatedTaskList: any;
   @Input() dueDate;
   @Output() getTask = new EventEmitter();
   @Output() updateTaskList = new EventEmitter();
@@ -67,6 +68,7 @@ export class DayModalContentComponent implements OnInit {
     console.log("userId", this.userId);
     console.log("userList", this.userList);
     console.log("dueDate", this.dueDate);
+    console.log(this.updatedTaskList);
     // console.log("allTasksList",this.allTasksList)
     // console.log("currentUserId",this.currentUserId)    
     this.getDayTask();
