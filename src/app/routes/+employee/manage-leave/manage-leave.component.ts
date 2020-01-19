@@ -42,7 +42,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   approvedLeave: boolean;
   rejectedLeave: boolean;
   cancelledLeave: boolean;
-  addedLeave: boolean;
+  // addedLeave: boolean;
   allLeave: boolean;
   totaldaysOff: any;
   invalidDate: boolean;
@@ -74,7 +74,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.pendingLeave = true;
     this.approvedLeave = false;
     this.rejectedLeave = false;
-    this.addedLeave = false;
+    // this.addedLeave = false;
     this.allLeave = false;
     this.cancelledLeave = false;
 
@@ -85,12 +85,17 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   }
 
-  formReset() {
+  search(searchValue: string) {
+    this.dataSource.filter = searchValue.trim().toLowerCase();
+  }
+
+  leaveRequestFormReset() {
     this.leaveRequestForm.reset();
     this.leaveRequestForm.get('type').setValue('')
     this.selectedEndDate = null;
     this.selectedStartDate = null;
     this.isvalid = false;
+    this.isPastDate = false;
   }
 
   pending(value) {
@@ -111,11 +116,11 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.filterRequestLeave();
   }
 
-  add(value) {
-    this.addedLeave = value;
-    this.allLeave = false;
-    this.filterRequestLeave();
-  }
+  // add(value) {
+  //   this.addedLeave = value;
+  //   this.allLeave = false;
+  //   this.filterRequestLeave();
+  // }
 
   cancel(value) {
     this.cancelledLeave = value;
@@ -127,7 +132,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.allLeave = value;
     this.approvedLeave = value;
     this.cancelledLeave = value;
-    this.addedLeave = value;
+    // this.addedLeave = value;
     this.rejectedLeave = value;
     this.pendingLeave = value;
     this.filterRequestLeave();
@@ -138,13 +143,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     status['ispending'] = this.pendingLeave;
     status['isapprove'] = this.approvedLeave;
     status['isreject'] = this.rejectedLeave;
-    status['isadd'] = this.addedLeave;
+    // status['isadd'] = this.addedLeave;
     status['iscancel'] = this.cancelledLeave;
 
     this.manageLeaveService.getManageLeaveList(status).subscribe(
       (result: any) => {
         this.leaveRequestList = result.data;
-        this.dataSource = new MatTableDataSource(this.leaveRequestList)
+        this.dataSource = new MatTableDataSource(this.leaveRequestList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.showTable = true;
@@ -167,13 +172,12 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       (res: any) => {
         this.filterRequestLeave();
         this.leaveCalculation();
-        swal('Success', 'Leave request for '+ this.leaveRequestForm.get("totalDays").value +' days successfully sent :)', 'success');
-        this.formReset();
+        this.fromDate = this.fromDate.getDate() + '/' + (this.fromDate.getMonth() + 1) + '/' + this.fromDate.getFullYear();
+        this.toDate = this.toDate.getDate() + '/' + (this.toDate.getMonth() + 1) + '/' + this.toDate.getFullYear();
+        swal('Success', 'Leave request for '+ this.leaveRequestForm.get("totalDays").value +
+          ' days(' +this.fromDate +' - '+ this.toDate +') successfully sent :)', 'success');
+        this.leaveRequestFormReset();
       })
-  }
-
-  search(searchValue: string) {
-    this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
   cancelLeaveRequestSwal(value) {
@@ -273,9 +277,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   getNoOfDays(val) {
     this.toDate = val;
-    if (val != null) {
+    if (val != null && this.fromDate != undefined) {
       if (val) {
-        var Difference_In_Time = val.getTime() - this.fromDate.getTime();
+        var Difference_In_Time =  this.toDate.getTime() - this.fromDate.getTime();
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
           this.invalidDate = true;
         } else {
@@ -290,6 +294,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         totaldate.push(day);
         fromdate.setDate(fromdate.getDate() + 1);
       }
+      console.log(totaldate);
       totaldate.forEach(x => {
         if (x.getDay() == 0) {
           x.day = 'sunday';
@@ -316,6 +321,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) &&
         !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
+      console.log(y.length);
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {

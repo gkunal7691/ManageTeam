@@ -14,7 +14,7 @@ export const routes = [
         ]
     },
 
-     { path: 'login', loadChildren: './+auth/auth.module#AuthModule' },
+    { path: 'login', loadChildren: './+auth/auth.module#AuthModule' },
 
     // Not found
     { path: '**', redirectTo: 'login' }
