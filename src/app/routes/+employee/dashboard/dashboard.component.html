@@ -36,7 +36,7 @@
       </div>
       <div class="child">
         <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
-          (updateTaskList)="getUpdatedTaskList()" (getTask)="getTask($event)">
+          [updatedTaskList]="updatedTaskList" (getTask)="getTask($event)">
         </app-day-modal-content>
       </div>
       <div>
@@ -47,7 +47,7 @@
 </div>
 <!-- <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div> -->
 
-<app-move-to-completed-modal [task]="task"></app-move-to-completed-modal>
+<app-move-to-completed-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-completed-modal>
 
 <app-move-to-next-date-modal [task]="task"></app-move-to-next-date-modal>
 

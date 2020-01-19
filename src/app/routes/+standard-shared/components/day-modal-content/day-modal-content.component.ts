@@ -16,6 +16,7 @@ export class DayModalContentComponent implements OnInit {
 
   @Input() userId: number;
   @Input() userList: any;
+  @Input() updatedTaskList: any;
   @Input() dueDate;
   @Output() getTask = new EventEmitter();
   // @Output() updateTaskList = new EventEmitter();
@@ -63,11 +64,13 @@ export class DayModalContentComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    // console.log("userId", this.userId);
-    // console.log("userList", this.userList);
-    // console.log("dueDate", this.dueDate);
+    console.log("userId", this.userId);
+    console.log("userList", this.userList);
+    console.log("dueDate", this.dueDate);
+    console.log(this.updatedTaskList);
     // console.log("allTasksList",this.allTasksList)
-    // console.log("currentUserId",this.currentUserId)    
+    // console.log("currentUserId",this.currentUserId)  
+    this.dateChange();  
     this.getDayTask();
     // this.nextDateValue = true;
     // this.stacked = [];
@@ -94,6 +97,7 @@ export class DayModalContentComponent implements OnInit {
   }
 
   getDayTask() {
+    console.log(this.dueDate)
     this.taskList = [];
     let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
     this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
@@ -229,5 +233,10 @@ export class DayModalContentComponent implements OnInit {
         swal('Success', 'Task #' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
       })
     }
+  }
+
+  dateChange(){
+    console.log(this.dueDate)
+    this.getDayTask();
   }
 }
