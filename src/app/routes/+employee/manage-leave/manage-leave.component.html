@@ -103,11 +103,11 @@
           <span style="font-size: 17px;">Your Leave History</span>
         </div>
         <!--Filter Dropdown-->
-        <div class="btn-group float-right" style="margin-right: 10px;" dropdown>
+        <div class="btn-group float-right" dropdown>
           <button class="btn btn-secondary" type="button" style="font-size: 15px;position: relative;bottom: 60px;"
             dropdownToggle>
-            <em class="fa-2x mr-2 fas fa-filter" style="font-size: 15px;"></em>
-            Filter<b class="caret"></b>
+            <em class="fa-2x mr-2 fas fa-filter" style="font-size: 15px;"></em>Filter
+            <b class="caret"></b>
           </button>
           <!--CheckBox-->
           <div *dropdownMenu class="dropdown-menu dropdown-top" role="menu">
@@ -141,12 +141,12 @@
                   (change)="cancel($event.target.checked)"><span class="fa fa-check"></span>Cancelled
               </label>
             </div>
-            <div class="form-check-inline">
+            <!-- <div class="form-check-inline">
               <label class="checkbox c-checkbox">
                 <input type="checkbox" class="form-check-input" [checked]="addedLeave"
                   (change)="add($event.target.checked)"><span class="fa fa-check"></span>Added
               </label>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -164,8 +164,11 @@
                 <td mat-cell *matCellDef="let leaveRequest">{{leaveRequest?.toDate | date:longDate}}</td>
               </ng-container>
               <ng-container matColumnDef="noOfdays">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Days</th>
-                <td mat-cell *matCellDef="let leaveRequest"> {{leaveRequest?.noOfdays | positiveValue}}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>No Of Day(s)</th>
+                <td mat-cell *matCellDef="let leaveRequest">
+                  <span *ngIf="leaveRequest.noOfdays < 0">{{leaveRequest?.noOfdays | positiveValue}}</span>
+                  <span *ngIf="leaveRequest.noOfdays >= 0">{{leaveRequest?.noOfdays}}</span>
+                </td>
               </ng-container>
               <ng-container matColumnDef="type">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
@@ -173,12 +176,12 @@
               </ng-container>
 
               <ng-container matColumnDef="reason">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Reason</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Reason</th>
                 <td mat-cell *matCellDef="let leaveRequest">
                   <ng-template #reasonToolTip>
                     {{leaveRequest?.reason}}
                   </ng-template>
-                  <a href="#" [tooltip]="reasonToolTip">
+                  <a *ngIf="leaveRequest?.reason != null" href="#" [tooltip]="reasonToolTip">
                     {{leaveRequest?.reason | slice:0:50}}
                     <span *ngIf="leaveRequest?.reason.length > 50">...</span>
                   </a>
@@ -195,8 +198,8 @@
                     'badge-success': leaveRequest?.status=='approved', 
                     'badge-warning':leaveRequest?.status=='pending', 
                     'badge-danger':leaveRequest?.status=='rejected',
-                    'badge-secondary':leaveRequest?.status=='cancelled',
-                    'badge-primary':leaveRequest?.status=='added'}">
+                    'badge-secondary':leaveRequest?.status=='cancelled'}">
+                    <!-- 'badge-primary':leaveRequest?.status=='added' -->
                     {{leaveRequest?.status}}
                   </a>
                 </td>
@@ -231,7 +234,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title mt-0">Enter following leave information :</h4>
-        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close" (click)="formReset()">
+        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close" (click)="leaveRequestFormReset()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -241,18 +244,18 @@
             <label class="mt-1 mb-0"><b>Choose Dates :</b></label>
           </div>
           <div class="col">
-            <input type="text" class="form-control" #dp="bsDatepicker" [(ngModel)]="selectedStartDate" bsDatepicker
-              placeholder="From" name="dp-basic" [bsConfig]="bsConfig" (bsValueChange)="getFromDate($event)"
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="From Date" name="dp-basic" 
+              [(ngModel)]="selectedStartDate" [bsConfig]="bsConfig" (bsValueChange)="getFromDate($event)"
               value="{{ selectedStartDate | date:'dd-MM-yyyy' }}">
-            <span *ngIf="isPastDate" class="text-danger">Select valid from date.</span>
+            <span *ngIf="isPastDate" class="text-danger">Selected date is past.</span>
           </div>
           <div class="col">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="To" name="dp-basic"
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="To Date" name="dp-basic"
               [(ngModel)]="selectedEndDate" [bsConfig]="bsConfig" (bsValueChange)="getNoOfDays($event)"
               value="{{ selectedEndDate | date:'dd-MM-yyyy' }}">
           </div>
         </div>
-        <h5 *ngIf="invalidDate" class="text-danger font-italic date-error">Please choose valid date(s)</h5>
+        <span *ngIf="invalidDate" class="text-danger font-italic date-error">Please choose valid date(s)</span>
         <div class="form-group row fontStyle mt-3">
           <div class="col-6">
             <div class="row">
@@ -262,13 +265,16 @@
               <div class="col pl-0">
                 <label class="checkbox c-checkbox float-right mt-2 mb-0" *ngIf="isvalid">
                   <input type="checkbox" [checked]="isHalfDay" (change)=gethalfday($event.target.checked) />
-                  <span class="fa fa-check"></span>Half day
+                  <span class="fa fa-check"></span>Half Day
                 </label>
               </div>
             </div>
           </div>
           <div class="col-6">
             <input class="form-control" [formControl]="leaveRequestForm.controls['totalDays']">
+            <!-- <span *ngIf="leaveRequestForm.controls['totalDays'].value == 0 || leaveRequestForm.controls['totalDays'].value = ' ' " class="text-danger">
+              Leave request can't be zero(0).
+            </span> -->
           </div>
         </div>
         <div class="dropdown row fontStyle mt-3">
@@ -278,10 +284,10 @@
           <div class="col-6">
             <select class="form-control" [formControl]="leaveRequestForm.controls['type']">
               <option [selected]="true" value="">Select</option>
+              <option value="earned">Earned</option>
               <option value="casual">Casual</option>
               <option value="optional">Optional</option>
-              <option value="earned">Earned</option>
-              <option value="comp-off">Comp-off</option>
+              <option value="comp-off">Comp Off</option>
             </select>
           </div>
         </div>
@@ -289,11 +295,11 @@
           <label class="mt-2 mb-0"><b>Enter Leave Request Reason :</b></label>
         </div>
         <div class="mt-1">
-          <textarea class="form-control" [formControl]="leaveRequestForm.controls['reason']"></textarea>
+          <textarea class="form-control" placeholder="Start Typing Reason Here..." [formControl]="leaveRequestForm.controls['reason']"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal" (click)="formReset()">Cancel
+        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal" (click)="leaveRequestFormReset()">Cancel
         </button>
         <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal"
           (click)="createLeaveRequest()" [disabled]="!leaveRequestForm.valid || isPastDate">Submit

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
 const swal = require('sweetalert');
@@ -8,7 +8,7 @@ const swal = require('sweetalert');
   templateUrl: './move-to-completed-modal.component.html',
   styleUrls: ['./move-to-completed-modal.component.scss']
 })
-export class MoveToCompletedModalComponent implements OnInit, OnChanges {
+export class MoveToCompletedModalComponent implements OnInit {
 
   @Input() task: any;
   @Output() getUpdatedTaskList = new EventEmitter();
@@ -25,9 +25,6 @@ export class MoveToCompletedModalComponent implements OnInit, OnChanges {
       newClientHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
       newClientMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]]
     })
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 
   addNewEstimateTime() {

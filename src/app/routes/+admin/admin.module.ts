@@ -19,13 +19,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
 import { UserService } from '../../services/user.service';
+import { ViewLeaveDetailsComponent } from './view-leave-details/view-leave-details.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ProfileComponent,
     LeaveRequestComponent,
-    AdminEmployeeComponent
+    AdminEmployeeComponent,
+    ViewLeaveDetailsComponent
   ],
   imports: [
     StandardSharedModule,

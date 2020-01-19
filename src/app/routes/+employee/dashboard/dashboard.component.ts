@@ -14,12 +14,10 @@ export class DashboardComponent implements OnInit {
   dueDate: Date;
   userList: any;
   task: any;
-  updatedTaskList: any;
+ 
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
 
   constructor(private loginService: LoginService, private userService: UserService) { }
-
-
 
   ngOnInit() {
     this.dueDate = new Date();
@@ -28,12 +26,11 @@ export class DashboardComponent implements OnInit {
 
   getTask(task) {
     this.task = task;
-    this.getPreviousDate();
+    console.log(this.task)
   }
 
   getUpdatedTaskList(task) {
-    console.log(task)
-    this.updatedTaskList = task;
+    this.dayDetail.getDayTask();
   }
 
   getEmployees() {

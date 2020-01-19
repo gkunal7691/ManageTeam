@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
+import { ViewLeaveDetailsComponent } from '../view-leave-details/view-leave-details.component';
 const swal = require('sweetalert');
 
 @Component({
@@ -28,12 +30,14 @@ export class LeaveRequestComponent implements OnInit {
     this.windowWidth = window.innerWidth;
   }
 
+  @ViewChild(ViewLeaveDetailsComponent, { static: true }) viewLeaveDetail :ViewLeaveDetailsComponent;
   displayedColumns: string[] = ["employee", "fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private leaveRequestService: LeaveRequestService, private fb: FormBuilder) { }
+  constructor(private leaveRequestService: LeaveRequestService, 
+    private fb: FormBuilder, private router: Router) { }
 
   ngAfterViewChecked() {
     this.onResize();
@@ -109,12 +113,11 @@ export class LeaveRequestComponent implements OnInit {
 
     this.leaveRequestService.getLeaveRequestList(status).subscribe(
       (res: any) => {
-        console.log(res)
+        console.log(res.data);
         this.leaveRequestList = res.data;
         this.dataSource = new MatTableDataSource(this.leaveRequestList)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(this.leaveRequestList)
       })
   }
 
@@ -170,5 +173,9 @@ export class LeaveRequestComponent implements OnInit {
         this.filterRequestLeave();
       })
   };
+
+  onViewLeaveDetails(leaveRequest) {
+    this.viewLeaveDetail.getSingleLeaveData(leaveRequest);
+  }
 
 }

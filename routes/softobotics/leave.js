@@ -35,10 +35,38 @@ router.get('/', async function (req, res, next) {
    })
 })
 
+//For admin to view remaining leave data
+
+router.get('/:userId', async function (req, res) {
+   Leave.findAll({
+      attributes: ['type', [sequelize.fn('sum', sequelize.col('noOfdays')), 'sum']],
+      group: ['type'],
+      where: {
+         userId: req.params.userId,
+         $or: [
+            {
+               status: "approved"
+            },
+            {
+               status: "pending"
+            },
+            {
+               status: "added"
+            }
+         ]
+      }
+   }).then((data) => {
+      let leave = {};
+      data.forEach(e => {
+         leave[e.dataValues.type] = e.dataValues.sum.toFixed(2);
+      })
+      res.json({ success: true, data: leave })
+   })
+})
+
 // create leave Request
 
 router.post('/', async function (req, res, next) {
-
    var totaldate = []
    let holidayDateList = []
    let fromdate = new Date(req.body.fromDate)
@@ -122,10 +150,8 @@ router.post('/', async function (req, res, next) {
          }).then((data) => {
             res.json({ success: true, data: data })
          }).catch(next);
-
       }).catch(next);
    }).catch(next);
-
 })
 
 // leave request list by employee
