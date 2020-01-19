@@ -22,6 +22,9 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" [editTask]="taskValue" [editBtn]="edit"
+<!-- <app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" [editTask]="taskValue" [editBtn]="edit"
   (showTask)="getupadtedTask()" [taskList]="taskList">
+</app-task-modal> -->
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
+  (showTask)="getupadtedTask()" [task]="task">
 </app-task-modal>

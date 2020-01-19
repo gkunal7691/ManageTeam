@@ -16,7 +16,7 @@ export class DayModalContentComponent implements OnInit {
   @Input() userId: number;
   @Input() userList: any;
   @Input() dueDate;
-
+  @Output() getTask = new EventEmitter();
   @Output() updateTaskList = new EventEmitter();
 
 
@@ -43,8 +43,7 @@ export class DayModalContentComponent implements OnInit {
   progressTaskList: any[] = [];
   completedTaskList: any[] = [];
   showupdatedtask: boolean;
-  taskValue: any;
-  edit: boolean = false;
+  // task:any;
   selectedTask: any;
   stacked: any[] = [];
   newStacked: any[] = [];
@@ -67,9 +66,9 @@ export class DayModalContentComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
 
-     console.log("userId",this.userId);
-     console.log("userList",this.userList);
-     console.log("dueDate",this.dueDate);
+    console.log("userId", this.userId);
+    console.log("userList", this.userList);
+    console.log("dueDate", this.dueDate);
     // console.log("allTasksList",this.allTasksList)
     // console.log("currentUserId",this.currentUserId)
 
@@ -82,7 +81,7 @@ export class DayModalContentComponent implements OnInit {
     // this.taskList = this.allTasksList;
     //this.getDayTask();
     //if (this.taskValue) {
-      //this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
+    //this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     //}
     //this.taskCalculation();
     this.ref.detectChanges();
@@ -95,14 +94,14 @@ export class DayModalContentComponent implements OnInit {
 
     // this.isDayOff = false;
     // this.isHoliday = false;
-    
+
     this.getDayTask();
   }
 
   getDayTask() {
     this.taskList = [];
     let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
-    this.taskService.getDayDetails(this.userId, dueDate ).subscribe((res: any) => {
+    this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
       this.taskList = res.data;
       this.filterTaskList();
     });
@@ -136,7 +135,7 @@ export class DayModalContentComponent implements OnInit {
       console.log(this.completedTaskList);
     }
 
-    
+
 
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
@@ -160,18 +159,22 @@ export class DayModalContentComponent implements OnInit {
     }
   }
 
+  // getParticularTask(){
+  //   this.taskList.find(x => )
+  // }
+
   getupadtedTask() {
     this.updateTaskList.emit();
   }
 
   editTask(task) {
-    this.taskValue = task;
-    this.edit = true;
+    console.log(task)
+    this.getTask.emit(task);
   }
 
   addTask() {
-    this.taskValue = {};
-    this.edit = false;
+    // this.task = {};
+    //console.log(this.task)
   }
 
   taskCalculation() {

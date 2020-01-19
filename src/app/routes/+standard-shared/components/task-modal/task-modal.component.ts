@@ -33,21 +33,21 @@ export class TaskModalComponent implements OnInit, OnChanges {
   @Input() userList: any;
   @Input() dueDate: any;
   @Output() showTask = new EventEmitter();
-  @Input() editTask: any;
-  @Input() editBtn: boolean;
-  @Input() taskList: any;
+  @Input() task: any;
 
   ngOnChanges(changes: SimpleChanges) {
-
-    this.ngOnInit();
+    console.log(this.task)
+     console.log('acsac')
+    // this.ngOnInit();
     this.taskDate = this.dueDate;
-    if (!this.editBtn && this.taskForm) {
-      this.taskForm.enable();
-      this.taskForm.get('priority').setValue("normal");
-      this.taskForm.get('status').setValue("planned");
-    }
+  
+    // if (!this.editBtn && this.taskForm) {
+    //   this.taskForm.enable();
+    //   this.taskForm.get('priority').setValue("normal");
+    //   this.taskForm.get('status').setValue("planned");
+    // }
 
-    this.updateTask();
+    // this.updateTask();
     //this.validateEstimateTime();
     this.ref.detectChanges();
   }
@@ -142,82 +142,83 @@ export class TaskModalComponent implements OnInit, OnChanges {
     }
   }
 
-  updateTask() {
-    let currentDate: Date = new Date();
-    let convertedDate: Date;
-    this.taskDeatils = this.editTask;
-    if (this.editTask && this.editBtn) {
-      this.showTaskUpdated = true;
-      this.showCommentButton = true;
-      this.showTextButton = false;
-      if (this.taskDeatils.comments && this.taskDeatils.comments.length != 0) {
-        this.showCommentSecton = true;
-      }
-      // To control previous day task
-      currentDate.setDate(currentDate.getDate() - 1);
-      convertedDate = new Date(currentDate);
-      let duedate = new Date(this.taskDeatils.dueDate);
-      let compareConvertedDate = convertedDate.getDate()
-      let compareDueDate = duedate.getDate()
-      if (compareDueDate < compareConvertedDate) {
-        this.showModalFooter = false;
-        this.taskForm.disable();
-      }
-      else {
-        this.showModalFooter = true;
-      }
-      this.taskTitle = 'Edit Task' + '\t' + '(#' + this.taskDeatils.taskId + ')';
-      this.taskForm.disable();
-      let estimatedGetTime = this.taskDeatils.estimatedTime;
-      let convEstimatedHours = Math.floor(estimatedGetTime / 60);
-      let convEstimatedmin = estimatedGetTime % 60;
-      let clientGetTime = this.taskDeatils.clientTime;
-      let convclientHours = Math.floor(clientGetTime / 60);
-      let convclientMin = clientGetTime % 60;
-      let originalGetTime = this.taskDeatils.originalTime;
-      let convOriginalHours = Math.floor(originalGetTime / 60);
-      let convOriginalMin = originalGetTime % 60;
-      this.taskId = this.taskDeatils.taskId;
-      this.taskForm.get('title').setValue(this.taskDeatils.title);
-      this.taskForm.get('description').setValue(this.taskDeatils.description)
-      this.taskForm.get('priority').setValue(this.taskDeatils.priority)
-      this.taskForm.get('assignee').setValue(this.taskDeatils.userId)
-      this.taskForm.get('status').setValue(this.taskDeatils.status)
-      this.taskForm.get('estimatedHour').setValue(convEstimatedHours)
-      this.taskForm.get('estimatedMin').setValue(convEstimatedmin)
-      this.taskForm.get('clientHour').setValue(convclientHours)
-      this.taskForm.get('clientMin').setValue(convclientMin)
-      this.taskForm.get('originalHour').setValue(convOriginalHours)
-      this.taskForm.get('originalMin').setValue(convOriginalMin)
-      this.commentList = this.taskDeatils.comments;
-    }
-    else {
-      this.taskTitle = 'Add Task'
-      this.buttonText = "Submit";
-      this.showTextButton = true;
-      this.showTaskUpdated = false;
-      this.showCommentButton = false;
-      this.showCommentSecton = false;
-      if (this.taskForm) {
-        this.taskForm.enable();
-        this.taskForm.get('title').reset();
-        this.taskForm.get('title').setValidators([Validators.required])
-        this.taskForm.get('description').reset();
-        this.taskForm.get('estimatedHour').reset();
-        this.taskForm.get('estimatedMin').reset();
-        this.taskForm.get('clientHour').reset();
-        this.taskForm.get('clientMin').reset();
-        this.taskForm.get('originalHour').reset();
-        this.taskForm.get('originalMin').reset();
-        this.taskForm.get('clientHour').disable();
-        this.taskForm.get('clientMin').disable();
-        this.taskForm.get('originalHour').disable();
-        this.taskForm.get('originalMin').disable();
-      }
-    }
-  }
+  // updateTask() {
+  //   let currentDate: Date = new Date();
+  //   let convertedDate: Date;
+    // this.taskDeatils = this.editTask;
+    // if (this.editTask && this.editBtn) {
+    //   this.showTaskUpdated = true;
+    //   this.showCommentButton = true;
+    //   this.showTextButton = false;
+    //   if (this.taskDeatils.comments && this.taskDeatils.comments.length != 0) {
+    //     this.showCommentSecton = true;
+    //   }
+    //   // To control previous day task
+    //   currentDate.setDate(currentDate.getDate() - 1);
+    //   convertedDate = new Date(currentDate);
+    //   let duedate = new Date(this.taskDeatils.dueDate);
+    //   let compareConvertedDate = convertedDate.getDate()
+    //   let compareDueDate = duedate.getDate()
+    //   if (compareDueDate < compareConvertedDate) {
+    //     this.showModalFooter = false;
+    //     this.taskForm.disable();
+    //   }
+    //   else {
+    //     this.showModalFooter = true;
+    //   }
+    //   this.taskTitle = 'Edit Task' + '\t' + '(#' + this.taskDeatils.taskId + ')';
+    //   this.taskForm.disable();
+    //   let estimatedGetTime = this.taskDeatils.estimatedTime;
+    //   let convEstimatedHours = Math.floor(estimatedGetTime / 60);
+    //   let convEstimatedmin = estimatedGetTime % 60;
+    //   let clientGetTime = this.taskDeatils.clientTime;
+    //   let convclientHours = Math.floor(clientGetTime / 60);
+    //   let convclientMin = clientGetTime % 60;
+    //   let originalGetTime = this.taskDeatils.originalTime;
+    //   let convOriginalHours = Math.floor(originalGetTime / 60);
+    //   let convOriginalMin = originalGetTime % 60;
+    //   this.taskId = this.taskDeatils.taskId;
+    //   this.taskForm.get('title').setValue(this.taskDeatils.title);
+    //   this.taskForm.get('description').setValue(this.taskDeatils.description)
+    //   this.taskForm.get('priority').setValue(this.taskDeatils.priority)
+    //   this.taskForm.get('assignee').setValue(this.taskDeatils.userId)
+    //   this.taskForm.get('status').setValue(this.taskDeatils.status)
+    //   this.taskForm.get('estimatedHour').setValue(convEstimatedHours)
+    //   this.taskForm.get('estimatedMin').setValue(convEstimatedmin)
+    //   this.taskForm.get('clientHour').setValue(convclientHours)
+    //   this.taskForm.get('clientMin').setValue(convclientMin)
+    //   this.taskForm.get('originalHour').setValue(convOriginalHours)
+    //   this.taskForm.get('originalMin').setValue(convOriginalMin)
+    //   this.commentList = this.taskDeatils.comments;
+  //    }
+  //   else {
+  //     this.taskTitle = 'Add Task'
+  //     this.buttonText = "Submit";
+  //     this.showTextButton = true;
+  //     this.showTaskUpdated = false;
+  //     this.showCommentButton = false;
+  //     this.showCommentSecton = false;
+  //     if (this.taskForm) {
+  //       this.taskForm.enable();
+  //       this.taskForm.get('title').reset();
+  //       this.taskForm.get('title').setValidators([Validators.required])
+  //       this.taskForm.get('description').reset();
+  //       this.taskForm.get('estimatedHour').reset();
+  //       this.taskForm.get('estimatedMin').reset();
+  //       this.taskForm.get('clientHour').reset();
+  //       this.taskForm.get('clientMin').reset();
+  //       this.taskForm.get('originalHour').reset();
+  //       this.taskForm.get('originalMin').reset();
+  //       this.taskForm.get('clientHour').disable();
+  //       this.taskForm.get('clientMin').disable();
+  //       this.taskForm.get('originalHour').disable();
+  //       this.taskForm.get('originalMin').disable();
+  //     }
+  //   }
+  // }
 
   enableTask(value) {
+    console.log(value)
     this.showTextButton = true;
     this.showModalFooter = true;
     this.buttonText = "Save";
@@ -237,7 +238,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
 
   cancelTask() {
     var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 120);
+    //setTimeout(() => { x.classList.add("modal-open") }, 120);
   }
 
   onStatusCompleted(value) {
@@ -263,55 +264,55 @@ export class TaskModalComponent implements OnInit, OnChanges {
     }
   }
 
-  validateEstimateTime() {
-    this.sumOfEstimatedTime = 0;
-    this.taskList.forEach(task => {
-      if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + (new Date(task.dueDate).getFullYear())) == (new Date(this.taskDate).getDate() + '/' + (new Date(this.taskDate).getMonth() + 1) + '/' + (new Date(this.taskDate).getFullYear()))) {
-        this.sumOfEstimatedTime += task.estimatedTime
-      }
-    })
-    if (this.sumOfEstimatedTime == 480) {
-      this.taskForm.disable();
-    }
-    if (this.sumOfEstimatedTime == 0 && this.taskForm) {
-      console.log("addnew")
-      this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
-      this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
-    }
-    if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
-      console.log("add")
-      let hours = Math.floor(this.sumOfEstimatedTime / 60);
-      let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
-      console.log(hours, minutes)
-      this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
-      this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-      // if (minutes == 0) {
-      //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(8 - hours), Validators.required, Validators.maxLength(2)]);
-      //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-      // }
-      // // else if (minutes != 0 && hours == 7) {
-      // //   this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
-      // //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-      // // }
-      // else {
-      //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
+  // validateEstimateTime() {
+  //   this.sumOfEstimatedTime = 0;
+  //   this.taskList.forEach(task => {
+  //     if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' + (new Date(task.dueDate).getFullYear())) == (new Date(this.taskDate).getDate() + '/' + (new Date(this.taskDate).getMonth() + 1) + '/' + (new Date(this.taskDate).getFullYear()))) {
+  //       this.sumOfEstimatedTime += task.estimatedTime
+  //     }
+  //   })
+  //   if (this.sumOfEstimatedTime == 480) {
+  //     this.taskForm.disable();
+  //   }
+  //   if (this.sumOfEstimatedTime == 0 && this.taskForm) {
+  //     console.log("addnew")
+  //     this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
+  //     this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
+  //   }
+  //   if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
+  //     console.log("add")
+  //     let hours = Math.floor(this.sumOfEstimatedTime / 60);
+  //     let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
+  //     console.log(hours, minutes)
+  //     this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
+  //     this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+  //     // if (minutes == 0) {
+  //     //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(8 - hours), Validators.required, Validators.maxLength(2)]);
+  //     //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+  //     // }
+  //     // // else if (minutes != 0 && hours == 7) {
+  //     // //   this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
+  //     // //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
+  //     // // }
+  //     // else {
+  //     //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
 
-      // }
-    }
-    else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
-      console.log("edit")
-      let editSum = 480 - this.sumOfEstimatedTime
-      // editSum = editSum + this.taskDeatils.estimatedTime;
-      console.log(editSum, this.taskDeatils.estimatedTime)
-      let editHour = Math.floor(editSum / 60);
-      let editMinute = Math.floor(editSum - editHour * 60);
-      console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
-      let m1 = (59 - (this.taskForm.get('estimatedMin').value - editMinute));
-      console.log(m1)
-      this.taskForm.get('estimatedHour').setValidators([Validators.max(this.taskForm.get('estimatedHour').value + editHour), Validators.maxLength(2)]);
-      this.taskForm.get('estimatedMin').setValidators([Validators.max(this.taskForm.get('estimatedMin').value + editMinute), Validators.maxLength(2)]);
-    }
-  }
+  //     // }
+  //   }
+  //   else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
+  //     console.log("edit")
+  //     let editSum = 480 - this.sumOfEstimatedTime
+  //     // editSum = editSum + this.taskDeatils.estimatedTime;
+  //     console.log(editSum, this.taskDeatils.estimatedTime)
+  //     let editHour = Math.floor(editSum / 60);
+  //     let editMinute = Math.floor(editSum - editHour * 60);
+  //     console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
+  //     let m1 = (59 - (this.taskForm.get('estimatedMin').value - editMinute));
+  //     console.log(m1)
+  //     this.taskForm.get('estimatedHour').setValidators([Validators.max(this.taskForm.get('estimatedHour').value + editHour), Validators.maxLength(2)]);
+  //     this.taskForm.get('estimatedMin').setValidators([Validators.max(this.taskForm.get('estimatedMin').value + editMinute), Validators.maxLength(2)]);
+  //   }
+  // }
 
   validateEstimateHour(hour) {
 
