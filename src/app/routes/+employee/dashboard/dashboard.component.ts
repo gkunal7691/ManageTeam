@@ -15,10 +15,13 @@ export class DashboardComponent implements OnInit {
   dueDate: Date;
   userList: any;
   task: any;
- 
+  userId:number;
+  showLoader;
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
 
-  constructor(private loginService: LoginService, private userService: UserService) { }
+  constructor(private loginService: LoginService, private userService: UserService) {
+    this.userId = this.loginService.currentUser.id; 
+   }
 
   ngOnInit() {
     this.dueDate = new Date();

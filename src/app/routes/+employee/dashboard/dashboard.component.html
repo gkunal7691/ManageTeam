@@ -35,7 +35,7 @@
         <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousDate()"></button>
       </div>
       <div class="child">
-        <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
+        <app-day-modal-content [userId]="userId" [userList]="userList" [dueDate]="dueDate"
           (getTask)="getTask($event)" (addNewTask)="addNewTask()">
         </app-day-modal-content>
       </div>

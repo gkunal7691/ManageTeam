@@ -45,4 +45,8 @@ export class MoveToCompletedModalComponent implements OnInit {
     })
   }
 
+  closeEstimateTimeModal(){
+    
+  }
+
 }

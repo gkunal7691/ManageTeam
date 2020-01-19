@@ -6,6 +6,7 @@ import { TaskService } from '../../../../services/task.service';
 import { DayoffService } from '../../../../services/dayoff.service';
 import { HolidayService } from '../../../../services/holiday.service';
 import { ManageLeaveService } from '../../../../services/manage-leave.service';
+import { LoginService } from '../../../../services/login.service';
 const swal = require('sweetalert');
 
 @Component({
@@ -24,10 +25,10 @@ export class DayDetailComponent implements OnInit, OnChanges {
   taskDeatils: any;
   showForm: boolean;
 
-
+  task:any;
   modalCenter: boolean;
-
-  _date: Date;
+  userId:number;
+  dueDate: Date;
   showDate: boolean;
   plannedTaskList: any[] = [];
   progressTaskList: any[] = [];
@@ -59,7 +60,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.ngOnInit();
     this.stacked = [];
     this.newStacked = [];
-    this._date = this.showRecentDate;
+    this.dueDate = this.showRecentDate;
     this.taskList = this.allTasksList;
     //this.getTaskList();
     if (this.taskValue) {
@@ -72,7 +73,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
     private dayoffService: DayoffService, private holidayService: HolidayService,
     private manageLeaveService: ManageLeaveService,
-    private taskService: TaskService, private fb: FormBuilder, private router: Router) { }
+    private taskService: TaskService, private loginSerivce:LoginService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
 
@@ -145,8 +146,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.estimatedTime = 0;
     this.allTasksList.forEach(task => {
       if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' +
-        (new Date(task.dueDate).getFullYear())) == (new Date(this._date).getDate() + '/' +
-          (new Date(this._date).getMonth() + 1) + '/' + (new Date(this._date).getFullYear()))) {
+        (new Date(task.dueDate).getFullYear())) == (new Date(this.dueDate).getDate() + '/' +
+          (new Date(this.dueDate).getMonth() + 1) + '/' + (new Date(this.dueDate).getFullYear()))) {
 
         this.clientTime += task.clientTime;
         this.orginalSpentTime += task.originalTime;
@@ -180,5 +181,9 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.showForm = true;
     this.taskDeatils = task;
     console.log(this.taskDeatils);
+  }
+
+  getUpdatedTaskList() {
+
   }
 }

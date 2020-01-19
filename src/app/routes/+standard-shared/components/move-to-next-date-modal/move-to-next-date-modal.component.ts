@@ -9,7 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class MoveToNextDateModalComponent implements OnInit, OnChanges {
 
   @Input() task: any;
-
+  isDayOff;
+  isHoliday;
+  
   constructor(private fb: FormBuilder) { }
 
   nextDateModalForm: FormGroup;
@@ -42,7 +44,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
 
   }
 
-  // moveToNextDate() {
+   moveToNextDate() {
   //   this.nextDateValue = false;
   //   console.log(this._date);
   //   let addnextDate = (new Date(this._date).getMonth() + 1) + '/' +
@@ -53,7 +55,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
   //   this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
 
   //   this.getNewDate(addnextDate);
-  // }
+   }
 
 
 }
