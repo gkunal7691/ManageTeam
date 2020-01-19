@@ -12,7 +12,8 @@ export class DashboardComponent implements OnInit, OnChanges {
 
   dueDate: Date;
   userList: any;
-
+  task:any;
+  updatedTaskList:any;
   constructor(private loginService: LoginService, private userService: UserService) { }
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -26,9 +27,12 @@ export class DashboardComponent implements OnInit, OnChanges {
 
   getTask(task) {
     console.log(task)
+    this.task = task;
   }
 
-  getUpdatedTaskList() {
+  getUpdatedTaskList(task) {
+    console.log(task)
+    this.updatedTaskList = task
     console.log("getUpdatedTaskList")
   }
 
