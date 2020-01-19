@@ -3,14 +3,120 @@
 <div class="modal fade remainingLeavesModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title mt-0">Remaining Leaves(# )</h4>
-        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header pb-0">
+        <h5 *ngIf="leaveRequest?.User?.firstName" class="modal-title mt-0">
+          Leave Details of : {{leaveRequest?.User?.firstName}} {{leaveRequest?.User?.lastName}}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-
+        <div class="row">
+          <div class="col-6">
+            <!-- START card 1-->
+            <div class="card bg-warning border-0">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div class="col-9 text-right">
+                    <div class="text-lg">
+                      {{leaveData?.earned !== undefined ? leaveData?.earned : 0 | number: '1.2-2'}}
+                    </div>
+                    <p class="m-0">Earned Leaves</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <!-- START card 2-->
+            <div class="card bg-danger border-0">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <i class="fas fa-briefcase-medical"></i>
+                  </div>
+                  <div class="col-9 text-right">
+                    <div class="text-lg">
+                      {{leaveData?.casual !== undefined ? leaveData?.casual : 0 | number: '1.2-2'}}
+                    </div>
+                    <p class="m-0">Casual Leaves</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <!-- START card 3-->
+            <div class="card bg-info border-0">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <i class="fas fa-calendar-times"></i>
+                  </div>
+                  <div class="col-9 text-right">
+                    <div class="text-lg">
+                      {{leaveData?.optional !== undefined ? leaveData?.optional : 0 | number: '1.2-2'}}</div>
+                    <p class="m-0">Optional Leaves</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <!-- START card 4-->
+            <div class="card bg-primary border-0">
+              <div class="card-header">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <i class="far fa-calendar-alt"></i>
+                  </div>
+                  <div class="col-9 text-right">
+                    <div class="text-lg">
+                      {{leaveData?.compoff !== undefined ? leaveData?.compoff : 0 | number: '1.2-2'}}
+                    </div>
+                    <p class="m-0">Comp Off</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <table class="table table-bordered table-striped dt-responsive nowrap">
+            <tr>
+              <td>From</td>
+              <td>{{leaveRequest?.fromDate | date : "dd/MM/yyyy"}}</td>
+            </tr>
+            <tr>
+              <td>To</td>
+              <td>{{leaveRequest?.toDate | date : "dd/MM/yyyy"}}</td>
+            </tr>
+            <tr>
+              <th>No Of Days</th>
+              <td>{{leaveRequest?.noOfdays}}</td>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <td>{{leaveRequest?.type}}</td>
+            </tr>
+            <tr>
+              <th>Reason</th>
+              <td>{{leaveRequest?.reason}}</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>{{leaveRequest?.status}}</td>
+            </tr>
+            <tr>
+              <th>Request On</th>
+              <td>{{leaveRequest?.createdAt | date : "dd/MM/yyyy"}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal">Cancel
