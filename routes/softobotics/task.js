@@ -118,15 +118,15 @@ router.put('/', function (req, res, next) {
   //   res.json({ success: true, data: "Error Cant Edit" });
   // }
   // else {
-  const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
-  if (env === 'local') {
-    dueDate.setHours(dueDate.getHours() + 5, 30)
-  }
-  else {
-    dueDate.setHours(dueDate.getHours() + 6, 00)
-  }
+  // const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
+  // if (env === 'local') {
+  //   dueDate.setHours(dueDate.getHours() + 5, 30)
+  // }
+  // else {
+  //   dueDate.setHours(dueDate.getHours() + 6, 00)
+  // }
   task.update({
-    title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
+    title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
     userId: req.body.assignee, clonned: req.body.clonned
   }, { where: { taskId: req.body.taskId } })
