@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   envName: 'local',
   paths: {
-
-  api: 'http://localhost:3000/api',
+    ui: 'softobotics-dev.herokuapp.com',
+    api: 'http://localhost:3000/api',
   },
 };
 
