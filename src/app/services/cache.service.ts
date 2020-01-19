@@ -17,6 +17,7 @@ export class CacheService {
   }
 
   removeCache(name) {
+    console.log("check",name);
     localStorage.removeItem('softobotics-' + name);
   }
 
