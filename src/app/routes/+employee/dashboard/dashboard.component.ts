@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { LoginService } from '../../../services/login.service';
 
@@ -8,16 +8,24 @@ import { LoginService } from '../../../services/login.service';
   styleUrls: ['./dashboard.component.scss']
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnChanges {
 
   dueDate: Date;
   userList: any;
 
   constructor(private loginService: LoginService, private userService: UserService) { }
+  ngOnChanges(changes: SimpleChanges): void {
+
+  //this.getTask();
+  }
 
   ngOnInit() {
     this.dueDate = new Date();
     this.getEmployees();
+  }
+
+  getTask(task) {
+    console.log(task)
   }
 
   getUpdatedTaskList() {
