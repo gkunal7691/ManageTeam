@@ -2,9 +2,9 @@
   <div class="row w-100">
     <div class="col-12">
       <div class="row w-100 justify-content-center m-0" style="color: rgba(15, 14, 14, 0.87);">
-        <h4 class="mb-0 mt-1">{{convertedDate | date : 'EEEE'}},</h4>
-        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'MMMM d'}},</h4>
-        <h4 class="ml-1 mb-0 mt-1">{{convertedDate | date : 'y'}}</h4>
+        <h4 class="mb-0 mt-1">{{dueDate | date : 'EEEE'}},</h4>
+        <h4 class="ml-1 mb-0 mt-1">{{dueDate | date : 'MMMM d'}},</h4>
+        <h4 class="ml-1 mb-0 mt-1">{{dueDate | date : 'y'}}</h4>
       </div>
     </div>
   </div>
@@ -14,7 +14,6 @@
   <div class="card-body">
     <div class="row w-100 justify-content-center mb-3">
       <button type="button" class="btn btn-success" (click)="goToPresentDay()">
-        <!-- *ngIf="showButton" -->
         Current Day
       </button>
     </div>
@@ -36,8 +35,9 @@
         <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousDate()"></button>
       </div>
       <div class="child">
-        <app-day-detail [showRecentDate]="convertedDate" [allTasksList]="taskList" (updateTaskList)="getTaskList()">
-        </app-day-detail>
+        <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
+          (getTask)="getTask($event)" (addNewTask)="addNewTask()">
+        </app-day-modal-content>
       </div>
       <div>
         <button style="cursor: pointer;" type="button" class="fa fa-caret-right" (click)="getNextDate()"></button>
@@ -45,4 +45,24 @@
     </div>
   </div>
 </div>
-<div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>
+<!-- <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div> -->
+
+<app-move-to-completed-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-completed-modal>
+
+<app-move-to-next-date-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-next-date-modal>
+
+<ng-template #toolTipTimeTemplate>
+  <p>Spent Time : {{orginalSpentTime | customDate }}</p>
+  <p>Estimated Time : {{estimatedTime | customDate }}</p>
+  <p>Total Time : {{480 | customDate}}</p>
+</ng-template>
+
+<ng-template #toolTipTaskTemplate>
+  <p>Completed Tasks : {{completedTaskList.length}}</p>
+  <p>In Progess Tasks : {{progressTaskList.length}}</p>
+  <p>Planned Tasks : {{plannedTaskList.length}}</p>
+</ng-template>
+
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
+  (updateTaskList)="getUpdatedTaskList($event)" [task]="task">
+</app-task-modal>

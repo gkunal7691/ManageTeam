@@ -11,7 +11,7 @@ export class LoginService {
   private route: string;
   private apiPath: string;
   private user: any;
-  public u:any;
+  
   constructor(
     private cacheService: CacheService,
     private httpClient: HttpClient,

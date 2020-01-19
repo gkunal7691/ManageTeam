@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../../../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
-import { LoginService } from '../../../services';
+import { LoginService } from '../../../services/login.service';
 import { EmployeeService } from '../../../services/employee.service';
 const swal = require('sweetalert');
 

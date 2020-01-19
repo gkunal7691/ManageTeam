@@ -48,7 +48,7 @@ app.use('/forgotpassword', express.static('dist'));
 app.use('/resetpassword/:id', express.static('dist'));
 app.use('/employee/edashboard', express.static('dist'));
 app.use('/employee/eprofile', express.static('dist'));
-app.use('/employee/time-attendance', express.static('dist'));
+app.use('/employee/month-view', express.static('dist'));
 app.use('/employee/manage-leave', express.static('dist'));
 app.use('/employee/todo', express.static('dist'));
 app.use('/employee/todo/:id', express.static('dist'));
@@ -57,7 +57,7 @@ app.use('/admin/adashboard', express.static('dist'));
 app.use('/admin/aprofile', express.static('dist'));
 app.use('/admin/leave-request', express.static('dist'));
 app.use('/admin/admin-employee', express.static('dist'));
-app.use('/admin/time-attendance', express.static('dist'));
+app.use('/admin/month-view', express.static('dist'));
 
 app.use('/superadmin/sadashboard', express.static('dist'));
 app.use('/superadmin/admin', express.static('dist'));

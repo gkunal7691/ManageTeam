@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../../services';
+import { LoginService } from '../../../services/login.service';
 import { SuperAdminService } from '../../../services/super-admin.service';
 import { EmployeeService } from '../../../services/employee.service';
 import { MatPaginator } from '@angular/material/paginator';

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService, AccountService } from '../../../services';
+import { LoginService } from '../../../services/login.service';
+import { UserService } from '../../../services/user.service';
+
 
 @Component({
   selector: 'app-profile',
@@ -11,13 +13,13 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    public accountService: AccountService,
+    public userService: UserService,
   ) { }
 
   ngOnInit() {
     const currentUser = this.loginService.currentUser;
 
-    this.accountService.get({ email: currentUser.email }).subscribe((result: any) => {
+    this.userService.get({ email: currentUser.email }).subscribe((result: any) => {
       if (result.data) {
         this.currentUser = result.data[0];
       }

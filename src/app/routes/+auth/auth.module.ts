@@ -1,8 +1,8 @@
 import { NgModule, APP_INITIALIZER} from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { ForgotPasswordService } from '../../services';
-import { LoginService, AccountService } from '../../services';
+import { ForgotPasswordService } from '../../services/forgot-password.service';
+import { LoginService } from '../../services/login.service';
 
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -33,7 +33,6 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     providers: [
       LoginService,
       ForgotPasswordService,
-      AccountService,
     ],
 })
 export class AuthModule {

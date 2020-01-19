@@ -7,11 +7,6 @@
       <span class="text-danger">Total working days : &nbsp; {{ noofWorkingDays }}</span>
       <span class="text-danger">Total working hours : &nbsp; {{ ((noofWorkingDays * 8)*60) | customDate }}</span>
     </div>
-    <!-- <div class="pr-4" *ngIf="showLoader == false">
-      <canvas baseChart [chartType]="'doughnut'" [options]="doughnutOptions" [datasets]="doughnutData.datasets"
-        [colors]="doughnutColors" [labels]="doughnutData.labels" [legend]="false" height="50">
-      </canvas>
-    </div> -->
     <div class="pr-5 pt-2">
       <div class="radial-bar radial-bar-60 radial-bar-sm bg-danger" data-label="60%"></div>
     </div>
@@ -28,7 +23,10 @@
   </div>
 </div>
 
-<!-- loader -->
+<app-day-detail-modal [currentUserId]="currentUserId" [userList]="userList" [showRecentDate]="recentDateClicked"
+  [allTasksList]="taskList" (updateTaskList)="getUpdatedTaskList()">
+</app-day-detail-modal>
+
 <div *ngIf="showLoader" class="loader-demo d-flex align-items-center justify-content-center time-loader">
   <div class="line-spin-fade-loader">
     <div></div>
@@ -139,10 +137,3 @@
   </div>
 </div>
 <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>
-
-<!-- <div class="modal fade dayDetailModal pl-2 pr-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  id="day-detail" aria-hidden="true"> -->
-<app-day-detail [currentUserId]="currentUserId" [userList]="userList" [showRecentDate]="recentDateClicked"
-  [allTasksList]="taskList" (updateTaskList)="getUpdatedTaskList()">
-</app-day-detail>
-<!-- </div> -->

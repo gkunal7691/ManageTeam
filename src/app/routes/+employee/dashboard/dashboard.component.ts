@@ -1,5 +1,8 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { TaskService } from '../../../services/task.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserService } from '../../../services/user.service';
+import { LoginService } from '../../../services/login.service';
+import { DayModalContentComponent } from '../../+standard-shared/components/day-modal-content/day-modal-content.component';
+import { TaskModalComponent } from '../../+standard-shared/components/task-modal/task-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,72 +10,54 @@ import { TaskService } from '../../../services/task.service';
   styleUrls: ['./dashboard.component.scss']
 })
 
-export class Dashboardv3Component implements OnInit, AfterViewInit {
-  currentDate: Date = new Date();
-  convertedDate: Date;
-  taskList: any[] = [];
-  showLoader: boolean = true;
-  showButton: boolean = true;
-  divHeight: any;
-  @ViewChild('showModal', { static: true }) myDiv: ElementRef<HTMLElement>;
-  constructor(private taskService: TaskService) { }
+export class DashboardComponent implements OnInit {
+  @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
+  dueDate: Date;
+  userList: any;
+  task: any;
+ 
+  @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
+
+  constructor(private loginService: LoginService, private userService: UserService) { }
 
   ngOnInit() {
-    this.divHeight = (window.innerHeight - 49) + 'px';
-    this.currentDate.setHours(0, 0, 0);
-    this.getTaskList();
-    this.goToPresentDay();
+    this.dueDate = new Date();
+    this.getEmployees();
   }
 
-  ngAfterViewInit() {
-    // let el: HTMLElement = this.myDiv.nativeElement;
-    // el.click();
+  getTask(task) {
+    this.task = task;
+    console.log(this.task)
   }
 
-  getTaskList() {
-    // , userId: this.currentUserId
-    this.showLoader = true;
-    this.convertedDate = new Date(this.currentDate);
-    let currentDay = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
-    this.taskService.getTaskList({ firstDay: currentDay, lastDay: currentDay }).subscribe((res: any) => {
-      this.taskList = res.data;
-      this.showLoader = false;
-    });
+  getUpdatedTaskList(task) {
+    this.dayDetail.getDayTask();
+  }
+
+  getEmployees() {
+    this.userService.getEmployees().subscribe((res: any) => {
+      console.log(res.data);
+      this.userList = res.data;
+    })
   }
 
   getPreviousDate() {
-    this.showLoader = true;
-    this.taskList = [];
-    this.currentDate.setDate(this.currentDate.getDate() - 1);
-    this.convertedDate = new Date(this.currentDate);
-    let previousDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
-    this.taskService.getSingleTask({ dueDate: previousDate }).subscribe((res: any) => {
-      this.taskList = res.data;
-      this.showLoader = false;
-    });
+    this.dueDate = new Date(this.dueDate.setDate(this.dueDate.getDate() - 1));
+    this.dayDetail.dateChange();
   }
 
   getNextDate() {
-    this.showLoader = true;
-    this.taskList = [];
-    this.currentDate.setDate(this.currentDate.getDate() + 1);
-    this.convertedDate = new Date(this.currentDate);
-    let nextDate = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
-    this.taskService.getSingleTask({ dueDate: nextDate }).subscribe((res: any) => {
-      this.taskList = res.data;
-      this.showLoader = false;
-    })
+    this.dueDate = new Date(this.dueDate.setDate(this.dueDate.getDate() + 1));
+    this.dayDetail.dateChange();
   }
 
-  goToPresentDay() {
-    this.showLoader = true;
-    this.taskList = [];
-    let newDate: Date = new Date();
-    this.convertedDate = new Date(newDate);
-    let currentDay = this.convertedDate.getFullYear() + '-' + (this.convertedDate.getMonth() + 1) + '-' + this.convertedDate.getDate();
-    this.taskService.getSingleTask({ dueDate: currentDay }).subscribe((res: any) => {
-      this.taskList = res.data;
-      this.showLoader = false;
-    })
+  goToPresentDay(){
+    this.dueDate = new Date();
+    this.dayDetail.dateChange();
   }
+  addNewTask(){
+    console.log('ppp')
+   this.taskModal.addNewTask();
+  }
+
 }

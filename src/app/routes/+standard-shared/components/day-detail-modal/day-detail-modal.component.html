@@ -1,0 +1,30 @@
+<div class="modal fade dayDetailModal pl-2 pr-2" aria-hidden="true">
+  <div [ngClass]="modalCenter == true ? 'modal-dialog modal-dialog-centered' : 'modal-dialog modal-width m-0 mb-3'"
+    class="modal-lg">
+    <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
+      (updateTaskList)="getUpdatedTaskList()">
+    </app-day-modal-content>
+  </div>
+</div>
+
+<app-move-to-completed-modal></app-move-to-completed-modal>
+<app-move-to-next-date-modal></app-move-to-next-date-modal>
+
+<ng-template #toolTipTimeTemplate>
+  <p>Spent Time : {{orginalSpentTime | customDate }}</p>
+  <p>Estimated Time : {{estimatedTime | customDate }}</p>
+  <p>Total Time : {{480 | customDate}}</p>
+</ng-template>
+
+<ng-template #toolTipTaskTemplate>
+  <p>Completed Tasks : {{completedTaskList.length}}</p>
+  <p>In Progess Tasks : {{progressTaskList.length}}</p>
+  <p>Planned Tasks : {{plannedTaskList.length}}</p>
+</ng-template>
+
+<!-- <app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" [editTask]="taskValue" [editBtn]="edit"
+  (showTask)="getupadtedTask()" [taskList]="taskList">
+</app-task-modal> -->
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
+  (showTask)="getupadtedTask()" [task]="task">
+</app-task-modal>
