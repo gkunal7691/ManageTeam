@@ -19,8 +19,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(private loginService: LoginService, private userService: UserService) { }
 
-
-
   ngOnInit() {
     this.dueDate = new Date();
     this.getEmployees();
@@ -28,6 +26,7 @@ export class DashboardComponent implements OnInit {
 
   getTask(task) {
     this.task = task;
+    console.log(this.task)
   }
 
   getUpdatedTaskList(task) {
