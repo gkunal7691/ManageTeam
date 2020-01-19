@@ -87,28 +87,34 @@
         </div>
         <div class="container">
           <table class="table table-bordered table-striped dt-responsive nowrap">
-            <thead>
-              <tr>
-                <th>From</th>
-                <th>To</th>
-                <th>No Of Days</th>
-                <th>Type</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Request On</th>
-              </tr>
-            </thead>
-            <tbody *ngIf="leaveRequest">
-              <tr>
-                <td >{{leaveRequest?.fromDate | date : "dd/MM/yyyy"}}</td>
-                <td >{{leaveRequest?.toDate | date : "dd/MM/yyyy"}}</td>
-                <td>{{leaveRequest?.noOfdays}}</td>
-                <td>{{leaveRequest?.type}}</td>
-                <td>{{leaveRequest?.reason}}</td>
-                <td>{{leaveRequest?.status}}</td>
-                <td >{{leaveRequest?.createdAt | date : "dd/MM/yyyy"}}</td>
-              </tr>
-            </tbody>
+            <tr>
+              <td>From</td>
+              <td>{{leaveRequest?.fromDate | date : "dd/MM/yyyy"}}</td>
+            </tr>
+            <tr>
+              <td>To</td>
+              <td>{{leaveRequest?.toDate | date : "dd/MM/yyyy"}}</td>
+            </tr>
+            <tr>
+              <th>No Of Days</th>
+              <td>{{leaveRequest?.noOfdays}}</td>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <td>{{leaveRequest?.type}}</td>
+            </tr>
+            <tr>
+              <th>Reason</th>
+              <td>{{leaveRequest?.reason}}</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>{{leaveRequest?.status}}</td>
+            </tr>
+            <tr>
+              <th>Request On</th>
+              <td>{{leaveRequest?.createdAt | date : "dd/MM/yyyy"}}</td>
+            </tr>
           </table>
         </div>
       </div>
