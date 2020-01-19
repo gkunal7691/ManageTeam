@@ -64,11 +64,10 @@ export class DayModalContentComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    console.log("userId", this.userId);
-    console.log("userList", this.userList);
-    console.log("dueDate", this.dueDate);
-    console.log(this.updatedTaskList);
-    console.log(this.updateTaskComment());
+    // console.log("userId", this.userId);
+    // console.log("userList", this.userList);
+    // console.log("dueDate", this.dueDate);
+    // console.log(this.updatedTaskList);
     // console.log("allTasksList",this.allTasksList)
     // console.log("currentUserId",this.currentUserId)  
     this.dateChange();
@@ -98,12 +97,10 @@ export class DayModalContentComponent implements OnInit {
   }
 
   getDayTask() {
-    console.log(this.dueDate)
     this.taskList = [];
     let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
     this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
       this.taskList = res.data;
-      console.log(this.taskList)
       this.filterTaskList();
     });
 
@@ -111,29 +108,25 @@ export class DayModalContentComponent implements OnInit {
 
   filterTaskList() {
     let d = new Date(this.dueDate)
-    console.log(this.taskList);
     if (this.taskList) {
       this.plannedTaskList = this.taskList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
       let plannedCrticalTask = this.plannedTaskList.filter(task => task.priority == "critical");
       let plannedHighTask = this.plannedTaskList.filter(task => task.priority == "high");
       let plannedNormalTask = this.plannedTaskList.filter(task => task.priority == "normal");
       let plannedLowTask = this.plannedTaskList.filter(task => task.priority == "low");
-      this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask)
-      console.log(this.plannedTaskList);
+      this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask);
       this.progressTaskList = this.taskList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
       let progressCriticalTask = this.progressTaskList.filter(task => task.priority == "critical");
       let progressHighTask = this.progressTaskList.filter(task => task.priority == "high");
       let progressNormalTask = this.progressTaskList.filter(task => task.priority == "normal");
       let progressLowTask = this.progressTaskList.filter(task => task.priority == "low");
-      this.progressTaskList = progressCriticalTask.concat(progressHighTask, progressNormalTask, progressLowTask)
-      console.log(this.progressTaskList);
+      this.progressTaskList = progressCriticalTask.concat(progressHighTask, progressNormalTask, progressLowTask);
       this.completedTaskList = this.taskList.filter(task => task.status == "completed" && new Date(task.dueDate).getDate() == d.getDate())
       let completedCriticalTask = this.completedTaskList.filter(task => task.priority == "critical");
       let completedHighTask = this.completedTaskList.filter(task => task.priority == "high");
       let completedNormalTask = this.completedTaskList.filter(task => task.priority == "normal");
       let completedLowTask = this.completedTaskList.filter(task => task.priority == "low");
-      this.completedTaskList = completedCriticalTask.concat(completedHighTask, completedNormalTask, completedLowTask)
-      console.log(this.completedTaskList);
+      this.completedTaskList = completedCriticalTask.concat(completedHighTask, completedNormalTask, completedLowTask);
     }
 
 
@@ -169,7 +162,6 @@ export class DayModalContentComponent implements OnInit {
   // }
 
   editTask(task) {
-    console.log(task)
     this.getTask.emit(task);
   }
 
@@ -218,7 +210,6 @@ export class DayModalContentComponent implements OnInit {
 
   getSelectedTaskDeatils(task) {
     this.taskDeatils = task;
-    console.log(this.taskDeatils);
   }
 
 

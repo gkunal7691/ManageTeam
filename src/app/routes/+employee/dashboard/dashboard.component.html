@@ -49,7 +49,7 @@
 
 <app-move-to-completed-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-completed-modal>
 
-<app-move-to-next-date-modal [task]="task"></app-move-to-next-date-modal>
+<app-move-to-next-date-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-next-date-modal>
 
 <ng-template #toolTipTimeTemplate>
   <p>Spent Time : {{orginalSpentTime | customDate }}</p>
