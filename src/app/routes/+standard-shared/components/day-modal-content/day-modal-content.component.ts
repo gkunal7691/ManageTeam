@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
+const swal = require('sweetalert');
 
 
 @Component({
@@ -20,11 +21,8 @@ export class DayModalContentComponent implements OnInit {
   @Output() updateTaskList = new EventEmitter();
 
 
-  taskId: number;
   calenderDate: any;
   taskDeatils: any;
-  status: any;
-  showForm: boolean;
 
   dayOffList: any;
   isDayOff: boolean;
@@ -70,10 +68,8 @@ export class DayModalContentComponent implements OnInit {
     console.log("userList", this.userList);
     console.log("dueDate", this.dueDate);
     // console.log("allTasksList",this.allTasksList)
-    // console.log("currentUserId",this.currentUserId)
-
-
-    this.ngOnInit();
+    // console.log("currentUserId",this.currentUserId)    
+    this.getDayTask();
     // this.nextDateValue = true;
     // this.stacked = [];
     // this.newStacked = [];
@@ -103,6 +99,7 @@ export class DayModalContentComponent implements OnInit {
     let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
     this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
       this.taskList = res.data;
+      console.log(this.taskList)
       this.filterTaskList();
     });
 
@@ -216,7 +213,6 @@ export class DayModalContentComponent implements OnInit {
 
 
   getSelectedTaskDeatils(task) {
-    this.showForm = true;
     this.taskDeatils = task;
     console.log(this.taskDeatils);
   }
@@ -232,5 +228,21 @@ export class DayModalContentComponent implements OnInit {
       document.getElementById("cancel").click();
       this.getupadtedTask();
     })
+  }
+
+  updateStatus(task, status) {
+    if (status != 'completed') {
+      this.taskService.editTask({
+        status: status, taskId: task.taskId
+      }).subscribe((res: any) => {
+        this.filterTaskList();
+        this.getupadtedTask();
+        let st: any;
+        if (status == 'progress') {
+          status = 'In Progress';
+        }
+        swal('Success', 'Task #' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
+      })
+    }
   }
 }
