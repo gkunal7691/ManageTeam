@@ -225,7 +225,7 @@
               <button *ngIf="showTextButton" type="submit" class="btn btn-info" data-dismiss="modal"
                 [disabled]="taskForm.invalid" (click)="addTask()">{{buttonText}}
               </button>
-              <button *ngIf="!showTextButton" type="button" class="btn btn-info" (click)="enableTask($event)">
+              <button *ngIf="!showTextButton" type="button" class="btn btn-info" (click)="enableTask()">
                 Edit
               </button>
             </div>

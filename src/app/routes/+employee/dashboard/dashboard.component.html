@@ -64,5 +64,5 @@
 </ng-template>
 
 <app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
-  (showTask)="getupadtedTask()" [task]="task">
+  (updateTaskList)="getUpdatedTaskList($event)" [task]="task">
 </app-task-modal>
