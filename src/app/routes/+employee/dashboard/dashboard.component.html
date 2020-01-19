@@ -35,9 +35,9 @@
         <button style="cursor: pointer;" type="button" class="fa fa-caret-left" (click)="getPreviousDate()"></button>
       </div>
       <div class="child">
-        <app-day-modal-content  [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
+        <app-day-modal-content [userId]="loginService.currentUser.id" [userList]="userList" [dueDate]="dueDate"
           (updateTaskList)="getUpdatedTaskList()" (getTask)="getTask($event)">
-        </app-day-modal-content >
+        </app-day-modal-content>
       </div>
       <div>
         <button style="cursor: pointer;" type="button" class="fa fa-caret-right" (click)="getNextDate()"></button>
@@ -47,9 +47,9 @@
 </div>
 <!-- <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div> -->
 
-<app-move-to-completed-modal></app-move-to-completed-modal>
+<app-move-to-completed-modal [task]="task"></app-move-to-completed-modal>
 
-<app-move-to-next-date-modal></app-move-to-next-date-modal>
+<app-move-to-next-date-modal [task]="task"></app-move-to-next-date-modal>
 
 <ng-template #toolTipTimeTemplate>
   <p>Spent Time : {{orginalSpentTime | customDate }}</p>
@@ -63,6 +63,5 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
-  (showTask)="getupadtedTask()" [task]="task">
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" (showTask)="getupadtedTask()" [task]="task">
 </app-task-modal>
