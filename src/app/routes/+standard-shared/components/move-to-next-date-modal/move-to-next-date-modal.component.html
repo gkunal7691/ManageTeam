@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
         <h4 class="ml-2">Enter Following Details :</h4>
-        <button type="button" class="close" (click)="closeNextDateModal()" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span>&times;</span>
         </button>
       </div>
@@ -17,11 +17,11 @@
               </label>
             </div>
             <div class="col-3 pl-0 pr-0">
-              <input *ngIf="nextDateValue" type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
+              <input  type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
                 placeholder="Choose Here..." [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
                 [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
 
-              <input *ngIf="!nextDateValue" type="text" class="form-control"
+              <input  type="text" class="form-control"
                 [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)"
                 (keyup)="getNewDate($event)">
             </div>
@@ -100,11 +100,10 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
-          (click)="closeNextDateModal()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
           Close
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="addNewTask()"
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="moveTask()"
           [disabled]="nextDateModalForm.invalid">
           Move
         </button>
