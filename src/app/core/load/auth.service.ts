@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { CacheService } from '../../services/cache.service';
 
 @Injectable()
-export class LoadService {
+export class AuthLoadService {
 
   menuItems: Array<any>;
   private route: string;
@@ -33,11 +33,10 @@ export class LoadService {
             this.user = response.user;
             resolve(true);
           },
-          (err)=>
-          {
-            this.cacheService.removeCache('user');
-            resolve(true);
-          })
+            (err) => {
+              this.cacheService.removeCache('user');
+              resolve(true);
+            })
       })
     }
   }

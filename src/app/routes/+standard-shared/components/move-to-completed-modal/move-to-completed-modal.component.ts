@@ -11,7 +11,7 @@ const swal = require('sweetalert');
 export class MoveToCompletedModalComponent implements OnInit {
 
   @Input() task: any;
-  @Output() getUpdatedTaskList = new EventEmitter();
+  @Output() updateTaskList = new EventEmitter();
 
   estimateTimeModalForm: FormGroup;
 
@@ -39,10 +39,14 @@ export class MoveToCompletedModalComponent implements OnInit {
     this.taskService.editTask({
       originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed', dueDate: this.task.dueDate
     }).subscribe((res: any) => {
-      this.getUpdatedTaskList.emit();
+      this.updateTaskList.emit(this.task);
       console.log(res)
       swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
     })
+  }
+
+  closeEstimateTimeModal(){
+    
   }
 
 }

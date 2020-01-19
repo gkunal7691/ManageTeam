@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { LoginService } from '../../../services/login.service';
 import { DayModalContentComponent } from '../../+standard-shared/components/day-modal-content/day-modal-content.component';
+import { TaskModalComponent } from '../../+standard-shared/components/task-modal/task-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,14 +11,17 @@ import { DayModalContentComponent } from '../../+standard-shared/components/day-
 })
 
 export class DashboardComponent implements OnInit {
-
+  @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
   dueDate: Date;
   userList: any;
   task: any;
- 
+  userId:number;
+  showLoader;
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
 
-  constructor(private loginService: LoginService, private userService: UserService) { }
+  constructor(private loginService: LoginService, private userService: UserService) {
+    this.userId = this.loginService.currentUser.id; 
+   }
 
   ngOnInit() {
     this.dueDate = new Date();
@@ -53,6 +57,10 @@ export class DashboardComponent implements OnInit {
   goToPresentDay(){
     this.dueDate = new Date();
     this.dayDetail.dateChange();
+  }
+  addNewTask(){
+    console.log('ppp')
+   this.taskModal.addNewTask();
   }
 
 }
