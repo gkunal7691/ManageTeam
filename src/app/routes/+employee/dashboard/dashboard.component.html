@@ -63,5 +63,6 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" (showTask)="getupadtedTask()" [task]="task">
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
+  (updateTaskList)="getUpdatedTaskList($event)" [task]="task">
 </app-task-modal>

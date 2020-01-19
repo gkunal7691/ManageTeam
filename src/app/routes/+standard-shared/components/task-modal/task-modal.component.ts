@@ -32,22 +32,22 @@ export class TaskModalComponent implements OnInit, OnChanges {
   @Input() userId: any;
   @Input() userList: any;
   @Input() dueDate: any;
-  @Output() showTask = new EventEmitter();
+  //@Output() showTask = new EventEmitter();
+  @Output() updateTaskList = new EventEmitter();
   @Input() task: any;
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(this.task)
-     console.log('acsac')
-    // this.ngOnInit();
+    this.ngOnInit();
     this.taskDate = this.dueDate;
-  
+
     // if (!this.editBtn && this.taskForm) {
     //   this.taskForm.enable();
     //   this.taskForm.get('priority').setValue("normal");
     //   this.taskForm.get('status').setValue("planned");
     // }
 
-    // this.updateTask();
+    this.updateTask();
     //this.validateEstimateTime();
     this.ref.detectChanges();
   }
@@ -106,7 +106,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
         assignee: this.taskForm.get('assignee').value, taskId: this.taskId
       }).subscribe((res: any) => {
         swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
-        this.showTask.emit();
+        this.updateTaskList.emit(this.taskForm.value);
         document.getElementById("cancel").click();
         // var x = document.getElementById("day-detail");
         // setTimeout(() => { x.classList.add("show") }, 350);
@@ -134,7 +134,8 @@ export class TaskModalComponent implements OnInit, OnChanges {
         else {
           swal('Warning', 'Task cannot be added :)', 'error')
         }
-        this.showTask.emit();
+        this.updateTaskList.emit(this.taskForm.value);
+        // this.updateTaskList.emit(this.);
         document.getElementById("cancel").click();
         this.taskForm.reset();
         this.showCommentSecton = false;
@@ -142,88 +143,87 @@ export class TaskModalComponent implements OnInit, OnChanges {
     }
   }
 
-  // updateTask() {
-  //   let currentDate: Date = new Date();
-  //   let convertedDate: Date;
-    // this.taskDeatils = this.editTask;
-    // if (this.editTask && this.editBtn) {
-    //   this.showTaskUpdated = true;
-    //   this.showCommentButton = true;
-    //   this.showTextButton = false;
-    //   if (this.taskDeatils.comments && this.taskDeatils.comments.length != 0) {
-    //     this.showCommentSecton = true;
-    //   }
-    //   // To control previous day task
-    //   currentDate.setDate(currentDate.getDate() - 1);
-    //   convertedDate = new Date(currentDate);
-    //   let duedate = new Date(this.taskDeatils.dueDate);
-    //   let compareConvertedDate = convertedDate.getDate()
-    //   let compareDueDate = duedate.getDate()
-    //   if (compareDueDate < compareConvertedDate) {
-    //     this.showModalFooter = false;
-    //     this.taskForm.disable();
-    //   }
-    //   else {
-    //     this.showModalFooter = true;
-    //   }
-    //   this.taskTitle = 'Edit Task' + '\t' + '(#' + this.taskDeatils.taskId + ')';
-    //   this.taskForm.disable();
-    //   let estimatedGetTime = this.taskDeatils.estimatedTime;
-    //   let convEstimatedHours = Math.floor(estimatedGetTime / 60);
-    //   let convEstimatedmin = estimatedGetTime % 60;
-    //   let clientGetTime = this.taskDeatils.clientTime;
-    //   let convclientHours = Math.floor(clientGetTime / 60);
-    //   let convclientMin = clientGetTime % 60;
-    //   let originalGetTime = this.taskDeatils.originalTime;
-    //   let convOriginalHours = Math.floor(originalGetTime / 60);
-    //   let convOriginalMin = originalGetTime % 60;
-    //   this.taskId = this.taskDeatils.taskId;
-    //   this.taskForm.get('title').setValue(this.taskDeatils.title);
-    //   this.taskForm.get('description').setValue(this.taskDeatils.description)
-    //   this.taskForm.get('priority').setValue(this.taskDeatils.priority)
-    //   this.taskForm.get('assignee').setValue(this.taskDeatils.userId)
-    //   this.taskForm.get('status').setValue(this.taskDeatils.status)
-    //   this.taskForm.get('estimatedHour').setValue(convEstimatedHours)
-    //   this.taskForm.get('estimatedMin').setValue(convEstimatedmin)
-    //   this.taskForm.get('clientHour').setValue(convclientHours)
-    //   this.taskForm.get('clientMin').setValue(convclientMin)
-    //   this.taskForm.get('originalHour').setValue(convOriginalHours)
-    //   this.taskForm.get('originalMin').setValue(convOriginalMin)
-    //   this.commentList = this.taskDeatils.comments;
-  //    }
-  //   else {
-  //     this.taskTitle = 'Add Task'
-  //     this.buttonText = "Submit";
-  //     this.showTextButton = true;
-  //     this.showTaskUpdated = false;
-  //     this.showCommentButton = false;
-  //     this.showCommentSecton = false;
-  //     if (this.taskForm) {
-  //       this.taskForm.enable();
-  //       this.taskForm.get('title').reset();
-  //       this.taskForm.get('title').setValidators([Validators.required])
-  //       this.taskForm.get('description').reset();
-  //       this.taskForm.get('estimatedHour').reset();
-  //       this.taskForm.get('estimatedMin').reset();
-  //       this.taskForm.get('clientHour').reset();
-  //       this.taskForm.get('clientMin').reset();
-  //       this.taskForm.get('originalHour').reset();
-  //       this.taskForm.get('originalMin').reset();
-  //       this.taskForm.get('clientHour').disable();
-  //       this.taskForm.get('clientMin').disable();
-  //       this.taskForm.get('originalHour').disable();
-  //       this.taskForm.get('originalMin').disable();
-  //     }
-  //   }
-  // }
+  updateTask() {
+    let currentDate: Date = new Date();
+    let convertedDate: Date;
+    this.taskDeatils = this.task;
+    if (this.task) {
+      this.showTaskUpdated = true;
+      this.showCommentButton = true;
+      this.showTextButton = false;
+      if (this.taskDeatils.comments && this.taskDeatils.comments.length != 0) {
+        this.showCommentSecton = true;
+      }
+      // To control previous day task
+      currentDate.setDate(currentDate.getDate() - 1);
+      convertedDate = new Date(currentDate);
+      let duedate = new Date(this.taskDeatils.dueDate);
+      let compareConvertedDate = convertedDate.getDate()
+      let compareDueDate = duedate.getDate()
+      if (compareDueDate < compareConvertedDate) {
+        this.showModalFooter = false;
+        this.taskForm.disable();
+      }
+      else {
+        this.showModalFooter = true;
+      }
+      this.taskTitle = 'Edit Task' + '\t' + '(#' + this.taskDeatils.taskId + ')';
+      this.taskForm.disable();
+      let estimatedGetTime = this.taskDeatils.estimatedTime;
+      let convEstimatedHours = Math.floor(estimatedGetTime / 60);
+      let convEstimatedmin = estimatedGetTime % 60;
+      let clientGetTime = this.taskDeatils.clientTime;
+      let convclientHours = Math.floor(clientGetTime / 60);
+      let convclientMin = clientGetTime % 60;
+      let originalGetTime = this.taskDeatils.originalTime;
+      let convOriginalHours = Math.floor(originalGetTime / 60);
+      let convOriginalMin = originalGetTime % 60;
+      this.taskId = this.taskDeatils.taskId;
+      this.taskForm.get('title').setValue(this.taskDeatils.title);
+      this.taskForm.get('description').setValue(this.taskDeatils.description)
+      this.taskForm.get('priority').setValue(this.taskDeatils.priority)
+      this.taskForm.get('assignee').setValue(this.taskDeatils.userId)
+      this.taskForm.get('status').setValue(this.taskDeatils.status)
+      this.taskForm.get('estimatedHour').setValue(convEstimatedHours)
+      this.taskForm.get('estimatedMin').setValue(convEstimatedmin)
+      this.taskForm.get('clientHour').setValue(convclientHours)
+      this.taskForm.get('clientMin').setValue(convclientMin)
+      this.taskForm.get('originalHour').setValue(convOriginalHours)
+      this.taskForm.get('originalMin').setValue(convOriginalMin)
+      this.commentList = this.taskDeatils.comments;
+    }
+    else {
+      this.taskTitle = 'Add Task'
+      this.buttonText = "Submit";
+      this.showTextButton = true;
+      this.showTaskUpdated = false;
+      this.showCommentButton = false;
+      this.showCommentSecton = false;
+      if (this.taskForm) {
+        this.taskForm.enable();
+        this.taskForm.get('title').reset();
+        this.taskForm.get('title').setValidators([Validators.required])
+        this.taskForm.get('description').reset();
+        this.taskForm.get('estimatedHour').reset();
+        this.taskForm.get('estimatedMin').reset();
+        this.taskForm.get('clientHour').reset();
+        this.taskForm.get('clientMin').reset();
+        this.taskForm.get('originalHour').reset();
+        this.taskForm.get('originalMin').reset();
+        this.taskForm.get('clientHour').disable();
+        this.taskForm.get('clientMin').disable();
+        this.taskForm.get('originalHour').disable();
+        this.taskForm.get('originalMin').disable();
+      }
+    }
+  }
 
-  enableTask(value) {
-    console.log(value)
+  enableTask() {
     this.showTextButton = true;
     this.showModalFooter = true;
     this.buttonText = "Save";
     this.taskForm.enable();
-    if (value && this.taskForm.get('status').value == 'planned' || this.taskForm.get('status').value == 'progress') {
+    if (this.taskForm.get('status').value == 'planned' || this.taskForm.get('status').value == 'progress') {
       // this.buttonText = "Save";
       this.taskForm.get('clientHour').disable();
       this.taskForm.get('clientMin').disable();
@@ -376,7 +376,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
   onDeleteTaskPopUp() {
     this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
       swal('Deleted', 'Task(#' + this.taskId + ') has been removed :)', 'warning');
-      this.showTask.emit();
+      this.updateTaskList.emit();
     });
   }
 

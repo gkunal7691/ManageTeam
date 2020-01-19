@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
 const swal = require('sweetalert');
@@ -11,6 +11,7 @@ const swal = require('sweetalert');
 export class MoveToCompletedModalComponent implements OnInit, OnChanges {
 
   @Input() task: any;
+  @Output() updateTaskList = new EventEmitter();
 
   estimateTimeModalForm: FormGroup;
 
@@ -27,7 +28,6 @@ export class MoveToCompletedModalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.task)
   }
 
   addNewEstimateTime() {
@@ -39,11 +39,13 @@ export class MoveToCompletedModalComponent implements OnInit, OnChanges {
     let newOriginalMin = this.estimateTimeModalForm.get('newOriginalMin').value;
     let totalOriginalTime = (newOriginalHour * 60) + newOriginalMin;
 
-    // this.taskService.editTask({
-    //   originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed'
-    // }).subscribe((res: any) => {
-    //   swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
-    // })
+    this.taskService.editTask({
+      originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed'
+    }).subscribe((res: any) => {
+      this.updateTaskList.emit(this.estimateTimeModalForm.value)
+      console.log(res)
+      swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
+    })
   }
 
 }
