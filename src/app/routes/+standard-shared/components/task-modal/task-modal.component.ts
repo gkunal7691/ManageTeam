@@ -37,6 +37,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(this.task)
+    console.log(this.dueDate)
     this.ngOnInit();
     this.taskDate = this.dueDate;
     // if (!this.editBtn && this.taskForm) {
@@ -139,6 +140,11 @@ export class TaskModalComponent implements OnInit, OnChanges {
         this.showCommentSecton = false;
       })
     }
+  }
+
+  addNewTask() {
+    this.task = null;
+    this.taskForm.reset();
   }
 
   updateTask() {
@@ -379,7 +385,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
   }
 
   updateTaskComment() {
-    console.log('Piyush')
+    console.log('Piyush');
     this.updateTaskList.emit();
   }
 
