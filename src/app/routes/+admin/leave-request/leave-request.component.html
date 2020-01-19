@@ -15,7 +15,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <div class="row mb-4">
+          <div class="row">
             <div class="col-8">
               <mat-form-field class="w-50">
                 <input matInput (keyup)="search($event.target.value)" placeholder="Search">
@@ -85,8 +85,10 @@
                 <td mat-cell *matCellDef="let leaveRequest">{{leaveRequest?.toDate | date:longDate}}</td>
               </ng-container>
               <ng-container matColumnDef="noOfdays">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Days </th>
-                <td mat-cell *matCellDef="let leaveRequest"> {{leaveRequest?.noOfdays}}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>No Of Day(s)</th>
+                <td mat-cell *matCellDef="let leaveRequest">
+                  {{leaveRequest?.noOfdays | positiveValue}}
+                </td>
               </ng-container>
               <ng-container matColumnDef="type">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
@@ -98,19 +100,21 @@
                   <ng-template #toolTipTemplate>
                     {{leaveRequest?.reason}}
                   </ng-template>
-                  <a href="#" [tooltip]="toolTipTemplate">{{leaveRequest?.reason | slice:0:5}}
-                    <span *ngIf="leaveRequest?.reason.length > 5">...</span>
+                  <a *ngIf="leaveRequest.reason" href="#" [tooltip]="toolTipTemplate">
+                    {{leaveRequest?.reason | slice:0:45}}
+                    <span *ngIf="leaveRequest?.reason.length > 45">...</span>
                   </a>
                 </td>
               </ng-container>
               <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                 <td mat-cell *matCellDef="let leaveRequest">
-                  <span class="badge" [ngClass]="{'badge-success': leaveRequest?.status=='approved', 
-                  'badge-warning':leaveRequest?.status=='pending', 
-                  'badge-danger':leaveRequest?.status=='rejected',
-                  'badge-secondary':leaveRequest?.status=='cancelled',
-                  'badge-primary':leaveRequest?.status=='added' }">{{leaveRequest?.status}}
+                  <span class="badge" [ngClass]="{
+                    'badge-success': leaveRequest?.status=='approved',
+                    'badge-warning':leaveRequest?.status=='pending', 
+                    'badge-danger':leaveRequest?.status=='rejected',
+                    'badge-secondary':leaveRequest?.status=='cancelled',
+                    'badge-primary':leaveRequest?.status=='added' }">{{leaveRequest?.status}}
                   </span>
                 </td>
               </ng-container>
@@ -125,9 +129,13 @@
                     [ngClass]="{'btn':windowWidth >= 1227 ,'btn-sm':(windowWidth < 1227 && windowWidth >= 1116),'btn-xs':( windowWidth < 1116)}"
                     (click)=approvedSweetAlert(leaveRequest.leaveId)>Approve
                   </button>
-                  <button [disabled]="leaveRequest.status != 'pending'" class="btn-warning"
+                  <button [disabled]="leaveRequest.status != 'pending'" class="btn-danger mr-1"
                     [ngClass]="{'btn':windowWidth >= 1227 ,'btn-sm':(windowWidth < 1227 && windowWidth >= 1116),'btn-xs':( windowWidth < 1116)}"
                     (click)=rejectedSweetAlert(leaveRequest.leaveId)>Reject
+                  </button>
+                  <button class="btn-primary" data-toggle="modal" data-target=".remainingLeavesModal" (click)="onViewLeaveDetails(leaveRequest)"
+                    [ngClass]="{'btn':windowWidth >= 1227 ,'btn-sm':(windowWidth < 1227 && windowWidth >= 1116),'btn-xs':( windowWidth < 1116)}">
+                    View Details
                   </button>
                 </td>
               </ng-container>
@@ -141,3 +149,5 @@
     </div>
   </div>
 </div>
+
+<app-view-leave-details></app-view-leave-details>
