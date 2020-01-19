@@ -231,4 +231,7 @@ export class DayModalContentComponent implements OnInit {
     console.log(this.dueDate)
     this.getDayTask();
   }
+  updateTaskComment(){
+    console.log('Piyush')
+  }
 }
