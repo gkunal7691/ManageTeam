@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { MenuService } from '../../core/menu/menu.service';
 import { LoginService } from '../login.service';
-import { LoadService } from '../../core/org/load.service';
+import { AuthLoadService } from '../../core/load/auth.service';
 
 @Injectable()
 export class ChildAuthGuard implements CanActivate {
@@ -10,7 +10,7 @@ export class ChildAuthGuard implements CanActivate {
     currentUser: any;
     user :any;
     url:any
-    constructor(private loginService: LoginService, private router: Router, private menu: MenuService,  private loadService: LoadService) {
+    constructor(private loginService: LoginService, private router: Router, private menu: MenuService,  private authLoadService: AuthLoadService) {
         this.menuItems = menu.getMenu();
         this.currentUser = loginService.currentUser;
     }
