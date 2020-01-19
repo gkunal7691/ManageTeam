@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
+import { TaskModalComponent } from '../task-modal/task-modal.component';
 const swal = require('sweetalert');
 
 
@@ -20,7 +21,7 @@ export class DayModalContentComponent implements OnInit {
   @Input() dueDate;
   @Output() getTask = new EventEmitter();
   // @Output() updateTaskList = new EventEmitter();
-
+  @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
 
   calenderDate: any;
   taskDeatils: any;
@@ -174,8 +175,7 @@ export class DayModalContentComponent implements OnInit {
   }
 
   addTask() {
-    // this.task = {};
-    //console.log(this.task)
+    this.taskModal.addNewTask();
   }
 
   taskCalculation() {
@@ -240,7 +240,7 @@ export class DayModalContentComponent implements OnInit {
     console.log(this.dueDate)
     this.getDayTask();
   }
-  updateTaskComment(){
+  updateTaskComment() {
     console.log('Piyush')
   }
 }

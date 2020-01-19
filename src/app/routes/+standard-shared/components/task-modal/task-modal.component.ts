@@ -141,6 +141,11 @@ export class TaskModalComponent implements OnInit, OnChanges {
     }
   }
 
+  addNewTask(){
+    this.task = null;
+     this.taskForm.reset();
+  }
+
   updateTask() {
     let currentDate: Date = new Date();
     let convertedDate: Date;
