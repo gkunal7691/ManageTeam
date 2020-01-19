@@ -19,7 +19,7 @@ export class DayModalContentComponent implements OnInit {
   @Input() updatedTaskList: any;
   @Input() dueDate;
   @Output() getTask = new EventEmitter();
-  @Output() updateTaskList = new EventEmitter();
+  // @Output() updateTaskList = new EventEmitter();
 
 
   calenderDate: any;
@@ -42,7 +42,6 @@ export class DayModalContentComponent implements OnInit {
   progressTaskList: any[] = [];
   completedTaskList: any[] = [];
   showupdatedtask: boolean;
-  // task:any;
   selectedTask: any;
   stacked: any[] = [];
   newStacked: any[] = [];
@@ -70,7 +69,8 @@ export class DayModalContentComponent implements OnInit {
     console.log("dueDate", this.dueDate);
     console.log(this.updatedTaskList);
     // console.log("allTasksList",this.allTasksList)
-    // console.log("currentUserId",this.currentUserId)    
+    // console.log("currentUserId",this.currentUserId)  
+    this.dateChange();  
     this.getDayTask();
     // this.nextDateValue = true;
     // this.stacked = [];
@@ -93,10 +93,11 @@ export class DayModalContentComponent implements OnInit {
     // this.isDayOff = false;
     // this.isHoliday = false;
 
-    this.getDayTask();
+    // this.getDayTask();
   }
 
   getDayTask() {
+    console.log(this.dueDate)
     this.taskList = [];
     let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
     this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
@@ -162,9 +163,9 @@ export class DayModalContentComponent implements OnInit {
   //   this.taskList.find(x => )
   // }
 
-  getupadtedTask() {
-    this.updateTaskList.emit();
-  }
+  // getupadtedTask() {
+  //   this.updateTaskList.emit();
+  // }
 
   editTask(task) {
     console.log(task)
@@ -219,32 +220,23 @@ export class DayModalContentComponent implements OnInit {
     console.log(this.taskDeatils);
   }
 
-  addNewTask() {
-    let newEstimatedHour = this.nextDateModalForm.get('newEstimatedHour').value;
-    let newEstimatedMin = this.nextDateModalForm.get('newEstimatedMin').value;
-    this.totalEstimatedTime = (newEstimatedHour * 60) + newEstimatedMin;
-
-    this.taskService.editTask({
-      taskId: this.taskDeatils.taskId, clonned: 'Yes'
-    }).subscribe((res: any) => {
-      document.getElementById("cancel").click();
-      this.getupadtedTask();
-    })
-  }
 
   updateStatus(task, status) {
     if (status != 'completed') {
       this.taskService.editTask({
         status: status, taskId: task.taskId
       }).subscribe((res: any) => {
-        this.filterTaskList();
-        this.getupadtedTask();
-        let st: any;
+        this.getDayTask();
         if (status == 'progress') {
           status = 'In Progress';
         }
         swal('Success', 'Task #' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
       })
     }
+  }
+
+  dateChange(){
+    console.log(this.dueDate)
+    this.getDayTask();
   }
 }

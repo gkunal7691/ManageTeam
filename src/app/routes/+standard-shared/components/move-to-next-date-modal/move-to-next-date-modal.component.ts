@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './move-to-next-date-modal.component.html',
   styleUrls: ['./move-to-next-date-modal.component.scss']
 })
-export class MoveToNextDateModalComponent implements OnInit {
+export class MoveToNextDateModalComponent implements OnInit, OnChanges {
+
+  @Input() task: any;
 
   constructor(private fb: FormBuilder) { }
 
@@ -19,7 +21,10 @@ export class MoveToNextDateModalComponent implements OnInit {
       newDate: [''],
       newNextDate: ['']
     })
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.task)
   }
 
 }
