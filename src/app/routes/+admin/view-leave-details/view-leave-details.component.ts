@@ -14,7 +14,6 @@ export class ViewLeaveDetailsComponent implements OnInit {
   from: any;
   to: any;
   days: any;
-
   @Output() updatedLeave = new EventEmitter();
 
   constructor(private leaveRequestService: LeaveRequestService) { }
@@ -65,9 +64,7 @@ export class ViewLeaveDetailsComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.updatedLeave.emit(leaveRequest);
-        document.getElementById("approve").click();
         swal('Success', 'Leave request approved for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'success');
-        // this.filterRequestLeave();
       })
   }
 
@@ -104,8 +101,6 @@ export class ViewLeaveDetailsComponent implements OnInit {
         console.log(res);
         this.updatedLeave.emit(leaveRequest);
         swal('Rejected', 'Leave request rejected for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'warning');
-        // document.getElementById("reject").click();
-        // this.filterRequestLeave();
       })
   };
 
