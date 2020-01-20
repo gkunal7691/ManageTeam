@@ -6,12 +6,12 @@ import { CacheService } from './cache.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ManageLeaveService {
   private apiPath: string;
   private leaveRequest: any;
   private manageleaveList: any;
   private status:string;
-  private singleLeaveData: any;
 
   constructor(private httpClient: HttpClient, private cacheService: CacheService) {
     const env: any = environment;
@@ -19,7 +19,6 @@ export class ManageLeaveService {
     this.leaveRequest = 'leave';
     this.manageleaveList = 'leave/manageleavelist';
     this.status = 'leave/cancel';
-    this.singleLeaveData = 'leave';
   }
 
   getHeaders() {
@@ -41,10 +40,6 @@ export class ManageLeaveService {
 
   getTotalLeaves() {
     return this.httpClient.get<object>(`${this.apiPath}/${this.leaveRequest}/`, this.getHeaders());
-  }
-
-  getSingleLeaveData(userId) {
-    return this.httpClient.get<object>(`${this.apiPath}/${this.singleLeaveData}/`+userId, this.getHeaders());
   }
   
   updateStatus(leaveId) {

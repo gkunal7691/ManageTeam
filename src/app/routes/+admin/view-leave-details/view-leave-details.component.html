@@ -1,7 +1,7 @@
 <!-- Remaining Leaves Modal -->
 
 <div class="modal fade remainingLeavesModal" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header pb-0">
         <h5 *ngIf="leaveRequest?.User?.firstName" class="modal-title mt-0">
@@ -11,11 +11,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-6">
+      <div class="modal-body pb-0">
+        <div class="row pb-2 pt-2">
+          <div class="col-3">
             <!-- START card 1-->
-            <div class="card bg-warning border-0">
+            <div class="card bg-warning border-0 mb-0">
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col-3">
@@ -31,9 +31,9 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-3">
             <!-- START card 2-->
-            <div class="card bg-danger border-0">
+            <div class="card bg-danger border-0 mb-0">
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col-3">
@@ -49,9 +49,9 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-3">
             <!-- START card 3-->
-            <div class="card bg-info border-0">
+            <div class="card bg-info border-0 mb-0">
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col-3">
@@ -66,9 +66,9 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-3">
             <!-- START card 4-->
-            <div class="card bg-primary border-0">
+            <div class="card bg-primary border-0 mb-0">
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col-3">
@@ -86,29 +86,33 @@
           </div>
         </div>
         <div class="container">
-          <table class="table table-bordered table-striped dt-responsive nowrap">
+          <h5 class="mb-0">Selected leave details :</h5>
+          <table class="table table-bordered table-striped dt-responsive nowrap mb-0">
             <tr>
-              <td>From</td>
+              <th>From Date</th>
               <td>{{leaveRequest?.fromDate | date : "dd/MM/yyyy"}}</td>
             </tr>
             <tr>
-              <td>To</td>
+              <th>To Date</th>
               <td>{{leaveRequest?.toDate | date : "dd/MM/yyyy"}}</td>
             </tr>
             <tr>
               <th>No Of Days</th>
-              <td>{{leaveRequest?.noOfdays}}</td>
+              <td>{{leaveRequest?.noOfdays | positiveValue}}</td>
             </tr>
             <tr>
-              <th>Type</th>
+              <th>Leave Type</th>
               <td>{{leaveRequest?.type}}</td>
             </tr>
             <tr>
-              <th>Reason</th>
-              <td>{{leaveRequest?.reason}}</td>
+              <th>Leave Reason</th>
+              <td>
+                {{leaveRequest?.reason | slice:0:40}}
+                <span *ngIf="leaveRequest?.reason.length > 40">...</span>
+              </td>
             </tr>
             <tr>
-              <th>Status</th>
+              <th>Leave Status</th>
               <td>{{leaveRequest?.status}}</td>
             </tr>
             <tr>
@@ -118,8 +122,12 @@
           </table>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal">Cancel
+      <div class="modal-footer" style="border-top: none !important;">
+        <button [disabled]="leaveRequest?.status != 'pending'" class="btn btn-success mr-1" id="approve"
+          (click)=approvedSweetAlert(leaveRequest)>Approve
+        </button>
+        <button [disabled]="leaveRequest?.status != 'pending'" class="btn btn-danger" data-dismiss="modal" id="reject"
+          (click)=rejectedSweetAlert(leaveRequest)>Reject
         </button>
       </div>
     </div>
