@@ -116,7 +116,7 @@ export class DayModalContentComponent implements OnInit {
       let plannedHighTask = this.plannedTaskList.filter(task => task.priority == "high");
       let plannedNormalTask = this.plannedTaskList.filter(task => task.priority == "normal");
       let plannedLowTask = this.plannedTaskList.filter(task => task.priority == "low");
-      this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask);
+      this.plannedTaskList = plannedCrticalTask.concat(plannedHighTask, plannedNormalTask, plannedLowTask);      
       this.progressTaskList = this.taskList.filter(task => task.status == "progress" && new Date(task.dueDate).getDate() == d.getDate())
       let progressCriticalTask = this.progressTaskList.filter(task => task.priority == "critical");
       let progressHighTask = this.progressTaskList.filter(task => task.priority == "high");
@@ -229,7 +229,6 @@ export class DayModalContentComponent implements OnInit {
   }
 
   dateChange() {
-    console.log(this.dueDate)
     this.getDayTask();
   }
   updateTaskComment() {
