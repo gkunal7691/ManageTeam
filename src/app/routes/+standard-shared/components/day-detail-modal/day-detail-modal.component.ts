@@ -25,9 +25,9 @@ export class DayDetailComponent implements OnInit, OnChanges {
   taskDeatils: any;
   showForm: boolean;
 
-  task:any;
+  task: any;
   modalCenter: boolean;
-  userId:number;
+  userId: number;
   dueDate: Date;
   showDate: boolean;
   plannedTaskList: any[] = [];
@@ -73,7 +73,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
     private dayoffService: DayoffService, private holidayService: HolidayService,
     private manageLeaveService: ManageLeaveService,
-    private taskService: TaskService, private loginSerivce:LoginService, private fb: FormBuilder, private router: Router) { }
+    private taskService: TaskService, private loginSerivce: LoginService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
 
