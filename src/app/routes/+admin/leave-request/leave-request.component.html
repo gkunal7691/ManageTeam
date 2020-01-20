@@ -101,8 +101,8 @@
                     {{leaveRequest?.reason}}
                   </ng-template>
                   <a *ngIf="leaveRequest.reason" href="#" [tooltip]="toolTipTemplate">
-                    {{leaveRequest?.reason | slice:0:45}}
-                    <span *ngIf="leaveRequest?.reason.length > 45">...</span>
+                    {{leaveRequest?.reason | slice:0:20}}
+                    <span *ngIf="leaveRequest?.reason.length > 20">...</span>
                   </a>
                 </td>
               </ng-container>
@@ -150,4 +150,4 @@
   </div>
 </div>
 
-<app-view-leave-details></app-view-leave-details>
+<app-view-leave-details (updatedLeave)="getUpdatedLeave($event)"></app-view-leave-details>

@@ -178,4 +178,9 @@ export class LeaveRequestComponent implements OnInit {
     this.viewLeaveDetail.getSingleLeaveData(leaveRequest);
   }
 
+  getUpdatedLeave(leave) {
+    console.log("In getUpdatedLeave-->")
+    this.filterRequestLeave();
+  }
+
 }
