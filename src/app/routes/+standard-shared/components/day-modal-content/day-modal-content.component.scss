@@ -11,3 +11,31 @@
 .lowColor {
   color: #5bc0de;
 }
+
+.move-btn {
+  height: 31px;
+}
+
+.move-btn-pad {
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-right: 2px;
+  padding-bottom: 3px;
+}
+
+.move-btn-pad1 {
+  padding-top: 6px;
+}
+
+.removeUnderLine {
+  cursor: pointer;
+}
+
+.list-group-item {
+  padding: 6px 10px 6px 10px !important;
+}
+
+.center {
+  position: relative !important;
+  top: 5px !important;
+}

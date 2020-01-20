@@ -39,7 +39,6 @@ export class DashboardComponent implements OnInit {
 
   getEmployees() {
     this.userService.getEmployees().subscribe((res: any) => {
-      console.log(res.data);
       this.userList = res.data;
     })
   }

@@ -66,7 +66,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
     if (this.taskValue) {
       this.taskValue = this.allTasksList.find(task => task.taskId === this.taskValue.taskId);
     }
-    this.taskCalculation();
+    // this.taskCalculation();
     this.ref.detectChanges();
   }
 
@@ -140,42 +140,42 @@ export class DayDetailComponent implements OnInit, OnChanges {
     this.edit = false;
   }
 
-  taskCalculation() {
-    this.clientTime = 0;
-    this.orginalSpentTime = 0;
-    this.estimatedTime = 0;
-    this.allTasksList.forEach(task => {
-      if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' +
-        (new Date(task.dueDate).getFullYear())) == (new Date(this.dueDate).getDate() + '/' +
-          (new Date(this.dueDate).getMonth() + 1) + '/' + (new Date(this.dueDate).getFullYear()))) {
+  // taskCalculation() {
+  //   this.clientTime = 0;
+  //   this.orginalSpentTime = 0;
+  //   this.estimatedTime = 0;
+  //   this.allTasksList.forEach(task => {
+  //     if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' +
+  //       (new Date(task.dueDate).getFullYear())) == (new Date(this.dueDate).getDate() + '/' +
+  //         (new Date(this.dueDate).getMonth() + 1) + '/' + (new Date(this.dueDate).getFullYear()))) {
 
-        this.clientTime += task.clientTime;
-        this.orginalSpentTime += task.originalTime;
-        this.estimatedTime += task.estimatedTime;
-      }
-    });
-    this.stacked.push({
-      value: this.orginalSpentTime,
-      type: "success"
-    }, {
-      value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
-      type: "info"
-    }, {
-      value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
-      type: "danger"
-    });
+  //       this.clientTime += task.clientTime;
+  //       this.orginalSpentTime += task.originalTime;
+  //       this.estimatedTime += task.estimatedTime;
+  //     }
+  //   });
+  //   this.stacked.push({
+  //     value: this.orginalSpentTime,
+  //     type: "success"
+  //   }, {
+  //     value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
+  //     type: "info"
+  //   }, {
+  //     value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
+  //     type: "danger"
+  //   });
 
-    this.newStacked.push({
-      value: this.completedTaskList.length,
-      type: "success"
-    }, {
-      value: this.progressTaskList.length,
-      type: "info"
-    }, {
-      value: (this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length),
-      type: "danger"
-    })
-  }
+  //   this.newStacked.push({
+  //     value: this.completedTaskList.length,
+  //     type: "success"
+  //   }, {
+  //     value: this.progressTaskList.length,
+  //     type: "info"
+  //   }, {
+  //     value: (this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length),
+  //     type: "danger"
+  //   })
+  // }
 
   getSelectedTaskDeatils(task) {
     this.showForm = true;
