@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
         <h4 class="ml-2">Enter Following Details :</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="formReset()">
           <span>&times;</span>
         </button>
       </div>
@@ -17,25 +17,23 @@
               </label>
             </div>
             <div class="col-3 pl-0 pr-0">
-              <input  type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
+              <input *ngIf="showCalendar" type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
                 placeholder="Choose Here..." [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
                 [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
 
-              <input  type="text" class="form-control"
+              <input *ngIf="!showCalendar" type="text" class="form-control"
                 [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)"
                 (keyup)="getNewDate($event)">
             </div>
             <div class="col-3 p-0 mt-1 pl-3">
-              <a class="removeUnderLine" style="font-size: 16px;" href="#" (click)="moveToNextDate()">
-                Select next date
-              </a>
+              <a class="removeUnderLine" (click)="moveToNextDate()">Select next date</a>
             </div>
           </div>
           <div class="row">
             <div class="col-3 p-0"></div>
             <div class="col p-0">
-              <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
-              <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span>
+              <!-- <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
+              <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span> -->
               <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
                   nextDateModalForm.controls['newDate'].touched">
                 <i>Invalid Date.</i>
@@ -100,7 +98,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" (click)="formReset()">
           Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="moveTask()"

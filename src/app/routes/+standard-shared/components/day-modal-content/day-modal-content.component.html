@@ -61,7 +61,7 @@
                     <span class="badge badge-info float-right mr-1">E :
                       {{task?.estimatedTime | customDate}}</span>
                     <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
-                    <em *ngIf="task.clonned" class="fas fa-copy mr-2"></em>
+                    <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
                     <em class="far fa-clock fa-fw mr-2"></em>
                     <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                     <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
@@ -111,6 +111,7 @@
                     <span class="badge badge-info float-right mr-1">E :
                       {{task?.estimatedTime | customDate}}</span>
                     <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                    <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
                     <em class="fas fa-hourglass-half mr-2"></em>
                     <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                     <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
@@ -156,6 +157,7 @@
                     <span class="badge badge-info float-right mr-1">E :
                       {{task?.estimatedTime | customDate}}</span>
                     <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                    <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
                     <em class="fas fa-check-circle normalColor mr-2"></em>
                     <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                     <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>

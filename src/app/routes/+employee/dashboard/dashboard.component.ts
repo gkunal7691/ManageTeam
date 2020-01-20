@@ -15,13 +15,13 @@ export class DashboardComponent implements OnInit {
   dueDate: Date;
   userList: any;
   task: any;
-  userId:number;
+  userId: number;
   showLoader;
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
 
   constructor(private loginService: LoginService, private userService: UserService) {
-    this.userId = this.loginService.currentUser.id; 
-   }
+    this.userId = this.loginService.currentUser.id;
+  }
 
   ngOnInit() {
     this.dueDate = new Date();
@@ -54,13 +54,13 @@ export class DashboardComponent implements OnInit {
     this.dayDetail.dateChange();
   }
 
-  goToPresentDay(){
+  goToPresentDay() {
     this.dueDate = new Date();
     this.dayDetail.dateChange();
   }
-  addNewTask(){
+  addNewTask() {
     console.log('ppp')
-   this.taskModal.addNewTask();
+    this.taskModal.addNewTask();
   }
 
 }

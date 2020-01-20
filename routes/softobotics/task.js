@@ -121,7 +121,7 @@ router.put('/', function (req, res, next) {
   task.update({
     title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-    userId: req.body.assignee, clonned: req.body.clonned
+    userId: req.body.assignee, isCloned: req.body.clonned
   }, { where: { taskId: req.body.taskId } })
     .then((data) => {
       res.json({ success: true, data: data });
