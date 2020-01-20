@@ -23,10 +23,6 @@
   </div>
 </div>
 
-<app-day-detail-modal [currentUserId]="currentUserId" [userList]="userList" [showRecentDate]="recentDateClicked"
-  [allTasksList]="taskList" (updateTaskList)="getUpdatedTaskList()">
-</app-day-detail-modal>
-
 <div *ngIf="showLoader" class="loader-demo d-flex align-items-center justify-content-center time-loader">
   <div class="line-spin-fade-loader">
     <div></div>
@@ -137,3 +133,7 @@
   </div>
 </div>
 <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>
+
+<app-day-detail-modal [currentUserId]="currentUserId" [userList]="userList" [showRecentDate]="recentDateClicked"
+  [allTasksList]="taskList" (updateTaskList)="getUpdatedTaskList()">
+</app-day-detail-modal>
