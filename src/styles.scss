@@ -5,15 +5,11 @@
 @import "~@fortawesome/fontawesome-free-webfonts/css/fa-regular.css";
 @import "~@fortawesome/fontawesome-free-webfonts/css/fa-solid.css";
 @import "~@fortawesome/fontawesome-free-webfonts/css/fontawesome.css";
-@import url("../node_modules/source-sans-pro/source-sans-pro.css");
 @import "~simple-line-icons/css/simple-line-icons.css";
 @import "~weather-icons/css/weather-icons.css";
 @import "~weather-icons/css/weather-icons-wind.css";
 
-// @import '~spinkit/css/spinkit.css';
 @import "~loaders.css/loaders.css";
-
-// @import "~angular2-toaster/toaster.css";
 
 @import "~ng2-dnd/bundles/style.css";
 
@@ -27,26 +23,20 @@
 
 @import "~codemirror/lib/codemirror.css";
 
-// @import '~sweetalert/dist/sweetalert.css';
-
 @import "~ngx-bootstrap/datepicker/bs-datepicker.css";
 
-//== Bootstrap
-@import "./app/shared/styles/bootstrap.scss";
 //== Application
 @import "./app/shared/styles/app.scss";
 
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-// .toast-top-right {
-//   position: relative;
-//   top: 60px;
-// }
+* {
+  font-family: 'PT Sans Narrow', sans-serif;
+}
 
-// .button.toaster-close-button {
-//   position: relative !important;
-//   top: -15px !important;
-// }
+.navbar {
+  padding: 0px!important;
+}
 
 fieldset {
   border-bottom: 0px;

@@ -1,0 +1,221 @@
+<div class="modal-content">
+  <div class="modal-header p-1">
+    <div class="col-8">
+      <h4 class="pt-2">{{dueDate | date:'fullDate'}}</h4>
+    </div>
+    <div class="float-right">
+      <div class="row">
+        <div>
+          <button type="button" class="btn btn-primary float-right" data-toggle="modal" href=".dailyTaskModal"
+            (click)="addTask()">
+            Add Task
+          </button>
+        </div>
+        <div class="pr-3 pt-1">
+          <button *ngIf="modalCenter" type="button" class="close rightAlign float-right" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body p-0">
+    <div class="mb-0" style="box-shadow: unset;">
+      <div class="pt-0 pb-0">
+
+        <div class="card card-transparent w-100 mb-0">
+          <tabset class="bg-white p-0" justified="true">
+            <tab>
+              <ng-template tabHeading>
+                <em class="far fa-clock fa-fw"></em> Planned Tasks
+              </ng-template>
+              <div class="list-group mb-0" *ngFor="let task of plannedTaskList">
+                <div class="list-group-item">
+                  <div class="btn-group float-right move-btn" dropdown>
+                    <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
+                    <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
+                      type="button" dropdownToggle (click)="editTask(task)">
+                      <span class="caret"></span>
+                      <span class="sr-only">Secondary</span>
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu" role="menu">
+                      <a class="dropdown-item removeUnderLine" (click)="updateStatus(task,'progress')">
+                        In Progress Tasks
+                      </a>
+                      <a class="dropdown-item removeUnderLine" data-toggle="modal" data-target=".newEstimateTimeModal"
+                        (click)="updateStatus(task,'completed')">
+                        Completed Tasks
+                      </a>
+                      <a class="dropdown-item removeUnderLine" data-toggle="modal" data-target=".nextDateModal"
+                        (click)=getSelectedTaskDeatils(task)>
+                        Next Date
+                      </a>
+                    </div>
+                  </div>
+                  <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                    <span *ngIf="task.clientTime != 0" class="badge badge-success float-right mr-1">C :
+                      {{task?.clientTime | customDate}}</span>
+                    <span *ngIf="task.clientTime != 0" class="badge badge-warning float-right mr-1">S :
+                      {{task?.originalTime | customDate}}</span>
+                    <span class="badge badge-info float-right mr-1">E :
+                      {{task?.estimatedTime | customDate}}</span>
+                    <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                    <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
+                    <em class="far fa-clock fa-fw mr-2"></em>
+                    <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
+                    <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
+                    <ng-template #toolTipTemplate>
+                      {{ task?.title }}
+                    </ng-template>
+                    <em [tooltip]="toolTipTemplate">
+                      #&nbsp;{{ task?.taskId }}&nbsp;: {{ task?.title | slice:0:45 }}
+                      <span *ngIf="task?.title.length > 45">...</span>
+                    </em>
+                  </a>
+                </div>
+              </div>
+            </tab>
+            <tab>
+              <ng-template tabHeading>
+                <em class="fas fa-hourglass-half"></em> In Progress Tasks
+              </ng-template>
+              <div class="list-group mb-0" *ngFor="let task of progressTaskList">
+                <div class="list-group-item">
+                  <div class="btn-group float-right move-btn" dropdown>
+                    <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
+                    <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
+                      type="button" dropdownToggle (click)="editTask(task)">
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu" role="menu">
+                      <a class="dropdown-item removeUnderLine" data-toggle="modal" data-target=".newEstimateTimeModal"
+                        (click)="updateStatus(task,'completed')">
+                        Completed Tasks
+                      </a>
+                      <a class="dropdown-item removeUnderLine" (click)="updateStatus(task,'planned')">
+                        Planned Tasks
+                      </a>
+                      <a class="dropdown-item removeUnderLine" data-toggle="modal" data-target=".nextDateModal"
+                        (click)=getSelectedTaskDeatils(task)>
+                        Next Date
+                      </a>
+                    </div>
+                  </div>
+                  <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                    <span *ngIf="task.clientTime != 0" class="badge badge-success float-right mr-1">C :
+                      {{task?.clientTime | customDate}}</span>
+                    <span *ngIf="task.clientTime != 0" class="badge badge-warning float-right mr-1">S :
+                      {{task?.originalTime | customDate}}</span>
+                    <span class="badge badge-info float-right mr-1">E :
+                      {{task?.estimatedTime | customDate}}</span>
+                    <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                    <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
+                    <em class="fas fa-hourglass-half mr-2"></em>
+                    <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
+                    <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
+                    <ng-template #toolTipTemplate>
+                      {{ task?.title }}
+                    </ng-template>
+                    <em [tooltip]="toolTipTemplate">
+                      #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                    </em>
+                  </a>
+                </div>
+              </div>
+            </tab>
+            <tab>
+              <ng-template tabHeading>
+                <em class="fas fa-check-circle normalColor"></em> Completed Tasks
+              </ng-template>
+              <div class="list-group mb-0" *ngFor="let task of completedTaskList">
+                <div class="list-group-item">
+                  <div class="btn-group float-right move-btn" dropdown>
+                    <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
+                    <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
+                      type="button" dropdownToggle (click)="editTask(task)">
+                      <span class="caret"></span>
+                      <span class="sr-only">Secondary</span>
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu" role="menu">
+                      <a class="dropdown-item removeUnderLine" (click)="updateStatus(task,'progress')">
+                        In Progress Tasks
+                      </a>
+                      <a class="dropdown-item removeUnderLine" (click)="updateStatus(task,'planned')">
+                        Planned Tasks
+                      </a>
+                    </div>
+                  </div>
+                  <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                    <span class="badge badge-success float-right mr-1">C :
+                      {{task?.clientTime | customDate}}</span>
+                    <span class="badge badge-warning float-right mr-1">S :
+                      {{task?.originalTime | customDate}}</span>
+                    <span class="badge badge-info float-right mr-1">E :
+                      {{task?.estimatedTime | customDate}}</span>
+                    <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                    <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
+                    <em class="fas fa-check-circle normalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
+                    <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
+                    <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
+                    <ng-template #toolTipTemplate>
+                      {{ task?.title }}
+                    </ng-template>
+                    <em [tooltip]="toolTipTemplate">
+                      #&nbsp;{{ task.taskId }}&nbsp;: {{ task?.title | slice:0:45 }} ...
+                    </em>
+                  </a>
+                </div>
+              </div>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="col-4">
+      <a href="#" *ngIf="completedTaskList || progressTaskList || plannedTaskList" [tooltip]="toolTipTaskTemplate"
+        style="text-decoration: none;color: #656565;">
+        <progressbar class="progress" [value]="newStacked"
+          [max]="(plannedTaskList.length+progressTaskList.length+completedTaskList.length)">
+        </progressbar>
+        <span style="font-size: 10px;margin-bottom:5px">Completed / Progress / Planned
+          ({{completedTaskList?.length}}
+          / {{progressTaskList?.length}} / {{(plannedTaskList?.length)}})
+        </span>
+      </a>
+    </div>
+    <div class="col-5 pr-0 mr-0">
+      <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
+        <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
+        <span *ngIf="orginalSpentTime || totalEstimatedTime" style="font-size: 10px;margin-bottom:5px">Spent / Estimated
+          / Total Time ({{orginalSpentTime | customDate}} / {{totalEstimatedTime | customDate}} /
+          {{480 | customDate}})</span>
+      </a>
+    </div>
+    <div class="col-3" *ngIf="clientTime || orginalSpentTime">
+      <div class="sparkline inline float-right" [sparkline]="sparkOptionsInfo"
+        values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #toolTipTimeTemplate>
+  <p>Spent Time : {{orginalSpentTime | customDate }}</p>
+  <p>Estimated Time : {{totalEstimatedTime | customDate }}</p>
+  <p>Total Time : {{480 | customDate}}</p>
+</ng-template>
+
+<ng-template #toolTipTaskTemplate>
+  <p>Completed Tasks : {{completedTaskList.length}}</p>
+  <p>In Progess Tasks : {{progressTaskList.length}}</p>
+  <p>Planned Tasks : {{plannedTaskList.length}}</p>
+</ng-template>

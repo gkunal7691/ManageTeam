@@ -39,7 +39,7 @@ $preloader-hg: 30px;
     height: $preloader-hg;
     margin: auto;
     overflow: auto;
-    background-image: url(../../../assets/img/preloader/preloader.empty.png);
+    background-image: url(../../../assets/img/preloader/pre1.png);
     background-size: $preloader-wd $preloader-hg;
 }
 
@@ -50,7 +50,7 @@ $preloader-hg: 30px;
     left: 0;
     bottom: 0;
     min-width: 10px;
-    background-image: url(../../../assets/img/preloader/preloader.full.png);
+    background-image: url(../../../assets/img/preloader/post1.png);
     background-size: $preloader-wd $preloader-hg;
 }
 .preloader-hidden {

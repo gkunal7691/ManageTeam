@@ -10,11 +10,10 @@ import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
-import { LoginService} from './services';
-import { AuthGuard} from './services';
-import { RegistrationService} from './services';
-import { CacheService} from './services';
-import { AccountService} from './services';
+import { LoginService } from './services/login.service';
+import { AuthGuard } from './services/guards/auth-guard.service';
+import { RegistrationService } from './services/registration.service';
+import { CacheService } from './services/cache.service';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -45,7 +44,6 @@ export function createTranslateLoader(http: HttpClient) {
         CacheService,
         AuthGuard,
         LoginService,
-        AccountService,
         RegistrationService,
         { provide: AccordionConfig, useValue: { closeOthers: true } },
 

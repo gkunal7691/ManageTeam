@@ -10,20 +10,18 @@ export class TaskService {
 
   private apiPath: string;
   private task: string;
-  private comment: string;
   private getTask: string;
   private getUserTask: string;
-  private singleTask: string;
+  private dayTask: string;
 
 
   constructor(private httpClient: HttpClient, private cacheService: CacheService) {
     const env: any = environment;
     this.apiPath = env.paths.api;
     this.task = 'task';
-    this.comment = 'comment';
     this.getTask = 'task/getTask/dueDate';
     this.getUserTask = 'task/getTask/dueDate/admin'
-    this.singleTask = 'task/getSingleTask'
+    this.dayTask = 'task/get-day-task'
 
   }
 
@@ -35,12 +33,12 @@ export class TaskService {
     };
   }
 
-  getTaskList(duedate) {
-    return this.httpClient.post<object>(`${this.apiPath}/${this.getTask}/`, duedate, this.getHeaders())
+  getTaskList(dueDate) {
+    return this.httpClient.post<object>(`${this.apiPath}/${this.getTask}/`, dueDate, this.getHeaders())
   }
 
-  getSingleTask(dueDate) {
-    return this.httpClient.post<object>(`${this.apiPath}/${this.singleTask}/`, dueDate, this.getHeaders())
+  getDayDetails(userId: number, dueDate: string) {
+    return this.httpClient.post<object>(`${this.apiPath}/${this.dayTask}/` + userId, { dueDate: dueDate }, this.getHeaders())
   }
 
   getEachUserTask(value) {
@@ -49,10 +47,6 @@ export class TaskService {
 
   addTask(val) {
     return this.httpClient.post<object>(`${this.apiPath}/${this.task}/`, val, this.getHeaders())
-  }
-
-  addComment(val) {
-    return this.httpClient.post<object>(`${this.apiPath}/${this.comment}/`, val, this.getHeaders())
   }
 
   editTask(value) {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService, AccountService } from '../../../services';
 import { UserblockService } from './userblock.service';
 
 @Component({
@@ -9,9 +8,7 @@ import { UserblockService } from './userblock.service';
 })
 export class UserblockComponent implements OnInit {
     user: any;
-    constructor(public userblockService: UserblockService,
-        private loginService: LoginService,
-        public accountService: AccountService
+    constructor(public userblockService: UserblockService
     ) {
 
         // this.user = {
@@ -20,12 +17,7 @@ export class UserblockComponent implements OnInit {
     }
 
     ngOnInit() {
-        const currentUser: any = this.loginService.currentUser;
-        this.accountService.get({ email: currentUser.email }).subscribe((result: any) => {
-            if (result.data) {
-                this.user = result.data[0];
-            }
-        });
+
     }
 
 

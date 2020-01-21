@@ -7,7 +7,7 @@ declare var $: any;
 import { UserblockService } from '../sidebar/userblock/userblock.service';
 import { SettingsService } from '../../core/settings/settings.service';
 import { MenuService } from '../../core/menu/menu.service';
-import { CacheService } from '../../services';
+import { CacheService } from '../../services/cache.service';
 
 @Component({
     selector: 'app-header',

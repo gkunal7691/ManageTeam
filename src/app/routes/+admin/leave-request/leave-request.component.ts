@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
+import { ViewLeaveDetailsComponent } from '../view-leave-details/view-leave-details.component';
 const swal = require('sweetalert');
 
 @Component({
@@ -22,18 +24,23 @@ export class LeaveRequestComponent implements OnInit {
   addedLeave: boolean;
   allLeave: boolean;
   windowWidth: any;
+  from: string;
+  to: string;
+  days: any;
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.windowWidth = window.innerWidth;
   }
 
+  @ViewChild(ViewLeaveDetailsComponent, { static: true }) viewLeaveDetail: ViewLeaveDetailsComponent;
   displayedColumns: string[] = ["employee", "fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private leaveRequestService: LeaveRequestService, private fb: FormBuilder) { }
+  constructor(private leaveRequestService: LeaveRequestService,
+    private fb: FormBuilder, private router: Router) { }
 
   ngAfterViewChecked() {
     this.onResize();
@@ -109,66 +116,92 @@ export class LeaveRequestComponent implements OnInit {
 
     this.leaveRequestService.getLeaveRequestList(status).subscribe(
       (res: any) => {
-        console.log(res)
+        console.log(res.data);
         this.leaveRequestList = res.data;
         this.dataSource = new MatTableDataSource(this.leaveRequestList)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(this.leaveRequestList)
       })
   }
 
-  // Approved Sweet Alert 
-  approvedSweetAlert(leaveId) {
+  // Approve leave Sweet Alert
+
+  approvedSweetAlert(leaveRequest) {
+    console.log(leaveRequest.leaveId);
+    this.from = new Date(leaveRequest.fromDate).getDate() + '/' + (new Date(leaveRequest.fromDate).getMonth() + 1) + '/' +
+      (new Date(leaveRequest.fromDate).getFullYear());
+    this.to = new Date(leaveRequest.toDate).getDate() + '/' + (new Date(leaveRequest.toDate).getMonth() + 1) + '/' +
+      (new Date(leaveRequest.toDate).getFullYear());
+    this.days = leaveRequest.noOfdays;
+    if (this.days < 0) {
+      this.days = this.days * (-1);
+    }
     swal({
       title: "Are you sure?",
-      text: "Leave will be approved to the employee!",
+      text: "Leave will be approved for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willAprrove) => {
       if (willAprrove) {
-        this.approvedPopUp(leaveId);
+        this.approvedPopUp(leaveRequest);
       } else {
-        swal('Cancelled', 'Leave is not granted :)', 'error');
+        swal('Cancelled', 'Leave is not granted for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'error');
       }
     });
   }
 
-  approvedPopUp(leaveId) {
-    console.log(leaveId);
-    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'approved' }).subscribe(
+  approvedPopUp(leaveRequest) {
+    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveRequest.leaveId, status: 'approved' }).subscribe(
       (res: any) => {
         console.log(res);
-        swal('Success', 'Leave request approved! :)', 'success');
+        swal('Success', 'Leave request approved for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'success');
         this.filterRequestLeave();
       })
   }
 
-  //Rejected Sweet Alert 
-  rejectedSweetAlert(leaveId) {
+  //Reject leave Sweet Alert
+
+  rejectedSweetAlert(leaveRequest) {
+    console.log(leaveRequest.leaveId);
+    this.from = new Date(leaveRequest.fromDate).getDate() + '/' + (new Date(leaveRequest.fromDate).getMonth() + 1) + '/' +
+      (new Date(leaveRequest.fromDate).getFullYear());
+    this.to = new Date(leaveRequest.toDate).getDate() + '/' + (new Date(leaveRequest.toDate).getMonth() + 1) + '/' +
+      (new Date(leaveRequest.toDate).getFullYear());
+    this.days = leaveRequest.noOfdays;
+    if (this.days < 0) {
+      this.days = this.days * (-1);
+    }
     swal({
       title: "Are you sure?",
-      text: "Leave will be rejected for the employee!",
+      text: "Leave will be rejected for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willReject) => {
       if (willReject) {
-        this.rejectedPopUp(leaveId);
+        this.rejectedPopUp(leaveRequest);
       } else {
-        swal('Cancelled', 'Leave is not rejected :)', 'error');
+        swal('Cancelled', 'Leave is not rejected for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'error');
       }
     });
   }
 
-  rejectedPopUp(leaveId) {
-    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveId, status: 'rejected' }).subscribe(
+  rejectedPopUp(leaveRequest) {
+    this.leaveRequestService.updateLeaveStatus({ leaveId: leaveRequest.leaveId, status: 'rejected' }).subscribe(
       (res: any) => {
-        console.log(res)
-        swal('Rejected', 'Leave request rejected! :)', 'warning');
+        console.log(res);
+        swal('Rejected', 'Leave request rejected for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'warning');
         this.filterRequestLeave();
       })
   };
+
+  onViewLeaveDetails(leaveRequest) {
+    this.viewLeaveDetail.getSingleLeaveData(leaveRequest);
+  }
+
+  getUpdatedLeave(leave) {
+    this.filterRequestLeave();
+  }
 
 }

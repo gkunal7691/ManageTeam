@@ -1,6 +1,6 @@
 import { LayoutComponent } from '../layout/layout.component';
 
-import { AuthGuard } from '../services';
+import { AuthGuard } from '../services/guards/auth-guard.service';
 
 export const routes = [
     {
@@ -14,7 +14,7 @@ export const routes = [
         ]
     },
 
-     { path: 'login', loadChildren: './+auth/auth.module#AuthModule' },
+    { path: 'login', loadChildren: './+auth/auth.module#AuthModule' },
 
     // Not found
     { path: '**', redirectTo: 'login' }

@@ -1,0 +1,15 @@
+<div class="modal fade dayDetailModal pl-2 pr-2" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <app-day-modal-content [userId]="userId" [userList]="userList" [dueDate]="dueDate" (getTask)="getTask($event)" 
+    (addNewTask)="addNewTask()" (getTotalEstimatedTime)="getTotalEstimatedTime($event)" style="width: 100%;">
+    </app-day-modal-content>
+  </div>
+</div>
+
+<app-move-to-completed-modal [task]="task" (updateTaskList)="getUpdatedTaskList()"></app-move-to-completed-modal>
+<app-move-to-next-date-modal [task]="task" (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>
+
+
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
+  (updateTaskList)="getUpdatedTaskList()" [task]="task" [totalEstimatedTime]="totalEstimatedTime">
+</app-task-modal>

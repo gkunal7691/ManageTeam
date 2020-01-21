@@ -6,13 +6,6 @@ const User = require('../../models').User;
 const dayOff = require('../../models').DayOff;
 const Holiday = require('../../models').Holiday;
 
-// get oneLeave
-router.get('/hihi', async function (req, res, next) {
-   Leave.findOne({ where: { userId: req.user.id } }).then((user) => {
-      res.json({ success: true, data: user })
-   })
-})
-
 
 router.get('/', async function (req, res, next) {
    Leave.findAll({
@@ -38,7 +31,35 @@ router.get('/', async function (req, res, next) {
       data.forEach(e => {
          leave[e.dataValues.type] = e.dataValues.sum.toFixed(2);
       })
-      console.log(leave)
+      res.json({ success: true, data: leave })
+   })
+})
+
+//For admin to view remaining leave data
+
+router.get('/:userId', async function (req, res) {
+   Leave.findAll({
+      attributes: ['type', [sequelize.fn('sum', sequelize.col('noOfdays')), 'sum']],
+      group: ['type'],
+      where: {
+         userId: req.params.userId,
+         $or: [
+            {
+               status: "approved"
+            },
+            {
+               status: "pending"
+            },
+            {
+               status: "added"
+            }
+         ]
+      }
+   }).then((data) => {
+      let leave = {};
+      data.forEach(e => {
+         leave[e.dataValues.type] = e.dataValues.sum.toFixed(2);
+      })
       res.json({ success: true, data: leave })
    })
 })
@@ -46,7 +67,6 @@ router.get('/', async function (req, res, next) {
 // create leave Request
 
 router.post('/', async function (req, res, next) {
-
    var totaldate = []
    let holidayDateList = []
    let fromdate = new Date(req.body.fromDate)
@@ -130,10 +150,8 @@ router.post('/', async function (req, res, next) {
          }).then((data) => {
             res.json({ success: true, data: data })
          }).catch(next);
-
       }).catch(next);
    }).catch(next);
-
 })
 
 // leave request list by employee

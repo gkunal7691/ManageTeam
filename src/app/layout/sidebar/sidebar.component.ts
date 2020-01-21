@@ -4,7 +4,6 @@ declare var $: any;
 import { LoginService } from '../../services/login.service';
 import { MenuService } from '../../core/menu/menu.service';
 import { SettingsService } from '../../core/settings/settings.service';
-import { element } from 'protractor';
 
 @Component({
     selector: 'app-sidebar',
@@ -22,7 +21,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     constructor(public menu: MenuService, public settings: SettingsService, public injector: Injector, public lgService: LoginService) {
         this.currentUser = this.lgService.currentUser;
         this.menuItems = menu.getMenu();
-
     }
 
     ngOnInit() {
