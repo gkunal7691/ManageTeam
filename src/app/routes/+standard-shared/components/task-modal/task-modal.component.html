@@ -7,7 +7,7 @@
           <h4>{{taskTitle}}</h4>
         </div>
         <div class="col">
-          <h5 class="pt-1">Estimated Time Left {{480 - totalEstimatedTime | customDate}} </h5>
+          <h5 class="pt-1">Estimated Time Left: {{480 - totalEstimatedTime | customDate}}</h5>
         </div>
         <div class="col float-right">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelTask()">

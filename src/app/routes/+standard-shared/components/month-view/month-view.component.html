@@ -134,6 +134,6 @@
 </div>
 <div *ngIf="showLoader" class="loader-background" [ngStyle]="{'height': divHeight}"></div>
 
-<app-day-detail-modal [userId]="userId" [userList]="userList" [showRecentDate]="recentDateClicked"
+<app-day-detail-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
   (updateTaskList)="getUpdatedTaskList()">
 </app-day-detail-modal>

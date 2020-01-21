@@ -44,7 +44,6 @@ export class MoveToCompletedModalComponent implements OnInit {
     this.taskService.editTask({
       originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed', dueDate: this.task.dueDate
     }).subscribe((res: any) => {
-      console.log(res);
       swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
       this.updateTaskList.emit(this.task);
       this.cancelTask();

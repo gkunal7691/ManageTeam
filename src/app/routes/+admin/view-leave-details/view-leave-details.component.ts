@@ -22,19 +22,16 @@ export class ViewLeaveDetailsComponent implements OnInit {
   }
 
   getSingleLeaveData(leaveRequest) {
-    console.log(leaveRequest);
     this.leaveRequest = leaveRequest;
     this.leaveRequestService.getSingleLeaveData(leaveRequest.userId).subscribe(
       (res: any) => {
         this.leaveData = res.data;
-        console.log(this.leaveData);
       })
   }
 
   // Approve leave Sweet Alert
 
   approvedSweetAlert(leaveRequest) {
-    console.log(leaveRequest.leaveId);
     this.from = new Date(leaveRequest.fromDate).getDate() + '/' + (new Date(leaveRequest.fromDate).getMonth() + 1) + '/' +
       (new Date(leaveRequest.fromDate).getFullYear());
     this.to = new Date(leaveRequest.toDate).getDate() + '/' + (new Date(leaveRequest.toDate).getMonth() + 1) + '/' +
@@ -59,10 +56,8 @@ export class ViewLeaveDetailsComponent implements OnInit {
   }
 
   approvedPopUp(leaveRequest) {
-    console.log(leaveRequest.leaveId);
     this.leaveRequestService.updateLeaveStatus({ leaveId: leaveRequest.leaveId, status: 'approved' }).subscribe(
       (res: any) => {
-        console.log(res);
         this.updatedLeave.emit(leaveRequest);
         swal('Success', 'Leave request approved for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'success');
       })
@@ -71,7 +66,6 @@ export class ViewLeaveDetailsComponent implements OnInit {
   //Reject leave Sweet Alert 
 
   rejectedSweetAlert(leaveRequest) {
-    console.log(leaveRequest.leaveId);
     this.from = new Date(leaveRequest.fromDate).getDate() + '/' + (new Date(leaveRequest.fromDate).getMonth() + 1) + '/' +
       (new Date(leaveRequest.fromDate).getFullYear());
     this.to = new Date(leaveRequest.toDate).getDate() + '/' + (new Date(leaveRequest.toDate).getMonth() + 1) + '/' +
@@ -98,7 +92,6 @@ export class ViewLeaveDetailsComponent implements OnInit {
   rejectedPopUp(leaveRequest) {
     this.leaveRequestService.updateLeaveStatus({ leaveId: leaveRequest.leaveId, status: 'rejected' }).subscribe(
       (res: any) => {
-        console.log(res);
         this.updatedLeave.emit(leaveRequest);
         swal('Rejected', 'Leave request rejected for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'warning');
       })
