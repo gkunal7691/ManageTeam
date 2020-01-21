@@ -25,8 +25,6 @@ export class TaskModalComponent implements OnInit, OnChanges {
   totalOriginalTime: number;
   taskId: number;
 
-  taskDeatils: any;
-  commentList: any[] = [];
   buttonText: any;
   taskTitle: any;
 
@@ -68,7 +66,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
   cancelTask() {
     if ('/employee/month-view' == this.router.url) {
       var x = document.getElementById("testing")
-      setTimeout(() => { x.classList.add("modal-open") }, 340);
+      setTimeout(() => { x.classList.add("modal-open") }, 150);
     }
   }
 
@@ -148,17 +146,17 @@ export class TaskModalComponent implements OnInit, OnChanges {
 
   updateTask() {
     let currentDate: Date = new Date();
-    this.taskDeatils = this.task;
+    this.task = this.task;
     if (this.task) {
       this.showTaskUpdated = true;
       this.showCommentButton = true;
       this.showTextButton = false;
-      if (this.taskDeatils.comments && this.taskDeatils.comments.length != 0) {
+      if (this.task.comments && this.task.comments.length != 0) {
         this.showCommentSecton = true;
       }
       // To control previous day task
       currentDate.setDate(currentDate.getDate() - 1);
-      let duedate = new Date(this.taskDeatils.dueDate);
+      let duedate = new Date(this.task.dueDate);
       if (duedate < currentDate) {
         this.showModalFooter = false;
         this.taskForm.disable();
@@ -166,30 +164,29 @@ export class TaskModalComponent implements OnInit, OnChanges {
       else {
         this.showModalFooter = true;
       }
-      this.taskTitle = 'Edit Task' + '\t' + '(#' + this.taskDeatils.taskId + ')';
+      this.taskTitle = 'Edit Task' + '\t' + '(#' + this.task.taskId + ')';
       this.taskForm.disable();
-      let estimatedGetTime = this.taskDeatils.estimatedTime;
+      let estimatedGetTime = this.task.estimatedTime;
       let convEstimatedHours = Math.floor(estimatedGetTime / 60);
       let convEstimatedmin = estimatedGetTime % 60;
-      let clientGetTime = this.taskDeatils.clientTime;
+      let clientGetTime = this.task.clientTime;
       let convclientHours = Math.floor(clientGetTime / 60);
       let convclientMin = clientGetTime % 60;
-      let originalGetTime = this.taskDeatils.originalTime;
+      let originalGetTime = this.task.originalTime;
       let convOriginalHours = Math.floor(originalGetTime / 60);
       let convOriginalMin = originalGetTime % 60;
-      this.taskId = this.taskDeatils.taskId;
-      this.taskForm.get('title').setValue(this.taskDeatils.title);
-      this.taskForm.get('description').setValue(this.taskDeatils.description)
-      this.taskForm.get('priority').setValue(this.taskDeatils.priority)
-      this.taskForm.get('assignee').setValue(this.taskDeatils.userId)
-      this.taskForm.get('status').setValue(this.taskDeatils.status)
-      this.taskForm.get('estimatedHour').setValue(convEstimatedHours)
-      this.taskForm.get('estimatedMin').setValue(convEstimatedmin)
-      this.taskForm.get('clientHour').setValue(convclientHours)
-      this.taskForm.get('clientMin').setValue(convclientMin)
-      this.taskForm.get('originalHour').setValue(convOriginalHours)
-      this.taskForm.get('originalMin').setValue(convOriginalMin)
-      this.commentList = this.taskDeatils.comments;
+      this.taskId = this.task.taskId;
+      this.taskForm.get('title').setValue(this.task.title);
+      this.taskForm.get('description').setValue(this.task.description);
+      this.taskForm.get('priority').setValue(this.task.priority);
+      this.taskForm.get('assignee').setValue(this.task.userId);
+      this.taskForm.get('status').setValue(this.task.status);
+      this.taskForm.get('estimatedHour').setValue(convEstimatedHours);
+      this.taskForm.get('estimatedMin').setValue(convEstimatedmin);
+      this.taskForm.get('clientHour').setValue(convclientHours);
+      this.taskForm.get('clientMin').setValue(convclientMin);
+      this.taskForm.get('originalHour').setValue(convOriginalHours);
+      this.taskForm.get('originalMin').setValue(convOriginalMin);
     }
     else {
       this.taskTitle = 'Add Task'
@@ -201,7 +198,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
       if (this.taskForm) {
         this.taskForm.enable();
         this.taskForm.get('title').reset();
-        this.taskForm.get('title').setValidators([Validators.required])
+        this.taskForm.get('title').setValidators([Validators.required]);
         this.taskForm.get('description').reset();
         this.taskForm.get('estimatedHour').reset();
         this.taskForm.get('estimatedMin').reset();
@@ -253,51 +250,6 @@ export class TaskModalComponent implements OnInit, OnChanges {
     }
   }
 
-  // validateEstimateTime() {
-  //   this.sumOfEstimatedTime = 0;
-  //   if (this.sumOfEstimatedTime == 480) {
-  //     this.taskForm.disable();
-  //   }
-  //   if (this.sumOfEstimatedTime == 0 && this.taskForm) {
-  //     console.log("addnew")
-  //     this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
-  //     this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
-  //   }
-  //   if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
-  //     console.log("add")
-  //     let hours = Math.floor(this.sumOfEstimatedTime / 60);
-  //     let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
-  //     console.log(hours, minutes)
-  //     this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
-  //     this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-  //     // if (minutes == 0) {
-  //     //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(8 - hours), Validators.required, Validators.maxLength(2)]);
-  //     //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-  //     // }
-  //     // // else if (minutes != 0 && hours == 7) {
-  //     // //   this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
-  //     // //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-  //     // // }
-  //     // else {
-  //     //   // this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
-
-  //     // }
-  //   }
-  //   else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
-  //     console.log("edit")
-  //     let editSum = 480 - this.sumOfEstimatedTime
-  //     // editSum = editSum + this.taskDeatils.estimatedTime;
-  //     console.log(editSum, this.taskDeatils.estimatedTime)
-  //     let editHour = Math.floor(editSum / 60);
-  //     let editMinute = Math.floor(editSum - editHour * 60);
-  //     console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
-  //     let m1 = (59 - (this.taskForm.get('estimatedMin').value - editMinute));
-  //     console.log(m1)
-  //     this.taskForm.get('estimatedHour').setValidators([Validators.max(this.taskForm.get('estimatedHour').value + editHour), Validators.maxLength(2)]);
-  //     this.taskForm.get('estimatedMin').setValidators([Validators.max(this.taskForm.get('estimatedMin').value + editMinute), Validators.maxLength(2)]);
-  //   }
-  // }
-
   validateEstimateHour(hour) {
 
     if (hour == 8) {
@@ -306,31 +258,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
     } else {
       this.taskForm.get('estimatedMin').enable();
     }
-    // if (this.sumOfEstimatedTime == 0 && this.taskForm) {
-    //   console.log("addnew")
-    //   this.taskForm.get('estimatedHour').setValidators([Validators.max(8), Validators.required, Validators.maxLength(2)]);
-    //   this.taskForm.get('estimatedMin').setValidators([Validators.max(59), Validators.required, Validators.maxLength(2)]);
-    // }
-    // if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle == 'Add Task' && this.taskForm) {
-    //   console.log("add")
-    //   let hours = Math.floor(this.sumOfEstimatedTime / 60);
-    //   let minutes = Math.floor(this.sumOfEstimatedTime - hours * 60);
-    //   this.taskForm.get('estimatedHour').setValidators([Validators.max(7 - hours), Validators.required, Validators.maxLength(2)]);
-    //   this.taskForm.get('estimatedMin').setValidators([Validators.max(60 - minutes), Validators.required, Validators.maxLength(2)]);
-    // }
-    // else if (this.sumOfEstimatedTime <= 480 && this.sumOfEstimatedTime != 0 && this.taskTitle != 'Add Task' && this.taskForm) {
-    //   console.log("edit")
-    //   let editSum = 480 - this.sumOfEstimatedTime
-    //   // editSum = editSum + this.taskDeatils.estimatedTime;
-    //   console.log(editSum, this.taskDeatils.estimatedTime)
-    //   let editHour = Math.floor(editSum / 60);
-    //   let editMinute = Math.floor(editSum - editHour * 60);
-    //   console.log(editMinute, editHour, this.taskForm.get('estimatedMin').value)
-    //   let m1 = (59 - (this.taskForm.get('estimatedMin').value - editMinute));
-    //   console.log(m1)
-    //   this.taskForm.get('estimatedHour').setValidators([Validators.max(this.taskForm.get('estimatedHour').value + editHour), Validators.maxLength(2)]);
-    //   this.taskForm.get('estimatedMin').setValidators([Validators.max(this.taskForm.get('estimatedMin').value + editMinute), Validators.maxLength(2)]);
-    // }
+    
   }
 
   validateEstimateMin(min) {

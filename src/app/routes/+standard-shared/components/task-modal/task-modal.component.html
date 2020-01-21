@@ -233,9 +233,9 @@
         </div>
         <hr class="mt-0 mb-2">
         <div class="row">
-          <label class="mb-0 ml-3"><b>Comments ({{taskDeatils?.comments?.length}})</b></label>
+          <label class="mb-0 ml-3"><b>Comments ({{task?.comments?.length}})</b></label>
         </div>
-        <div class="card-body comment mt-2" *ngFor="let comment of taskDeatils?.comments">
+        <div class="card-body comment mt-2" *ngFor="let comment of task?.comments">
           <div class="row">
             <div class="col text-dark">{{comment.comment}}</div>
           </div>

@@ -21,7 +21,7 @@
       </div>
       <div *ngIf="plannedTaskList || inProgressTaskList || completedTaskList"
         style="padding-top: 12%;text-align: center;">
-        <a href="#" [tooltip]="toolTipTaskTemplate" style="text-decoration: none;color: #656565;">
+        <a href="javascript:void(0);" [tooltip]="toolTipTaskTemplate" style="text-decoration: none;color: #656565;">
           <progressbar class="progress" [value]="newStacked"
             [max]="(plannedTaskList.length+inProgressTaskList.length+completedTaskList.length)">
           </progressbar>
@@ -29,7 +29,7 @@
             / {{inProgressTaskList.length}} / {{(plannedTaskList.length)}})
           </span>
         </a>
-        <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
+        <a href="javascript:void(0);" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
           <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
           <span style="font-size: 10px;">S: {{orginalSpentTime | customDate}}
             / E: {{estimatedTime | customDate}} / T: {{480 | customDate}}
