@@ -62,10 +62,14 @@ router.post('/getTask/dueDate', async function (req, res, next) {
 })
 
 router.post('/get-day-task/:userId', async function (req, res, next) {
-  console.log(req.body.dueDate)
+  console.log("body",req.body.dueDate)
   let dueDate = new Date(req.body.dueDate);
-  dueDate.setHours(dueDate.getHours() + 5, 30);
-  console.log(dueDate);
+  const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
+  if (env === 'local') {
+    dueDate.setHours(dueDate.getHours() + 5, 30)
+  }
+  // dueDate.setHours(dueDate.getHours() + 5, 30);
+  console.log("convert",dueDate);
   task.findAll({
     where: { dueDate: dueDate, organizationId: req.user.orgId, userId: parseInt(req.params.userId) },
     include: [
