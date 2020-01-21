@@ -1,18 +1,19 @@
 <div class="modal fade dayDetailModal pl-2 pr-2" aria-hidden="true">
   <div [ngClass]="modalCenter == true ? 'modal-dialog modal-dialog-centered' : 'modal-dialog modal-width m-0 mb-3'"
     class="modal-lg">
-    <app-day-modal-content [userId]="userId" [userList]="userList" [dueDate]="dueDate"
-      (updateTaskList)="getUpdatedTaskList()">
+    <app-day-modal-content [userId]="userId" [userList]="userList" [dueDate]="dueDate" (getTask)="getTask($event)"
+    (addNewTask)="addNewTask()">
     </app-day-modal-content>
   </div>
 </div>
 
-<app-move-to-completed-modal></app-move-to-completed-modal>
-<app-move-to-next-date-modal></app-move-to-next-date-modal>
+<app-move-to-completed-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-completed-modal>
+<app-move-to-next-date-modal [task]="task" (updateTaskList)="getUpdatedTaskList($event)"></app-move-to-next-date-modal>
 
 <!-- <app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" [editTask]="taskValue" [editBtn]="edit"
   (showTask)="getupadtedTask()" [taskList]="taskList">
 </app-task-modal> -->
+
 <app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
   (showTask)="getupadtedTask()" [task]="task">
 </app-task-modal>

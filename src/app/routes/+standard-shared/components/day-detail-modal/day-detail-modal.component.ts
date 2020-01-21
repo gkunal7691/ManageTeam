@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ColorsService } from '../../../../shared/colors/colors.service';
@@ -7,6 +7,7 @@ import { DayoffService } from '../../../../services/dayoff.service';
 import { HolidayService } from '../../../../services/holiday.service';
 import { ManageLeaveService } from '../../../../services/manage-leave.service';
 import { LoginService } from '../../../../services/login.service';
+import { DayModalContentComponent } from '../day-modal-content/day-modal-content.component';
 const swal = require('sweetalert');
 
 @Component({
@@ -20,8 +21,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
   @Input() userList: any;
   @Input() showRecentDate;
   @Input() allTasksList;
-  @Output() updateTaskList = new EventEmitter();
-
+  @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
+  
   taskDeatils: any;
   showForm: boolean;
 
@@ -73,10 +74,17 @@ export class DayDetailComponent implements OnInit, OnChanges {
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
     private dayoffService: DayoffService, private holidayService: HolidayService,
     private manageLeaveService: ManageLeaveService,
-    private taskService: TaskService, private loginSerivce: LoginService, private fb: FormBuilder, private router: Router) { }
+    private taskService: TaskService, private loginSerivce: LoginService, private fb: FormBuilder, private router: Router) {
+      this.userId = this.loginSerivce.currentUser.id;
+    }
 
   ngOnInit() {
 
+  }
+
+  getTask(task) {
+    this.task = task;
+    console.log(this.task)
   }
 
   // getTaskList() {
@@ -125,10 +133,6 @@ export class DayDetailComponent implements OnInit, OnChanges {
   //     this.modalCenter = true;
   //   }
   // }
-
-  getupadtedTask() {
-    this.updateTaskList.emit();
-  }
 
   editTask(task) {
     this.taskValue = task;
@@ -183,7 +187,8 @@ export class DayDetailComponent implements OnInit, OnChanges {
     console.log(this.taskDeatils);
   }
 
-  getUpdatedTaskList() {
-
+  getUpdatedTaskList(task) {
+    this.dayDetail.getDayTask();
   }
+  
 }
