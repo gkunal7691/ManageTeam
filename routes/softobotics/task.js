@@ -68,8 +68,6 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
   if (env === 'local') {
     dueDate.setHours(dueDate.getHours() + 5, 30)
   }
-  // dueDate.setHours(dueDate.getHours() + 5, 30);
-  console.log("convert",dueDate);
   task.findAll({
     where: { dueDate: dueDate, organizationId: req.user.orgId, userId: parseInt(req.params.userId) },
     include: [
