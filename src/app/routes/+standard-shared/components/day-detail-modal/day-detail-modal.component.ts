@@ -21,6 +21,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
   @Input() userList: any;
   @Input() showRecentDate;
   @Input() allTasksList;
+  @Output() updateTaskList = new EventEmitter();
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
   
   taskDeatils: any;
@@ -189,6 +190,7 @@ export class DayDetailComponent implements OnInit, OnChanges {
 
   getUpdatedTaskList(task) {
     this.dayDetail.getDayTask();
+    this.updateTaskList.emit();
   }
   
 }
