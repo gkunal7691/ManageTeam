@@ -11,6 +11,7 @@ const swal = require('sweetalert');
 
 export class MoveToCompletedModalComponent implements OnInit {
   @Input() task: any;
+  @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
 
   estimateTimeModalForm: FormGroup;

@@ -195,8 +195,8 @@
     <div class="col-5 pr-0 mr-0">
       <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
         <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
-        <span *ngIf="orginalSpentTime || estimatedTime" style="font-size: 10px;margin-bottom:5px">Spent / Estimated
-          / Total Time ({{orginalSpentTime | customDate}} / {{estimatedTime | customDate}} /
+        <span *ngIf="orginalSpentTime || totalEstimatedTime" style="font-size: 10px;margin-bottom:5px">Spent / Estimated
+          / Total Time ({{orginalSpentTime | customDate}} / {{totalEstimatedTime | customDate}} /
           {{480 | customDate}})</span>
       </a>
     </div>
@@ -210,7 +210,7 @@
 
 <ng-template #toolTipTimeTemplate>
   <p>Spent Time : {{orginalSpentTime | customDate }}</p>
-  <p>Estimated Time : {{estimatedTime | customDate }}</p>
+  <p>Estimated Time : {{totalEstimatedTime | customDate }}</p>
   <p>Total Time : {{480 | customDate}}</p>
 </ng-template>
 

@@ -118,15 +118,28 @@ router.put('/', function (req, res, next) {
   //   res.json({ success: true, data: "Error Cant Edit" });
   // }
   // else {
-  task.update({
-    title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
-    status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-    userId: req.body.assignee, isCloned: req.body.clonned
-  }, { where: { taskId: req.body.taskId } })
-    .then((data) => {
-      res.json({ success: true, data: data });
-    }).catch(next);
   // }
+  if (dueDate.getHours() == 0) {
+    dueDate.setHours(dueDate.getHours() + 5, 30);
+    task.update({
+      title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
+      status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
+      userId: req.body.assignee, isCloned: req.body.clonned
+    }, { where: { taskId: req.body.taskId } })
+      .then((data) => {
+        res.json({ success: true, data: data });
+      }).catch(next);
+  }
+  else {
+    task.update({
+      title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
+      status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
+      userId: req.body.assignee, isCloned: req.body.clonned
+    }, { where: { taskId: req.body.taskId } })
+      .then((data) => {
+        res.json({ success: true, data: data });
+      }).catch(next);
+  }
 })
 
 

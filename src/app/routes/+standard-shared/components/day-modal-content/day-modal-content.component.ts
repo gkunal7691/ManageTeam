@@ -21,6 +21,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   @Input() dueDate: any;
   @Output() getTask = new EventEmitter();
   @Output() addNewTask = new EventEmitter();
+  @Output() getTotalEstimatedTime = new EventEmitter();
 
   calenderDate: any;
   taskDetail: any;
@@ -36,7 +37,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
 
   clientTime: any;
   orginalSpentTime: any;
-  estimatedTime: any;
+  totalEstimatedTime: any;
 
   sparkOptionsInfo = {
     type: 'pie',
@@ -63,12 +64,13 @@ export class DayModalContentComponent implements OnInit, OnChanges {
 
   getDayTask() {
     this.taskList = [];
-    let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
-    this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
-      this.taskList = res.data;
-      this.filterTaskList();
-    });
-
+    if (this.dueDate) {
+      let dueDate = this.dueDate.getFullYear() + '-' + (this.dueDate.getMonth() + 1) + '-' + this.dueDate.getDate();
+      this.taskService.getDayDetails(this.userId, dueDate).subscribe((res: any) => {
+        this.taskList = res.data;
+        this.filterTaskList();
+      });
+    }
   }
 
   filterTaskList() {
@@ -133,7 +135,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     this.stacked = [];
     this.clientTime = 0;
     this.orginalSpentTime = 0;
-    this.estimatedTime = 0;
+    this.totalEstimatedTime = 0;
     if (this.taskList) {
       this.taskList.forEach(task => {
         if ((new Date(task.dueDate).getDate() + '/' + (new Date(task.dueDate).getMonth() + 1) + '/' +
@@ -141,21 +143,23 @@ export class DayModalContentComponent implements OnInit, OnChanges {
             (new Date(this.dueDate).getMonth() + 1) + '/' + (new Date(this.dueDate).getFullYear()))) {
           this.clientTime += task.clientTime;
           this.orginalSpentTime += task.originalTime;
-          this.estimatedTime += task.estimatedTime;
+          this.totalEstimatedTime += task.estimatedTime;
         }
       })
+      this.getTotalEstimatedTime.emit(this.totalEstimatedTime)
       this.stacked.push({
         value: this.orginalSpentTime,
         type: "success"
       }, {
-        value: (this.estimatedTime > this.orginalSpentTime) ? (this.estimatedTime - this.orginalSpentTime) : 0,
+        value: (this.totalEstimatedTime > this.orginalSpentTime) ? (this.totalEstimatedTime - this.orginalSpentTime) : 0,
         type: "info"
       }, {
-        value: (this.orginalSpentTime + this.estimatedTime) === 0 ? 0 : 480,
+        value: (this.orginalSpentTime + this.totalEstimatedTime) === 0 ? 0 : 480,
         type: "danger"
       });
     }
   }
+
 
   editTask(task) {
     this.getTask.emit(task);
