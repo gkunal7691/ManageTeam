@@ -38,7 +38,6 @@ export class TaskService {
   }
 
   getDayDetails(userId: number, dueDate: string) {
-    console.log(userId, dueDate)
     return this.httpClient.post<object>(`${this.apiPath}/${this.dayTask}/` + userId, { dueDate: dueDate }, this.getHeaders())
   }
 

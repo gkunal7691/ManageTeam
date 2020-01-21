@@ -87,7 +87,6 @@ export class MonthViewComponent implements OnInit {
     private taskService: TaskService, private manageLeaveService: ManageLeaveService,
     public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService) {
     this.userId = this.logService.currentUser.id;
-    console.log(this.userId);
   }
 
   ngOnInit() {
@@ -212,7 +211,6 @@ export class MonthViewComponent implements OnInit {
     this.taskList = [];
     this.taskService.getTaskList({ firstDay: FirstDay, lastDay: LastDay, userId: this.userId }).subscribe((res: any) => {
       this.taskList = res.data
-      console.log(this.taskList.length);
       this.showLoader = false;
       this.totalSpentTime = 0;
       this.totalClientTime = 0;
@@ -312,7 +310,6 @@ export class MonthViewComponent implements OnInit {
       this.holidayList.forEach(date => {
         if (((allday.getMonth() + 1) + '/' + allday.getDate() + '/' + allday.getFullYear()) == date.holidayDate) {
           this.weekdayIds.forEach(dayoff => {
-            // console.log(allday.getDay(),dayoff,new Date(date.holidayDate).getDate())
             if (dayoff != allday.getDay()) {
               holidayDaycount++;
             }

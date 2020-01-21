@@ -11,14 +11,17 @@ import { TaskModalComponent } from '../../+standard-shared/components/task-modal
 })
 
 export class DashboardComponent implements OnInit {
-  @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
+
   dueDate: Date;
   userList: any;
   task: any;
   userId: number;
   showLoader: any;
   totalEstimatedTime: number;
+
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
+  @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
+
 
   constructor(private loginService: LoginService, private userService: UserService) {
     this.userId = this.loginService.currentUser.id;
@@ -33,7 +36,7 @@ export class DashboardComponent implements OnInit {
     this.task = task;
   }
 
-  getUpdatedTaskList(task) {
+  getUpdatedTaskList() {
     this.dayDetail.getDayTask();
   }
 

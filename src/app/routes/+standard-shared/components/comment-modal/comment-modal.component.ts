@@ -9,7 +9,7 @@ import { CommentService } from '../../../../services/comment.service';
 })
 export class CommentModalComponent implements OnInit {
 
-  constructor(private fb: FormBuilder,private commentService: CommentService) { }
+  constructor(private fb: FormBuilder, private commentService: CommentService) { }
 
   commentForm: FormGroup;
   @Input() taskId: any;
@@ -24,11 +24,8 @@ export class CommentModalComponent implements OnInit {
   addComment() {
     console.log(this.commentForm.value)
     this.commentService.addComment({ comment: this.commentForm.get('comment').value, taskId: this.taskId }).subscribe((res: any) => {
-      console.log(res)
       this.updateTask.emit();
-      // this.editBtn = true
-       this.cancelComment();
-      // this.showTask.emit();
+      this.cancelComment();
     })
     this.commentForm.reset();
   }
