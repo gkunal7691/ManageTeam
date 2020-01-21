@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTask(task) {
-    this.task = task;
+    this.taskModal.updateTask(task);
   }
 
   getUpdatedTaskList() {

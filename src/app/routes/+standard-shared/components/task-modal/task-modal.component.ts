@@ -10,7 +10,7 @@ const swal = require('sweetalert');
   styleUrls: ['./task-modal.component.scss']
 })
 
-export class TaskModalComponent implements OnInit, OnChanges {
+export class TaskModalComponent implements OnInit {
   @Input() userId: any;
   @Input() userList: any;
   @Input() dueDate: any;
@@ -34,13 +34,11 @@ export class TaskModalComponent implements OnInit, OnChanges {
   showTextButton: boolean = true;
   showModalFooter: boolean = true;
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.ngOnInit();
-    this.getUserList();
-    this.updateTask();
-    //this.validateEstimateTime();
-    this.ref.detectChanges();
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   this.ngOnInit();
+  //   //this.validateEstimateTime();
+  //   this.ref.detectChanges();
+  // }
 
   constructor(private ref: ChangeDetectorRef, private fb: FormBuilder,
     private taskService: TaskService, private router: Router) { }
@@ -141,12 +139,12 @@ export class TaskModalComponent implements OnInit, OnChanges {
 
   addNewTask() {
     this.task = null;
-    this.updateTask();
+    this.updateTask(this.task);
   }
 
-  updateTask() {
+  updateTask(task) {
     let currentDate: Date = new Date();
-    this.task = this.task;
+    this.task = task;
     if (this.task) {
       this.showTaskUpdated = true;
       this.showCommentButton = true;
@@ -258,7 +256,7 @@ export class TaskModalComponent implements OnInit, OnChanges {
     } else {
       this.taskForm.get('estimatedMin').enable();
     }
-    
+
   }
 
   validateEstimateMin(min) {

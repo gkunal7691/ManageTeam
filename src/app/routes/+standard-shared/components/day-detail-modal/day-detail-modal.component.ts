@@ -28,7 +28,7 @@ export class DayDetailComponent implements OnInit {
   ngOnInit() { }
 
   getTask(task) {
-    this.task = task;
+    this.taskModal.updateTask(task);
   }
 
   getSelectedTaskDeatils(task) {
