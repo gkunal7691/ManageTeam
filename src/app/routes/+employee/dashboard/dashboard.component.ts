@@ -16,7 +16,8 @@ export class DashboardComponent implements OnInit {
   userList: any;
   task: any;
   userId: number;
-  showLoader;
+  showLoader: any;
+  totalEstimatedTime: number;
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
 
   constructor(private loginService: LoginService, private userService: UserService) {
@@ -30,11 +31,14 @@ export class DashboardComponent implements OnInit {
 
   getTask(task) {
     this.task = task;
-    console.log(this.task)
   }
 
   getUpdatedTaskList(task) {
     this.dayDetail.getDayTask();
+  }
+
+  getTotalEstimatedTime(val) {
+    this.totalEstimatedTime = val;
   }
 
   getEmployees() {
@@ -58,7 +62,6 @@ export class DashboardComponent implements OnInit {
     this.dayDetail.dateChange();
   }
   addNewTask() {
-    console.log('ppp')
     this.taskModal.addNewTask();
   }
 

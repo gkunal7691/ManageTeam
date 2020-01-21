@@ -11,6 +11,7 @@ const swal = require('sweetalert');
 export class MoveToNextDateModalComponent implements OnInit {
 
   @Input() task: any;
+  @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
 
   nextDate: any;
@@ -60,7 +61,6 @@ export class MoveToNextDateModalComponent implements OnInit {
         estimatedTime: totalEstimatedTime, originalTime: this.task.originalTime, clientTime: this.task.clientTime,
         assignee: this.task.userId,
       }).subscribe((res: any) => {
-        console.log(res.data);
         let newDate = (new Date(this.nextDate).getMonth() + 1) + '/' +
           (new Date(this.nextDate).getDate() + 1) + '/' + (new Date(this.nextDate).getFullYear());
         if (res.data == 'Error Cant Add') {
