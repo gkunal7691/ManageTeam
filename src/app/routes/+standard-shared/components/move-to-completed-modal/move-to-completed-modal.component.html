@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header pt-3 pb-1">
         <h4 class="ml-2">Enter Following Times</h4>
-        <button type="button" class="close" (click)="closeEstimateTimeModal()" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelTask()">
           <span>&times;</span>
         </button>
       </div>
@@ -120,8 +120,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
-          (click)="closeEstimateTimeModal()">
-          Close
+          (click)="cancelTask()">Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move"
           (click)="addNewEstimateTime()" [disabled]="estimateTimeModalForm.invalid">Move

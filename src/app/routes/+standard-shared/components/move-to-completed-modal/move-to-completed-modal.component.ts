@@ -8,8 +8,8 @@ const swal = require('sweetalert');
   templateUrl: './move-to-completed-modal.component.html',
   styleUrls: ['./move-to-completed-modal.component.scss']
 })
-export class MoveToCompletedModalComponent implements OnInit {
 
+export class MoveToCompletedModalComponent implements OnInit {
   @Input() task: any;
   @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
@@ -18,7 +18,6 @@ export class MoveToCompletedModalComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private taskService: TaskService) { }
 
-
   ngOnInit() {
     this.estimateTimeModalForm = this.fb.group({
       newOriginalHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
@@ -26,6 +25,12 @@ export class MoveToCompletedModalComponent implements OnInit {
       newClientHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
       newClientMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]]
     })
+  }
+
+  cancelTask() {
+    var x = document.getElementById("testing")
+    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    this.estimateTimeModalForm.reset();
   }
 
   addNewEstimateTime() {
@@ -39,13 +44,11 @@ export class MoveToCompletedModalComponent implements OnInit {
     this.taskService.editTask({
       originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed', dueDate: this.task.dueDate
     }).subscribe((res: any) => {
-      this.updateTaskList.emit(this.task);
+      console.log(res);
       swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
+      this.updateTaskList.emit(this.task);
+      this.cancelTask();
     })
-  }
-
-  closeEstimateTimeModal() {
-
   }
 
 }

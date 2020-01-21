@@ -8,8 +8,8 @@ const swal = require('sweetalert');
   templateUrl: './move-to-next-date-modal.component.html',
   styleUrls: ['./move-to-next-date-modal.component.scss']
 })
-export class MoveToNextDateModalComponent implements OnInit {
 
+export class MoveToNextDateModalComponent implements OnInit {
   @Input() task: any;
   @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
@@ -33,13 +33,15 @@ export class MoveToNextDateModalComponent implements OnInit {
     })
   }
 
-  formReset() {
+  cancelTask() {
+    var x = document.getElementById("testing");
+    setTimeout(() => { x.classList.add("modal-open") }, 350);
     this.nextDateModalForm.reset();
   }
 
   getNewDate(val) {
     this.nextDate = new Date(val);
-    this.nextDate.setHours(0, 0, 0)
+    this.nextDate.setHours(0, 0, 0);
     if (this.nextDateModalForm.get('newNextDate').value == '') {
       this.showCalendar = true;
     }
@@ -62,7 +64,7 @@ export class MoveToNextDateModalComponent implements OnInit {
         assignee: this.task.userId,
       }).subscribe((res: any) => {
         let newDate = (new Date(this.nextDate).getMonth() + 1) + '/' +
-          (new Date(this.nextDate).getDate() + 1) + '/' + (new Date(this.nextDate).getFullYear());
+          (new Date(this.nextDate).getDate()) + '/' + (new Date(this.nextDate).getFullYear());
         if (res.data == 'Error Cant Add') {
           swal('Warning', 'Task(#' + this.task.taskId + ') can not be moved to ' + newDate, 'error');
         }
@@ -70,15 +72,15 @@ export class MoveToNextDateModalComponent implements OnInit {
           swal('Success', 'Task(#' + this.task.taskId + ') has been moved to ' + newDate, 'success');
         }
         this.updateTaskList.emit();
-        this.formReset();
         this.showCalendar = true;
+        this.cancelTask();
       })
     }
   }
 
   moveToNextDate() {
     this.showCalendar = false;
-    let addnextDate = (new Date(this.task.dueDate).getMonth() + 1) + '/' +
+    let addnextDate = (new Date(this.task.dueDate).getMonth() + 1) + '/' + 
       (new Date(this.task.dueDate).getDate() + 1) + '/' + (new Date(this.task.dueDate).getFullYear());
     this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
     this.nextDate = new Date(addnextDate);

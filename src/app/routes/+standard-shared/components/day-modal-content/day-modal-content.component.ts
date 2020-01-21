@@ -173,7 +173,6 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     this.taskDetail = task;
   }
 
-
   updateStatus(task, status) {
     if (status != 'completed') {
       this.taskService.editTask({
