@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
+import { Router } from '@angular/router';
 const swal = require('sweetalert');
 
 @Component({
@@ -10,7 +11,6 @@ const swal = require('sweetalert');
 })
 
 export class TaskModalComponent implements OnInit, OnChanges {
-
   @Input() userId: any;
   @Input() userList: any;
   @Input() dueDate: any;
@@ -44,7 +44,8 @@ export class TaskModalComponent implements OnInit, OnChanges {
     this.ref.detectChanges();
   }
 
-  constructor(private ref: ChangeDetectorRef, private fb: FormBuilder, private taskService: TaskService) { }
+  constructor(private ref: ChangeDetectorRef, private fb: FormBuilder,
+    private taskService: TaskService, private router: Router) { }
 
   ngOnInit() {
     this.taskForm = this.fb.group({
@@ -62,6 +63,13 @@ export class TaskModalComponent implements OnInit, OnChanges {
       originalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
     });
 
+  }
+
+  cancelTask() {
+    if ('/employee/month-view' == this.router.url) {
+      var x = document.getElementById("testing")
+      setTimeout(() => { x.classList.add("modal-open") }, 340);
+    }
   }
 
   getUserList() {
@@ -220,12 +228,6 @@ export class TaskModalComponent implements OnInit, OnChanges {
       this.taskForm.get('originalHour').disable();
       this.taskForm.get('originalMin').disable();
     }
-  }
-
-
-  cancelTask() {
-    var x = document.getElementById("testing")
-    //setTimeout(() => { x.classList.add("modal-open") }, 120);
   }
 
   onStatusCompleted(value) {

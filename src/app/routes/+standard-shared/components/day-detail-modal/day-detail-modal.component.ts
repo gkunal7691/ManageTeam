@@ -10,14 +10,12 @@ import { DayModalContentComponent } from '../day-modal-content/day-modal-content
 export class DayDetailComponent implements OnInit {
   @Input() userId: any;
   @Input() userList: any;
-  @Input() showRecentDate: any;
+  @Input() dueDate: any;
   @Output() updateTaskList = new EventEmitter();
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
 
   taskDeatils: any;
-  showForm: boolean;
-
-  dueDate: any;
+  totalEstimatedTime: number;
   task: any;
 
   constructor() { }
@@ -29,9 +27,11 @@ export class DayDetailComponent implements OnInit {
   }
 
   getSelectedTaskDeatils(task) {
-    this.showForm = true;
     this.taskDeatils = task;
-    console.log(this.taskDeatils);
+  }
+
+  getTotalEstimatedTime(val) {
+    this.totalEstimatedTime = val;
   }
 
   getUpdatedTaskList(task) {

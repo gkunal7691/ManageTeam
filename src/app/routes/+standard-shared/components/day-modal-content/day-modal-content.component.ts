@@ -12,9 +12,8 @@ const swal = require('sweetalert');
   templateUrl: './day-modal-content.component.html',
   styleUrls: ['./day-modal-content.component.scss']
 })
+
 export class DayModalContentComponent implements OnInit, OnChanges {
-
-
   @Input() userId: number;
   @Input() userList: any;
   @Input() updatedTaskList: any;
@@ -51,8 +50,8 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.dateChange();
     this.getDayTask();
+    this.dateChange();
     this.ref.detectChanges();
   }
 
@@ -128,6 +127,9 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     }
     if ('/employee/month-view' == this.router.url) {
       this.modalCenter = true;
+      for (var i = 0; i < x.length; i++) {
+        x[i].style.height = '300px';
+      }
     }
   }
 

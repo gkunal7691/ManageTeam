@@ -43,7 +43,7 @@ export class MonthViewComponent implements OnInit {
   iscurrentDate: any;
   weekdayIds: any;
   holidayList = [];
-  recentDateClicked: any;
+  dueDate: any;
   taskList: any[] = []
   leaveRequestList: any[] = [];
   noofWorkingDays: number;
@@ -295,7 +295,7 @@ export class MonthViewComponent implements OnInit {
   }
 
   onGetModalDate(val) {
-    this.recentDateClicked = val;
+    this.dueDate = val;
   }
 
   calculateDaysLeft() {
