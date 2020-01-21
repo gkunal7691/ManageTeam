@@ -32,7 +32,7 @@ export class DayOverviewComponent implements OnInit, OnChanges {
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService) { }
 
-  @Input() currentUserId: any;
+  @Input() userId: any;
   @Input() date: any;
   @Input() holidayList: any;
   @Input() allTasksList: any;

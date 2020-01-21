@@ -1,6 +1,5 @@
 <div class="modal fade dayDetailModal pl-2 pr-2" aria-hidden="true">
-  <div [ngClass]="modalCenter == true ? 'modal-dialog modal-dialog-centered-lg' : 'modal-dialog modal-width m-0 mb-3'"
-    class="modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <app-day-modal-content [userId]="userId" [userList]="userList" [dueDate]="dueDate" (getTask)="getTask($event)">
     </app-day-modal-content>
   </div>

@@ -14,7 +14,7 @@ import { SuperAdminService } from '../../../../services/super-admin.service';
 })
 
 export class MonthViewComponent implements OnInit {
-  currentUserId: any;
+  userId: any;
   userList: any;
 
   divHeight: any;
@@ -86,8 +86,8 @@ export class MonthViewComponent implements OnInit {
   constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
     private taskService: TaskService, private manageLeaveService: ManageLeaveService,
     public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService) {
-    this.currentUserId = this.logService.currentUser.id;
-    console.log(this.currentUserId);
+    this.userId = this.logService.currentUser.id;
+    console.log(this.userId);
   }
 
   ngOnInit() {
@@ -210,7 +210,7 @@ export class MonthViewComponent implements OnInit {
     let LastDay = lastdate.getFullYear() + '-' + (lastdate.getMonth() + 1) + '-' + lastdate.getDate();
     this.showLoader = true;
     this.taskList = [];
-    this.taskService.getTaskList({ firstDay: FirstDay, lastDay: LastDay, userId: this.currentUserId }).subscribe((res: any) => {
+    this.taskService.getTaskList({ firstDay: FirstDay, lastDay: LastDay, userId: this.userId }).subscribe((res: any) => {
       this.taskList = res.data
       console.log(this.taskList.length);
       this.showLoader = false;
