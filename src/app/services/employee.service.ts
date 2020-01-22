@@ -16,7 +16,7 @@ export class EmployeeService {
 
     const env: any = environment;
     this.apiPath = env.paths.api;
-    this.employeeList = 'users/employee/employeelist'
+    this.employeeList = 'user/employee'
     this.adminList = 'users/admin/allAdminList'
    }
 

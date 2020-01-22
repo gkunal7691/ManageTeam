@@ -66,6 +66,10 @@ export class TaskModalComponent implements OnInit {
       var x = document.getElementById("testing")
       setTimeout(() => { x.classList.add("modal-open") }, 150);
     }
+    else if ('/admin/manage-time' == this.router.url) {
+      var x = document.getElementById("testing")
+      setTimeout(() => { x.classList.add("modal-open") }, 150);
+    }
   }
 
   getUserList() {
