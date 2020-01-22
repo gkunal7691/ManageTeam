@@ -1,8 +1,17 @@
 <div class="content-heading pt-1 pb-1">
   <div style="display: flex;flex-direction: row;align-items: center;width: 100%;justify-content: space-between;">
-    <div>
+    <div *ngIf="logService.currentUser.roleId == 1">
       Time & Attendance
     </div>
+    <div *ngIf="logService.currentUser.roleId == 2">
+      <select class="form-control" (change)="selectedUserTask($event.target.value)">
+        <option>Please Select an Employee</option>
+        <option *ngFor="let user of userList" [value]="user.id">{{user.firstName}}
+          <span class="mr-2">{{user.lastName}}</span>
+        </option>
+      </select>
+    </div>
+
     <div class="details" style="display: flex;flex-direction: column;">
       <span class="text-danger">Total working days : &nbsp; {{ noofWorkingDays }}</span>
       <span class="text-danger">Total working hours : &nbsp; {{ ((noofWorkingDays * 8)*60) | customDate }}</span>

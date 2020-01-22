@@ -58,8 +58,8 @@
                   </div>
                   <div class="row">
                     <select class="form-control mb-1" [formControl]="taskForm.controls['assignee']">
-                      <option *ngFor="let user of userList" [value]="user.id">{{user.firstName}}
-                        <span class="mr-2">{{user.lastName}}</span>
+                      <option *ngFor="let user of userList" [value]="user.id">
+                        {{user.firstName}} {{user.lastName}}
                       </option>
                     </select>
                   </div>

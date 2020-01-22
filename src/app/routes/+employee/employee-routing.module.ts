@@ -15,11 +15,12 @@ const routes: Routes = [
   { path: 'manage-leave', canActivate: [ChildAuthGuard], component: ManageLeaveComponent },
   { path: 'todo', canActivate: [ChildAuthGuard], component: TodoComponent },
   { path: 'todo/:id', canActivate: [ChildAuthGuard], component: TodoComponent },
-  { path: 'todo/completed/:id', canActivate: [ChildAuthGuard], component: CompleteTodoTaskComponent },
+  { path: 'todo/completed/:id', canActivate: [ChildAuthGuard], component: CompleteTodoTaskComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+
 export class EmployeeRoutingModule { }

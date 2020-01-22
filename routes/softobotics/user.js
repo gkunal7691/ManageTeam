@@ -7,7 +7,6 @@ const User = require('../../models').User;
 // Employee List
 
 router.get('/employee', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-    console.log("in user api ->"+req.user.orgId);
     User.findAll({
         where: { organizationId: req.user.orgId, roleId: 1 }, order: [['updatedAt', 'DESC']],
     }).then((employeelist) => {
