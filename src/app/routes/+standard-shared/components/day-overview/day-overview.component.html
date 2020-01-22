@@ -1,23 +1,22 @@
-<div *ngIf="(date | json) == '{}'" style="height: 160px; width: 100%;justify-content: flex-end; margin-bottom: 1.5rem;">
+<div *ngIf="(date | json) == '{}'" style="height: 160px; width: 100%;justify-content: flex-end; 
+  margin-bottom: 1.5rem;">
 </div>
 <div *ngIf="(date | json) != '{}'" style="cursor: pointer;" class="card card-default" data-toggle="modal"
   [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" data-target=".dayDetailModal"
   (click)="showDay(date)">
   <div style="height: 160px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
-      <div>
-        <div *ngIf="(date | json) != '{}'" style="text-align:center;">{{date | date:longDate}}
-          <a *ngIf="holiday" href="#" [tooltip]="toolTipHolidayTemplate"
-            style="text-decoration: none;color: #656565;float: right;">
-            <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
-          </a>
-          <a *ngIf="showLeave && !holiday" href="#" [tooltip]="toolTipLeaveTemplate"
-            style="text-decoration: none;color: #656565;float: right;">
-            <em [ngClass]="{'leaveApproved':leaveStatus == 'approved','leavePending':leaveStatus == 'pending'}"
-              class="fa-lg mr-2 fas fa-briefcase float-right pt-1">
-            </em>
-          </a>
-        </div>
+      <div *ngIf="(date | json) != '{}'" style="text-align:center;">{{date | date:longDate}}
+        <a *ngIf="holiday" href="#" [tooltip]="toolTipHolidayTemplate"
+          style="text-decoration: none;color: #656565;float: right;">
+          <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
+        </a>
+        <a *ngIf="showLeave && !holiday" href="#" [tooltip]="toolTipLeaveTemplate"
+          style="text-decoration: none;color: #656565;float: right;">
+          <em [ngClass]="{'leaveApproved':leaveStatus == 'approved','leavePending':leaveStatus == 'pending'}"
+            class="fa-lg mr-2 fas fa-briefcase float-right pt-1">
+          </em>
+        </a>
       </div>
       <div *ngIf="plannedTaskList || inProgressTaskList || completedTaskList"
         style="padding-top: 12%;text-align: center;">
