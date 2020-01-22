@@ -115,38 +115,14 @@ router.post('/getTask/dueDate/admin', async function (req, res, next) {
 router.put('/', function (req, res, next) {
   req.body.updatedById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
-  // var compareDueDate = dueDate.getDate()
-  // if (compareDueDate < compareConvertedDate) {
-  //   res.json({ success: true, data: "Error Cant Edit" });
-  // }
-  // else {
-  // }
-  const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
-  console.log("getTIme", req.body.dueDate)
-  console.log("hours", dueDate.getHours())
-  if (dueDate.getHours() == 0 && env === 'local') {
-    dueDate.setHours(dueDate.getHours() + 5, 30);
-    console.log("updated", dueDate)
-    task.update({
-      title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
-      status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-      userId: req.body.assignee, isCloned: req.body.clonned
-    }, { where: { taskId: req.body.taskId } })
-      .then((data) => {
-        res.json({ success: true, data: data });
-      }).catch(next);
-  }
-  else {
-    console.log("updated1", req.body.dueDate)
-    task.update({
-      title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
-      status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-      userId: req.body.assignee, isCloned: req.body.clonned
-    }, { where: { taskId: req.body.taskId } })
-      .then((data) => {
-        res.json({ success: true, data: data });
-      }).catch(next);
-  }
+  task.update({
+    title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
+    status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
+    userId: req.body.assignee, isCloned: req.body.clonned
+  }, { where: { taskId: req.body.taskId } })
+    .then((data) => {
+      res.json({ success: true, data: data });
+    }).catch(next);
 })
 
 
