@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
@@ -34,13 +34,7 @@ export class TaskModalComponent implements OnInit {
   showTextButton: boolean = true;
   showModalFooter: boolean = true;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   this.ngOnInit();
-  //   //this.validateEstimateTime();
-  //   this.ref.detectChanges();
-  // }
-
-  constructor(private ref: ChangeDetectorRef, private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private taskService: TaskService, private router: Router) { }
 
   ngOnInit() {
@@ -68,14 +62,6 @@ export class TaskModalComponent implements OnInit {
     }
   }
 
-  getUserList() {
-    if (this.taskForm) {
-      this.taskForm.get('assignee').setValue(this.userId);
-      this.taskForm.get('priority').setValue("normal");
-      this.taskForm.get('status').setValue("planned");
-    }
-  }
-
   addTask() {
     let addDueDate = new Date(this.dueDate)
     addDueDate.setHours(0, 0, 0);
@@ -98,7 +84,7 @@ export class TaskModalComponent implements OnInit {
       this.totalOriginalTime = (orignialHour * 60) + orignalMin;
       this.taskService.editTask({
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
-        dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
+        dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value, taskId: this.taskId
       }).subscribe((res: any) => {
@@ -204,6 +190,9 @@ export class TaskModalComponent implements OnInit {
         this.taskForm.get('clientMin').reset();
         this.taskForm.get('originalHour').reset();
         this.taskForm.get('originalMin').reset();
+        this.taskForm.get('assignee').setValue(this.userId);
+        this.taskForm.get('priority').setValue("normal");
+        this.taskForm.get('status').setValue("planned");
         this.taskForm.get('clientHour').disable();
         this.taskForm.get('clientMin').disable();
         this.taskForm.get('originalHour').disable();
