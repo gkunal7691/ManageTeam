@@ -23,7 +23,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   @Output() getTotalEstimatedTime = new EventEmitter();
 
   calenderDate: any;
-  taskDetail: any;
+  task: any;
 
   modalCenter: boolean;
 
@@ -169,10 +169,6 @@ export class DayModalContentComponent implements OnInit, OnChanges {
 
   addTask() {
     this.addNewTask.emit();
-  }
-
-  getSelectedTaskDeatils(task) {
-    this.taskDetail = task;
   }
 
   updateStatus(task, status) {

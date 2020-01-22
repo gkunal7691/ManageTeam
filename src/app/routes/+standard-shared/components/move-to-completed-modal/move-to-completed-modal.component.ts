@@ -34,6 +34,7 @@ export class MoveToCompletedModalComponent implements OnInit {
   }
 
   addNewEstimateTime() {
+    console.log(this.task)
     let newClientHour = this.estimateTimeModalForm.get('newClientHour').value;
     let newClientMin = this.estimateTimeModalForm.get('newClientMin').value;
     let totalClientTime = (newClientHour * 60) + newClientMin;

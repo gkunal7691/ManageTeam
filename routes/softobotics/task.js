@@ -62,7 +62,7 @@ router.post('/getTask/dueDate', async function (req, res, next) {
 })
 
 router.post('/get-day-task/:userId', async function (req, res, next) {
-  console.log("body",req.body.dueDate)
+  console.log("body", req.body.dueDate)
   let dueDate = new Date(req.body.dueDate);
   const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
   if (env === 'local') {
@@ -121,8 +121,11 @@ router.put('/', function (req, res, next) {
   // }
   // else {
   // }
+  console.log("getTIme", req.body.dueDate)
+  console.log("hours",dueDate.getHours())
   if (dueDate.getHours() == 0) {
     dueDate.setHours(dueDate.getHours() + 5, 30);
+    console.log("updated",dueDate)
     task.update({
       title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
@@ -133,6 +136,7 @@ router.put('/', function (req, res, next) {
       }).catch(next);
   }
   else {
+    console.log("updated1", req.body.dueDate)
     task.update({
       title: req.body.title, description: req.body.description, dueDate: req.body.dueDate, priority: req.body.priority,
       status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
