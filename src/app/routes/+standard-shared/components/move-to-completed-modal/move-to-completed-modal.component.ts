@@ -28,8 +28,9 @@ export class MoveToCompletedModalComponent implements OnInit {
   }
 
   cancelTask() {
-    var x = document.getElementById("testing")
-    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    console.log("qwerty");
+    var x = document.getElementById("testing");
+    setTimeout(() => { x.classList.add("modal-open") }, 380);
     this.estimateTimeModalForm.reset();
   }
 
@@ -45,9 +46,9 @@ export class MoveToCompletedModalComponent implements OnInit {
     this.taskService.editTask({
       originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed', dueDate: this.task.dueDate
     }).subscribe((res: any) => {
+      this.cancelTask();
       swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
       this.updateTaskList.emit();
-      this.cancelTask();
     })
   }
 

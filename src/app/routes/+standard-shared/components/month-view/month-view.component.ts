@@ -87,7 +87,7 @@ export class MonthViewComponent implements OnInit {
   constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
     private taskService: TaskService, private manageLeaveService: ManageLeaveService,
     public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService,
-    private employeeService : EmployeeService) {
+    private employeeService: EmployeeService) {
     this.userId = this.logService.currentUser.id;
   }
 
@@ -307,11 +307,13 @@ export class MonthViewComponent implements OnInit {
     let dayOffcount = 0;
     let holidayDaycount = 0;
     this.monthArray.forEach(allday => {
-      this.weekdayIds.forEach(dayoff => {
-        if (allday.getDay() == dayoff) {
-          dayOffcount++;
-        }
-      })
+      if (this.weekdayIds) {
+        this.weekdayIds.forEach(dayoff => {
+          if (allday.getDay() == dayoff) {
+            dayOffcount++;
+          }
+        })
+      }
     })
     this.monthArray.forEach(allday => {
       this.holidayList.forEach(date => {
