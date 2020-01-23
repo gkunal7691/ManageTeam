@@ -280,6 +280,7 @@ export class TaskModalComponent implements OnInit {
     this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
       swal('Deleted', 'Task(#' + this.taskId + ') has been removed :)', 'warning');
       this.updateTaskList.emit();
+      document.getElementById("cancel").click();
     });
   }
 
