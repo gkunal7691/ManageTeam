@@ -133,24 +133,24 @@ export class TaskModalComponent implements OnInit {
   }
 
   updateTask(task) {
-    let currentDate: Date = new Date();
     this.task = task;
+    // To control previous day task
+    let currentDate: Date = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
+    let duedate = new Date(this.dueDate);
+    if (duedate < currentDate) {
+      this.showModalFooter = false;
+      this.taskForm.disable();
+    }
+    else {
+      this.showModalFooter = true;
+    }
     if (this.task) {
       this.showTaskUpdated = true;
       this.showCommentButton = true;
       this.showTextButton = false;
       if (this.task.comments && this.task.comments.length != 0) {
         this.showCommentSecton = true;
-      }
-      // To control previous day task
-      currentDate.setDate(currentDate.getDate() - 1);
-      let duedate = new Date(this.task.dueDate);
-      if (duedate < currentDate) {
-        this.showModalFooter = false;
-        this.taskForm.disable();
-      }
-      else {
-        this.showModalFooter = true;
       }
       this.taskTitle = 'Edit Task' + '\t' + '(#' + this.task.taskId + ')';
       this.taskForm.disable();
