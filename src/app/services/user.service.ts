@@ -16,7 +16,6 @@ export class UserService {
     this.apiPath = env.paths.api;
     this.route = 'users';
     this.employeeRoute = 'user';
-    this.employeeRoute = 'user';
     this.singleUser = 'user/singleUser';
   }
 
