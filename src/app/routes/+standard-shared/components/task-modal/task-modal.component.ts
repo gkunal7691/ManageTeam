@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
@@ -34,13 +34,7 @@ export class TaskModalComponent implements OnInit {
   showTextButton: boolean = true;
   showModalFooter: boolean = true;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   this.ngOnInit();
-  //   //this.validateEstimateTime();
-  //   this.ref.detectChanges();
-  // }
-
-  constructor(private ref: ChangeDetectorRef, private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private taskService: TaskService, private router: Router) { }
 
   ngOnInit() {
@@ -66,13 +60,9 @@ export class TaskModalComponent implements OnInit {
       var x = document.getElementById("testing")
       setTimeout(() => { x.classList.add("modal-open") }, 150);
     }
-  }
-
-  getUserList() {
-    if (this.taskForm) {
-      this.taskForm.get('assignee').setValue(this.userId);
-      this.taskForm.get('priority').setValue("normal");
-      this.taskForm.get('status').setValue("planned");
+    else if ('/admin/manage-time' == this.router.url) {
+      var x = document.getElementById("testing")
+      setTimeout(() => { x.classList.add("modal-open") }, 150);
     }
   }
 
@@ -98,7 +88,7 @@ export class TaskModalComponent implements OnInit {
       this.totalOriginalTime = (orignialHour * 60) + orignalMin;
       this.taskService.editTask({
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
-        dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
+        dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
         assignee: this.taskForm.get('assignee').value, taskId: this.taskId
       }).subscribe((res: any) => {
@@ -143,24 +133,24 @@ export class TaskModalComponent implements OnInit {
   }
 
   updateTask(task) {
-    let currentDate: Date = new Date();
     this.task = task;
+    // To control previous day task
+    let currentDate: Date = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
+    let duedate = new Date(this.dueDate);
+    if (duedate < currentDate) {
+      this.showModalFooter = false;
+      this.taskForm.disable();
+    }
+    else {
+      this.showModalFooter = true;
+    }
     if (this.task) {
       this.showTaskUpdated = true;
       this.showCommentButton = true;
       this.showTextButton = false;
       if (this.task.comments && this.task.comments.length != 0) {
         this.showCommentSecton = true;
-      }
-      // To control previous day task
-      currentDate.setDate(currentDate.getDate() - 1);
-      let duedate = new Date(this.task.dueDate);
-      if (duedate < currentDate) {
-        this.showModalFooter = false;
-        this.taskForm.disable();
-      }
-      else {
-        this.showModalFooter = true;
       }
       this.taskTitle = 'Edit Task' + '\t' + '(#' + this.task.taskId + ')';
       this.taskForm.disable();
@@ -204,6 +194,9 @@ export class TaskModalComponent implements OnInit {
         this.taskForm.get('clientMin').reset();
         this.taskForm.get('originalHour').reset();
         this.taskForm.get('originalMin').reset();
+        this.taskForm.get('assignee').setValue(this.userId);
+        this.taskForm.get('priority').setValue("normal");
+        this.taskForm.get('status').setValue("planned");
         this.taskForm.get('clientHour').disable();
         this.taskForm.get('clientMin').disable();
         this.taskForm.get('originalHour').disable();
@@ -287,6 +280,7 @@ export class TaskModalComponent implements OnInit {
     this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
       swal('Deleted', 'Task(#' + this.taskId + ') has been removed :)', 'warning');
       this.updateTaskList.emit();
+      document.getElementById("cancel").click();
     });
   }
 

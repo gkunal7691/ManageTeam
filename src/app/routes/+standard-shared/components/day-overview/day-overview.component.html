@@ -1,12 +1,22 @@
-<div *ngIf="(date | json) == '{}'" style="height: 160px; width: 100%;justify-content: flex-end; margin-bottom: 1.5rem;">
+<div *ngIf="(date | json) == '{}'" style="height: 160px; width: 100%;justify-content: flex-end; 
+  margin-bottom: 1.5rem;">
 </div>
+
 <div *ngIf="(date | json) != '{}'" style="cursor: pointer;" class="card card-default" data-toggle="modal"
   [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" data-target=".dayDetailModal"
   (click)="showDay(date)">
   <div style="height: 160px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
-      <div>
-        <div *ngIf="(date | json) != '{}'" style="text-align:center;">{{date | date:longDate}}
+      <div class="row" *ngIf="(date | json) != '{}'" style="text-align:center;">
+        <div class="col-3 p-0" style="display: flex;">
+          <div *ngIf="clientTime" class="sparkline inline" [sparkline]="sparkOptionsInfo"
+            values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+          </div>
+        </div>
+        <div class="col p-0">
+          {{date | date:longDate}}
+        </div>
+        <div class="col-3 p-0">
           <a *ngIf="holiday" href="#" [tooltip]="toolTipHolidayTemplate"
             style="text-decoration: none;color: #656565;float: right;">
             <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
@@ -36,11 +46,6 @@
           </span>
         </a>
       </div>
-      <div style="display: flex;flex-direction: row-reverse;">
-        <div *ngIf="clientTime" class="sparkline inline" [sparkline]="sparkOptionsInfo"
-          values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -63,5 +68,5 @@
 </ng-template>
 
 <ng-template #toolTipLeaveTemplate style="width:300px;">
-  <p>Status : {{leaveStatus}}</p>
+  <p>Leave status : {{leaveStatus | titlecase}}</p>
 </ng-template>

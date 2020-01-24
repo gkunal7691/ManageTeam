@@ -9,7 +9,6 @@ import { TaskModalComponent } from '../task-modal/task-modal.component';
 })
 
 export class DayDetailComponent implements OnInit {
-
   @Input() userId: any;
   @Input() userList: any;
   @Input() dueDate: any;
@@ -18,8 +17,6 @@ export class DayDetailComponent implements OnInit {
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
   @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
 
-
-  taskDeatils: any;
   totalEstimatedTime: number;
   task: any;
 
@@ -28,11 +25,8 @@ export class DayDetailComponent implements OnInit {
   ngOnInit() { }
 
   getTask(task) {
+    this.task = task;
     this.taskModal.updateTask(task);
-  }
-
-  getSelectedTaskDeatils(task) {
-    this.taskDeatils = task;
   }
 
   getTotalEstimatedTime(val) {

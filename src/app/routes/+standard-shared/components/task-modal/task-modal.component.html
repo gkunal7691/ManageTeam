@@ -58,8 +58,8 @@
                   </div>
                   <div class="row">
                     <select class="form-control mb-1" [formControl]="taskForm.controls['assignee']">
-                      <option *ngFor="let user of userList" [value]="user.id">{{user.firstName}}
-                        <span class="mr-2">{{user.lastName}}</span>
+                      <option *ngFor="let user of userList" [value]="user.id">
+                        {{user.firstName}} {{user.lastName}}
                       </option>
                     </select>
                   </div>
@@ -205,27 +205,27 @@
           </div>
         </div>
         <div *ngIf="showModalFooter" class="modal-footer ">
-          <div class="row w-100">
-            <div class="col">
+          <div class="row w-100 m-0">
+            <div class="col-2 p-0">
               <button type="button" class="btn btn-success" *ngIf="showCommentButton" data-toggle="modal"
                 href=".addCommentModal">
                 Add Comment
               </button>
             </div>
-            <div class="col">
+            <div class="col-2 p-0">
               <button type="button" class="btn btn-danger" *ngIf="taskTitle != 'Add Task'" data-dismiss="modal"
                 (click)="deleteTaskSwal()">Delete Task</button>
             </div>
             <div class="col">
-              <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel" (click)="cancelTask()">
+              <button type="button" class="btn btn-warning float-right" data-dismiss="modal" id="cancel" (click)="cancelTask()">
                 Cancel
               </button>
             </div>
-            <div class="col">
-              <button *ngIf="showTextButton" type="submit" class="btn btn-info" data-dismiss="modal"
+            <div class="col-1 p-0">
+              <button *ngIf="showTextButton" type="submit" class="btn btn-info float-right" data-dismiss="modal"
                 [disabled]="taskForm.invalid" (click)="addTask()">{{buttonText}}
               </button>
-              <button *ngIf="!showTextButton" type="button" class="btn btn-info" (click)="enableTask()">
+              <button *ngIf="!showTextButton" type="button" class="btn btn-info float-right" (click)="enableTask()">
                 Edit
               </button>
             </div>

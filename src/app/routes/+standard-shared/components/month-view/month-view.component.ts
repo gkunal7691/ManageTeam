@@ -6,6 +6,7 @@ import { ManageLeaveService } from '../../../../services/manage-leave.service';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { LoginService } from '../../../../services/login.service';
 import { SuperAdminService } from '../../../../services/super-admin.service';
+import { EmployeeService } from '../../../../services/employee.service';
 
 @Component({
   selector: 'app-month-view',
@@ -85,7 +86,8 @@ export class MonthViewComponent implements OnInit {
 
   constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
     private taskService: TaskService, private manageLeaveService: ManageLeaveService,
-    public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService) {
+    public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService,
+    private employeeService: EmployeeService) {
     this.userId = this.logService.currentUser.id;
   }
 
@@ -196,6 +198,11 @@ export class MonthViewComponent implements OnInit {
     this.getHolidayList();
   }
 
+  selectedUserTask(value) {
+    this.userId = value;
+    this.getUpdatedTaskList();
+  }
+
   getUpdatedTaskList() {
     let firstdate = new Date(this.firstDate)
     let FirstDay;
@@ -272,7 +279,7 @@ export class MonthViewComponent implements OnInit {
   }
 
   getUserList() {
-    this.userService.getUserList().subscribe(
+    this.employeeService.getEmployeeList().subscribe(
       (res: any) => {
         this.userList = res.data;
       })
@@ -300,11 +307,13 @@ export class MonthViewComponent implements OnInit {
     let dayOffcount = 0;
     let holidayDaycount = 0;
     this.monthArray.forEach(allday => {
-      this.weekdayIds.forEach(dayoff => {
-        if (allday.getDay() == dayoff) {
-          dayOffcount++;
-        }
-      })
+      if (this.weekdayIds) {
+        this.weekdayIds.forEach(dayoff => {
+          if (allday.getDay() == dayoff) {
+            dayOffcount++;
+          }
+        })
+      }
     })
     this.monthArray.forEach(allday => {
       this.holidayList.forEach(date => {

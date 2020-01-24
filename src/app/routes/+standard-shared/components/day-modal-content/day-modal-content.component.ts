@@ -1,11 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, ViewChild, OnChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
-import { TaskModalComponent } from '../task-modal/task-modal.component';
 const swal = require('sweetalert');
-
 
 @Component({
   selector: 'app-day-modal-content',
@@ -23,7 +20,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   @Output() getTotalEstimatedTime = new EventEmitter();
 
   calenderDate: any;
-  taskDetail: any;
+  task: any;
 
   modalCenter: boolean;
 
@@ -44,11 +41,6 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     height: 30
   };
 
-  bsValue = new Date();
-  bsConfig = {
-    containerClass: 'theme-angle'
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     this.getDayTask();
     this.dateChange();
@@ -58,8 +50,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
     private taskService: TaskService, private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   getDayTask() {
     this.taskList = [];
@@ -125,7 +116,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     if ('/employee/edashboard' == this.router.url) {
       this.modalCenter = false;
     }
-    if ('/employee/month-view' == this.router.url) {
+    else if ('/employee/month-view' == this.router.url) {
       this.modalCenter = true;
       for (var i = 0; i < x.length; i++) {
         x[i].style.height = '300px';
@@ -162,17 +153,12 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     }
   }
 
-
   editTask(task) {
     this.getTask.emit(task);
   }
 
   addTask() {
     this.addNewTask.emit();
-  }
-
-  getSelectedTaskDeatils(task) {
-    this.taskDetail = task;
   }
 
   updateStatus(task, status) {

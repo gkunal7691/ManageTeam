@@ -54,7 +54,7 @@ export class MoveToNextDateModalComponent implements OnInit {
 
     if (this.nextDate) {
       this.taskService.editTask({
-        taskId: this.task.taskId, clonned: 1,
+        taskId: this.task.taskId, clonned: 1, dueDate: this.task.dueDate
       }).subscribe((res: any) => { });
 
       this.taskService.addTask({
@@ -80,7 +80,7 @@ export class MoveToNextDateModalComponent implements OnInit {
 
   moveToNextDate() {
     this.showCalendar = false;
-    let addnextDate = (new Date(this.task.dueDate).getMonth() + 1) + '/' + 
+    let addnextDate = (new Date(this.task.dueDate).getMonth() + 1) + '/' +
       (new Date(this.task.dueDate).getDate() + 1) + '/' + (new Date(this.task.dueDate).getFullYear());
     this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
     this.nextDate = new Date(addnextDate);

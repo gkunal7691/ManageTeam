@@ -6,17 +6,17 @@ import { environment } from '../../environments/environment';
 @Injectable()
 
 export class UserService {
-
   route: string;
   employeeRoute: string;
   apiPath: string;
+  singleUser: string;
 
   constructor(private httpClient: HttpClient, private cacheService: CacheService) {
     const env: any = environment;
-
+    this.apiPath = env.paths.api;
     this.route = 'users';
     this.employeeRoute = 'user';
-    this.apiPath = env.paths.api;
+    this.singleUser = 'user/singleUser';
   }
 
   getHeaders() {
@@ -49,6 +49,10 @@ export class UserService {
 
   getEmployees() {
     return this.httpClient.get<Object>(`${this.apiPath}/${this.employeeRoute}` + '/employee', this.getHeaders());
+  }
+
+  getSingleUser(userId) {
+    return this.httpClient.get<Object>(`${this.apiPath}/${this.singleUser}/` + userId , this.getHeaders());
   }
 
 }

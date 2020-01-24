@@ -36,7 +36,7 @@ const AdminDashboard = {
 
 const AdminTimeAttendance = {
     text: 'Manage Time',
-    link: '/admin/time-attendance',
+    link: '/admin/manage-time',
     icon: 'icon-clock',
     roleId: [2],
 };
