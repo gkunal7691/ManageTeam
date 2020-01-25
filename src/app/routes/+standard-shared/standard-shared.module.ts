@@ -11,6 +11,7 @@ import { DayModalContentComponent } from './components/day-modal-content/day-mod
 import { MoveToCompletedModalComponent } from './components/move-to-completed-modal/move-to-completed-modal.component';
 import { MoveToNextDateModalComponent } from './components/move-to-next-date-modal/move-to-next-date-modal.component';
 import { CommentModalComponent } from './components/comment-modal/comment-modal.component';
+import { BacklogComponent } from './components/backlog/backlog.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CommentModalComponent } from './components/comment-modal/comment-modal.
     DayModalContentComponent,
     MoveToCompletedModalComponent,
     MoveToNextDateModalComponent,
-    CommentModalComponent
+    CommentModalComponent,
+    BacklogComponent
   ],
   imports: [
     CommonModule,
