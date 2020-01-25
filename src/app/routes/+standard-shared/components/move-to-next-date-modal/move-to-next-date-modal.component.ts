@@ -24,7 +24,7 @@ export class MoveToNextDateModalComponent implements OnInit {
     containerClass: 'theme-angle'
   }
 
-  constructor(private fb: FormBuilder, private taskService: TaskService, private router: Router) { }
+  constructor(private fb: FormBuilder, private taskService: TaskService, public router: Router) { }
 
   ngOnInit() {
     this.nextDateModalForm = this.fb.group({
