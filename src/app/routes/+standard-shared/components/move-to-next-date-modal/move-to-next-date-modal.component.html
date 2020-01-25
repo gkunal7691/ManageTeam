@@ -17,7 +17,7 @@
               </label>
             </div>
             <div class="col-3 pl-0 pr-0">
-              <input *ngIf="showCalendar" type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
+              <input *ngIf="showCalendar && router.url != '/employee/backlog'" type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
                 placeholder="Choose Here..." [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
                 [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
 

@@ -217,7 +217,8 @@
                 (click)="deleteTaskSwal()">Delete Task</button>
             </div>
             <div class="col">
-              <button type="button" class="btn btn-warning float-right" data-dismiss="modal" id="cancel" (click)="cancelTask()">
+              <button type="button" class="btn btn-warning float-right" data-dismiss="modal" id="cancel"
+                (click)="cancelTask()">
                 Cancel
               </button>
             </div>
@@ -225,7 +226,8 @@
               <button *ngIf="showTextButton" type="submit" class="btn btn-info float-right" data-dismiss="modal"
                 [disabled]="taskForm.invalid" (click)="addTask()">{{buttonText}}
               </button>
-              <button *ngIf="!showTextButton" type="button" class="btn btn-info float-right" (click)="enableTask()">
+              <button *ngIf="!showTextButton" type="button"
+                class="btn btn-info float-right" (click)="enableTask()">
                 Edit
               </button>
             </div>

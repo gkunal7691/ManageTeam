@@ -29,6 +29,7 @@ import { VectormapDirective } from './directives/vectormap/vectormap.directive';
 import { NowDirective } from './directives/now/now.directive';
 import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
 import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // https://angular.io/styleguide#!#04-10
 @NgModule({
@@ -97,6 +98,7 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         NowDirective,
         ScrollableDirective,
         JqcloudDirective,
+        DragDropModule
     ]
 })
 

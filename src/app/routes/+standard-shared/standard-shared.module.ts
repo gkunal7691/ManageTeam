@@ -45,7 +45,7 @@ import { BacklogComponent } from './components/backlog/backlog.component';
     DayModalContentComponent,
     MoveToCompletedModalComponent,
     MoveToNextDateModalComponent,
-    CommentModalComponent
+    CommentModalComponent,
   ]
 })
 
