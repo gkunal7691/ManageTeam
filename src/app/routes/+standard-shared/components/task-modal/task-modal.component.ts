@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TaskService } from '../../../../services/task.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TaskService } from '../../../../services/task.service';
 const swal = require('sweetalert');
 
 @Component({
@@ -45,14 +45,34 @@ export class TaskModalComponent implements OnInit {
       priority: [''],
       status: [''],
       assignee: [''],
-      estimatedHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
-      estimatedMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
-      clientHour: ['', [Validators.required, Validators.maxLength(2)]],
+      estimatedHour: ['', [Validators.required, Validators.maxLength(1), Validators.max(8), this.validateEstimatedHour.bind(this)]],
+      estimatedMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59), this.validateEstimatedMin.bind(this)]],
+      clientHour: ['', [Validators.required, Validators.maxLength(1)]],
       clientMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
-      originalHour: ['', [Validators.required, Validators.maxLength(2)]],
+      originalHour: ['', [Validators.required, Validators.maxLength(1)]],
       originalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
     });
+  }
 
+  validateEstimatedHour(control: AbstractControl) {
+
+    if (this.taskForm) {
+      if ((this.taskForm.get('estimatedMin').value + (control.value * 60)) > (480 - this.totalEstimatedTime)) {
+        return { estimateHour: true };
+      } else {
+        return null;
+      }
+    }
+  }
+
+  validateEstimatedMin(control: AbstractControl) {
+    if (this.taskForm) {
+      if (((this.taskForm.get('estimatedHour').value * 60) + control.value) > (480 - this.totalEstimatedTime)) {
+        return { estimateMin: true };
+      } else {
+        return null;
+      }
+    }
   }
 
   cancelTask() {
