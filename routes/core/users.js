@@ -58,7 +58,7 @@ router.post('/', function (req, res, next) {
 
 // Reset password
 
-router.put('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+router.put('/', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     let newData = {};
     let query = {};
 
@@ -68,7 +68,7 @@ router.put('/:userId', passport.authenticate('jwt', { session: false }), functio
     if (newData.errors)
         return next(newData.errors[0]);
 
-    query.where = { id: req.params.userId };
+    query.where = { id: req.user.id };
 
     User.update(newData, query).then(() => {
 

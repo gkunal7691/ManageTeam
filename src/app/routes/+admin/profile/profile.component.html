@@ -1,40 +1,83 @@
 <div class="content-heading">
-    <div>
-        Profile
-        <small>Your basic user information.</small>
-    </div>
+  <div>
+    Profile
+    <small>Your basic user information.</small>
+  </div>
 </div>
 
-<!-- START panel - Account Information -->
 <div class="row">
-    <div class="col-xl-12">
-        <!-- START widget-->
-        <div class="card card-default" id="cardChart9">
-            <div class="card-header">
-                <div class="card-title">Account Information</div>
-            </div>
-            <!-- Activation card -- this will need to be dynamic -->
-            <div class="card-body">
-                <p>Please contact us if you have any issues or questions.</p><br/>
-                <!-- User core info from user base login profile -->
-                <h6><b> User Login Info</b></h6>
-                <table class="table table-hover table-bordered">
-                  <tr>
-                    <th><b>Field</b></th>
-                    <th><b>Value</b></th>
-                  </tr>
-                  <tr>
-                    <td><b>Name:</b></td>
-                    <td>{{currentUser?.firstName}} {{currentUser?.lastName}}</td>
-                  </tr>
-                  <tr>
-                    <td>Email:</td>
-                    <td>{{currentUser?.email}}</td>
-                  </tr>
-                </table><br/><br/>
-            </div>
-        </div>
-        <!-- END widget-->
+  <div class="col-xl-12">
+    <div class="card card-default" id="cardChart9">
+      <div class="card-header">
+        <div class="card-title">Account Information</div>
+      </div>
+      <div class="card-body">
+        <p>Please contact us if you have any issues or questions.</p><br />
+        <h6><b> User Login Info :</b></h6>
+        <table class="table table-hover table-bordered">
+          <tr>
+            <th><b>Field</b></th>
+            <th><b>Value</b></th>
+          </tr>
+          <tr>
+            <td><b>Name :</b></td>
+            <td>{{currentUser?.firstName}} {{currentUser?.lastName}}</td>
+          </tr>
+          <tr>
+            <td><b>Email :</b></td>
+            <td>{{currentUser?.email}}</td>
+          </tr>
+          <tr>
+            <td><b>Password :</b></td>
+            <td>
+              <button class="btn btn-primary" data-toggle="modal" data-target=".resetPasswordModal">
+                Reset Password
+              </button>
+            </td>
+          </tr>
+        </table><br /><br />
+      </div>
     </div>
+  </div>
 </div>
-<!-- End Account Information panel -->
+
+<!--Reset Password Modal -->
+
+<div class="modal fade resetPasswordModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Reset Password</h4>
+        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]=resetPasswordForm>
+        <div class="modal-body">
+          <label class="mb-0"><b>New Password</b></label>
+          <input class="form-control" type="password" placeholder="New Password" formControlName=newPassword />
+          <div class="alert alert-danger"
+            *ngIf="resetPasswordForm.controls['newPassword'].invalid && resetPasswordForm.controls['newPassword'].touched">
+            <i>That won't work. Try again. </i>
+          </div>
+          <label class="mt-3 mb-0"><b>Confirm New Password</b></label>
+          <input class="form-control" type="password" placeholder="Confirm New Password"
+            formControlName=conformNewPassword />
+          <div class="alert alert-danger" *ngIf="resetPasswordForm.controls['conformNewPassword'].invalid &&
+              resetPasswordForm.controls['conformNewPassword'].touched &&
+              resetPasswordForm.controls['conformNewPassword'].hasError('notSamePassword')">
+            <i>That doesn't match...</i>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close"
+            (click)="resetForm()">Cancel
+          </button>
+          <button [disabled]="resetPasswordForm.invalid" type="button" class="btn btn-primary" data-dismiss="modal"
+            aria-label="Close" (click)="setResetPassword()">Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
