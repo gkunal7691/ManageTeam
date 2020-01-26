@@ -41,4 +41,4 @@
 </div>
 
 <app-task-modal [userList]="userList" [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"></app-task-modal>
-<app-move-to-next-date-modal [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>
+<app-move-to-next-date-modal [task]="task" [dueDate]="dueDate" [userList]="userList" (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>

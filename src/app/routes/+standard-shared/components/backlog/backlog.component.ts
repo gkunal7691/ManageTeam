@@ -41,7 +41,7 @@ export class BacklogComponent implements OnInit {
       })
   }
 
-  editTask(task) {
+  editTask(task) {    
     this.task = task;
     this.taskModal.updateTask(this.task);
     this.getBackLogTaskList();
@@ -55,7 +55,8 @@ export class BacklogComponent implements OnInit {
   }
 
   moveTask(task) {
-    this.task = task
+    this.task = task;    
+    this.getUserList();
     this.dueDate = new Date();
   }
 
