@@ -28,14 +28,24 @@
 }
 
 .removeUnderLine {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .list-group-item {
-  padding: 6px 10px 6px 10px !important;
+  padding: 4px 6px 6px 4px !important;
 }
 
 .center {
   position: relative !important;
-  top: 5px !important;
+  top: 8px !important;
+}
+
+.menu-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: move;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-size: 14px;
 }

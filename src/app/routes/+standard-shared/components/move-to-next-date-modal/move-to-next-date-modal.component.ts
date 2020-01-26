@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
+import { Router } from '@angular/router';
 const swal = require('sweetalert');
 
 @Component({
@@ -13,6 +14,7 @@ export class MoveToNextDateModalComponent implements OnInit {
   @Input() task: any;
   @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
+  @Input() dueDate: any;
 
   nextDate: any;
   showCalendar: boolean = true;
@@ -22,7 +24,7 @@ export class MoveToNextDateModalComponent implements OnInit {
     containerClass: 'theme-angle'
   }
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) { }
+  constructor(private fb: FormBuilder, private taskService: TaskService, public router: Router) { }
 
   ngOnInit() {
     this.nextDateModalForm = this.fb.group({
@@ -80,11 +82,20 @@ export class MoveToNextDateModalComponent implements OnInit {
 
   moveToNextDate() {
     this.showCalendar = false;
-    let addnextDate = (new Date(this.task.dueDate).getMonth() + 1) + '/' +
-      (new Date(this.task.dueDate).getDate() + 1) + '/' + (new Date(this.task.dueDate).getFullYear());
-    this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
-    this.nextDate = new Date(addnextDate);
-    this.getNewDate(addnextDate);
+    if (this.router.url == '/employee/backlog' && this.dueDate != null) {
+      let addnextDate = (new Date(this.dueDate).getMonth() + 1) + '/' +
+        (new Date(this.dueDate).getDate() + 1) + '/' + (new Date(this.dueDate).getFullYear());
+      this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
+      this.nextDate = new Date(addnextDate);
+      this.getNewDate(addnextDate);
+    }
+    else {
+      let addnextDate = (new Date(this.task.dueDate).getMonth() + 1) + '/' +
+        (new Date(this.task.dueDate).getDate() + 1) + '/' + (new Date(this.task.dueDate).getFullYear());
+      this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
+      this.nextDate = new Date(addnextDate);
+      this.getNewDate(addnextDate);
+    }
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { TaskService } from '../../../../services/task.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
 const swal = require('sweetalert');
 
@@ -101,15 +102,8 @@ export class DayModalContentComponent implements OnInit, OnChanges {
 
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
-    if ((this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length) > 10) {
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.height = 'unset';
-      }
-    }
-    else {
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.height = '300px';
-      }
+    for (var i = 0; i < x.length; i++) {
+      x[i].style.minHeight = '300px'
     }
 
     // To set the modal in center  
@@ -178,5 +172,13 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   // Method to refresh data on parent
   dateChange() {
     this.getDayTask();
+  }
+
+  reOrder(event: CdkDragDrop<string[]>, taskList) {
+    moveItemInArray(taskList, event.previousIndex, event.currentIndex);
+    this.taskService.reOrderMenu(taskList).subscribe((res: any) => {
+      swal('Success', 'Task has been Reordered', 'success');
+      this.getDayTask();
+    });
   }
 }

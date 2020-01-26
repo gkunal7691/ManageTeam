@@ -48,6 +48,14 @@ const EmployeeProfile = {
     roleId: [1]
 };
 
+
+const Backlog = {
+    text: 'Backlog',
+    link: '/employee/backlog',
+    icon: 'icon-list',
+    roleId: [1],
+};
+
 const OrgAdminProfile = {
     text: 'Profile',
     link: '/admin/aprofile',
@@ -106,24 +114,11 @@ const LeaveRequest = {
 }
 
 export const menu = [
-    // headingMain,
-    // Home,
-    // Dashboard,
-    // Widgets,
-    // headingComponents,
-    // Elements,
-    // Forms,
-    // Charts,
-    // Tables,
-    // Maps,
-    // headingMore,
-    // Pages,
-    // Blog,
-    // Ecommerce,
-    // Extras
+    
     EmployeeDashboard,
     Todo,
     TimeAttendance,
+    Backlog,
     ManageLeave,
     AdminDashboard,
     AdminEmployee,
@@ -135,6 +130,5 @@ export const menu = [
     Dayoff,
     EmployeeProfile,
     LeaveRequest,
-    OrgAdminProfile,
-    // Help,
+    OrgAdminProfile
 ];
