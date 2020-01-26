@@ -1,7 +1,11 @@
 <div class="modal-content">
   <div class="modal-header p-1">
     <div class="col-8">
-      <h4 class="pt-2">{{dueDate | date:'fullDate'}}</h4>
+      <h4 class="pt-2">{{dueDate | date:'fullDate'}}
+        <div *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
+          values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+        </div>
+      </h4>
     </div>
     <div class="float-right">
       <div class="row">
@@ -29,11 +33,11 @@
               <ng-template tabHeading>
                 <em class="far fa-clock fa-fw"></em> Planned Tasks
               </ng-template>
-              <div cdkDropList [cdkDropListData]="plannedTaskList" class="menu-list"
-                (cdkDropListDropped)="reOrderPlanned($event)">
-                <div class="menu-box" *ngFor="let task of plannedTaskList" cdkDrag>
-                  <div class="list-group w-100 mb-0">
-                    <div class="list-group-item">
+              <div class="list-group mb-0">
+                <div cdkDropList [cdkDropListData]="plannedTaskList"
+                  (cdkDropListDropped)="reOrder($event,plannedTaskList)">
+                  <div class="menu-box" *ngFor="let task of plannedTaskList" cdkDrag>
+                    <div class="list-group-item w-100">
                       <div class="btn-group float-right move-btn" dropdown>
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
@@ -86,11 +90,11 @@
               <ng-template tabHeading>
                 <em class="fas fa-hourglass-half"></em> In Progress Tasks
               </ng-template>
-              <div cdkDropList [cdkDropListData]="progressTaskList" class="menu-list"
-                (cdkDropListDropped)="reOrderProgress($event)">
-                <div class="menu-box" *ngFor="let task of progressTaskList" cdkDrag>
-                  <div class="list-group w-100 mb-0">
-                    <div class="list-group-item">
+              <div class="list-group w-100 mb-0">
+                <div cdkDropList [cdkDropListData]="progressTaskList"
+                  (cdkDropListDropped)="reOrder($event,progressTaskList)">
+                  <div class="menu-box" *ngFor="let task of progressTaskList" cdkDrag>
+                    <div class="list-group-item w-100">
                       <div class="btn-group float-right move-btn" dropdown>
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
@@ -141,11 +145,11 @@
               <ng-template tabHeading>
                 <em class="fas fa-check-circle normalColor"></em> Completed Tasks
               </ng-template>
-              <div cdkDropList [cdkDropListData]="completedTaskList" class="menu-list"
-                (cdkDropListDropped)="reOrderCompleted($event)">
-                <div class="menu-box" *ngFor="let task of completedTaskList" cdkDrag>
-                  <div class="list-group w-100 mb-0">
-                    <div class="list-group-item">
+              <div class="list-group mb-0">
+                <div cdkDropList [cdkDropListData]="completedTaskList"
+                  (cdkDropListDropped)="reOrder($event,completedTaskList)">
+                  <div class="menu-box" *ngFor="let task of completedTaskList" cdkDrag>
+                    <div class="list-group-item w-100">
                       <div class="btn-group float-right move-btn" dropdown>
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
@@ -197,29 +201,26 @@
     </div>
   </div>
   <div class="modal-footer">
-    <div class="col-4">
-      <a href="#" *ngIf="completedTaskList || progressTaskList || plannedTaskList" [tooltip]="toolTipTaskTemplate"
-        style="text-decoration: none;color: #656565;">
-        <progressbar class="progress" [value]="newStacked"
-          [max]="(plannedTaskList.length+progressTaskList.length+completedTaskList.length)">
-        </progressbar>
-        <span style="font-size: 10px;margin-bottom:5px">Completed / Progress / Planned
-          ({{completedTaskList?.length}}
-          / {{progressTaskList?.length}} / {{(plannedTaskList?.length)}})
-        </span>
-      </a>
-    </div>
-    <div class="col-5 pr-0 mr-0">
-      <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
-        <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
-        <span *ngIf="orginalSpentTime || totalEstimatedTime" style="font-size: 10px;margin-bottom:5px">Spent / Estimated
-          / Total Time ({{orginalSpentTime | customDate}} / {{totalEstimatedTime | customDate}} /
-          {{480 | customDate}})</span>
-      </a>
-    </div>
-    <div class="col-3" *ngIf="clientTime || orginalSpentTime">
-      <div class="sparkline inline float-right" [sparkline]="sparkOptionsInfo"
-        values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+    <div class="row w-100">
+      <div class="col-6">
+        <a href="#" *ngIf="completedTaskList || progressTaskList || plannedTaskList" [tooltip]="toolTipTaskTemplate"
+          style="text-decoration: none;color: #656565;">
+          <progressbar class="progress" [value]="newStacked"
+            [max]="(plannedTaskList.length+progressTaskList.length+completedTaskList.length)">
+          </progressbar>
+          <span style="font-size: 10px;margin-bottom:5px">Completed / Progress / Planned
+            ({{completedTaskList?.length}}
+            / {{progressTaskList?.length}} / {{(plannedTaskList?.length)}})
+          </span>
+        </a>
+      </div>
+      <div class="col-6 pr-0 mr-0">
+        <a href="#" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
+          <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
+          <span style="font-size: 10px;margin-bottom:5px">Spent / Estimated
+            / Total Time ({{orginalSpentTime | customDate}} / {{totalEstimatedTime | customDate}} /
+            {{480 | customDate}})</span>
+        </a>
       </div>
     </div>
   </div>

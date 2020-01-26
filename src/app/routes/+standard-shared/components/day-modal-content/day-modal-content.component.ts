@@ -102,15 +102,8 @@ export class DayModalContentComponent implements OnInit, OnChanges {
 
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
-    if ((this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length) > 5) {
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.height = 'unset';
-      }
-    }
-    else {
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.height = '300px';
-      }
+    for (var i = 0; i < x.length; i++) {
+      x[i].style.minHeight = '300px'
     }
 
     // To set the modal in center  
@@ -181,23 +174,10 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     this.getDayTask();
   }
 
-  reOrderPlanned(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.plannedTaskList, event.previousIndex, event.currentIndex);
-    this.taskService.reOrderMenu(this.plannedTaskList).subscribe((res: any) => {
-      this.getDayTask();
-    });
-  }
-
-  reOrderProgress(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.progressTaskList, event.previousIndex, event.currentIndex);
-    this.taskService.reOrderMenu(this.progressTaskList).subscribe((res: any) => {
-      this.getDayTask();
-    });
-  }
-
-  reOrderCompleted(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.completedTaskList, event.previousIndex, event.currentIndex);
-    this.taskService.reOrderMenu(this.completedTaskList).subscribe((res: any) => {
+  reOrder(event: CdkDragDrop<string[]>, taskList) {
+    moveItemInArray(taskList, event.previousIndex, event.currentIndex);
+    this.taskService.reOrderMenu(taskList).subscribe((res: any) => {
+      swal('Success', 'Task has been Reordered', 'success');
       this.getDayTask();
     });
   }

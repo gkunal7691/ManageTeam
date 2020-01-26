@@ -3,6 +3,7 @@ import { TaskService } from '../../../../services/task.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { EmployeeService } from '../../../../services/employee.service';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
+const swal = require('sweetalert');
 
 @Component({
   selector: 'app-backlog',
@@ -61,6 +62,7 @@ export class BacklogComponent implements OnInit {
   reOrder(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.backLogTasks, event.previousIndex, event.currentIndex);
     this.taskService.reOrderMenu(this.backLogTasks).subscribe((res: any) => {
+      swal('Success', 'Backlog Task has been Reordered successfully', 'success');
       this.getBackLogTaskList();
     });
   }
