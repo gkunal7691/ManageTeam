@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
+import { TaskService } from '../../../../services/task.service';
 const swal = require('sweetalert');
 
 @Component({
@@ -15,6 +15,7 @@ export class MoveToNextDateModalComponent implements OnInit {
   @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
   @Input() dueDate: any;
+  @Input() userList: [];
 
   nextDate: any;
   showCalendar: boolean = true;
@@ -23,6 +24,7 @@ export class MoveToNextDateModalComponent implements OnInit {
   bsConfig = {
     containerClass: 'theme-angle'
   }
+  userId: any;
 
   constructor(private fb: FormBuilder, private taskService: TaskService, public router: Router) { }
 
@@ -31,14 +33,16 @@ export class MoveToNextDateModalComponent implements OnInit {
       newEstimatedHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
       newEstimatedMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
       newDate: [''],
-      newNextDate: ['']
-    })
+      newNextDate: [''],
+      assignee: ['', [Validators.required]],
+    });
   }
 
   cancelTask() {
     var x = document.getElementById("testing");
     setTimeout(() => { x.classList.add("modal-open") }, 350);
     this.nextDateModalForm.reset();
+    console.log(this.userList)
   }
 
   getNewDate(val) {
@@ -49,14 +53,20 @@ export class MoveToNextDateModalComponent implements OnInit {
     }
   }
 
+  selectAssignee(value) {
+    console.log(value)
+    this.userId = value
+  }
+
   moveTask() {
     let newEstimatedHour = this.nextDateModalForm.get('newEstimatedHour').value;
     let newEstimatedMin = this.nextDateModalForm.get('newEstimatedMin').value;
     let totalEstimatedTime = (newEstimatedHour * 60) + newEstimatedMin;
 
     if (this.nextDate) {
+      console.log(this.userId)
       this.taskService.editTask({
-        taskId: this.task.taskId, clonned: 1, dueDate: this.task.dueDate
+        taskId: this.task.taskId, clonned: 1, dueDate: this.task.dueDate, assignee: this.userId
       }).subscribe((res: any) => { });
 
       this.taskService.addTask({

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DayModalContentComponent } from '../day-modal-content/day-modal-content.component';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
 

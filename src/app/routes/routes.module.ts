@@ -1,8 +1,8 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslatorService } from '../core/translator/translator.service';
-import { MenuService } from '../core/menu/menu.service';
 import { OrgLoadService } from '../core/load/org.service';
+import { MenuService } from '../core/menu/menu.service';
+import { TranslatorService } from '../core/translator/translator.service';
 import { SharedModule } from '../shared/shared.module';
 import { menu } from './menu';
 import { routes } from './routes';

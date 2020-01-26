@@ -49,11 +49,18 @@ const EmployeeProfile = {
 };
 
 
-const Backlog = {
+const EmpBacklog = {
     text: 'Backlog',
     link: '/employee/backlog',
     icon: 'icon-list',
     roleId: [1],
+};
+
+const AdminBacklog = {
+    text: 'Backlog',
+    link: '/admin/backlog',
+    icon: 'icon-list',
+    roleId: [2],
 };
 
 const OrgAdminProfile = {
@@ -118,11 +125,12 @@ export const menu = [
     EmployeeDashboard,
     Todo,
     TimeAttendance,
-    Backlog,
+    EmpBacklog,
     ManageLeave,
     AdminDashboard,
     AdminEmployee,
     AdminTimeAttendance,
+    AdminBacklog,
     SuperadminDashboard,
     SuperAdminView,
     Notification,

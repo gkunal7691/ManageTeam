@@ -51,22 +51,22 @@
 </div>
 
 <ng-template #toolTipTimeTemplate>
-  <p>Spent Time : {{orginalSpentTime | customDate}}</p>
-  <p>Estimated Time : {{estimatedTime | customDate}}</p>
-  <p>Total Time : {{480 | customDate}}</p>
+  <p>Spent Time: {{orginalSpentTime | customDate}}</p>
+  <p>Estimated Time: {{estimatedTime | customDate}}</p>
+  <p>Total Time: {{480 | customDate}}</p>
 </ng-template>
 
 <ng-template #toolTipTaskTemplate>
-  <p>Completed Tasks : {{completedTaskList.length}}</p>
-  <p>Progess Tasks : {{inProgressTaskList.length}}</p>
-  <p>Planned Tasks : {{plannedTaskList.length}}</p>
+  <p>Completed Tasks: {{completedTaskList.length}}</p>
+  <p>Progess Tasks: {{inProgressTaskList.length}}</p>
+  <p>Planned Tasks: {{plannedTaskList.length}}</p>
 </ng-template>
 
-<ng-template #toolTipHolidayTemplate style="width:300px;">
-  <p>Occasion : {{holiday.occasion | titlecase}}</p>
-  <p>Type : {{holiday.holidayType | titlecase}}</p>
+<ng-template #toolTipHolidayTemplate>
+  <p style="width: 150px;">Occasion: {{holiday.occasion | titlecase}}</p>
+  <p style="width: 150px;">Type: {{holiday.holidayType | titlecase}}</p>
 </ng-template>
 
-<ng-template #toolTipLeaveTemplate style="width:300px;">
-  <p>Leave status : {{leaveStatus | titlecase}}</p>
+<ng-template #toolTipLeaveTemplate>
+  <p style="width: 150px;">Leave status: {{leaveStatus | titlecase}}</p>
 </ng-template>

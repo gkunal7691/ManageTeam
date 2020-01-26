@@ -50,7 +50,7 @@
 <app-move-to-completed-modal [task]="task" (updateTaskList)="getUpdatedTaskList()"
   [totalEstimatedTime]="totalEstimatedTime"></app-move-to-completed-modal>
 
-<app-move-to-next-date-modal [task]="task" (updateTaskList)="getUpdatedTaskList()"
+<app-move-to-next-date-modal [task]="task" [userList]="userList" (updateTaskList)="getUpdatedTaskList()"
   [totalEstimatedTime]="totalEstimatedTime"></app-move-to-next-date-modal>
 
 <ng-template #toolTipTimeTemplate>
@@ -65,6 +65,6 @@
   <p>Planned Tasks : {{plannedTaskList.length}}</p>
 </ng-template>
 
-<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate"
-  (updateTaskList)="getUpdatedTaskList()" [task]="task" [totalEstimatedTime]="totalEstimatedTime">
+<app-task-modal [userId]="userId" [userList]="userList" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"
+  [task]="task" [totalEstimatedTime]="totalEstimatedTime">
 </app-task-modal>
