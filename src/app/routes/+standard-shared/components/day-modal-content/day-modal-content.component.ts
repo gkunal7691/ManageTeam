@@ -46,10 +46,6 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.getDayTask();
     this.dateChange();
-    let x = document.getElementsByTagName('canvas');
-    for (var i = 0; i < x.length; i++) {
-      x[i].style.verticalAlign = 'middle';
-    }
     this.ref.detectChanges();
   }
 
