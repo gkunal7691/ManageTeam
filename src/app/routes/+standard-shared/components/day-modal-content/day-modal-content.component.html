@@ -3,7 +3,7 @@
     <div class="col-8">
       <h4 class="pt-2">{{dueDate | date:'fullDate'}}
         <div *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
-          values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+          values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}" >
         </div>
       </h4>
     </div>
@@ -226,14 +226,14 @@
   </div>
 </div>
 
-<ng-template #toolTipTimeTemplate>
-  <p>Spent Time : {{orginalSpentTime | customDate }}</p>
-  <p>Estimated Time : {{totalEstimatedTime | customDate }}</p>
-  <p>Total Time : {{480 | customDate}}</p>
+<ng-template #toolTipTimeTemplate >
+  <p class="mb-0">Spent Time: {{orginalSpentTime | customDate }}</p>
+  <p class="mb-0">Estimated Time: {{totalEstimatedTime | customDate }}</p>
+  <p class="mb-0">Total Time: {{480 | customDate}}</p>
 </ng-template>
 
 <ng-template #toolTipTaskTemplate>
-  <p>Completed Tasks : {{completedTaskList.length}}</p>
-  <p>In Progess Tasks : {{progressTaskList.length}}</p>
-  <p>Planned Tasks : {{plannedTaskList.length}}</p>
+  <p class="mb-0">Completed Tasks: {{completedTaskList.length}}</p>
+  <p class="mb-0">In Progess Tasks: {{progressTaskList.length}}</p>
+  <p class="mb-0">Planned Tasks: {{plannedTaskList.length}}</p>
 </ng-template>
