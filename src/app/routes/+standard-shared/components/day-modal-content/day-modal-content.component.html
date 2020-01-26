@@ -1,11 +1,10 @@
 <div class="modal-content">
   <div class="modal-header p-1">
     <div class="col-8">
-      <h4 class="pt-2">{{dueDate | date:'fullDate'}}
-        <div *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
-          values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}" >
-        </div>
-      </h4>
+      <span style="font-size: x-large;">{{dueDate | date:'fullDate'}}</span>
+      <span style="position: relative; bottom: 6px;" *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
+        values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+      </span>
     </div>
     <div class="float-right">
       <div class="row">
@@ -78,7 +77,8 @@
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
+                            *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -133,7 +133,8 @@
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
+                            *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -186,7 +187,8 @@
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
+                            *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -226,7 +228,7 @@
   </div>
 </div>
 
-<ng-template #toolTipTimeTemplate >
+<ng-template #toolTipTimeTemplate>
   <p class="mb-0">Spent Time: {{orginalSpentTime | customDate }}</p>
   <p class="mb-0">Estimated Time: {{totalEstimatedTime | customDate }}</p>
   <p class="mb-0">Total Time: {{480 | customDate}}</p>

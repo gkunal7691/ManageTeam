@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { TaskService } from '../../../../services/task.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { EmployeeService } from '../../../../services/employee.service';
+import { TaskService } from '../../../../services/task.service';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
 const swal = require('sweetalert');
 
@@ -41,21 +41,21 @@ export class BacklogComponent implements OnInit {
       })
   }
 
-  editTask(task) {    
+  editTask(task) {
     this.task = task;
     this.taskModal.updateTask(this.task);
     this.getBackLogTaskList();
   }
 
   addTask() {
-    this.dueDate =new Date(0);
-    this.task = null;    
+    this.dueDate = new Date(0);
+    this.task = null;
     this.taskModal.updateTask(this.task);
     this.getBackLogTaskList();
   }
 
   moveTask(task) {
-    this.task = task;    
+    this.task = task;
     this.getUserList();
     this.dueDate = new Date();
   }

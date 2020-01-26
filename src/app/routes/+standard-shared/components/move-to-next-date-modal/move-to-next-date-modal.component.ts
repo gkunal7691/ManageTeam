@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TaskService } from '../../../../services/task.service';
 import { Router } from '@angular/router';
+import { TaskService } from '../../../../services/task.service';
 const swal = require('sweetalert');
 
 @Component({

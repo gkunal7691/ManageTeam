@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, OnChanges } from '@angular/core';
-import { ColorsService } from '../../../../shared/colors/colors.service';
-import { TaskService } from '../../../../services/task.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { TaskService } from '../../../../services/task.service';
+import { ColorsService } from '../../../../shared/colors/colors.service';
 const swal = require('sweetalert');
 
 @Component({
@@ -12,6 +12,7 @@ const swal = require('sweetalert');
 })
 
 export class DayModalContentComponent implements OnInit, OnChanges {
+  
   @Input() userId: number;
   @Input() userList: any;
   @Input() updatedTaskList: any;
@@ -86,6 +87,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
       let completedNormalTask = this.completedTaskList.filter(task => task.priority == "normal");
       let completedLowTask = this.completedTaskList.filter(task => task.priority == "low");
       this.completedTaskList = completedCriticalTask.concat(completedHighTask, completedNormalTask, completedLowTask);
+
       this.newStacked.push({
         value: this.completedTaskList.length,
         type: "success"
@@ -96,6 +98,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
         value: this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length,
         type: "danger"
       })
+
     }
 
     this.taskCalculation();
