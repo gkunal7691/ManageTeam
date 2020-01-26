@@ -114,21 +114,7 @@ const LeaveRequest = {
 }
 
 export const menu = [
-    // headingMain,
-    // Home,
-    // Dashboard,
-    // Widgets,
-    // headingComponents,
-    // Elements,
-    // Forms,
-    // Charts,
-    // Tables,
-    // Maps,
-    // headingMore,
-    // Pages,
-    // Blog,
-    // Ecommerce,
-    // Extras
+    
     EmployeeDashboard,
     Todo,
     TimeAttendance,
@@ -144,6 +130,5 @@ export const menu = [
     Dayoff,
     EmployeeProfile,
     LeaveRequest,
-    OrgAdminProfile,
-    // Help,
+    OrgAdminProfile
 ];
