@@ -103,7 +103,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     // To set the hieght of tabset
     var x = <HTMLElement[]><any>document.getElementsByClassName("tab-content")
     for (var i = 0; i < x.length; i++) {
-      x[i].style.minHeight = '300px'
+      x[i].style.minHeight = '300px';
     }
 
     // To set the modal in center  
@@ -113,7 +113,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     else if ('/employee/month-view' == this.router.url) {
       this.modalCenter = true;
       for (var i = 0; i < x.length; i++) {
-        x[i].style.height = '300px';
+        x[i].style.minHeight = '300px';
       }
     }
   }

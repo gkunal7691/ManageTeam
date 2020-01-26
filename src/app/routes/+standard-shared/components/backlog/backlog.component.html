@@ -1,6 +1,6 @@
 <div class="content-heading">
     <div class="col-7">
-        Backlog Task
+        Backlog Tasks
     </div>
     <div class="col-5">
         <button type="button" class="btn btn-primary float-right" (click)="addTask()" data-toggle="modal"
@@ -19,8 +19,8 @@
                     {{ task?.title }}
                 </ng-template>
                 <em [tooltip]="toolTipTemplate">
-                    #&nbsp;{{ task?.taskId }}&nbsp;: {{ task?.title | slice:0:45 }}
-                    <span *ngIf="task?.title.length > 45">...</span>
+                    #&nbsp;{{ task?.taskId }}&nbsp;: {{ task?.title | slice:0:100 }}
+                    <span *ngIf="task?.title.length > 100">...</span>
                 </em>
             </a>
             <a class="addCursor">

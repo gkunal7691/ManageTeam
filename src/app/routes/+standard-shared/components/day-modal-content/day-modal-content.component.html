@@ -78,7 +78,7 @@
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -133,7 +133,7 @@
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -186,7 +186,7 @@
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:45 }} ...
+                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>

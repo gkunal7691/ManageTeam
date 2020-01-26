@@ -11,6 +11,7 @@ const usersRouter = require('./routes/core/users');
 const orgMetaRouter = require('./routes/core/orgMeta');
 const organizationRouter = require('./routes/core/organization');
 const userMetaRouter = require('./routes/core/userMeta');
+const mailRouter = require('./routes/core/mail');
 
 
 /* softobotics */
@@ -94,6 +95,7 @@ app.use('/api/users', /*roleMiddleware,*/ usersRouter);
 app.use('/api/organization', organizationRouter);
 app.use('/api/userMeta', passport.authenticate('jwt', { session: false }), /*roleMiddleware,*/ userMetaRouter);
 app.use('/api/orgMeta',   /*roleMiddleware,*/ orgMetaRouter);
+app.use('/api/mail', mailRouter);
 
 /* softobotics */
 
