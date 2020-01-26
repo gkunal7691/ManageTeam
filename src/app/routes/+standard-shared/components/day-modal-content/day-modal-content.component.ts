@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 import { TaskService } from '../../../../services/task.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
 const swal = require('sweetalert');
 
@@ -178,5 +179,26 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   // Method to refresh data on parent
   dateChange() {
     this.getDayTask();
+  }
+
+  reOrderPlanned(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.plannedTaskList, event.previousIndex, event.currentIndex);
+    this.taskService.reOrderMenu(this.plannedTaskList).subscribe((res: any) => {
+      this.getDayTask();
+    });
+  }
+
+  reOrderProgress(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.progressTaskList, event.previousIndex, event.currentIndex);
+    this.taskService.reOrderMenu(this.progressTaskList).subscribe((res: any) => {
+      this.getDayTask();
+    });
+  }
+
+  reOrderCompleted(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.completedTaskList, event.previousIndex, event.currentIndex);
+    this.taskService.reOrderMenu(this.completedTaskList).subscribe((res: any) => {
+      this.getDayTask();
+    });
   }
 }

@@ -44,7 +44,11 @@ module.exports = (sequelize, DataTypes) => {
         isCloned: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
-        }
+        },
+        order: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
 
     }, {
         tableName: 'task',

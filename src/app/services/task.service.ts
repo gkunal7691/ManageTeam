@@ -13,6 +13,8 @@ export class TaskService {
   private getTask: string;
   private getUserTask: string;
   private dayTask: string;
+  private backlogTask: string;
+  private reOrder: string
 
 
   constructor(private httpClient: HttpClient, private cacheService: CacheService) {
@@ -20,8 +22,10 @@ export class TaskService {
     this.apiPath = env.paths.api;
     this.task = 'task';
     this.getTask = 'task/getTask/dueDate';
-    this.getUserTask = 'task/getTask/dueDate/admin'
-    this.dayTask = 'task/get-day-task'
+    this.getUserTask = 'task/getTask/dueDate/admin';
+    this.dayTask = 'task/get-day-task';
+    this.backlogTask = 'task/backlog/getTask';
+    this.reOrder ='task/edit/reOrder'
 
   }
 
@@ -45,6 +49,10 @@ export class TaskService {
     return this.httpClient.post<object>(`${this.apiPath}/${this.getUserTask}/`, value, this.getHeaders())
   }
 
+  getBacklogTasks() {
+    return this.httpClient.get<object>(`${this.apiPath}/${this.backlogTask}/`, this.getHeaders())
+  }
+
   addTask(val) {
     return this.httpClient.post<object>(`${this.apiPath}/${this.task}/`, val, this.getHeaders())
   }
@@ -55,5 +63,9 @@ export class TaskService {
 
   deleteTask(taskId) {
     return this.httpClient.delete<object>(`${this.apiPath}/${this.task}/` + taskId, this.getHeaders())
+  }
+
+  reOrderMenu(taskList) {
+    return this.httpClient.put<object>(`${this.apiPath}/${this.reOrder}/`, taskList, this.getHeaders())
   }
 }

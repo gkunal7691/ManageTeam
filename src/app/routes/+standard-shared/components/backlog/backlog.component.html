@@ -1,0 +1,44 @@
+<div class="content-heading">
+    <div class="col-7">
+        Backlog Task
+    </div>
+    <div class="col-5">
+        <button type="button" class="btn btn-primary float-right" (click)="addTask()" data-toggle="modal"
+            data-target=".dailyTaskModal">Add Task</button>
+    </div>
+</div>
+<div class="row mt-2 justify-content-center">
+    <div cdkDropList [cdkDropListData]="backLogTasks" class="menu-list" (cdkDropListDropped)="reOrder($event)">
+        <div class="menu-box" *ngFor="let task of backLogTasks" cdkDrag>
+            <a data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
+                <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
+                <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
+                <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
+                <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
+                <ng-template #toolTipTemplate>
+                    {{ task?.title }}
+                </ng-template>
+                <em [tooltip]="toolTipTemplate">
+                    #&nbsp;{{ task?.taskId }}&nbsp;: {{ task?.title | slice:0:45 }}
+                    <span *ngIf="task?.title.length > 45">...</span>
+                </em>
+            </a>
+            <a class="addCursor">
+                <button type="button" class="btn btn-success float-right" data-toggle="modal"
+                    data-target=".nextDateModal" (click)="moveTask(task)">Move to</button>
+                <span class="moveTop">
+                    <span *ngIf="task.user == null" class="badge badge-success float-right mr-1">
+                        Unsassigned
+                    </span>
+                    <span *ngIf="task.user != null" class="badge badge-info float-right mr-1">
+                        {{task.user.firstName}} {{task.user.lastName}}
+                    </span>
+                    <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<app-task-modal [userList]="userList" [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"></app-task-modal>
+<app-move-to-next-date-modal [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>

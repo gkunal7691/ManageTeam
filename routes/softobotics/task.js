@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const task = require('../../models').Task;
+const Task = require('../../models').Task;
 const Comment = require('../../models').Comment;
 const User = require('../../models').User;
 
@@ -26,7 +26,7 @@ router.post('/', async function (req, res, next) {
   else {
     dueDate.setHours(dueDate.getHours() + 6, 00)
   }
-  task.create({
+  Task.create({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
     organizationId: req.user.orgId, userId: req.body.assignee,
@@ -39,7 +39,7 @@ router.post('/', async function (req, res, next) {
 
 
 router.post('/getTask/dueDate', async function (req, res, next) {
-  task.findAll({
+  Task.findAll({
     where: {
       dueDate: {
         $between: [req.body.firstDay, req.body.lastDay]
@@ -54,7 +54,10 @@ router.post('/getTask/dueDate', async function (req, res, next) {
           ['createdAt', 'desc']
         ]
       }
-    ]
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
   })
     .then((data) => {
       res.json({ success: true, data: data })
@@ -68,7 +71,7 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
   if (env === 'local') {
     dueDate.setHours(dueDate.getHours() + 5, 30)
   }
-  task.findAll({
+  Task.findAll({
     where: { dueDate: dueDate, organizationId: req.user.orgId, userId: parseInt(req.params.userId) },
     include: [
       {
@@ -79,7 +82,10 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
           ['createdAt', 'desc']
         ]
       }
-    ]
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
   })
     .then((data) => {
       res.json({ success: true, data: data })
@@ -89,7 +95,7 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
 //To fetch the task according to the user
 
 router.post('/getTask/dueDate/admin', async function (req, res, next) {
-  task.findAll({
+  Task.findAll({
     where: {
       dueDate: {
         $between: [req.body.firstDay, req.body.lastDay]
@@ -111,11 +117,41 @@ router.post('/getTask/dueDate/admin', async function (req, res, next) {
     }).catch(next)
 })
 
+router.get('/backlog/getTask', async function (req, res, next) {
+  let firstDay = '0000-00-00';
+  let lastDay = '1970-01-01';
+  Task.findAll({
+    where: {
+      dueDate: {
+        $between: [firstDay, lastDay]
+      }, organizationId: req.user.orgId
+    },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      },
+      {
+        model: User, as: 'user'
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      res.json({ success: true, data: data })
+    }).catch(next)
+})
 
 router.put('/', function (req, res, next) {
   req.body.updatedById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
-  task.update({
+  Task.update({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
     userId: req.body.assignee, isCloned: req.body.clonned
@@ -125,6 +161,23 @@ router.put('/', function (req, res, next) {
     }).catch(next);
 })
 
+router.put('/edit/reOrder', function (req, res, next) {
+  let order = 1;
+  let count = 0;
+  req.body.forEach((task, index, array) => {
+    Task.update({
+      order: order
+    }, { where: { taskId: task.taskId, organizationId: req.user.orgId } }).then(() => {
+      if (count == array.length - 1) {
+        res.json({ success: true });
+      }
+      count++;
+    }).catch(next)
+    order++;
+  })
+});
+
+
 
 router.delete('/:taskId', function (req, res, next) {
   var dueDate = new Date(req.body.dueDate)
@@ -133,7 +186,7 @@ router.delete('/:taskId', function (req, res, next) {
     res.json({ success: true, data: "Error Cant Delete" });
   }
   else {
-    task.destroy({ where: { taskId: req.params.taskId } }).then((data) => {
+    Task.destroy({ where: { taskId: req.params.taskId } }).then((data) => {
       res.json({ success: true, data: data })
     }).catch(next);
   }
