@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
 const swal = require('sweetalert');
@@ -11,11 +11,13 @@ const swal = require('sweetalert');
 })
 
 export class MoveToNextDateModalComponent implements OnInit {
+
   @Input() task: any;
   @Input() totalEstimatedTime: number;
   @Output() updateTaskList = new EventEmitter();
   @Input() dueDate: any;
   @Input() userList: [];
+  @Output() getSelectedDatetask = new EventEmitter();
 
   nextDate: any;
   showCalendar: boolean = true;
@@ -28,14 +30,28 @@ export class MoveToNextDateModalComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private taskService: TaskService, public router: Router) { }
 
+  // ngOnChanges() {
+  //   this.ngOnInit();
+  // }
+
   ngOnInit() {
     this.nextDateModalForm = this.fb.group({
-      newEstimatedHour: ['', [Validators.required, Validators.maxLength(2), Validators.max(8)]],
-      newEstimatedMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
+      newEstimatedHour: ['', [Validators.maxLength(2), Validators.max(8)]],
+      newEstimatedMin: ['', [Validators.maxLength(2), Validators.max(59)]],
       newDate: [''],
-      newNextDate: [''],
-      assignee: ['', [Validators.required]],
+      newNextDate: ['', [this.validateEstimatedHour.bind(this)]],
+      assignee: [''],
     });
+  }
+
+  validateEstimatedHour(control: AbstractControl) {
+    if (this.nextDateModalForm && this.router.url != '/employee/backlog') {
+      control = this.nextDateModalForm.get('newNextDate');
+      control.setValidators([Validators.required])
+      // control = control.parent
+      console.log(control)
+    }
+
   }
 
   cancelTask() {
@@ -46,16 +62,21 @@ export class MoveToNextDateModalComponent implements OnInit {
   }
 
   getNewDate(val) {
-    this.nextDate = new Date(val);
-    this.nextDate.setHours(0, 0, 0);
-    if (this.nextDateModalForm.get('newNextDate').value == '') {
-      this.showCalendar = true;
+    if (val) {
+      this.nextDate = new Date(val);
+      this.nextDate.setHours(0, 0, 0);
+      this.getSelectedDatetask.emit(this.nextDate)
+      if (this.nextDateModalForm.get('newNextDate').value == '') {
+        this.showCalendar = true;
+        this.nextDateModalForm.get('newNextDate').setValidators(null);
+        console.log(this.nextDateModalForm.get('newNextDate').setValidators(null));
+      }
     }
   }
 
   selectAssignee(value) {
     console.log(value)
-    this.userId = value
+    this.userId = value;
   }
 
   moveTask() {
@@ -92,11 +113,13 @@ export class MoveToNextDateModalComponent implements OnInit {
 
   moveToNextDate() {
     this.showCalendar = false;
+    this.nextDateModalForm.get('newNextDate').setValidators(null);
     if (this.router.url == '/employee/backlog' && this.dueDate != null) {
       let addnextDate = (new Date(this.dueDate).getMonth() + 1) + '/' +
         (new Date(this.dueDate).getDate() + 1) + '/' + (new Date(this.dueDate).getFullYear());
       this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
       this.nextDate = new Date(addnextDate);
+      // this.getSelectedDatetask.emit(this.nextDate)
       this.getNewDate(addnextDate);
     }
     else {
@@ -104,6 +127,7 @@ export class MoveToNextDateModalComponent implements OnInit {
         (new Date(this.task.dueDate).getDate() + 1) + '/' + (new Date(this.task.dueDate).getFullYear());
       this.nextDateModalForm.get('newNextDate').setValue(addnextDate);
       this.nextDate = new Date(addnextDate);
+      // this.getSelectedDatetask.emit(this.nextDate)
       this.getNewDate(addnextDate);
     }
   }

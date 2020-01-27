@@ -15,6 +15,7 @@
                 <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
                 <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
                 <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
+                <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
                 <ng-template #toolTipTemplate>
                     {{ task?.title }}
                 </ng-template>

@@ -55,7 +55,6 @@ export class TaskModalComponent implements OnInit {
   }
 
   validateEstimatedHour(control: AbstractControl) {
-
     if (this.taskForm) {
       if ((this.taskForm.get('estimatedMin').value + (control.value * 60)) > (480 - this.totalEstimatedTime)) {
         return { estimateHour: true };
@@ -158,7 +157,7 @@ export class TaskModalComponent implements OnInit {
     let currentDate: Date = new Date();
     currentDate.setDate(currentDate.getDate() - 1);
     let duedate = new Date(this.dueDate);
-    if (duedate < currentDate) {
+    if (duedate < currentDate && this.router.url != '/employee/backlog') {
       this.showModalFooter = false;
       this.taskForm.disable();
     }
