@@ -10,6 +10,10 @@
       </div>
       <div class="modal-body pr-0">
         <form>
+          <div *ngIf="totalEstimatedTime" class="row justify-content-center">
+            <h6 style="text-align: center;">Estimated Time left for <b>{{nextDate | date}}</b> is
+              <b>{{480 - totalEstimatedTime | customDate}}</b></h6>
+          </div>
           <div class="row">
             <div class="col-3 pr-0 pl-4" style="text-align: center;align-self: center;">
               <label class="mb-0">
@@ -17,14 +21,21 @@
               </label>
             </div>
             <div class="col-6 pl-0 pr-0">
-              <select class="form-control mb-1"
-                [formControl]="nextDateModalForm.controls['assignee']" (click)="selectAssignee($event.target.value)">
-                <option *ngIf="userList && userList.length <= 1" [selected]="true">
-                  Please Select an Assignee</option>
+              <select class="form-control mb-1" [formControl]="nextDateModalForm.controls['assignee']"
+                (click)="selectAssignee($event.target.value)">
+                <option [selected]="true" value=""> Please Select an Assignee</option>
                 <option *ngFor="let user of userList" [value]="user.id">
                   {{user.firstName}} {{user.lastName}}
                 </option>
               </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 pr-0 pl-4"></div>
+            <div class="col-6 pl-0 pr-0">
+              <div class="text-danger" *ngIf="nextDateModalForm.controls['assignee'].invalid">
+                <i>Select Assignee</i>
+              </div>
             </div>
           </div>
           <div class="row  mt-3">
@@ -34,13 +45,9 @@
               </label>
             </div>
             <div class="col-3 pl-0 pr-0">
-              <input *ngIf="showCalendar" type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
-                placeholder="Choose Here..." [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
+              <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="Select Date"
+                [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
                 [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
-
-              <input *ngIf="!showCalendar" type="text" class="form-control"
-                [formControl]="nextDateModalForm.controls['newNextDate']" (click)="getNewDate($event)"
-                (keyup)="getNewDate($event)">
             </div>
             <div class="col-3 p-0 mt-1 pl-3">
               <a class="removeUnderLine" (click)="moveToNextDate()">Select next date</a>

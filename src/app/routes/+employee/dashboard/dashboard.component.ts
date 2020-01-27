@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   showLoader: any;
   totalEstimatedTime: number;
 
-  @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
+  @ViewChild(DayModalContentComponent, { static: true }) dayModalContent: DayModalContentComponent;
   @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
 
 
@@ -38,7 +38,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getUpdatedTaskList() {
-    this.dayDetail.getDayTask();
+    console.log("times")
+    this.dayModalContent.getDayTask();
   }
 
   getTotalEstimatedTime(val) {
@@ -53,18 +54,25 @@ export class DashboardComponent implements OnInit {
 
   getPreviousDate() {
     this.dueDate = new Date(this.dueDate.setDate(this.dueDate.getDate() - 1));
-    this.dayDetail.dateChange();
+    this.dayModalContent.dateChange();
   }
 
   getNextDate() {
     this.dueDate = new Date(this.dueDate.setDate(this.dueDate.getDate() + 1));
-    this.dayDetail.dateChange();
+    this.dayModalContent.dateChange();
   }
 
   goToPresentDay() {
     this.dueDate = new Date();
-    this.dayDetail.dateChange();
+    this.dayModalContent.dateChange();
   }
+
+  getSelectedDate(selectedDate){
+    this.dueDate = selectedDate;
+    console.log(this.dueDate)
+    this.dayModalContent.dateChange()
+  }
+
   addNewTask() {
     this.taskModal.addNewTask();
   }

@@ -4,7 +4,6 @@ const Task = require('../../models').Task;
 const Comment = require('../../models').Comment;
 const User = require('../../models').User;
 
-
 var currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
 var convertedDate = new Date(currentDate);
@@ -89,6 +88,39 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
   })
     .then((data) => {
       res.json({ success: true, data: data })
+    }).catch(next)
+})
+
+router.post('/get-selected-date-task/:userId', async function (req, res, next) {
+  console.log("test", req.body.dueDate)
+  let dueDate = new Date(req.body.dueDate);
+  const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
+  if (env === 'local') {
+    dueDate.setHours(dueDate.getHours() + 5, 30)
+  }
+  Task.findAll({
+    where: { dueDate: dueDate, organizationId: req.user.orgId, userId: parseInt(req.params.userId) },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      let totalEstimatedTime = 0;
+      data.forEach(task => {
+        totalEstimatedTime += task.estimatedTime;
+      })
+      console.log(totalEstimatedTime)
+      res.json({ success: true, data: totalEstimatedTime })
     }).catch(next)
 })
 

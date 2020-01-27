@@ -31,6 +31,11 @@ export class BacklogComponent implements OnInit {
   getBackLogTaskList() {
     this.taskService.getBacklogTasks().subscribe((res: any) => {
       this.backLogTasks = res.data;
+      let crticalTask = this.backLogTasks.filter(task => task.priority == "critical");
+      let highTask = this.backLogTasks.filter(task => task.priority == "high");
+      let normalTask = this.backLogTasks.filter(task => task.priority == "normal");
+      let lowTask = this.backLogTasks.filter(task => task.priority == "low");
+      this.backLogTasks = crticalTask.concat(highTask, normalTask, lowTask);
     })
   }
 
