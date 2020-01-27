@@ -15,6 +15,7 @@ export class TaskService {
   private dayTask: string;
   private backlogTask: string;
   private reOrder: string
+  private selectedDateTask: string;
 
 
   constructor(private httpClient: HttpClient, private cacheService: CacheService) {
@@ -25,7 +26,8 @@ export class TaskService {
     this.getUserTask = 'task/getTask/dueDate/admin';
     this.dayTask = 'task/get-day-task';
     this.backlogTask = 'task/backlog/getTask';
-    this.reOrder ='task/edit/reOrder'
+    this.reOrder = 'task/edit/reOrder';
+    this.selectedDateTask = 'task/get-selected-date-task';
 
   }
 
@@ -51,6 +53,10 @@ export class TaskService {
 
   getBacklogTasks() {
     return this.httpClient.get<object>(`${this.apiPath}/${this.backlogTask}/`, this.getHeaders())
+  }
+
+  getSelectedDateTask(userId: number, selectedDueDate: string) {
+    return this.httpClient.post<object>(`${this.apiPath}/${this.selectedDateTask}/` + userId, { dueDate: selectedDueDate }, this.getHeaders())
   }
 
   addTask(val) {

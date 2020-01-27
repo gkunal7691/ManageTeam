@@ -56,6 +56,9 @@ export class TaskModalComponent implements OnInit {
 
   validateEstimatedHour(control: AbstractControl) {
     if (this.taskForm) {
+      if (this.router.url == '/employee/backlog') {
+        this.taskForm.get('estimatedHour').setValidators(null)
+      }
       if ((this.taskForm.get('estimatedMin').value + (control.value * 60)) > (480 - this.totalEstimatedTime)) {
         return { estimateHour: true };
       } else {
@@ -66,6 +69,9 @@ export class TaskModalComponent implements OnInit {
 
   validateEstimatedMin(control: AbstractControl) {
     if (this.taskForm) {
+      if (this.router.url == '/employee/backlog') {
+        this.taskForm.get('estimatedMin').setValidators(null)
+      }
       if (((this.taskForm.get('estimatedHour').value * 60) + control.value) > (480 - this.totalEstimatedTime)) {
         return { estimateMin: true };
       } else {

@@ -2,7 +2,8 @@
   <div class="modal-header p-1">
     <div class="col-8" style="height: 38px;">
       <span style="font-size: x-large;">{{dueDate | date:'fullDate'}}</span>
-      <span style="position: relative; bottom: 4px;" *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
+      <span style="position: relative; bottom: 4px;" *ngIf="clientTime || orginalSpentTime"
+        class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
         values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
       </span>
     </div>
@@ -41,8 +42,6 @@
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
                           type="button" dropdownToggle (click)="editTask(task)">
-                          <!-- <span class="caret"></span>
-                          <span class="sr-only">Secondary</span> -->
                         </button>
                         <div *dropdownMenu class="dropdown-menu" role="menu">
                           <a class="dropdown-item removeUnderLine" (click)="updateStatus(task,'progress')">
@@ -73,12 +72,14 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                        #&nbsp;{{ task?.taskId }} :
+                      </a>
+                      <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
-                            *ngIf="task.title.length > 100">...</span>
+                          &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -129,12 +130,14 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                        #&nbsp;{{ task?.taskId }} :
+                      </a>
+                      <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
-                            *ngIf="task.title.length > 100">...</span>
+                          &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>
@@ -183,12 +186,14 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                        #&nbsp;{{ task?.taskId }} :
+                      </a>
+                      <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
                         <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
-                            *ngIf="task.title.length > 100">...</span>
+                          &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
                         </em>
                       </a>
                     </div>

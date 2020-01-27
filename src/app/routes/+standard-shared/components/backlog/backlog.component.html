@@ -10,21 +10,26 @@
 <div class="row mt-2 justify-content-center">
     <div cdkDropList [cdkDropListData]="backLogTasks" class="menu-list" (cdkDropListDropped)="reOrder($event)">
         <div class="menu-box" *ngFor="let task of backLogTasks" cdkDrag>
-            <a data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
+            <a>
                 <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                 <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
                 <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
                 <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                 <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
-                <ng-template #toolTipTemplate>
-                    {{ task?.title }}
-                </ng-template>
-                <em [tooltip]="toolTipTemplate">
-                    #&nbsp;{{ task?.taskId }}&nbsp;: {{ task?.title | slice:0:100 }}
-                    <span *ngIf="task?.title.length > 100">...</span>
-                </em>
+                <a class="center" data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
+                    #&nbsp;{{ task?.taskId }}
+                </a>
+                <a class="center">
+                    <ng-template #toolTipTemplate>
+                        {{ task?.title }}
+                    </ng-template>
+                    <em [tooltip]="toolTipTemplate">
+                        &nbsp;: {{ task?.title | slice:0:100 }}
+                        <span *ngIf="task?.title.length > 100">...</span>
+                    </em>
+                </a>
             </a>
-            <a class="addCursor">
+            <a class="addCursor center">
                 <button type="button" class="btn btn-success float-right" data-toggle="modal"
                     data-target=".nextDateModal" (click)="moveTask(task)">Move to</button>
                 <span class="moveTop">
@@ -41,5 +46,7 @@
     </div>
 </div>
 
-<app-task-modal [userList]="userList" [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"></app-task-modal>
-<app-move-to-next-date-modal [task]="task" [dueDate]="dueDate" [userList]="userList" (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>
+<app-task-modal [userList]="userList" [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()">
+</app-task-modal>
+<app-move-to-next-date-modal [task]="task" [dueDate]="dueDate" [userList]="userList"
+    (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>

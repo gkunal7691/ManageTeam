@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getUpdatedTaskList() {
+    console.log("times")
     this.dayModalContent.getDayTask();
   }
 
