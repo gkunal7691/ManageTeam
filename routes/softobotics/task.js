@@ -10,7 +10,6 @@ var convertedDate = new Date(currentDate);
 var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
-  req.body.createdById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
   // var compareDueDate = dueDate.getDate();
   // console.log(compareDueDate, compareConvertedDate, compareDueDate < compareConvertedDate);
@@ -28,7 +27,7 @@ router.post('/', async function (req, res, next) {
   Task.create({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
-    organizationId: req.user.orgId, userId: req.body.assignee,
+    organizationId: req.user.orgId, userId: req.body.assignee, createdById: req.body.assignee
   })
     .then((data) => {
       res.json({ success: true, data: data });
@@ -181,12 +180,11 @@ router.get('/backlog/getTask', async function (req, res, next) {
 })
 
 router.put('/', function (req, res, next) {
-  req.body.updatedById = req.user.id;
   var dueDate = new Date(req.body.dueDate)
   Task.update({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-    userId: req.body.assignee, isCloned: req.body.clonned
+    userId: req.body.assignee, isCloned: req.body.clonned, updatedById: req.body.assignee
   }, { where: { taskId: req.body.taskId } })
     .then((data) => {
       res.json({ success: true, data: data });
@@ -199,7 +197,7 @@ router.put('/edit/reOrder', function (req, res, next) {
   req.body.forEach((task, index, array) => {
     Task.update({
       order: order
-    }, { where: { taskId: task.taskId, organizationId: req.user.orgId } }).then(() => {
+    }, { where: { taskId: task.taskId, organizationId: req.user.orgId, updatedById: req.body.assignee } }).then(() => {
       if (count == array.length - 1) {
         res.json({ success: true });
       }
