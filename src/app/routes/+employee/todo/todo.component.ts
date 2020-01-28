@@ -3,7 +3,7 @@ import { TodoService } from '../../../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
 import { EmployeeService } from '../../../services/employee.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-todo',

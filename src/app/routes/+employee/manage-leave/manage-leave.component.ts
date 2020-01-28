@@ -6,7 +6,7 @@ import { DayoffService } from '../../../services/dayoff.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-manage-leave',
@@ -188,7 +188,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       title: "Are you sure ?",
       text: "Leave request for " + totalLeaveDays + " days will be cancelled!",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {

@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { EmployeeService } from '../../../../services/employee.service';
 import { TaskService } from '../../../../services/task.service';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-backlog',

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LeaveRequestService } from '../../../services/leave-request.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-view-leave-details',
@@ -44,7 +44,6 @@ export class ViewLeaveDetailsComponent implements OnInit {
       title: "Are you sure?",
       text: "Leave will be approved for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willAprrove) => {
       if (willAprrove) {
@@ -78,7 +77,6 @@ export class ViewLeaveDetailsComponent implements OnInit {
       title: "Are you sure?",
       text: "Leave will be rejected for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willReject) => {
       if (willReject) {

@@ -4,7 +4,7 @@ import { SuperAdminService } from '../../../services/super-admin.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ForgotPasswordService } from '../../../services/forgot-password.service';
 import { ActivatedRoute } from '@angular/router';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-profile',

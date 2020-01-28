@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { ViewLeaveDetailsComponent } from '../view-leave-details/view-leave-details.component';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-leave-request',
@@ -140,7 +140,6 @@ export class LeaveRequestComponent implements OnInit {
       title: "Are you sure?",
       text: "Leave will be approved for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willAprrove) => {
       if (willAprrove) {
@@ -176,7 +175,6 @@ export class LeaveRequestComponent implements OnInit {
       title: "Are you sure?",
       text: "Leave will be rejected for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willReject) => {
       if (willReject) {

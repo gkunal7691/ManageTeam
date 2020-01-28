@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { CustomValidators } from 'ng2-validation';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-admin',
