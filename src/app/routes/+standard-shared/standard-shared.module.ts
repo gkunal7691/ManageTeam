@@ -12,6 +12,7 @@ import { MoveToCompletedModalComponent } from './components/move-to-completed-mo
 import { MoveToNextDateModalComponent } from './components/move-to-next-date-modal/move-to-next-date-modal.component';
 import { CommentModalComponent } from './components/comment-modal/comment-modal.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
+import { TaskContentComponent } from './components/task-content/task-content.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BacklogComponent } from './components/backlog/backlog.component';
     MoveToCompletedModalComponent,
     MoveToNextDateModalComponent,
     CommentModalComponent,
-    BacklogComponent
+    BacklogComponent,
+    TaskContentComponent
   ],
   imports: [
     CommonModule,

@@ -72,15 +72,15 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
-                        #&nbsp;{{ task?.taskId }} :
+                        TMS-{{ task?.taskId }}
                       </a>
                       <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
-                        <em [tooltip]="toolTipTemplate">
-                          &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
-                        </em>
+                        <span [tooltip]="toolTipTemplate">
+                          : &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -130,15 +130,15 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
-                        #&nbsp;{{ task?.taskId }} :
+                        TMS-{{ task?.taskId }}
                       </a>
                       <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
-                        <em [tooltip]="toolTipTemplate">
-                          &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
-                        </em>
+                        <span [tooltip]="toolTipTemplate">
+                          : &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -186,15 +186,15 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
-                        #&nbsp;{{ task?.taskId }} :
+                        TMS-{{ task?.taskId }}
                       </a>
                       <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
-                        <em [tooltip]="toolTipTemplate">
-                          &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
-                        </em>
+                        <span [tooltip]="toolTipTemplate">
+                          : &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                        </span>
                       </a>
                     </div>
                   </div>
