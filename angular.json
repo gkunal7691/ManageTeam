@@ -41,7 +41,8 @@
               "node_modules/jqcloud2/dist/jqcloud.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/min/moment-with-locales.min.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js"
+              "node_modules/fullcalendar/dist/fullcalendar.js",
+              "src/assets/scripts/sweetalert.min.js"
             ]
           },
           "configurations": {

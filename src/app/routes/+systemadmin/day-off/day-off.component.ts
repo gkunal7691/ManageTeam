@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DayoffService } from '../../../services/dayoff.service';
 import { WeekdayService } from '../../../services/weekday.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-day-off',

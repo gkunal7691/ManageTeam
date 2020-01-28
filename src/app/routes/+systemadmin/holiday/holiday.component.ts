@@ -4,7 +4,7 @@ import { HolidayService } from '../../../services/holiday.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-holiday',
@@ -81,7 +81,7 @@ export class HolidayComponent implements OnInit {
     }).subscribe(
       (res: any) => {
         console.log(res);
-        swal('Success', 'New Holiday for ' + this.AddHolidayForm.get('holidayDate').value + 
+        swal('Success', 'New Holiday for ' + this.AddHolidayForm.get('holidayDate').value +
           ' is added to the organization successfully :)', 'success');
         this.getAllHolidayList();
       })
@@ -115,7 +115,6 @@ export class HolidayComponent implements OnInit {
       title: "Are you sure?",
       text: "Holiday for " + finalDate + " will be deleted from database !",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {

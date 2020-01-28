@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../../../services/task.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-move-to-completed-modal',

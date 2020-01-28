@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, O
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
 import { ColorsService } from '../../../../shared/colors/colors.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-day-modal-content',
@@ -12,7 +12,7 @@ const swal = require('sweetalert');
 })
 
 export class DayModalContentComponent implements OnInit, OnChanges {
-  
+
   @Input() userId: number;
   @Input() userList: any;
   @Input() updatedTaskList: any;

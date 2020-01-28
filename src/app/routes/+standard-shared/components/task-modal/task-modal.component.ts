@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-task-modal',
@@ -289,7 +289,6 @@ export class TaskModalComponent implements OnInit {
       title: "Are you sure?",
       text: "Task(#" + this.taskId + ") will be deleted from database!",
       icon: "warning",
-      buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {

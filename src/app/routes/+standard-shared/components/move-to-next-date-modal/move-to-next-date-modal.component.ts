@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from '@angu
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-move-to-next-date-modal',
