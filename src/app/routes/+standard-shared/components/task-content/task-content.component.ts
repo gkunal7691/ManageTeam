@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
+import { UserService } from '../../../../services/user.service';
+import { LoginService } from '../../../../services/login.service';
 declare var swal: any;
 
 @Component({
@@ -19,25 +21,27 @@ export class TaskContentComponent implements OnInit {
   @Input() totalEstimatedTime: number;
 
   taskForm: FormGroup
-
+  url: any;
   totalEstimatedMin: number;
   totalClientMin: number;
   totalOriginalTime: number;
-  taskId: number;
+  taskId: any;
 
   buttonText: any;
   taskTitle: any;
 
+  modalWidthControl: boolean;
   showTaskUpdated: boolean;
   showCommentSecton: boolean;
   showCommentButton: boolean;
   showTextButton: boolean = true;
   showModalFooter: boolean = true;
 
-  constructor(private fb: FormBuilder,
-    private taskService: TaskService, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
+    private taskService: TaskService, private userService: UserService, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.url = location;
     this.taskForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.maxLength(5000)]],
@@ -52,6 +56,40 @@ export class TaskContentComponent implements OnInit {
       originalHour: ['', [Validators.required, Validators.maxLength(1)]],
       originalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
     });
+    if (!this.userList && !this.userId) {
+      if (this.router.url != '/employee/backlog') {
+        this.modalWidthControl = true;
+      }
+      else {
+        this.modalWidthControl = false;
+      }
+      this.userService.getEmployees().subscribe((res: any) => {
+        this.userList = res.data;
+        this.userId = this.loginService.currentUser.id;
+        this.getSingleTask(this.route.snapshot.paramMap.get('id'));
+      })
+    }
+    else {
+      this.modalWidthControl = false;
+    }
+  }
+
+  getSingleTask(taskId) {
+    this.taskService.getSingleTask(taskId).subscribe((res: any) => {
+      this.task = res.data;
+      if (this.task) {
+        this.dueDate = new Date(this.task.dueDate);
+        this.getEstimatedTime(this.task.userId, this.task.dueDate)
+        this.updateTask(this.task);
+      }
+    })
+  }
+
+  getEstimatedTime(userId, taskDate) {
+    let dueDate = new Date(taskDate).getFullYear() + '-' + (new Date(taskDate).getMonth() + 1) + '-' + new Date(taskDate).getDate();
+    this.taskService.getSelectedDateTask(userId, dueDate).subscribe((res: any) => {
+      this.totalEstimatedTime = res.data;
+    })
   }
 
   validateEstimatedHour(control: AbstractControl) {
@@ -154,18 +192,29 @@ export class TaskContentComponent implements OnInit {
 
 
   updateTask(task) {
-    console.log(task)
-    this.task = task;
+    if (this.userId && this.userList) {
+      this.task = task;
+      console.log("present")
+    }
+    console.log(this.task)
     // To control previous day task
     let currentDate: Date = new Date();
     currentDate.setDate(currentDate.getDate() - 1);
     let duedate = new Date(this.dueDate);
-    if (duedate < currentDate && this.router.url != '/employee/backlog') {
-      this.showModalFooter = false;
-      this.taskForm.disable();
+    currentDate.setHours(0, 0, 0);
+    duedate.setHours(0, 0, 0)
+    console.log(duedate, currentDate)
+    if (this.router.url == '/employee/backlog') {
+      this.showModalFooter = true;
+    }
+    else if (duedate > currentDate) {
+      this.showModalFooter = true;
+      console.log("test")
     }
     else {
-      this.showModalFooter = true;
+      console.log("test2")
+      this.showModalFooter = false;
+      this.taskForm.disable();
     }
     if (this.task) {
       this.showTaskUpdated = true;

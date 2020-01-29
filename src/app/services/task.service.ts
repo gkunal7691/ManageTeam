@@ -11,7 +11,6 @@ export class TaskService {
   private apiPath: string;
   private task: string;
   private getTask: string;
-  private getUserTask: string;
   private dayTask: string;
   private backlogTask: string;
   private reOrder: string
@@ -23,11 +22,10 @@ export class TaskService {
     this.apiPath = env.paths.api;
     this.task = 'task';
     this.getTask = 'task/getTask/dueDate';
-    this.getUserTask = 'task/getTask/dueDate/admin';
     this.dayTask = 'task/get-day-task';
     this.backlogTask = 'task/backlog/getTask';
     this.reOrder = 'task/edit/reOrder';
-    this.selectedDateTask = 'task/get-selected-date-task';
+    this.selectedDateTask = 'task/get-selected-date-estimate';
 
   }
 
@@ -47,16 +45,16 @@ export class TaskService {
     return this.httpClient.post<object>(`${this.apiPath}/${this.dayTask}/` + userId, { dueDate: dueDate }, this.getHeaders())
   }
 
-  getEachUserTask(value) {
-    return this.httpClient.post<object>(`${this.apiPath}/${this.getUserTask}/`, value, this.getHeaders())
-  }
-
   getBacklogTasks() {
     return this.httpClient.get<object>(`${this.apiPath}/${this.backlogTask}/`, this.getHeaders())
   }
 
   getSelectedDateTask(userId: number, selectedDueDate: string) {
     return this.httpClient.post<object>(`${this.apiPath}/${this.selectedDateTask}/` + userId, { dueDate: selectedDueDate }, this.getHeaders())
+  }
+
+  getSingleTask(taskId) {
+    return this.httpClient.get<object>(`${this.apiPath}/${this.task}/` + taskId, this.getHeaders())
   }
 
   addTask(val) {

@@ -10,9 +10,11 @@
       </div>
       <div class="modal-body pr-0">
         <form>
-          <div *ngIf="totalEstimatedTime" class="row justify-content-center">
-            <h6 style="text-align: center;">Estimated Time left for <b>{{nextDate | date}}</b> is
-              <b>{{480 - totalEstimatedTime | customDate}}</b></h6>
+          <div class="row justify-content-center">
+            <h6 style="text-align: center;">Estimated Time left for <span
+                *ngIf="totalEstimatedTime != null"><b>{{nextDate | date}}</b> is
+                <b>{{480 - totalEstimatedTime | customDate}}</b></span>
+            </h6>
           </div>
           <div class="row">
             <div class="col-3 pr-0 pl-4" style="text-align: center;align-self: center;">

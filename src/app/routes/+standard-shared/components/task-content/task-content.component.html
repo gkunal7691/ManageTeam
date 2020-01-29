@@ -1,13 +1,17 @@
-<div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal-dialog modal-dialog-centered modal-lg" [ngClass]="{'modalsize':modalWidthControl}">
   <div class="modal-content">
     <div class="modal-header p-1">
       <div class="col">
-        <h4>{{taskTitle}}</h4>
+        <h4 class="mb-0">{{taskTitle}}</h4>
+        <div class="row">
+          <a href="{{url.origin}}/employee/task/{{taskId}}" class="ml-3"
+            target="_blank">{{url.origin}}/employee/task/{{taskId}}</a>
+        </div>
       </div>
       <div class="col">
-        <h5 class="pt-1">Estimated Time Left: {{480 - totalEstimatedTime | customDate}}</h5>
+        <h5 class="pt-1" style="text-align: right;">Estimated Time Left: {{480 - totalEstimatedTime | customDate}}</h5>
       </div>
-      <div class="col float-right">
+      <div *ngIf="!modalWidthControl" class="col float-right">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelTask()">
           <span aria-hidden="true" style="font-size: 35px;">&times;</span>
         </button>

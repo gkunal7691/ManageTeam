@@ -36,8 +36,8 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.nextDateModalForm = this.fb.group({
-      newEstimatedHour: ['', [Validators.maxLength(2), Validators.max(8), Validators.required]],
-      newEstimatedMin: ['', [Validators.maxLength(2), Validators.max(59), Validators.required]],
+      newEstimatedHour: ['', [Validators.maxLength(2), Validators.required]],
+      newEstimatedMin: ['', [Validators.maxLength(2), Validators.required]],
       newDate: ['', [Validators.required]],
       assignee: ['', [Validators.required]],
     });
@@ -47,6 +47,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
     var x = document.getElementById("testing");
     setTimeout(() => { x.classList.add("modal-open") }, 350);
     this.nextDateModalForm.reset();
+    this.totalEstimatedTime = null;
   }
 
   selectAssignee(value) {
@@ -57,9 +58,18 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
 
   getNewDate(val) {
     if (val) {
+      // console.log(new Date(val).getDate(), new Date().getDate())
+      // // if (new Date(val).getDate() <= new Date().getDate() && this.router.url != 'employee/backlog') {
+      // //   console.log("ssdsa")
+      // //   this.nextDateModalForm.get('newDate').reset()
+      // //   console.log(this.nextDateModalForm.get('newDate'))
+      // // }
       this.nextDate = new Date(val);
       this.nextDate.setHours(0, 0, 0);
       this.getSelectedDayTask();
+      this.nextDateModalForm.get('newEstimatedHour').reset();
+      this.nextDateModalForm.get('newEstimatedMin').reset();
+      console.log(this.nextDate)
     }
   }
 
@@ -68,6 +78,13 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
       let dueDate = this.nextDate.getFullYear() + '-' + (this.nextDate.getMonth() + 1) + '-' + this.nextDate.getDate();
       this.taskService.getSelectedDateTask(this.nextDateModalForm.get('assignee').value, dueDate).subscribe((res: any) => {
         this.totalEstimatedTime = res.data;
+        let totalTime = 480 - this.totalEstimatedTime;
+        let divdeHour = totalTime / 60;
+        let hours = Math.floor(divdeHour);
+        let divmin = (divdeHour - hours) * 60;
+        let minutes = Math.round(divmin)
+        this.nextDateModalForm.get('newEstimatedHour').setValidators([Validators.max(hours)])
+        this.nextDateModalForm.get('newEstimatedMin').setValidators([Validators.max(minutes)])
       })
     }
   }
@@ -82,7 +99,8 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
       let taskDate = new Date(this.task.dueDate);
       let newDate = (new Date(this.nextDate).getMonth() + 1) + '/' +
         (new Date(this.nextDate).getDate()) + '/' + (new Date(this.nextDate).getFullYear());
-      if (currentDate.getDate() == taskDate.getDate()) {
+      if (taskDate.getDate() <= (currentDate.getDate() - 1)) {
+        console.log("asdsadadasdsa")
         this.taskService.addTask({
           title: this.task.title, description: this.task.description,
           dueDate: this.nextDate, priority: this.task.priority, status: this.task.status,
@@ -91,14 +109,17 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
-          swal('Success', 'Task(#' + this.task.taskId + ') has been moved to ' + newDate, 'success');
         })
         this.taskService.editTask({
           taskId: this.task.taskId, clonned: 1, dueDate: this.task.dueDate, assignee: this.nextDateModalForm.get('assignee').value
         }).subscribe((res: any) => {
+          this.updateTaskList.emit()
+          this.cancelTask()
+          swal('Success', 'Task(#' + this.task.taskId + ') has been moved to ' + newDate, 'success');
         });
       }
       else if (taskDate.getFullYear() == 1970 || taskDate.getDate() > currentDate.getDate()) {
+        console.log("sdasddassdas")
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
           taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value

@@ -90,7 +90,7 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
     }).catch(next)
 })
 
-router.post('/get-selected-date-task/:userId', async function (req, res, next) {
+router.post('/get-selected-date-estimate/:userId', async function (req, res, next) {
   console.log("test", req.body.dueDate)
   let dueDate = new Date(req.body.dueDate);
   const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
@@ -120,31 +120,6 @@ router.post('/get-selected-date-task/:userId', async function (req, res, next) {
       })
       console.log(totalEstimatedTime)
       res.json({ success: true, data: totalEstimatedTime })
-    }).catch(next)
-})
-
-//To fetch the task according to the user
-
-router.post('/getTask/dueDate/admin', async function (req, res, next) {
-  Task.findAll({
-    where: {
-      dueDate: {
-        $between: [req.body.firstDay, req.body.lastDay]
-      }, organizationId: req.user.orgId, userId: req.body.userId
-    },
-    include: [
-      {
-        model: Comment, include: [
-          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
-        ],
-        order: [
-          ['createdAt', 'desc']
-        ]
-      }
-    ]
-  })
-    .then((data) => {
-      res.json({ success: true, data: data })
     }).catch(next)
 })
 
@@ -178,6 +153,34 @@ router.get('/backlog/getTask', async function (req, res, next) {
       res.json({ success: true, data: data })
     }).catch(next)
 })
+
+router.get('/:taskId', async function (req, res, next) {
+  Task.findOne({
+    where: {
+      taskId: req.params.taskId, organizationId: req.user.orgId
+    },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      },
+      {
+        model: User, as: 'user'
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      res.json({ success: true, data: data })
+    }).catch(next)
+})
+
 
 router.put('/', function (req, res, next) {
   var dueDate = new Date(req.body.dueDate)
