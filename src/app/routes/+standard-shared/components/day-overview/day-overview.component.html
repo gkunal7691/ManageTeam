@@ -1,11 +1,11 @@
-<div *ngIf="(date | json) == '{}'" style="height: 135px; width: 100%;justify-content: flex-end; 
+<div *ngIf="(date | json) == '{}'" style="height: 150px; width: 100%;justify-content: flex-end; 
   margin-bottom: 1.5rem;">
 </div>
 
 <div *ngIf="(date | json) != '{}'" style="cursor: pointer;" class="card card-default" data-toggle="modal"
   [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" data-target=".dayDetailModal"
   (click)="showDay(date)">
-  <div style="height: 100%; width: 100%;">
+  <div style="height: 150px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
       <div class="row" *ngIf="(date | json) != '{}'" style="text-align:center;">
         <div class="col-3 p-0" style="display: flex;">

@@ -44,6 +44,7 @@ export class BacklogComponent implements OnInit {
 
   editTask(task) {
     this.task = task;
+    this.dueDate = this.task.dueDate
     this.taskModal.updateTask(this.task);
     this.getBackLogTaskList();
   }

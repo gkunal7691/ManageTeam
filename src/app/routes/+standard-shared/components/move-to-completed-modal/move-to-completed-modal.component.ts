@@ -28,14 +28,12 @@ export class MoveToCompletedModalComponent implements OnInit {
   }
 
   cancelTask() {
-    console.log("qwerty");
     var x = document.getElementById("testing");
     setTimeout(() => { x.classList.add("modal-open") }, 380);
     this.estimateTimeModalForm.reset();
   }
 
   addNewEstimateTime() {
-    console.log(this.task)
     let newClientHour = this.estimateTimeModalForm.get('newClientHour').value;
     let newClientMin = this.estimateTimeModalForm.get('newClientMin').value;
     let totalClientTime = (newClientHour * 60) + newClientMin;
@@ -47,7 +45,7 @@ export class MoveToCompletedModalComponent implements OnInit {
       originalTime: totalOriginalTime, clientTime: totalClientTime, taskId: this.task.taskId, status: 'completed', dueDate: this.task.dueDate
     }).subscribe((res: any) => {
       this.cancelTask();
-      swal('Success', 'Task(#' + this.task.taskId + ') has been moved to completed tasks', 'success');
+      swal('Success', 'Task(TMS-' + this.task.taskId + ') has been moved to completed tasks', 'success');
       this.updateTaskList.emit();
     })
   }

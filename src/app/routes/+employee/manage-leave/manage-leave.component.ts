@@ -174,8 +174,8 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveCalculation();
         this.fromDate = this.fromDate.getDate() + '/' + (this.fromDate.getMonth() + 1) + '/' + this.fromDate.getFullYear();
         this.toDate = this.toDate.getDate() + '/' + (this.toDate.getMonth() + 1) + '/' + this.toDate.getFullYear();
-        swal('Success', 'Leave request for '+ this.leaveRequestForm.get("totalDays").value +
-          ' days(' +this.fromDate +' - '+ this.toDate +') successfully sent :)', 'success');
+        swal('Success', 'Leave request for ' + this.leaveRequestForm.get("totalDays").value +
+          ' days(' + this.fromDate + ' - ' + this.toDate + ') successfully sent :)', 'success');
         this.leaveRequestFormReset();
       })
   }
@@ -188,12 +188,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       title: "Are you sure ?",
       text: "Leave request for " + totalLeaveDays + " days will be cancelled!",
       icon: "warning",
+      buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {
         this.cancelLeaveRequestPopUp(value);
       } else {
-        swal('Cancelled', 'Leave request for '+ totalLeaveDays +' days is not removed :)', 'error');
+        swal('Cancelled', 'Leave request for ' + totalLeaveDays + ' days is not removed :)', 'error');
       }
     });
   }
@@ -205,7 +206,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       totalLeaveDays = Math.abs(totalLeaveDays);
     this.manageLeaveService.updateStatus({ leaveId }).subscribe(
       (result: any) => {
-        swal('Deleted', 'Leave request for '+ totalLeaveDays +' days has been removed :)', 'warning');
+        swal('Deleted', 'Leave request for ' + totalLeaveDays + ' days has been removed :)', 'warning');
         this.filterRequestLeave();
       })
   }
@@ -278,7 +279,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.toDate = val;
     if (val != null && this.fromDate != undefined) {
       if (val) {
-        var Difference_In_Time =  this.toDate.getTime() - this.fromDate.getTime();
+        var Difference_In_Time = this.toDate.getTime() - this.fromDate.getTime();
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
           this.invalidDate = true;
         } else {
@@ -293,7 +294,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         totaldate.push(day);
         fromdate.setDate(fromdate.getDate() + 1);
       }
-      console.log(totaldate);
       totaldate.forEach(x => {
         if (x.getDay() == 0) {
           x.day = 'sunday';
@@ -320,7 +320,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
       let y = totaldate.filter(x => !this.dayOffList.includes(x.day) &&
         !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
-      console.log(y.length);
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
       if (y.length == 1) {

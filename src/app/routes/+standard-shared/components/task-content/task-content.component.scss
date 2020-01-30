@@ -10,6 +10,8 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 7px;
 }
 
-.modalsize{
+.modalsize {
   max-width: 100% !important;
+  margin-top: 0;
+  max-height: 650px;
 }

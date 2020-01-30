@@ -34,7 +34,6 @@ export class LeaveRequestService {
   }
 
   updateLeaveStatus(val){
-    console.log(val)
     return this.httpClient.put<object>(`${this.apiPath}/${this.leaveRequest}/`, val,this.getHeaders());
   }
 

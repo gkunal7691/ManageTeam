@@ -11,12 +11,6 @@ var compareConvertedDate = convertedDate.getDate();
 
 router.post('/', async function (req, res, next) {
   var dueDate = new Date(req.body.dueDate)
-  // var compareDueDate = dueDate.getDate();
-  // console.log(compareDueDate, compareConvertedDate, compareDueDate < compareConvertedDate);
-  // if (compareDueDate < compareConvertedDate || req.body.estimatedTime > 480) {
-  //   res.json({ success: false, data: "Error Cant Add" });
-  // }
-  // else {
   const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
   if (env === 'local') {
     dueDate.setHours(dueDate.getHours() + 5, 30)
@@ -32,7 +26,6 @@ router.post('/', async function (req, res, next) {
     .then((data) => {
       res.json({ success: true, data: data });
     }).catch(next);
-  //}
 })
 
 
@@ -63,7 +56,6 @@ router.post('/getTask/dueDate', async function (req, res, next) {
 })
 
 router.post('/get-day-task/:userId', async function (req, res, next) {
-  console.log("body", req.body.dueDate)
   let dueDate = new Date(req.body.dueDate);
   const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
   if (env === 'local') {
@@ -91,7 +83,6 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
 })
 
 router.post('/get-selected-date-estimate/:userId', async function (req, res, next) {
-  console.log("test", req.body.dueDate)
   let dueDate = new Date(req.body.dueDate);
   const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
   if (env === 'local') {
@@ -118,7 +109,6 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
       data.forEach(task => {
         totalEstimatedTime += task.estimatedTime;
       })
-      console.log(totalEstimatedTime)
       res.json({ success: true, data: totalEstimatedTime })
     }).catch(next)
 })
@@ -142,7 +132,13 @@ router.get('/backlog/getTask', async function (req, res, next) {
         ]
       },
       {
-        model: User, as: 'user'
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -169,7 +165,13 @@ router.get('/:taskId', async function (req, res, next) {
         ]
       },
       {
-        model: User, as: 'user'
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [

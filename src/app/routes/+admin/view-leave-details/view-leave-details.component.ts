@@ -44,6 +44,7 @@ export class ViewLeaveDetailsComponent implements OnInit {
       title: "Are you sure?",
       text: "Leave will be approved for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
+      buttons: true,
       dangerMode: true,
     }).then((willAprrove) => {
       if (willAprrove) {
@@ -77,6 +78,7 @@ export class ViewLeaveDetailsComponent implements OnInit {
       title: "Are you sure?",
       text: "Leave will be rejected for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
+      buttons: true,
       dangerMode: true,
     }).then((willReject) => {
       if (willReject) {

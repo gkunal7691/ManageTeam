@@ -48,20 +48,20 @@
             </div>
             <div class="col-3 pl-0 pr-0">
               <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="Select Date"
-                [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
-                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
+                [formControl]="nextDateModalForm.controls['newDueDate']" name="dp-basic"
+                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getnewDueDate($event)">
             </div>
-            <div class="col-3 p-0 mt-1 pl-3">
+            <!-- <div class="col-3 p-0 mt-1 pl-3">
               <a class="removeUnderLine" (click)="moveToNextDate()">Select next date</a>
-            </div>
+            </div> -->
           </div>
           <div class="row">
             <div class="col-3 p-0"></div>
             <div class="col p-0">
               <!-- <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
               <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span> -->
-              <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
-                  nextDateModalForm.controls['newDate'].touched">
+              <div class="text-danger" *ngIf="(nextDateModalForm.controls['newDueDate'].invalid &&
+                  nextDateModalForm.controls['newDueDate'].touched)">
                 <i>Invalid Date.</i>
               </div>
             </div>
@@ -128,7 +128,7 @@
           Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="moveTask()"
-          [disabled]="nextDateModalForm.invalid">
+          [disabled]=" !nextDateModalForm.valid">
           Move
         </button>
       </div>

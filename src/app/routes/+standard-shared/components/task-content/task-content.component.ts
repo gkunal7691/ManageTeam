@@ -22,23 +22,19 @@ export class TaskContentComponent implements OnInit {
 
   taskForm: FormGroup
   url: any;
-  totalEstimatedMin: number;
-  totalClientMin: number;
-  totalOriginalTime: number;
   taskId: any;
 
   buttonText: any;
   taskTitle: any;
 
   modalWidthControl: boolean;
-  showTaskUpdated: boolean;
+  isEdit: boolean;
   showCommentSecton: boolean;
   showCommentButton: boolean;
   showTextButton: boolean = true;
-  showModalFooter: boolean = true;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
-    private taskService: TaskService, private userService: UserService, private loginService: LoginService) { }
+    public taskService: TaskService, private userService: UserService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.url = location;
@@ -98,7 +94,7 @@ export class TaskContentComponent implements OnInit {
         this.taskForm.get('estimatedHour').setValidators(null)
       }
       if ((this.taskForm.get('estimatedMin').value + (control.value * 60)) > (480 - this.totalEstimatedTime)) {
-        return { estimateHour: true };
+        return { invalidEstimateHour: true };
       } else {
         return null;
       }
@@ -111,7 +107,7 @@ export class TaskContentComponent implements OnInit {
         this.taskForm.get('estimatedMin').setValidators(null)
       }
       if (((this.taskForm.get('estimatedHour').value * 60) + control.value) > (480 - this.totalEstimatedTime)) {
-        return { estimateMin: true };
+        return { invalidEstimateMin: true };
       } else {
         return null;
       }
@@ -127,35 +123,41 @@ export class TaskContentComponent implements OnInit {
       var x = document.getElementById("testing")
       setTimeout(() => { x.classList.add("modal-open") }, 150);
     }
+    if (this.task) {
+      this.totalEstimatedTime += this.task.estimatedTime;
+    }
   }
 
   addTask() {
     let addDueDate = new Date(this.dueDate)
     addDueDate.setHours(0, 0, 0);
-    if (this.showTaskUpdated == true) {
+    let totalEstimatedMin: number;
+    let totalClientMin: number;
+    let totalOriginalTime: number;
+    if (this.isEdit == true) {
       let estimatedHour = this.taskForm.get('estimatedHour').value;
       let estimatedMin = this.taskForm.get('estimatedMin').value;
       if (estimatedMin == 60) {
         estimatedHour = estimatedHour + 1;
         estimatedMin = 0;
-        this.totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
+        totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
       }
-      this.totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
+      totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
 
       let clientHour = this.taskForm.get('clientHour').value;
       let clientdMin = this.taskForm.get('clientMin').value;
-      this.totalClientMin = (clientHour * 60) + clientdMin;
+      totalClientMin = (clientHour * 60) + clientdMin;
 
       let orignialHour = this.taskForm.get('originalHour').value;
       let orignalMin = this.taskForm.get('originalMin').value;
-      this.totalOriginalTime = (orignialHour * 60) + orignalMin;
+      totalOriginalTime = (orignialHour * 60) + orignalMin;
       this.taskService.editTask({
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
-        estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
-        assignee: this.taskForm.get('assignee').value, taskId: this.taskId
+        estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
+        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId
       }).subscribe((res: any) => {
-        swal('Success', 'Task(#' + this.taskId + ') is edited :)', 'success');
+        swal('Success', 'Task(TMS-' + this.task.taskId + ') is edited :)', 'success');
         this.updateTaskList.emit(this.taskForm.value);
         document.getElementById("cancel").click();
       })
@@ -163,17 +165,17 @@ export class TaskContentComponent implements OnInit {
     else {
       let estimatedHour = this.taskForm.get('estimatedHour').value;
       let estimatedMin = this.taskForm.get('estimatedMin').value;
-      this.totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
+      totalEstimatedMin = (estimatedHour * 60) + estimatedMin;
       let clientHour = this.taskForm.get('clientHour').value;
       let clientdMin = this.taskForm.get('clientMin').value;
-      this.totalClientMin = (clientHour * 60) + clientdMin;
+      totalClientMin = (clientHour * 60) + clientdMin;
       let orignialHour = this.taskForm.get('originalHour').value;
       let orignalMin = this.taskForm.get('originalMin').value;
-      this.totalOriginalTime = (orignialHour * 60) + orignalMin;
+      totalOriginalTime = (orignialHour * 60) + orignalMin;
       this.taskService.addTask({
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
-        estimatedTime: this.totalEstimatedMin, originalTime: this.totalOriginalTime, clientTime: this.totalClientMin,
+        estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
         assignee: this.taskForm.get('assignee').value
       }).subscribe((res: any) => {
         if (res.data != "Error Cant Add") {
@@ -194,36 +196,15 @@ export class TaskContentComponent implements OnInit {
   updateTask(task) {
     if (this.userId && this.userList) {
       this.task = task;
-      console.log("present")
-    }
-    console.log(this.task)
-    // To control previous day task
-    let currentDate: Date = new Date();
-    currentDate.setDate(currentDate.getDate() - 1);
-    let duedate = new Date(this.dueDate);
-    currentDate.setHours(0, 0, 0);
-    duedate.setHours(0, 0, 0)
-    console.log(duedate, currentDate)
-    if (this.router.url == '/employee/backlog') {
-      this.showModalFooter = true;
-    }
-    else if (duedate > currentDate) {
-      this.showModalFooter = true;
-      console.log("test")
-    }
-    else {
-      console.log("test2")
-      this.showModalFooter = false;
-      this.taskForm.disable();
     }
     if (this.task) {
-      this.showTaskUpdated = true;
+      this.isEdit = true;
       this.showCommentButton = true;
       this.showTextButton = false;
       if (this.task.comments && this.task.comments.length != 0) {
         this.showCommentSecton = true;
       }
-      this.taskTitle = 'Edit Task' + '\t' + '(#' + this.task.taskId + ')';
+      this.taskTitle = 'Edit Task' + '\t' + '(TMS-' + this.task.taskId + ')';
       this.taskForm.disable();
       let estimatedGetTime = this.task.estimatedTime;
       let convEstimatedHours = Math.floor(estimatedGetTime / 60);
@@ -234,7 +215,6 @@ export class TaskContentComponent implements OnInit {
       let originalGetTime = this.task.originalTime;
       let convOriginalHours = Math.floor(originalGetTime / 60);
       let convOriginalMin = originalGetTime % 60;
-      this.taskId = this.task.taskId;
       this.taskForm.get('title').setValue(this.task.title);
       this.taskForm.get('description').setValue(this.task.description);
       this.taskForm.get('priority').setValue(this.task.priority);
@@ -251,7 +231,7 @@ export class TaskContentComponent implements OnInit {
       this.taskTitle = 'Add Task'
       this.buttonText = "Submit";
       this.showTextButton = true;
-      this.showTaskUpdated = false;
+      this.isEdit = false;
       this.showCommentButton = false;
       this.showCommentSecton = false;
       if (this.taskForm) {
@@ -278,8 +258,8 @@ export class TaskContentComponent implements OnInit {
 
   enableTask() {
     this.showTextButton = true;
-    this.showModalFooter = true;
     this.buttonText = "Save";
+    this.totalEstimatedTime -= this.task.estimatedTime;
     this.taskForm.enable();
     if (this.taskForm.get('status').value == 'planned' || this.taskForm.get('status').value == 'progress') {
       this.taskForm.get('clientHour').disable();
@@ -331,22 +311,23 @@ export class TaskContentComponent implements OnInit {
   deleteTaskSwal() {
     swal({
       title: "Are you sure?",
-      text: "Task(#" + this.taskId + ") will be deleted from database!",
+      text: "Task(TMS-" + this.task.taskId + ") will be deleted from database!",
       icon: "warning",
+      buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {
         // document.getElementById("cancel").click();
         this.onDeleteTaskPopUp();
       } else {
-        swal('Cancelled', 'Task(#' + this.taskId + ') is not deleted :)', 'error');
+        swal('Cancelled', 'Task(TMS-' + this.task.taskId + ') is not deleted :)', 'error');
       }
     });
   }
 
   onDeleteTaskPopUp() {
-    this.taskService.deleteTask(this.taskId).subscribe((res: any) => {
-      swal('Deleted', 'Task(#' + this.taskId + ') has been removed :)', 'warning');
+    this.taskService.deleteTask(this.task.taskId).subscribe((res: any) => {
+      swal('Deleted', 'Task(TMS-' + this.task.taskId + ') has been removed :)', 'warning');
       this.updateTaskList.emit();
       document.getElementById("cancel").click();
     });

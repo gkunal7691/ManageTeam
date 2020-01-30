@@ -4,12 +4,13 @@
       <div class="col">
         <h4 class="mb-0">{{taskTitle}}</h4>
         <div class="row">
-          <a href="{{url.origin}}/employee/task/{{taskId}}" class="ml-3"
-            target="_blank">{{url.origin}}/employee/task/{{taskId}}</a>
+          <a *ngIf="task" href="{{url.origin}}/employee/task/{{task?.taskId}}" class="ml-3"
+            target="_blank">{{url.origin}}/employee/task/{{task?.taskId}}</a>
         </div>
       </div>
       <div class="col">
-        <h5 class="pt-1" style="text-align: right;">Estimated Time Left: {{480 - totalEstimatedTime | customDate}}</h5>
+        <h5 class="pt-1" style="text-align: right;">Estimated Time Left:
+          <span>{{480 - totalEstimatedTime | customDate}}</span></h5>
       </div>
       <div *ngIf="!modalWidthControl" class="col float-right">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelTask()">
@@ -206,17 +207,16 @@
           </form>
         </div>
       </div>
-      <div *ngIf="showModalFooter" class="modal-footer ">
+      <div class="modal-footer ">
         <div class="row w-100 m-0">
           <div class="col-2 p-0">
-            <button type="button" class="btn btn-success" *ngIf="showCommentButton" data-toggle="modal"
-              href=".addCommentModal">
+            <button type="button" class="btn btn-success" data-toggle="modal" href=".addCommentModal">
               Add Comment
             </button>
           </div>
           <div class="col-2 p-0">
-            <button type="button" class="btn btn-danger" *ngIf="taskTitle != 'Add Task'" data-dismiss="modal"
-              (click)="deleteTaskSwal()">Delete Task</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteTaskSwal()"
+              *ngIf="task && taskService.compareDate(task?.dueDate,0)">Delete Task</button>
           </div>
           <div class="col">
             <button type="button" class="btn btn-warning float-right" data-dismiss="modal" id="cancel"
@@ -224,7 +224,7 @@
               Cancel
             </button>
           </div>
-          <div class="col-1 p-0">
+          <div *ngIf="taskService.compareDate(dueDate,0)" class="col-1 p-0">
             <button *ngIf="showTextButton" type="submit" class="btn btn-info float-right" data-dismiss="modal"
               [disabled]="taskForm.invalid" (click)="addTask()">{{buttonText}}
             </button>

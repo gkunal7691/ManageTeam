@@ -68,7 +68,6 @@ export class DashboardComponent implements OnInit {
 
   getSelectedDate(selectedDate) {
     this.dueDate = selectedDate;
-    console.log(this.dueDate)
     this.dayModalContent.dateChange()
   }
 

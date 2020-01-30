@@ -22,12 +22,10 @@ export class NotificationComponent implements OnInit {
   }
 
   selectMailNotification(value) {
-    console.log(value)
 
    
     this.superAdminService.setNotication({ mail_Notification: value }).subscribe(
       (res:any) =>{
-   console.log(res)
       })
   
 }
@@ -35,8 +33,7 @@ export class NotificationComponent implements OnInit {
   getNotification() {
     this.superAdminService.getNotification().subscribe(
       (res: any) => {
-        this.selectedValue = res.data.mail_Notification
-        console.log(this.selectedValue)
+        this.selectedValue = res.data.mail_Notification;
 
       })
   }

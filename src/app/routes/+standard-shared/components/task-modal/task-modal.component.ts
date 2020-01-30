@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TaskContentComponent } from '../task-content/task-content.component';
+import { TaskService } from '../../../../services/task.service';
 
 @Component({
   selector: 'app-task-modal',
@@ -18,7 +19,7 @@ export class TaskModalComponent implements OnInit {
 
   taskId: number;
 
-  constructor() { }
+  constructor(private taskService: TaskService) { }
 
   ngOnInit() { }
 
@@ -28,7 +29,6 @@ export class TaskModalComponent implements OnInit {
   }
 
   updateTask(task) {
-    console.log(task)
     this.taskContent.updateTask(task);
     if (task) {
       this.task = task;
@@ -37,20 +37,19 @@ export class TaskModalComponent implements OnInit {
   }
 
   getTask(task) {
-    console.log("gettasl")
     this.task = task;
     this.updateTask(task);
-    console.log(this.task)
   }
 
   getUpdatedTaskList() {
-    console.log("task-modal");
     this.updateTaskList.emit()
   }
 
   updateTaskComment() {
-    console.log("Test")
-    this.getUpdatedTaskList();
+    this.taskService.getSingleTask(this.task.taskId).subscribe((res: any) => {
+      this.task = res.data;
+      this.getUpdatedTaskList();
+    })
   }
 
 

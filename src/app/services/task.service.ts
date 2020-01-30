@@ -72,4 +72,18 @@ export class TaskService {
   reOrderMenu(taskList) {
     return this.httpClient.put<object>(`${this.apiPath}/${this.reOrder}/`, taskList, this.getHeaders())
   }
+
+  compareDate(dueDate, noOfDays) {
+    let duedate = new Date(dueDate)
+    let compareDate = new Date(new Date().setDate(new Date().getDate() - noOfDays));
+    duedate.setHours(0, 0, 0, 0);
+    compareDate.setHours(0, 0, 0, 0);
+    if (duedate.getFullYear() == 1970) {
+      return true;
+    }
+    else {
+      return duedate.getTime() >= compareDate.getTime();
+    }
+  }
+
 }
