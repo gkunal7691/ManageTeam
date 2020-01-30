@@ -63,7 +63,6 @@ export class SuperAdminService {
   }
   
   addUserInfo(value) {
-    console.log (value)
     return this.httpClient.post<object>(`${this.apiPath}/${this.getUserData}/`, value, this.getHeaders())
   }
 

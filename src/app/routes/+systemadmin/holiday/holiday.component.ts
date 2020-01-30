@@ -65,7 +65,6 @@ export class HolidayComponent implements OnInit {
 
   getAllHolidayList() {
     this.holidayService.getHolidayList().subscribe((res: any) => {
-      console.log(res)
       this.holidayList = res.data;
       this.dataSource = new MatTableDataSource(this.holidayList)
       this.dataSource.paginator = this.paginator;
@@ -80,7 +79,6 @@ export class HolidayComponent implements OnInit {
       occasion: this.AddHolidayForm.get('occasion').value
     }).subscribe(
       (res: any) => {
-        console.log(res);
         swal('Success', 'New Holiday for ' + this.AddHolidayForm.get('holidayDate').value +
           ' is added to the organization successfully :)', 'success');
         this.getAllHolidayList();
@@ -115,6 +113,7 @@ export class HolidayComponent implements OnInit {
       title: "Are you sure?",
       text: "Holiday for " + finalDate + " will be deleted from database !",
       icon: "warning",
+      buttons: true,
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {

@@ -24,7 +24,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.loginService.currentUser);
     this.resetPasswordForm = this.fb.group({
       newPassword: new FormControl("", [Validators.required, Validators.minLength(6)]),
       conformNewPassword: new FormControl("", [Validators.required, Validators.minLength(6)])

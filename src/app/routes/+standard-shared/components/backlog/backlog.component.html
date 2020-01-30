@@ -17,16 +17,16 @@
                 <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                 <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
                 <a class="center" data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
-                    #&nbsp;{{ task?.taskId }}
+                    TMS-{{ task?.taskId }}
                 </a>
                 <a class="center">
                     <ng-template #toolTipTemplate>
                         {{ task?.title }}
                     </ng-template>
-                    <em [tooltip]="toolTipTemplate">
-                        &nbsp;: {{ task?.title | slice:0:100 }}
+                    <span [tooltip]="toolTipTemplate">
+                        : &nbsp; {{ task?.title | slice:0:100 }}
                         <span *ngIf="task?.title.length > 100">...</span>
-                    </em>
+                    </span>
                 </a>
             </a>
             <a class="addCursor center">

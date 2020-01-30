@@ -10,9 +10,11 @@
       </div>
       <div class="modal-body pr-0">
         <form>
-          <div *ngIf="totalEstimatedTime" class="row justify-content-center">
-            <h6 style="text-align: center;">Estimated Time left for <b>{{nextDate | date}}</b> is
-              <b>{{480 - totalEstimatedTime | customDate}}</b></h6>
+          <div class="row justify-content-center">
+            <h6 style="text-align: center;">Estimated Time left for <span
+                *ngIf="totalEstimatedTime != null"><b>{{nextDate | date}}</b> is
+                <b>{{480 - totalEstimatedTime | customDate}}</b></span>
+            </h6>
           </div>
           <div class="row">
             <div class="col-3 pr-0 pl-4" style="text-align: center;align-self: center;">
@@ -46,20 +48,20 @@
             </div>
             <div class="col-3 pl-0 pr-0">
               <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="Select Date"
-                [formControl]="nextDateModalForm.controls['newDate']" name="dp-basic"
-                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDate($event)">
+                [formControl]="nextDateModalForm.controls['newDueDate']" name="dp-basic"
+                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getnewDueDate($event)">
             </div>
-            <div class="col-3 p-0 mt-1 pl-3">
+            <!-- <div class="col-3 p-0 mt-1 pl-3">
               <a class="removeUnderLine" (click)="moveToNextDate()">Select next date</a>
-            </div>
+            </div> -->
           </div>
           <div class="row">
             <div class="col-3 p-0"></div>
             <div class="col p-0">
               <!-- <span *ngIf="isDayOff" class="text-warning">Selected day is Week Off</span>
               <span *ngIf="isHoliday" class="text-warning">Selected day is Holiday</span> -->
-              <div class="text-danger" *ngIf="nextDateModalForm.controls['newDate'].invalid &&
-                  nextDateModalForm.controls['newDate'].touched">
+              <div class="text-danger" *ngIf="(nextDateModalForm.controls['newDueDate'].invalid &&
+                  nextDateModalForm.controls['newDueDate'].touched)">
                 <i>Invalid Date.</i>
               </div>
             </div>
@@ -126,7 +128,7 @@
           Close
         </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Move" (click)="moveTask()"
-          [disabled]="nextDateModalForm.invalid">
+          [disabled]=" !nextDateModalForm.valid">
           Move
         </button>
       </div>

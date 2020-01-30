@@ -31,7 +31,6 @@ export class DayoffService {
   }
 
   createDayoffList(val){
-    console.log(val)
     return this.httpClient.post<object>(`${this.apiPath}/${this.dayoff}`,{weekdayId:val},this.getHeaders());
   }
 
@@ -40,7 +39,6 @@ export class DayoffService {
   }
   
   updateDayoff(val){
-    console.log(val);
     return this.httpClient.put<object>(`${this.apiPath}/${this.dayoff}`,val, this.getHeaders());
   }
 

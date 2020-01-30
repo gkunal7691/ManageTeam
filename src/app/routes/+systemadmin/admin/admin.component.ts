@@ -132,7 +132,6 @@ export class AdminComponent implements OnInit {
   }
 
   onViewClick(value) {
-    console.log(value)
   }
 
 }

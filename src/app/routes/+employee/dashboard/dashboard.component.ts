@@ -38,7 +38,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getUpdatedTaskList() {
-    console.log("times")
     this.dayModalContent.getDayTask();
   }
 
@@ -67,9 +66,8 @@ export class DashboardComponent implements OnInit {
     this.dayModalContent.dateChange();
   }
 
-  getSelectedDate(selectedDate){
+  getSelectedDate(selectedDate) {
     this.dueDate = selectedDate;
-    console.log(this.dueDate)
     this.dayModalContent.dateChange()
   }
 

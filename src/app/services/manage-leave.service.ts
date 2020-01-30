@@ -34,7 +34,6 @@ export class ManageLeaveService {
   }
 
   createLeaveRequest(val) {
-    console.log(val)
     return this.httpClient.post<Object>(`${this.apiPath}/${this.leaveRequest}/`, val, this.getHeaders())
   }
 

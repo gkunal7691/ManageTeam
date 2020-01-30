@@ -50,7 +50,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
-    private taskService: TaskService, private router: Router) { }
+    public taskService: TaskService, private router: Router) { }
 
   ngOnInit() { }
 
@@ -64,6 +64,8 @@ export class DayModalContentComponent implements OnInit, OnChanges {
       });
     }
   }
+
+
 
   filterTaskList() {
     this.newStacked = [];
@@ -167,7 +169,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
         if (status == 'progress') {
           status = 'In Progress';
         }
-        swal('Success', 'Task #' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
+        swal('Success', 'Task TMS-' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
       })
     }
   }
@@ -183,5 +185,28 @@ export class DayModalContentComponent implements OnInit, OnChanges {
       swal('Success', 'Task has been Reordered', 'success');
       this.getDayTask();
     });
+  }
+
+  moveToBacklogSwal(taskId) {
+    swal({
+      title: "Are you sure?",
+      text: "Task(TMS-" + taskId + ") will be moved to backlog!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willRemove) => {
+      if (willRemove) {
+        this.moveToBacklog(taskId);
+      } else {
+        swal('Cancelled', 'Task(TMS-' + taskId + ') is not moved :)', 'error');
+      }
+    });
+  }
+
+  moveToBacklog(taskId){
+    this.taskService.editTask({taskId: taskId , dueDate : new Date(0)}).subscribe((res:any)=>{
+      swal('Moved', 'Task(TMS-' + taskId + ') has been moved :)', 'warning');
+      this.getDayTask();
+    })
   }
 }
