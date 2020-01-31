@@ -68,7 +68,6 @@ export class TodoService {
   }
 
   updateStar(value) {
-    console.log(value)
     return this.httpClient.put<any>(`${this.apiPath}/${this.todoStar}/`, value, this.getHeaders())
   }
 

@@ -27,7 +27,6 @@ export class RegistrationService {
   }
 
   register(profileData: User) {
-    console.log(profileData)
     return this.httpClient.post<Object>(`${this.apiPath}/${this.route}`, profileData);
   }
 

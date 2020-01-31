@@ -5,7 +5,7 @@ import { SuperAdminService } from '../../../services/super-admin.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ForgotPasswordService } from '../../../services/forgot-password.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +24,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.loginService.currentUser);
     this.resetPasswordForm = this.fb.group({
       newPassword: new FormControl("", [Validators.required, Validators.minLength(6)]),
       conformNewPassword: new FormControl("", [Validators.required, Validators.minLength(6)])

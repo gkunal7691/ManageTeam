@@ -3,7 +3,7 @@ import { TodoService } from '../../../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
 import { EmployeeService } from '../../../services/employee.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-todo',
@@ -66,7 +66,6 @@ export class TodoComponent implements OnInit {
     if (this.editingTodo) {
       this.todoService.updateTodo({ todoId: this.todo.todoId, title: this.todo.title, description: this.todo.description, userId: this.selectAdminId }).subscribe(
         (res: any) => {
-          console.log(res);
           swal('Success', 'Todo(' +this.todo.title+ ') is updated :)', 'success');
           this.todo.title = '';
           this.todo.description = '';
@@ -78,7 +77,6 @@ export class TodoComponent implements OnInit {
     } else {
       this.todoService.addTodo({ title: this.todo.title, description: this.todo.description, complete: false }).subscribe(
         (res: any) => {
-          console.log(res);
           swal('Success', 'Todo(' +this.todo.title+ ') is added :)', 'success');
           this.todo.title = '';
           this.todo.description = '';
@@ -92,9 +90,7 @@ export class TodoComponent implements OnInit {
   getCompleteTodoList() {
     this.todoService.completeTodoList({ userId: this.selectAdminId }).subscribe(
       (res: any) => {
-        console.log(res)
         this.completeTask = res.data;
-        console.log(this.completeTask)
         if (this.completeTask.rows.length != 0) {
           this.no_itemscompleted = false;
         } else {
@@ -104,10 +100,8 @@ export class TodoComponent implements OnInit {
   }
 
   getIncompleteTodoList() {
-    console.log(this.selectAdminId)
     this.todoService.incompleteTodoList({ userId: this.selectAdminId }).subscribe(
       (res: any) => {
-        console.log(res)
         this.notComplateTask = res.data;
         if (this.notComplateTask.length != 0) {
           this.no_items = false;
@@ -150,7 +144,6 @@ export class TodoComponent implements OnInit {
   };
 
   completeTodo(index, $event, value) {
-    console.log(index, $event)
     if (value == 'notComplete') {
       this.todoService.completeTodo({ todoId: this.notComplateTask[index].todoId, complete: $event, userId: this.selectAdminId }).subscribe(
         (res: any) => {

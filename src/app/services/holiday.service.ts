@@ -31,7 +31,6 @@ export class HolidayService {
   }
 
   createHolidayList(val){
-    console.log(val)
     return this.httpClient.post<object>(`${this.apiPath}/${this.holiday}/`,val,this.getHeaders());
   }
 

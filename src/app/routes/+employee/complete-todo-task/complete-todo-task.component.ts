@@ -25,12 +25,9 @@ export class CompleteTodoTaskComponent implements OnInit {
   }
 
   getCompleteTodoList() {
-    console.log(this.selectAdminId)
     this.todoService.allCompleteTodoList({ userId: this.selectAdminId }).subscribe(
       (res: any) => {
-        console.log(res)
         this.completeTask = res.data;
-        console.log(this.completeTask)
         if (this.completeTask.rows.length != 0) {
           this.no_itemscompleted = false;
         } else {

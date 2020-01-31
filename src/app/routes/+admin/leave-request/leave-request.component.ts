@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { ViewLeaveDetailsComponent } from '../view-leave-details/view-leave-details.component';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-leave-request',
@@ -112,11 +112,9 @@ export class LeaveRequestComponent implements OnInit {
     status['isreject'] = this.rejectedLeave;
     status['isadd'] = this.addedLeave;
     status['iscancel'] = this.cancelledLeave;
-    console.log(status)
 
     this.leaveRequestService.getLeaveRequestList(status).subscribe(
       (res: any) => {
-        console.log(res.data);
         this.leaveRequestList = res.data;
         this.dataSource = new MatTableDataSource(this.leaveRequestList)
         this.dataSource.paginator = this.paginator;
@@ -127,7 +125,6 @@ export class LeaveRequestComponent implements OnInit {
   // Approve leave Sweet Alert
 
   approvedSweetAlert(leaveRequest) {
-    console.log(leaveRequest.leaveId);
     this.from = new Date(leaveRequest.fromDate).getDate() + '/' + (new Date(leaveRequest.fromDate).getMonth() + 1) + '/' +
       (new Date(leaveRequest.fromDate).getFullYear());
     this.to = new Date(leaveRequest.toDate).getDate() + '/' + (new Date(leaveRequest.toDate).getMonth() + 1) + '/' +
@@ -154,7 +151,6 @@ export class LeaveRequestComponent implements OnInit {
   approvedPopUp(leaveRequest) {
     this.leaveRequestService.updateLeaveStatus({ leaveId: leaveRequest.leaveId, status: 'approved' }).subscribe(
       (res: any) => {
-        console.log(res);
         swal('Success', 'Leave request approved for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'success');
         this.filterRequestLeave();
       })
@@ -163,7 +159,6 @@ export class LeaveRequestComponent implements OnInit {
   //Reject leave Sweet Alert
 
   rejectedSweetAlert(leaveRequest) {
-    console.log(leaveRequest.leaveId);
     this.from = new Date(leaveRequest.fromDate).getDate() + '/' + (new Date(leaveRequest.fromDate).getMonth() + 1) + '/' +
       (new Date(leaveRequest.fromDate).getFullYear());
     this.to = new Date(leaveRequest.toDate).getDate() + '/' + (new Date(leaveRequest.toDate).getMonth() + 1) + '/' +
@@ -190,7 +185,6 @@ export class LeaveRequestComponent implements OnInit {
   rejectedPopUp(leaveRequest) {
     this.leaveRequestService.updateLeaveStatus({ leaveId: leaveRequest.leaveId, status: 'rejected' }).subscribe(
       (res: any) => {
-        console.log(res);
         swal('Rejected', 'Leave request rejected for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'warning');
         this.filterRequestLeave();
       })

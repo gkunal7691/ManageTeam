@@ -8,7 +8,7 @@ import { LoginService } from '../../../services/login.service';
 })
 export class DashboardComponent implements OnInit {
 
-  user;
+  user: any;
   constructor(private loginService: LoginService) { }
 
   ngOnInit() {

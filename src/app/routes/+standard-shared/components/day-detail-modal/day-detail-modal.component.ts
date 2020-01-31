@@ -35,7 +35,7 @@ export class DayDetailComponent implements OnInit {
 
   getUpdatedTaskList() {
     this.dayDetail.getDayTask();
-    this.updateTaskList.emit();
+    // this.updateTaskList.emit();
   }
 
   addNewTask() {

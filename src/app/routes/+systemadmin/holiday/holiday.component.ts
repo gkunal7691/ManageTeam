@@ -4,7 +4,7 @@ import { HolidayService } from '../../../services/holiday.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-holiday',
@@ -65,7 +65,6 @@ export class HolidayComponent implements OnInit {
 
   getAllHolidayList() {
     this.holidayService.getHolidayList().subscribe((res: any) => {
-      console.log(res)
       this.holidayList = res.data;
       this.dataSource = new MatTableDataSource(this.holidayList)
       this.dataSource.paginator = this.paginator;
@@ -80,8 +79,7 @@ export class HolidayComponent implements OnInit {
       occasion: this.AddHolidayForm.get('occasion').value
     }).subscribe(
       (res: any) => {
-        console.log(res);
-        swal('Success', 'New Holiday for ' + this.AddHolidayForm.get('holidayDate').value + 
+        swal('Success', 'New Holiday for ' + this.AddHolidayForm.get('holidayDate').value +
           ' is added to the organization successfully :)', 'success');
         this.getAllHolidayList();
       })

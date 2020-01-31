@@ -8,12 +8,14 @@ import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
 import { TodoComponent } from './todo/todo.component';
 import { CompleteTodoTaskComponent } from './complete-todo-task/complete-todo-task.component';
 import { BacklogComponent } from '../+standard-shared/components/backlog/backlog.component';
+import { TaskContentComponent } from '../+standard-shared/components/task-content/task-content.component';
 
 const routes: Routes = [
   { path: 'edashboard', canActivate: [ChildAuthGuard], component: DashboardComponent },
   { path: 'eprofile', canActivate: [ChildAuthGuard], component: ProfileComponent },
   { path: 'month-view', canActivate: [ChildAuthGuard], component: MonthViewComponent },
   { path: 'manage-leave', canActivate: [ChildAuthGuard], component: ManageLeaveComponent },
+  { path: 'task/:id', component: TaskContentComponent },
   { path: 'todo', canActivate: [ChildAuthGuard], component: TodoComponent },
   { path: 'todo/:id', canActivate: [ChildAuthGuard], component: TodoComponent },
   { path: 'backlog', canActivate: [ChildAuthGuard], component: BacklogComponent },

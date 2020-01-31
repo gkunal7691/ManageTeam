@@ -2,15 +2,16 @@
   <div class="modal-header p-1">
     <div class="col-8" style="height: 38px;">
       <span style="font-size: x-large;">{{dueDate | date:'fullDate'}}</span>
-      <span style="position: relative; bottom: 22px;" *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
+      <span style="position: relative; bottom: 4px;" *ngIf="clientTime || orginalSpentTime"
+        class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
         values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
       </span>
     </div>
     <div class="float-right">
       <div class="row">
         <div>
-          <button type="button" class="btn btn-primary float-right" data-toggle="modal" href=".dailyTaskModal"
-            (click)="addTask()">
+          <button type="button" *ngIf="taskService.compareDate(dueDate,0)" class="btn btn-primary float-right"
+            data-toggle="modal" href=".dailyTaskModal" (click)="addTask()">
             Add Task
           </button>
         </div>
@@ -37,12 +38,11 @@
                   (cdkDropListDropped)="reOrder($event,plannedTaskList)">
                   <div class="menu-box" *ngFor="let task of plannedTaskList" cdkDrag>
                     <div class="list-group-item w-100">
-                      <div class="btn-group float-right move-btn" dropdown>
+                      <div *ngIf="taskService.compareDate(task.dueDate,1)" class="btn-group float-right move-btn"
+                        dropdown>
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
                           type="button" dropdownToggle (click)="editTask(task)">
-                          <!-- <span class="caret"></span>
-                          <span class="sr-only">Secondary</span> -->
                         </button>
                         <div *dropdownMenu class="dropdown-menu" role="menu">
                           <a class="dropdown-item removeUnderLine" (click)="updateStatus(task,'progress')">
@@ -54,6 +54,9 @@
                           </a>
                           <a class="dropdown-item removeUnderLine" data-toggle="modal" data-target=".nextDateModal">
                             Next Date
+                          </a>
+                          <a class="dropdown-item removeUnderLine" data-toggle="modal" (click)="moveToBacklogSwal(task.taskId)">
+                            Backlog
                           </a>
                         </div>
                       </div>
@@ -73,13 +76,15 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                        TMS-{{ task?.taskId }}
+                      </a>
+                      <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
-                        <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
-                            *ngIf="task.title.length > 100">...</span>
-                        </em>
+                        <span [tooltip]="toolTipTemplate">
+                          : &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -95,7 +100,8 @@
                   (cdkDropListDropped)="reOrder($event,progressTaskList)">
                   <div class="menu-box" *ngFor="let task of progressTaskList" cdkDrag>
                     <div class="list-group-item w-100">
-                      <div class="btn-group float-right move-btn" dropdown>
+                      <div *ngIf="taskService.compareDate(task.dueDate,1)" class="btn-group float-right move-btn"
+                        dropdown>
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
                           type="button" dropdownToggle (click)="editTask(task)">
@@ -129,13 +135,15 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                        TMS-{{ task?.taskId }}
+                      </a>
+                      <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
-                        <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
-                            *ngIf="task.title.length > 100">...</span>
-                        </em>
+                        <span [tooltip]="toolTipTemplate">
+                          : &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -151,7 +159,8 @@
                   (cdkDropListDropped)="reOrder($event,completedTaskList)">
                   <div class="menu-box" *ngFor="let task of completedTaskList" cdkDrag>
                     <div class="list-group-item w-100">
-                      <div class="btn-group float-right move-btn" dropdown>
+                      <div *ngIf="taskService.compareDate(task.dueDate,1)" class="btn-group float-right move-btn"
+                        dropdown>
                         <button class="btn btn-xs btn-success move-btn-pad" type="button">Move to</button>
                         <button class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-success move-btn-pad1"
                           type="button" dropdownToggle (click)="editTask(task)">
@@ -183,13 +192,15 @@
                         <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
                       </span>
                       <a data-toggle="modal" class="center" href=".dailyTaskModal" (click)="editTask(task)">
+                        TMS-{{ task?.taskId }}
+                      </a>
+                      <a class="center">
                         <ng-template #toolTipTemplate>
                           {{ task?.title }}
                         </ng-template>
-                        <em [tooltip]="toolTipTemplate">
-                          #&nbsp;{{ task?.taskId }}&nbsp;: {{ task.title | slice:0:100 }} <span
-                            *ngIf="task.title.length > 100">...</span>
-                        </em>
+                        <span [tooltip]="toolTipTemplate">
+                          : &nbsp; {{ task.title | slice:0:100 }} <span *ngIf="task.title.length > 100">...</span>
+                        </span>
                       </a>
                     </div>
                   </div>

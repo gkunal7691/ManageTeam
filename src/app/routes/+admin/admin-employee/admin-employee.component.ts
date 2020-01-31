@@ -39,7 +39,6 @@ export class AdminEmployeeComponent implements OnInit {
    this.EmployeeService.getEmployeeList().subscribe(
       (res: any) => {
         this.employeeList = res.data;
-        console.log(this.employeeList)
         this.dataSource = new MatTableDataSource(this.employeeList)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -48,7 +47,6 @@ export class AdminEmployeeComponent implements OnInit {
   }
 
   onViewClick(value) {
-    console.log(value)
   }
 
 }

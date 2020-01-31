@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LeaveRequestService } from '../../../services/leave-request.service';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-view-leave-details',

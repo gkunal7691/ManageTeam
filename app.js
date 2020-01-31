@@ -51,6 +51,8 @@ app.use('/employee/edashboard', express.static('dist'));
 app.use('/employee/eprofile', express.static('dist'));
 app.use('/employee/month-view', express.static('dist'));
 app.use('/employee/manage-leave', express.static('dist'));
+app.use('/employee/backlog', express.static('dist'));
+app.use('/employee/task/:id', express.static('dist'));
 app.use('/employee/todo', express.static('dist'));
 app.use('/employee/todo/:id', express.static('dist'));
 app.use('/employee/todo/completed/:id', express.static('dist'));

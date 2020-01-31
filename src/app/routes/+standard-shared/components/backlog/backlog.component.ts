@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { EmployeeService } from '../../../../services/employee.service';
 import { TaskService } from '../../../../services/task.service';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
-const swal = require('sweetalert');
+declare var swal: any;
 
 @Component({
   selector: 'app-backlog',
@@ -30,7 +30,8 @@ export class BacklogComponent implements OnInit {
 
   getBackLogTaskList() {
     this.taskService.getBacklogTasks().subscribe((res: any) => {
-      this.backLogTasks = res.data;
+      this.backLogTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
+        res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
     })
   }
 
@@ -43,6 +44,7 @@ export class BacklogComponent implements OnInit {
 
   editTask(task) {
     this.task = task;
+    this.dueDate = this.task.dueDate
     this.taskModal.updateTask(this.task);
     this.getBackLogTaskList();
   }
