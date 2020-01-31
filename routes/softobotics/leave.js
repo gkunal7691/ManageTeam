@@ -3,8 +3,10 @@ const router = express.Router();
 const Leave = require('../../models').Leave;
 const sequelize = require('../../models').sequelize;
 const User = require('../../models').User;
+const Organization = require('../../models').Organization;
 const dayOff = require('../../models').DayOff;
 const Holiday = require('../../models').Holiday;
+const cron = require('node-cron');
 
 
 router.get('/', async function (req, res, next) {
@@ -260,6 +262,43 @@ router.put('/cancel', function (req, res, next) {
    }).catch(next);
 })
 
+
+
+cron.schedule('0 0 1 * *', () => {
+   Organization.findAll().then(orgList => {
+      // console.log(orgList)
+      orgList.forEach(org => {
+         User.findAll({ where: { roleId: 1, organizationId: org.dataValues.organizationId } }).then(userList => {
+
+            userList.forEach(user => {
+               // console.log(JSON.stringify(user));
+               Leave.create({
+                  noOfdays: 1.25,
+                  type: 'earned',
+                  status: 'added',
+                  reason: 'earned leaves',
+                  userId: user.dataValues.id,
+                  organizationId: org.dataValues.organizationId
+               }).then((data) => {
+                  //console.log(data);
+               }).catch();
+
+               Leave.create({
+                  noOfdays: 1,
+                  type: 'wfh',
+                  status: 'added',
+                  reason: 'WFH added',
+                  userId: user.dataValues.id,
+                  organizationId: org.dataValues.organizationId
+               }).then((data) => {
+                  //console.log(data);
+               }).catch();
+            })
+         })
+
+      });
+   })
+});
 
 
 module.exports = router;
