@@ -49,7 +49,7 @@
           </div>
           <div class="col-9 text-right">
             <div class="text-lg">{{leaveData?.optional !== undefined ? leaveData?.optional : 0 | number: '1.2-2'}}</div>
-            <p class="m-0">Optional Leaves</p>
+            <p class="m-0">Optional Holiday</p>
           </div>
         </div>
       </div>
@@ -79,18 +79,18 @@
   <div class="col-3">
     <div class="btn-group mb-2 w-100" dropdown>
       <button class="btn btn-primary btn-lg" style="width: 85%;font-size: 15px;" data-toggle="modal"
-        data-target=".leaveRequestModal">Apply Leave
+        data-target=".leaveRequestModal">Apply
       </button>
-      <button class="btn dropdown-toggle dropdown-toggle-split btn-primary" style="width: 15%;" type="button"
+      <!-- <button class="btn dropdown-toggle dropdown-toggle-split btn-primary" style="width: 15%;" type="button"
         dropdownToggle>
         <span class="caret"></span>
         <span class="sr-only">Secondary</span>
-      </button>
-      <div *dropdownMenu class="dropdown-menu" style="width: 100%!important;" role="menu">
+      </button> -->
+      <!-- <div *dropdownMenu class="dropdown-menu" style="width: 100%!important;" role="menu">
         <a class="dropdown-item" data-toggle="modal" data-target="#con-close-modal" href="#">
           Request Comp Off
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="col-9">
@@ -287,7 +287,7 @@
               <option value="earned">Earned</option>
               <option value="casual">Casual</option>
               <option value="optional">Optional</option>
-              <option value="comp-off">Comp Off</option>
+              <option value="wfh">WFH</option>
             </select>
           </div>
         </div>
@@ -310,7 +310,7 @@
 </div>
 
 <!-- Comp Off Modal -->
-
+<!-- 
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true" style="display: none;">
   <div class="modal-dialog">
@@ -358,4 +358,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
