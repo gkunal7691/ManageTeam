@@ -132,7 +132,8 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
       if (taskDate.getFullYear() == 1970) {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
-          taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value
+          taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
+          estimatedTime: totalEstimatedTime
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
@@ -160,7 +161,8 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
       else if (taskDate.getTime() == (currentDate.getTime() - 86400000)) {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
-          taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value
+          taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
+          estimatedTime: totalEstimatedTime
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
@@ -170,7 +172,8 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
       else if (taskDate.getTime() > currentDate.getTime()) {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
-          taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value
+          taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
+          estimatedTime: totalEstimatedTime
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
