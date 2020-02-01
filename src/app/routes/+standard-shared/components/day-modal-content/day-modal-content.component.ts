@@ -121,6 +121,11 @@ export class DayModalContentComponent implements OnInit, OnChanges {
         x[i].style.minHeight = '300px';
       }
     }
+
+    var y = <HTMLElement[]><any>document.getElementsByTagName("canvas")
+    for (var i = 0; i < y.length; i++) {
+      y[i].style.verticalAlign = 'sub';
+    }
   }
 
   taskCalculation() {
@@ -180,6 +185,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   reOrder(event: CdkDragDrop<string[]>, taskList) {
+    console.log(taskList)
     moveItemInArray(taskList, event.previousIndex, event.currentIndex);
     this.taskService.reOrderMenu(taskList).subscribe((res: any) => {
       swal('Success', 'Task has been Reordered', 'success');
@@ -203,8 +209,8 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     });
   }
 
-  moveToBacklog(taskId){
-    this.taskService.editTask({taskId: taskId , dueDate : new Date(0)}).subscribe((res:any)=>{
+  moveToBacklog(taskId) {
+    this.taskService.editTask({ taskId: taskId, dueDate: new Date(0) }).subscribe((res: any) => {
       swal('Moved', 'Task(TMS-' + taskId + ') has been moved :)', 'warning');
       this.getDayTask();
     })

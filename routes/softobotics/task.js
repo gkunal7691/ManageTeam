@@ -44,6 +44,15 @@ router.post('/getTask/dueDate', async function (req, res, next) {
         order: [
           ['createdAt', 'desc']
         ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -71,6 +80,15 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
         order: [
           ['createdAt', 'desc']
         ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -98,6 +116,15 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
         order: [
           ['createdAt', 'desc']
         ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -200,9 +227,10 @@ router.put('/edit/reOrder', function (req, res, next) {
   let order = 1;
   let count = 0;
   req.body.forEach((task, index, array) => {
+    console.log(task.taskId, order)
     Task.update({
       order: order
-    }, { where: { taskId: task.taskId, organizationId: req.user.orgId, updatedById: req.body.assignee } }).then(() => {
+    }, { where: { taskId: task.taskId, organizationId: req.user.orgId } }).then(() => {
       if (count == array.length - 1) {
         res.json({ success: true });
       }

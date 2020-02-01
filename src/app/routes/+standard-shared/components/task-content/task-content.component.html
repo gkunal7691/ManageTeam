@@ -204,6 +204,20 @@
                 </div>
               </div>
             </div>
+            <div class="row comment mt-3">
+              <div class="col-6">
+                Created By : {{task?.createdBy?.firstName}} {{task?.createdBy?.lastName}}
+                <div *ngIf="task?.updatedBy != null"> Modified By : {{task?.updatedBy?.firstName}}
+                  {{task?.updatedBy?.lastName}}
+                </div>
+              </div>
+              <div class="col-6">
+                Created Date/Time : {{task?.createdAt | date:'short'}}
+                <div>Modified Date/Time : <span *ngIf="task?.updatedBy != null">
+                    {{task?.updatedAt | date:'short'}}</span>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>

@@ -198,6 +198,7 @@ export class TaskContentComponent implements OnInit {
       this.task = task;
     }
     if (this.task) {
+      console.log(this.task)
       this.isEdit = true;
       this.showCommentButton = true;
       this.showTextButton = false;
