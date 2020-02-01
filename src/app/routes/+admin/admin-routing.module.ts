@@ -7,9 +7,11 @@ import { AdminEmployeeComponent } from './admin-employee/admin-employee.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DayViewComponent } from '../+standard-shared/components/day-view/day-view.component';
 
 const routes: Routes = [
-  { path: 'adashboard', canActivate: [ChildAuthGuard], component: DashboardComponent },
+  // { path: 'adashboard', canActivate: [ChildAuthGuard], component: DashboardComponent },
+  { path: 'adashboard', canActivate: [ChildAuthGuard], component: DayViewComponent },
   { path: 'aprofile', canActivate: [ChildAuthGuard], component: ProfileComponent },
   { path: 'leave-request', canActivate: [ChildAuthGuard], component: LeaveRequestComponent },
   { path: 'admin-employee', canActivate: [ChildAuthGuard], component: AdminEmployeeComponent },

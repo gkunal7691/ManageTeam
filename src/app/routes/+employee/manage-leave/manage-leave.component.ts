@@ -164,6 +164,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   createLeaveRequest() {
+    console.log(this.isvalid)
     this.manageLeaveService.createLeaveRequest({
       fromDate: this.fromDate, toDate: this.toDate, halfday: this.isvalid,
       type: this.leaveRequestForm.get('type').value, status: "pending",
@@ -322,6 +323,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         !this.holidayList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
       this.leaveRequestForm.get("totalDays").setValue(y.length);
       this.totaldaysOff = y.length;
+      console.log(y.length)
       if (y.length == 1) {
         this.isvalid = true;
       } else {

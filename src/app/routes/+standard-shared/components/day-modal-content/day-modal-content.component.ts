@@ -99,8 +99,12 @@ export class DayModalContentComponent implements OnInit, OnChanges {
       }, {
         value: this.plannedTaskList.length + this.progressTaskList.length + this.completedTaskList.length,
         type: "danger"
-      })
-
+      });
+    }
+    else {
+      this.plannedTaskList = [];
+      this.progressTaskList = [];
+      this.completedTaskList = [];
     }
 
     this.taskCalculation();

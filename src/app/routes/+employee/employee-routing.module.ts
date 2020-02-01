@@ -9,9 +9,11 @@ import { TodoComponent } from './todo/todo.component';
 import { CompleteTodoTaskComponent } from './complete-todo-task/complete-todo-task.component';
 import { BacklogComponent } from '../+standard-shared/components/backlog/backlog.component';
 import { TaskContentComponent } from '../+standard-shared/components/task-content/task-content.component';
+import { DayViewComponent } from '../+standard-shared/components/day-view/day-view.component';
 
 const routes: Routes = [
-  { path: 'edashboard', canActivate: [ChildAuthGuard], component: DashboardComponent },
+  // { path: 'edashboard', canActivate: [ChildAuthGuard], component: DashboardComponent },
+  { path: 'edashboard', canActivate: [ChildAuthGuard], component: DayViewComponent },
   { path: 'eprofile', canActivate: [ChildAuthGuard], component: ProfileComponent },
   { path: 'month-view', canActivate: [ChildAuthGuard], component: MonthViewComponent },
   { path: 'manage-leave', canActivate: [ChildAuthGuard], component: ManageLeaveComponent },

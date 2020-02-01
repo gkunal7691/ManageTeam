@@ -1,16 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from '../../../services/user.service';
-import { LoginService } from '../../../services/login.service';
-import { DayModalContentComponent } from '../../+standard-shared/components/day-modal-content/day-modal-content.component';
-import { TaskModalComponent } from '../../+standard-shared/components/task-modal/task-modal.component';
+import { UserService } from '../../../../services/user.service';
+import { LoginService } from '../../../../services/login.service';
+import { DayModalContentComponent } from '../../../+standard-shared/components/day-modal-content/day-modal-content.component';
+import { TaskModalComponent } from '../../../+standard-shared/components/task-modal/task-modal.component';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-day-view',
+  templateUrl: './day-view.component.html',
+  styleUrls: ['./day-view.component.scss']
 })
-
-export class DashboardComponent implements OnInit {
+export class DayViewComponent implements OnInit {
 
   dueDate: Date;
   userList: any;
@@ -23,8 +22,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
 
 
-  constructor(private loginService: LoginService, private userService: UserService) {
-    this.userId = this.loginService.currentUser.id;
+  constructor(public loginService: LoginService, private userService: UserService) { 
+    this.userId = this.loginService.currentUser.id
   }
 
   ngOnInit() {
@@ -35,6 +34,11 @@ export class DashboardComponent implements OnInit {
   getTask(task) {
     this.task = task;
     this.taskModal.updateTask(task);
+  }
+
+  selectedUserTask(value) {
+    this.userId = value;
+    this.getUpdatedTaskList();
   }
 
   getUpdatedTaskList() {
@@ -74,5 +78,7 @@ export class DashboardComponent implements OnInit {
   addNewTask() {
     this.taskModal.addNewTask();
   }
+
+
 
 }
