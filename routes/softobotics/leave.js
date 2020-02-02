@@ -134,7 +134,7 @@ router.post('/', async function (req, res, next) {
             }
          })
          let totalLeaveDay = totaldate.filter(x => !dayOffList.includes(x.day) && !holidayDateList.includes((new Date(x).getMonth() + 1) + '/' + new Date(x).getDate() + '/' + new Date(x).getFullYear()));
-         let noOfdays
+         let noOfdays;
          if (req.body.halfday) {
             noOfdays = -0.5
          } else {

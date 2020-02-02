@@ -79,7 +79,7 @@
   <div class="col-3">
     <div class="btn-group mb-2 w-100" dropdown>
       <button class="btn btn-primary btn-lg" style="width: 85%;font-size: 15px;" data-toggle="modal"
-        data-target=".leaveRequestModal">Apply
+        data-target=".leaveRequestModal" (click)="formReset()">Apply
       </button>
       <!-- <button class="btn dropdown-toggle dropdown-toggle-split btn-primary" style="width: 15%;" type="button"
         dropdownToggle>
@@ -234,7 +234,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title mt-0">Enter following leave information :</h4>
-        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close" (click)="leaveRequestFormReset()">
+        <button type="button" class="close rightAlign" data-dismiss="modal" aria-label="Close"
+          (click)="leaveRequestFormReset()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -244,14 +245,14 @@
             <label class="mt-1 mb-0"><b>Choose Dates :</b></label>
           </div>
           <div class="col">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="From Date" name="dp-basic" 
-              [(ngModel)]="selectedStartDate" [bsConfig]="bsConfig" (bsValueChange)="getFromDate($event)"
-              value="{{ selectedStartDate | date:'dd-MM-yyyy' }}">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="From Date"
+              name="dp-basic" [(ngModel)]="selectedStartDate" [bsConfig]="bsConfig"
+              (bsValueChange)="getFromDate($event)" value="{{ selectedStartDate | date:'dd-MM-yyyy' }}">
             <span *ngIf="isPastDate" class="text-danger">Selected date is past.</span>
           </div>
           <div class="col">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="To Date" name="dp-basic"
-              [(ngModel)]="selectedEndDate" [bsConfig]="bsConfig" (bsValueChange)="getNoOfDays($event)"
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="To Date"
+              name="dp-basic" [(ngModel)]="selectedEndDate" [bsConfig]="bsConfig" (bsValueChange)="getNoOfDays($event)"
               value="{{ selectedEndDate | date:'dd-MM-yyyy' }}">
           </div>
         </div>
@@ -282,7 +283,8 @@
             <label class="mt-2 mb-0"><b>Choose Leave Type :</b></label>
           </div>
           <div class="col-6">
-            <select class="form-control" [formControl]="leaveRequestForm.controls['type']">
+            <select class="form-control" [formControl]="leaveRequestForm.controls['type']"
+              (change)="onLeaveType($event.target.value)">
               <option [selected]="true" value="">Select</option>
               <option value="earned">Earned</option>
               <option value="casual">Casual</option>
@@ -291,18 +293,25 @@
             </select>
           </div>
         </div>
+        <div class="row" style="justify-content: center;">
+          <span *ngIf="leaveError != null && leaveRequestForm.controls['type'] != ''" class="text-danger">{{leaveError}}
+          </span>
+        </div>
         <div class="fontStyle">
           <label class="mt-2 mb-0"><b>Enter Leave Request Reason :</b></label>
         </div>
         <div class="mt-1">
-          <textarea class="form-control" placeholder="Start Typing Reason Here..." [formControl]="leaveRequestForm.controls['reason']"></textarea>
+          <textarea class="form-control" placeholder="Start Typing Reason Here..."
+            [formControl]="leaveRequestForm.controls['reason']"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal" (click)="leaveRequestFormReset()">Cancel
+        <button type="button" class="btn btn-warning waves-effect" data-dismiss="modal"
+          (click)="leaveRequestFormReset()">Cancel
         </button>
         <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal"
-          (click)="createLeaveRequest()" [disabled]="!leaveRequestForm.valid || isPastDate">Submit
+          (click)="createLeaveRequest()"
+          [disabled]="leaveError != null  || !leaveRequestForm.valid || isPastDate">Submit
         </button>
       </div>
     </div>

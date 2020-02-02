@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChildAuthGuard } from '../../services/guards/child-auth-guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MonthViewComponent } from '../+standard-shared/components/month-view/month-view.component';
 import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
