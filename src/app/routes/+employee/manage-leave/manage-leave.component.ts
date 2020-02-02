@@ -53,7 +53,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   selectedStartDate: any;
   selectedEndDate: any;
   leaveOffDays: any;
-  leaveError: string = null;
+  leaveError: any;
 
   displayedColumns: string[] = ["fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
