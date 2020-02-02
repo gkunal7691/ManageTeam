@@ -16,14 +16,12 @@ import { UserService } from '../../services/user.service';
 import { SharedModule } from '../../shared/shared.module';
 import { AdminEmployeeComponent } from './admin-employee/admin-employee.component';
 import { AdminRoutingModule } from './admin-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ViewLeaveDetailsComponent } from './view-leave-details/view-leave-details.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
     ProfileComponent,
     LeaveRequestComponent,
     AdminEmployeeComponent,

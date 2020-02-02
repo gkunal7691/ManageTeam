@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ChildAuthGuard } from '../../services/guards/child-auth-guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NgDragDropModule } from 'ng-drag-drop';
 import { ManageLeaveComponent } from './manage-leave/manage-leave.component';
@@ -20,7 +19,6 @@ import { UserService } from '../../services/user.service';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
     ProfileComponent,
     ManageLeaveComponent,
     TodoComponent,

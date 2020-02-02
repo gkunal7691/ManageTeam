@@ -53,7 +53,7 @@ export class TaskContentComponent implements OnInit {
       originalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
     });
     if (!this.userList && !this.userId) {
-      if (this.router.url != '/employee/backlog') {
+      if (this.router.url != '/employee/backlog' && this.router.url != '/admin/backlog') {
         this.modalWidthControl = true;
       }
       else {

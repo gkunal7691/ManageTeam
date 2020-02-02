@@ -1,11 +1,11 @@
 <div class="modal-content">
   <div class="modal-header p-1">
     <div class="col-8" style="height: 38px;">
-      <span style="font-size: x-large;">{{dueDate | date:'fullDate'}}</span>
-      <span style="position: relative; bottom: 4px;" *ngIf="clientTime || orginalSpentTime"
-        class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
-        values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
-      </span>
+      <div style="font-size: x-large;">{{dueDate | date:'fullDate'}}
+        <span *ngIf="clientTime || orginalSpentTime" class="sparkline inline pl-2" [sparkline]="sparkOptionsInfo"
+          values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+        </span>
+      </div>
     </div>
     <div class="float-right">
       <div class="row">
@@ -55,7 +55,8 @@
                           <a class="dropdown-item removeUnderLine" data-toggle="modal" data-target=".nextDateModal">
                             Next Date
                           </a>
-                          <a class="dropdown-item removeUnderLine" data-toggle="modal" (click)="moveToBacklogSwal(task.taskId)">
+                          <a class="dropdown-item removeUnderLine" data-toggle="modal"
+                            (click)="moveToBacklogSwal(task.taskId)">
                             Backlog
                           </a>
                         </div>

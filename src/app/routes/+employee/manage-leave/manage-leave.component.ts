@@ -53,6 +53,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   selectedStartDate: any;
   selectedEndDate: any;
   leaveOffDays: any;
+  leaveError: string = null;
 
   displayedColumns: string[] = ["fromDate", "toDate", "noOfdays", "type", "reason", "status", "createdAt", "choose_response"];
   dataSource = new MatTableDataSource();
@@ -77,7 +78,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     // this.addedLeave = false;
     this.allLeave = false;
     this.cancelledLeave = false;
-
     this.filterRequestLeave();
     this.leaveCalculation();
     this.getDayoff();
@@ -164,8 +164,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   createLeaveRequest() {
+    if (this.leaveRequestForm.get("totalDays").value == 0.5) {
+      this.isHalfDay = true;
+    } else {
+      this.isHalfDay = false;
+    }
     this.manageLeaveService.createLeaveRequest({
-      fromDate: this.fromDate, toDate: this.toDate, halfday: this.isvalid,
+      fromDate: this.fromDate, toDate: this.toDate, halfday: this.isHalfDay,
       type: this.leaveRequestForm.get('type').value, status: "pending",
       reason: this.leaveRequestForm.get('reason').value
     }).subscribe(
@@ -213,9 +218,11 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   getFromDate(date) {
     if (date != null) {
-      this.fromDate = date;
+      this.leaveRequestForm.get("type").reset();
+      this.leaveError = '';
+      this.fromDate = new Date(date);
       let currentDate: Date = new Date();
-      var noOfDates = this.fromDate.getDate() - currentDate.getDate();
+      var noOfDates = this.fromDate.getTime() - currentDate.getTime();
       if (noOfDates < 0) {
         this.isPastDate = true;
       } else {
@@ -230,8 +237,10 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   gethalfday(value) {
     if (this.totaldaysOff == 1 && value) {
       this.leaveRequestForm.get("totalDays").setValue(this.totaldaysOff / 2);
+      this.isHalfDay = true;
     } else {
       this.leaveRequestForm.get("totalDays").setValue(this.totaldaysOff);
+      this.isHalfDay = false;
     }
   }
 
@@ -277,6 +286,8 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   getNoOfDays(val) {
     this.toDate = val;
+    this.leaveRequestForm.get("type").reset();
+    this.leaveError = null;
     if (val != null && this.fromDate != undefined) {
       if (val) {
         var Difference_In_Time = this.toDate.getTime() - this.fromDate.getTime();
@@ -327,7 +338,62 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       } else {
         this.isvalid = false;
       }
+
     }
+  }
+
+  onLeaveType(value) {
+    if (value == 'earned') {
+      if (!this.leaveData.earned) {
+        this.leaveData.earned = 0
+      }
+      if (this.leaveData.earned < this.leaveRequestForm.get("totalDays").value) {
+        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+          " day(s), you have only " + this.leaveData.earned + " day(s) of " + value + " leave left.";
+      } else {
+        this.leaveError = null;
+      }
+    }
+    else if (value == 'casual') {
+      if (!this.leaveData.casual) {
+        this.leaveData.casual = 0
+      }
+      if (this.leaveData.casual < this.leaveRequestForm.get("totalDays").value) {
+        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+          " day(s), you have only " + this.leaveData.casual + " day(s) of " + value + " leave left.";
+      } else {
+        this.leaveError = null;
+      }
+    }
+    else if (value == 'optional') {
+      if (!this.leaveData.optional) {
+        this.leaveData.optional = 0
+      }
+      if (this.leaveData.optional < this.leaveRequestForm.get("totalDays").value) {
+        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+          " day(s), you have only " + this.leaveData.optional + " day(s) of " + value + " leave left.";
+      } else {
+        this.leaveError = null;
+      }
+    }
+    else if (value == 'wfh') {
+      if (!this.leaveData.wfh) {
+        this.leaveData.wfh = 0
+      }
+      if (this.leaveData.wfh < this.leaveRequestForm.get("totalDays").value) {
+        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+          " day(s), you have only " + this.leaveData.wfh + " day(s) of " + value + " leave left.";
+      } else {
+        this.leaveError = null;
+      }
+    }
+    else {
+      this.leaveError = null;
+    }
+  }
+
+  formReset() {
+    this.leaveRequestForm.reset();
   }
 
 }

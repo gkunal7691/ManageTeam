@@ -21,7 +21,7 @@ router.post('/', async function (req, res, next) {
   Task.create({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
-    organizationId: req.user.orgId, userId: req.body.assignee, createdById: req.body.assignee
+    organizationId: req.user.orgId, userId: req.body.assignee, createdById: req.user.id
   })
     .then((data) => {
       res.json({ success: true, data: data });
@@ -44,6 +44,15 @@ router.post('/getTask/dueDate', async function (req, res, next) {
         order: [
           ['createdAt', 'desc']
         ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -71,6 +80,15 @@ router.post('/get-day-task/:userId', async function (req, res, next) {
         order: [
           ['createdAt', 'desc']
         ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -98,6 +116,15 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
         order: [
           ['createdAt', 'desc']
         ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
       }
     ],
     order: [
@@ -183,13 +210,12 @@ router.get('/:taskId', async function (req, res, next) {
     }).catch(next)
 })
 
-
 router.put('/', function (req, res, next) {
   var dueDate = new Date(req.body.dueDate)
   Task.update({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-    userId: req.body.assignee, isCloned: req.body.clonned, updatedById: req.body.assignee
+    userId: req.body.assignee, isCloned: req.body.clonned, updatedById: req.user.id
   }, { where: { taskId: req.body.taskId } })
     .then((data) => {
       res.json({ success: true, data: data });
@@ -200,9 +226,10 @@ router.put('/edit/reOrder', function (req, res, next) {
   let order = 1;
   let count = 0;
   req.body.forEach((task, index, array) => {
+    console.log(task.taskId, order)
     Task.update({
       order: order
-    }, { where: { taskId: task.taskId, organizationId: req.user.orgId, updatedById: req.body.assignee } }).then(() => {
+    }, { where: { taskId: task.taskId, organizationId: req.user.orgId } }).then(() => {
       if (count == array.length - 1) {
         res.json({ success: true });
       }
