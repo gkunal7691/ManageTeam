@@ -61,6 +61,7 @@ app.use('/admin/aprofile', express.static('dist'));
 app.use('/admin/leave-request', express.static('dist'));
 app.use('/admin/admin-employee', express.static('dist'));
 app.use('/admin/month-view', express.static('dist'));
+app.use('/admin/backlog', express.static('dist'));
 
 app.use('/superadmin/sadashboard', express.static('dist'));
 app.use('/superadmin/admin', express.static('dist'));
