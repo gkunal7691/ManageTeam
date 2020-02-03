@@ -28,14 +28,14 @@ const TimeAttendance = {
 };
 
 const AdminDashboard = {
-    text: 'Dashboard',
+    text: 'Day View',
     link: '/admin/adashboard',
     icon: 'icon-speedometer',
     roleId: [2]
 };
 
 const AdminTimeAttendance = {
-    text: 'Manage Time',
+    text: 'Month View',
     link: '/admin/manage-time',
     icon: 'icon-clock',
     roleId: [2],

@@ -63,6 +63,7 @@ export class BacklogComponent implements OnInit {
   }
 
   reOrder(event: CdkDragDrop<string[]>) {
+    console.log(this.backLogTasks)
     moveItemInArray(this.backLogTasks, event.previousIndex, event.currentIndex);
     this.taskService.reOrderMenu(this.backLogTasks).subscribe((res: any) => {
       swal('Success', 'Backlog Task has been Reordered successfully', 'success');

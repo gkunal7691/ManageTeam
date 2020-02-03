@@ -13,6 +13,7 @@ import { MoveToNextDateModalComponent } from './components/move-to-next-date-mod
 import { CommentModalComponent } from './components/comment-modal/comment-modal.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { TaskContentComponent } from './components/task-content/task-content.component';
+import { DayViewComponent } from './components/day-view/day-view.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TaskContentComponent } from './components/task-content/task-content.com
     MoveToNextDateModalComponent,
     CommentModalComponent,
     BacklogComponent,
-    TaskContentComponent
+    TaskContentComponent,
+    DayViewComponent
   ],
   imports: [
     CommonModule,
