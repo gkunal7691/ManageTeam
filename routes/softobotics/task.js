@@ -21,7 +21,7 @@ router.post('/', async function (req, res, next) {
   Task.create({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, createdBy: req.user.id,
-    organizationId: req.user.orgId, userId: req.body.assignee, createdById: req.user.id
+    organizationId: req.user.orgId, userId: req.body.assignee, createdById: req.user.id, isDoubt: req.body.isDoubt
   })
     .then((data) => {
       res.json({ success: true, data: data });
@@ -215,7 +215,7 @@ router.put('/', function (req, res, next) {
   Task.update({
     title: req.body.title, description: req.body.description, dueDate: dueDate, priority: req.body.priority,
     status: req.body.status, estimatedTime: req.body.estimatedTime, originalTime: req.body.originalTime, clientTime: req.body.clientTime, updatedBy: req.user.id,
-    userId: req.body.assignee, isCloned: req.body.clonned, updatedById: req.user.id
+    userId: req.body.assignee, isCloned: req.body.clonned, updatedById: req.user.id, isDoubt: req.body.isDoubt
   }, { where: { taskId: req.body.taskId } })
     .then((data) => {
       res.json({ success: true, data: data });
