@@ -51,6 +51,7 @@ export class TaskContentComponent implements OnInit {
       clientMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
       originalHour: ['', [Validators.required, Validators.maxLength(1)]],
       originalMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59)]],
+      isDoubt: ['']
     });
     if (!this.userList && !this.userId) {
       if (this.router.url != '/employee/backlog' && this.router.url != '/admin/backlog') {
@@ -166,7 +167,7 @@ export class TaskContentComponent implements OnInit {
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId
+        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId, isDoubt: this.taskForm.get('isDoubt').value
       }).subscribe((res: any) => {
         swal('Success', 'Task(TMS-' + this.task.taskId + ') is edited :)', 'success');
         this.updateTaskList.emit(this.taskForm.value);
@@ -194,7 +195,7 @@ export class TaskContentComponent implements OnInit {
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: selectedAssignne
+        assignee: selectedAssignne, isDoubt: this.taskForm.get('isDoubt').value
       }).subscribe((res: any) => {
         if (res.data != "Error Cant Add") {
           swal('Success', 'Task is added :)', 'success');
@@ -238,6 +239,7 @@ export class TaskContentComponent implements OnInit {
       this.taskForm.get('priority').setValue(this.task.priority);
       this.taskForm.get('assignee').setValue(this.task.userId);
       this.taskForm.get('status').setValue(this.task.status);
+      this.taskForm.get('isDoubt').setValue(this.task.isDoubt);
       this.taskForm.get('estimatedHour').setValue(convEstimatedHours);
       this.taskForm.get('estimatedMin').setValue(convEstimatedmin);
       this.taskForm.get('clientHour').setValue(convclientHours);

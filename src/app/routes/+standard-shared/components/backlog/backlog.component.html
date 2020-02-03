@@ -3,13 +3,42 @@
         Backlog Tasks
     </div>
     <div class="col-5">
-        <button type="button" class="btn btn-primary float-right" (click)="addTask()" data-toggle="modal"
-            data-target=".dailyTaskModal">Add Task</button>
+        <div class="row">
+            <div class="col-xl-9 col-lg-8 col-7 p-0">
+                <div class="btn-group float-right" dropdown>
+                    <button class="btn btn-secondary" type="button" dropdownToggle>
+                        <em class="fa-2x mr-2 fas fa-filter" style="font-size: 15px;"></em>Filter
+                        <b class="caret"></b>
+                    </button>
+                    <div *dropdownMenu class="dropdown-menu" role="menu">
+                        <div class="form-check-inline">
+                            <label class="checkbox c-checkbox">
+                                <input type="checkbox" class="form-check-input"
+                                    (change)="filterUser($event.target.checked,null)"><span
+                                    class="fa fa-check"></span>Unsassigned
+                            </label>
+                        </div>
+                        <div *ngFor="let user of userList" class="form-check-inline">
+                            <label class="checkbox c-checkbox">
+                                <input type="checkbox" class="form-check-input"
+                                    (change)="filterUser($event.target.checked,user.id)"><span
+                                    class="fa fa-check"></span>{{user.firstName}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-5 pl-0">
+                <button type="button" class="btn btn-primary float-right" (click)="addTask()" data-toggle="modal"
+                    data-target=".dailyTaskModal">Add Task
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row mt-2 justify-content-center">
-    <div cdkDropList [cdkDropListData]="backLogTasks" class="menu-list" (cdkDropListDropped)="reOrder($event)">
-        <div class="menu-box" *ngFor="let task of backLogTasks" cdkDrag>
+    <div cdkDropList [cdkDropListData]="filteredBacklogTask" class="menu-list" (cdkDropListDropped)="reOrder($event)">
+        <div class="menu-box" *ngFor="let task of filteredBacklogTask" cdkDrag>
             <a>
                 <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
                 <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
@@ -33,13 +62,14 @@
                 <button type="button" class="btn btn-success float-right" data-toggle="modal"
                     data-target=".nextDateModal" (click)="moveTask(task)">Move to</button>
                 <span class="moveTop">
-                    <span *ngIf="task.user == null" class="badge badge-success float-right mr-1">
+                    <span *ngIf="task.user == null" class="badge badge-info float-right mr-1">
                         Unsassigned
                     </span>
-                    <span *ngIf="task.user != null" class="badge badge-info float-right mr-1">
+                    <span *ngIf="task.user != null" class="badge badge-success float-right mr-1">
                         {{task.user.firstName}} {{task.user.lastName}}
                     </span>
                     <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                    <em *ngIf="task?.isDoubt == true" class="fas fa-flag float-right mr-2 flagAlign"></em>
                 </span>
             </a>
         </div>

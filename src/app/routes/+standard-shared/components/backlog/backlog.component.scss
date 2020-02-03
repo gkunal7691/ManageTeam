@@ -23,11 +23,11 @@
   height: 50px;
 }
 
-.addCursor{
+.addCursor {
   cursor: context-menu;
 }
 
-.moveTop{
+.moveTop {
   position: relative !important;
   top: 10px !important;
 }
@@ -54,3 +54,9 @@
   font-size: 18px;
 }
 
+.flagAlign {
+  font-size: 30px;
+  position: relative;
+  bottom: 5px;
+  color: #dc3545;
+}
