@@ -61,6 +61,7 @@
                 </div>
                 <div class="row">
                   <select class="form-control mb-1" [formControl]="taskForm.controls['assignee']">
+                    <option [selected]="true" value=""> Please Select an Assignee</option>
                     <option *ngFor="let user of userList" [value]="user.id">
                       {{user.firstName}} {{user.lastName}}
                     </option>

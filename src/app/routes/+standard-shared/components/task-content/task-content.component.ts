@@ -44,7 +44,7 @@ export class TaskContentComponent implements OnInit {
       dueDate: [''],
       priority: [''],
       status: [''],
-      assignee: [''],
+      assignee: ['', [Validators.required, this.validateAssignee.bind(this)]],
       estimatedHour: ['', [Validators.required, Validators.maxLength(1), Validators.max(8), this.validateEstimatedHour.bind(this)]],
       estimatedMin: ['', [Validators.required, Validators.maxLength(2), Validators.max(59), this.validateEstimatedMin.bind(this)]],
       clientHour: ['', [Validators.required, Validators.maxLength(1)]],
@@ -86,6 +86,17 @@ export class TaskContentComponent implements OnInit {
     this.taskService.getSelectedDateTask(userId, dueDate).subscribe((res: any) => {
       this.totalEstimatedTime = res.data;
     })
+  }
+
+  validateAssignee(control: AbstractControl) {
+    if (this.taskForm) {
+      if (this.router.url == '/employee/backlog') {
+        this.taskForm.get('assignee').setValidators(null)
+      }
+      else {
+        return null;
+      }
+    }
   }
 
   validateEstimatedHour(control: AbstractControl) {
@@ -172,11 +183,18 @@ export class TaskContentComponent implements OnInit {
       let orignialHour = this.taskForm.get('originalHour').value;
       let orignalMin = this.taskForm.get('originalMin').value;
       totalOriginalTime = (orignialHour * 60) + orignalMin;
+      let selectedAssignne;
+      if (this.taskForm.get('assignee').value == '') {
+        selectedAssignne = null;
+      }
+      else {
+        selectedAssignne = this.taskForm.get('assignee').value
+      }
       this.taskService.addTask({
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: this.taskForm.get('assignee').value
+        assignee: selectedAssignne
       }).subscribe((res: any) => {
         if (res.data != "Error Cant Add") {
           swal('Success', 'Task is added :)', 'success');
@@ -235,6 +253,7 @@ export class TaskContentComponent implements OnInit {
       this.showCommentButton = false;
       this.showCommentSecton = false;
       if (this.taskForm) {
+        console.log(this.dueDate)
         this.taskForm.enable();
         this.taskForm.get('title').reset();
         this.taskForm.get('title').setValidators([Validators.required]);
@@ -245,7 +264,12 @@ export class TaskContentComponent implements OnInit {
         this.taskForm.get('clientMin').reset();
         this.taskForm.get('originalHour').reset();
         this.taskForm.get('originalMin').reset();
-        this.taskForm.get('assignee').setValue(this.userId);
+        if (this.dueDate == undefined || new Date(this.dueDate).getFullYear() == 1970) {
+          this.taskForm.get('assignee').setValue('');
+        }
+        else {
+          this.taskForm.get('assignee').setValue(this.userId);
+        }
         this.taskForm.get('priority').setValue("normal");
         this.taskForm.get('status').setValue("planned");
         this.taskForm.get('clientHour').disable();
