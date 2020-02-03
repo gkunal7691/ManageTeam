@@ -37,6 +37,7 @@ export class DayViewComponent implements OnInit {
   }
 
   selectedUserTask(value) {
+    console.log(value)
     this.userId = value;
     this.getUpdatedTaskList();
   }

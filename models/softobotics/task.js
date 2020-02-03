@@ -49,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
+        isDoubt: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        }
 
     }, {
         tableName: 'task',

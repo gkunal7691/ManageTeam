@@ -1,15 +1,15 @@
 <div class="modal-dialog modal-dialog-centered modal-lg" [ngClass]="{'modalsize':modalWidthControl}">
   <div class="modal-content">
     <div class="modal-header p-1">
-      <div class="col">
+      <div class="col-5 pr-0">
         <h4 class="mb-0">{{taskTitle}}</h4>
         <div class="row">
           <a *ngIf="task" href="{{url.origin}}/employee/task/{{task?.taskId}}" class="ml-3"
             target="_blank">{{url.origin}}/employee/task/{{task?.taskId}}</a>
         </div>
       </div>
-      <div class="col">
-        <h5 class="pt-1" style="text-align: right;">Estimated Time Left:
+      <div class="col-5 pl-0">
+        <h5 class="pt-1">Estimated Time Left:
           <span>{{480 - totalEstimatedTime | customDate}}</span></h5>
       </div>
       <div *ngIf="!modalWidthControl" class="col float-right">
@@ -61,6 +61,7 @@
                 </div>
                 <div class="row">
                   <select class="form-control mb-1" [formControl]="taskForm.controls['assignee']">
+                    <option [selected]="true" value=""> Please Select an Assignee</option>
                     <option *ngFor="let user of userList" [value]="user.id">
                       {{user.firstName}} {{user.lastName}}
                     </option>
@@ -200,6 +201,14 @@
                       taskForm.controls['originalMin'].touched ">
                       <i>Invalid original minute(s).</i>
                     </div>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="checkbox c-checkbox">
+                    <label class="mb-0">
+                      <input [formControl]="taskForm.controls['isDoubt']" type="checkbox"><span
+                        class="fa fa-check"></span><b>Have Doubt</b>
+                    </label>
                   </div>
                 </div>
               </div>

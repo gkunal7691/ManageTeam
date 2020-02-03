@@ -12,10 +12,13 @@ declare var swal: any;
 })
 export class BacklogComponent implements OnInit {
 
-  backLogTasks: any;
+  allBackLogTasks: any;
+  filteredBacklogTask: any;
   userList: any;
   task: any;
   dueDate: Date;
+  userIds = [];
+  selectAllUser: boolean = true;
 
   @Output() updateTaskList = new EventEmitter();
 
@@ -30,8 +33,15 @@ export class BacklogComponent implements OnInit {
 
   getBackLogTaskList() {
     this.taskService.getBacklogTasks().subscribe((res: any) => {
-      this.backLogTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
+      this.allBackLogTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
         res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
+      this.filteredBacklogTask = this.allBackLogTasks.filter(task => {
+        if (this.userIds.length == 0) {
+          return true
+        } else {
+          return this.userIds.includes(task.userId)
+        }
+      });
     })
   }
 
@@ -42,18 +52,26 @@ export class BacklogComponent implements OnInit {
       })
   }
 
+  filterUser(value, userId) {
+    if (value) {
+      this.userIds.push(userId);
+    }
+    else {
+      this.userIds.splice(this.userIds.indexOf(userId), 1);
+    }
+    this.getBackLogTaskList();
+  }
+
   editTask(task) {
     this.task = task;
     this.dueDate = this.task.dueDate
     this.taskModal.updateTask(this.task);
-    this.getBackLogTaskList();
   }
 
   addTask() {
     this.dueDate = new Date(0);
     this.task = null;
     this.taskModal.updateTask(this.task);
-    this.getBackLogTaskList();
   }
 
   moveTask(task) {
@@ -63,9 +81,8 @@ export class BacklogComponent implements OnInit {
   }
 
   reOrder(event: CdkDragDrop<string[]>) {
-    console.log(this.backLogTasks)
-    moveItemInArray(this.backLogTasks, event.previousIndex, event.currentIndex);
-    this.taskService.reOrderMenu(this.backLogTasks).subscribe((res: any) => {
+    moveItemInArray(this.filteredBacklogTask, event.previousIndex, event.currentIndex);
+    this.taskService.reOrderMenu(this.filteredBacklogTask).subscribe((res: any) => {
       swal('Success', 'Backlog Task has been Reordered successfully', 'success');
       this.getBackLogTaskList();
     });

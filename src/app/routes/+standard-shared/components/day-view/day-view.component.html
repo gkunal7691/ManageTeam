@@ -2,7 +2,7 @@
     <div class="col-3">
         <div *ngIf="loginService.currentUser.roleId == 2">
             <select class="form-control" (change)="selectedUserTask($event.target.value)">
-                <option>Please Select an Employee</option>
+                <option value="null">Please Select an Employee</option>
                 <option *ngFor="let user of userList" [value]="user.id">{{user.firstName}}
                     <span class="mr-2">{{user.lastName}}</span>
                 </option>
