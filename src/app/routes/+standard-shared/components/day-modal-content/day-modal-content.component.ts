@@ -70,6 +70,9 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   filterTaskList() {
     this.newStacked = [];
     let d = new Date(this.dueDate)
+    this.plannedTaskList = [];
+    this.progressTaskList = [];
+    this.completedTaskList = [];
     if (this.taskList) {
       this.plannedTaskList = this.taskList.filter(task => task.status == "planned" && new Date(task.dueDate).getDate() == d.getDate())
       let plannedCrticalTask = this.plannedTaskList.filter(task => task.priority == "critical");

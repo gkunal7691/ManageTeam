@@ -255,7 +255,6 @@ export class TaskContentComponent implements OnInit {
       this.showCommentButton = false;
       this.showCommentSecton = false;
       if (this.taskForm) {
-        console.log(this.dueDate)
         this.taskForm.enable();
         this.taskForm.get('title').reset();
         this.taskForm.get('title').setValidators([Validators.required]);
