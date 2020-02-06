@@ -175,7 +175,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   updateStatus(task, status) {
     if (status != 'completed') {
       this.taskService.editTask({
-        status: status, taskId: task.taskId, dueDate: task.dueDate
+        status: status, taskId: task.taskId, dueDate: task.dueDate, action: 'Task is moved ' + status
       }).subscribe((res: any) => {
         this.getDayTask();
         if (status == 'progress') {
@@ -192,7 +192,6 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   reOrder(event: CdkDragDrop<string[]>, taskList) {
-    console.log(taskList)
     moveItemInArray(taskList, event.previousIndex, event.currentIndex);
     this.taskService.reOrderMenu(taskList).subscribe((res: any) => {
       swal('Success', 'Task has been Reordered', 'success');
@@ -217,7 +216,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   moveToBacklog(taskId) {
-    this.taskService.editTask({ taskId: taskId, dueDate: new Date(0) }).subscribe((res: any) => {
+    this.taskService.editTask({ taskId: taskId, dueDate: new Date(0), action: 'Task is moved to Backlog' }).subscribe((res: any) => {
       swal('Moved', 'Task(TMS-' + taskId + ') has been moved :)', 'warning');
       this.getDayTask();
     })

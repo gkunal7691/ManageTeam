@@ -1,39 +1,51 @@
-const express = require('express');
-const router = express.Router();
 const nodemailer = require("nodemailer");
+const Task = require('../../models').Task;
+const User = require('../../models').User;
 
-router.post('/', async function (req, res, next) {
-    console.log("hello");
-    let transporter = nodemailer.createTransport({
-        host: "mail.softobotics.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: 'notification@softobotics.com', // generated ethereal user
-            pass: 'notification@123' // generated ethereal password
-        }
-    });
+module.exports = {
+    taskMailer: async function (req, action, taskId) {
+        let link = 'href="https:// ' + req.headers.host + '/employee/task/';
+        let compMail = 'piysuh.dutta@softobotics.com';
+        Task.findOne({
+            where: {
+                taskId: taskId
+            },
+            include: [
+                {
+                    model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+                },
+            ],
+        })
+            .then((data) => {
+                let transporter = nodemailer.createTransport({
+                    host: "mail.softobotics.com",
+                    port: 465,
+                    secure: true,
+                    auth: {
+                        user: 'notification@softobotics.com',
+                        pass: 'notification@123'
+                    }
+                });
+                var mailOptions = {
+                    from: 'notification@softobotics.com',
+                    to: `${data.user.email}`,
+                    cc: `${compMail}`,
+                    subject: 'Softobotics, TMS-' + `${data.taskId} ` + `${data.title}, ` + ` ${action}`,
+                    html: '<a style="font-size:18px"' + `${link.concat(data.taskId)}">` + 'TMS-' + `${data.taskId}` + '</a>' +
+                        '<p style="font-size:18px;><span style="font-size:20px;color:black;font-weight: bold;">TMS-' + data.taskId + '</span> &nbsp;' +
+                        action + '&nbsp; by &nbsp;' + data.user.firstName + '&nbsp;' + data.user.lastName + ' in TMS at &nbsp;' + `${data.updatedAt} </p>`
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        res.json({ success: false, data: error });
 
-    var mailOptions = {
-        from: 'gaurav.kunal@softobotics.com',
-        to: 'gkunal7691@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-    };
+                    } else {
+                        console.log('Email sent: ' + info);
+                        res.json({ success: true, data: info });
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-            res.json({ success: false, data: error });
-
-        } else {
-            console.log('Email sent: ' + info);
-            res.json({ success: true, data: info });
-
-        }
-    });
-
-});
-
-
-module.exports = router;
+                    }
+                });
+            })
+    }
+};

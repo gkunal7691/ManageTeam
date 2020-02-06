@@ -12,14 +12,14 @@ export class HolidayService {
   private holiday: any;
   private holidayDelete: any;
 
- 
 
-  constructor(private httpClient: HttpClient, private cacheService: CacheService) { 
+
+  constructor(private httpClient: HttpClient, private cacheService: CacheService) {
     const env: any = environment;
     this.apiPath = env.paths.api;
     this.holiday = 'holiday';
     this.holidayDelete = 'holiday/delete';
-  
+
   }
 
   getHeaders() {
@@ -30,19 +30,19 @@ export class HolidayService {
     }
   }
 
-  createHolidayList(val){
-    return this.httpClient.post<object>(`${this.apiPath}/${this.holiday}/`,val,this.getHeaders());
+  createHolidayList(val) {
+    return this.httpClient.post<object>(`${this.apiPath}/${this.holiday}/`, val, this.getHeaders());
   }
 
-  getHolidayList(){
-    return this.httpClient.get<object>(`${this.apiPath}/${this.holiday}/`,this.getHeaders());
-  }
-  
-  updateHoliday(holidayId){
-    return this.httpClient.put<object>(`${this.apiPath}/${this.holiday}/`,holidayId, this.getHeaders());
+  getHolidayList() {
+    return this.httpClient.get<object>(`${this.apiPath}/${this.holiday}/`, this.getHeaders());
   }
 
-  deleteHoliday(holidayId){
-    return this.httpClient.put<object>(`${this.apiPath}/${this.holidayDelete}/`,holidayId , this.getHeaders());
+  updateHoliday(holidayId) {
+    return this.httpClient.put<object>(`${this.apiPath}/${this.holiday}/`, holidayId, this.getHeaders());
+  }
+
+  deleteHoliday(holidayId) {
+    return this.httpClient.put<object>(`${this.apiPath}/${this.holidayDelete}/`, holidayId, this.getHeaders());
   }
 }

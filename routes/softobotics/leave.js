@@ -256,6 +256,28 @@ router.put('/', function (req, res, next) {
 
 })
 
+
+
+router.post('/get-leave-approved-list', async function (req, res, next) {
+
+   Leave.findAll({
+      where: {
+         fromDate: {
+            $between: [req.body.firstDay, req.body.lastDay]
+         },
+         $and: {
+            toDate: {
+               $between: [req.body.firstDay, req.body.lastDay]
+            }
+         },
+         status: 'approved', userId: req.user.id, organizationId: req.user.orgId
+      }
+   }).then((data) => {
+      res.json({ success: true, data: data })
+   }).catch(next);
+})
+
+
 router.put('/cancel', function (req, res, next) {
    Leave.update({ status: 'cancelled' }, { where: { leaveId: req.body.leaveId, userId: req.user.id } }).then((data) => {
       res.json({ success: true, data: data });

@@ -10,14 +10,16 @@ import { CacheService } from './cache.service';
 export class LeaveRequestService {
   private apiPath: string;
   private leaveRequest: any;
-  private leaveRequestlist:any;
+  private leaveRequestlist: any;
+  private approvedLeave: any;
   private singleLeaveData: any;
 
-  constructor(private httpClient: HttpClient, private cacheService: CacheService) { 
+  constructor(private httpClient: HttpClient, private cacheService: CacheService) {
     const env: any = environment;
     this.apiPath = env.paths.api;
     this.leaveRequest = 'leave';
     this.leaveRequestlist = 'leave/leaverequestlist';
+    this.approvedLeave = 'leave/get-leave-approved-list';
     this.singleLeaveData = 'leave';
   }
 
@@ -29,16 +31,21 @@ export class LeaveRequestService {
     }
   }
 
-  getLeaveRequestList(val){
-    return this.httpClient.post<object>(`${this.apiPath}/${this.leaveRequestlist}/`,val,this.getHeaders());
+  getLeaveRequestList(val) {
+    return this.httpClient.post<object>(`${this.apiPath}/${this.leaveRequestlist}/`, val, this.getHeaders());
   }
 
-  updateLeaveStatus(val){
-    return this.httpClient.put<object>(`${this.apiPath}/${this.leaveRequest}/`, val,this.getHeaders());
+  updateLeaveStatus(val) {
+    return this.httpClient.put<object>(`${this.apiPath}/${this.leaveRequest}/`, val, this.getHeaders());
   }
 
   getSingleLeaveData(userId) {
-    return this.httpClient.get<object>(`${this.apiPath}/${this.singleLeaveData}/`+userId, this.getHeaders());
+    return this.httpClient.get<object>(`${this.apiPath}/${this.singleLeaveData}/` + userId, this.getHeaders());
   }
-  
+
+  getApprovedLeaveData(val) {
+    console.log(val)
+    return this.httpClient.post<object>(`${this.apiPath}/${this.approvedLeave}/`, val, this.getHeaders());
+  }
+
 }
