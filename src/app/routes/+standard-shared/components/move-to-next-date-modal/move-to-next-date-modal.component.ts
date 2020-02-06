@@ -171,7 +171,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
           taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
-          estimatedTime: totalEstimatedTime, action: 'Task is moved'
+          estimatedTime: totalEstimatedTime, action: 'Moved to' + new Date(this.nextDate).toLocaleDateString()
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
@@ -183,7 +183,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
           title: this.task.title, description: this.task.description,
           dueDate: this.nextDate, priority: this.task.priority, status: this.task.status,
           estimatedTime: totalEstimatedTime, originalTime: this.task.originalTime, clientTime: this.task.clientTime,
-          assignee: this.nextDateModalForm.get('assignee').value, action: 'Task is clonned'
+          assignee: this.nextDateModalForm.get('assignee').value, action: 'Clonned to ' + new Date(this.nextDate).toLocaleDateString()
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
@@ -201,7 +201,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
           taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
-          estimatedTime: totalEstimatedTime, action: 'Task is moved'
+          estimatedTime: totalEstimatedTime, action: 'Moved to ' + new Date(this.nextDate).toLocaleDateString()
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();

@@ -168,7 +168,7 @@ export class TaskContentComponent implements OnInit {
         dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
         assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId, isDoubt: this.taskForm.get('isDoubt').value,
-        action: 'Task is edited'
+        action: 'Updated'
       }).subscribe((res: any) => {
         swal('Success', 'Task(TMS-' + this.task.taskId + ') is edited :)', 'success');
         this.updateTaskList.emit(this.taskForm.value);
@@ -197,7 +197,7 @@ export class TaskContentComponent implements OnInit {
         dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
         assignee: selectedAssignne, isDoubt: this.taskForm.get('isDoubt').value,
-        action: 'Task is added'
+        action: 'Created'
       }).subscribe((res: any) => {
         if (res.data != "Error Cant Add") {
           swal('Success', 'Task is added :)', 'success');

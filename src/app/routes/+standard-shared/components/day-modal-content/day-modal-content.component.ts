@@ -175,7 +175,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   updateStatus(task, status) {
     if (status != 'completed') {
       this.taskService.editTask({
-        status: status, taskId: task.taskId, dueDate: task.dueDate, action: 'Task is moved ' + status
+        status: status, taskId: task.taskId, dueDate: task.dueDate, action: 'Moved to Progress'
       }).subscribe((res: any) => {
         this.getDayTask();
         if (status == 'progress') {

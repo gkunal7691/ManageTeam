@@ -38,6 +38,7 @@ export class TaskService {
   }
 
   getTaskList(dueDate) {
+    console.log(dueDate)
     return this.httpClient.post<object>(`${this.apiPath}/${this.getTask}/`, dueDate, this.getHeaders())
   }
 
