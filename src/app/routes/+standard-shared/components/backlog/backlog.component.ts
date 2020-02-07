@@ -27,12 +27,13 @@ export class BacklogComponent implements OnInit {
   constructor(private taskService: TaskService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
-    this.getUserList();
+    // this.getPreviousTaskList();
     this.getBackLogTaskList();
   }
 
   getBackLogTaskList() {
     this.taskService.getBacklogTasks().subscribe((res: any) => {
+      this.getUserList();
       this.allBackLogTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
         res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
       this.filteredBacklogTask = this.allBackLogTasks.filter(task => {
@@ -44,6 +45,17 @@ export class BacklogComponent implements OnInit {
       });
     })
   }
+
+  // getPreviousTaskList() {
+  //   let currentDate = new Date().getDate() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getFullYear();
+  //   let previousDate = new Date(); // get today date
+  //   previousDate.setDate(previousDate.getDate() - 7);
+  //   let finalDate = previousDate.getFullYear() + '-' + ((previousDate.getMonth() + 1) < 10 ? '0' : '') + (previousDate.getMonth() + 1) + '-' + previousDate.getDate();
+  //   console.log(currentDate, finalDate)
+  //   // this.taskService.getTaskList('').subscribe((res: any) => {
+  //   //   console.log(res)
+  //   // })
+  // }
 
   getUserList() {
     this.employeeService.getEmployeeList().subscribe(

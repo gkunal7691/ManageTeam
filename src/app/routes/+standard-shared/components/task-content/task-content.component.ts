@@ -167,7 +167,8 @@ export class TaskContentComponent implements OnInit {
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId, isDoubt: this.taskForm.get('isDoubt').value
+        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId, isDoubt: this.taskForm.get('isDoubt').value,
+        action: 'Updated'
       }).subscribe((res: any) => {
         swal('Success', 'Task(TMS-' + this.task.taskId + ') is edited :)', 'success');
         this.updateTaskList.emit(this.taskForm.value);
@@ -195,7 +196,8 @@ export class TaskContentComponent implements OnInit {
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: selectedAssignne, isDoubt: this.taskForm.get('isDoubt').value
+        assignee: selectedAssignne, isDoubt: this.taskForm.get('isDoubt').value,
+        action: 'Created'
       }).subscribe((res: any) => {
         if (res.data != "Error Cant Add") {
           swal('Success', 'Task is added :)', 'success');
@@ -203,6 +205,9 @@ export class TaskContentComponent implements OnInit {
         else {
           swal('Warning', 'Task cannot be added :)', 'error')
         }
+        // this.mailService.sendMail({ to: 'gautam.g@softobotics.com', subject: 'testing', text: 'hey this is good' }).subscribe((res: any) => {
+        //   console.log(res)
+        // })
         this.updateTaskList.emit(this.taskForm.value);
         document.getElementById("cancel").click();
         this.taskForm.reset();

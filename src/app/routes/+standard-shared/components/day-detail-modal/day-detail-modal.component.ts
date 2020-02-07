@@ -12,6 +12,7 @@ export class DayDetailComponent implements OnInit {
   @Input() userId: any;
   @Input() userList: any;
   @Input() dueDate: any;
+  @Input() holidayList: any;
   @Output() updateTaskList = new EventEmitter();
 
   @ViewChild(DayModalContentComponent, { static: true }) dayDetail: DayModalContentComponent;
@@ -35,7 +36,6 @@ export class DayDetailComponent implements OnInit {
 
   getUpdatedTaskList() {
     this.dayDetail.getDayTask();
-    // this.updateTaskList.emit();
   }
 
   addNewTask() {
