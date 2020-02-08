@@ -5,6 +5,7 @@ import { TaskService } from '../../../../services/task.service';
 import { UserService } from '../../../../services/user.service';
 import { LoginService } from '../../../../services/login.service';
 declare var swal: any;
+declare var ClipboardJS: any;
 
 @Component({
   selector: 'app-task-content',
@@ -23,7 +24,6 @@ export class TaskContentComponent implements OnInit {
   taskForm: FormGroup
   url: any;
   taskId: any;
-
   buttonText: any;
   taskTitle: any;
 
@@ -69,6 +69,7 @@ export class TaskContentComponent implements OnInit {
     else {
       this.modalWidthControl = false;
     }
+    new ClipboardJS('#btnCopy');
   }
 
   getSingleTask(taskId) {
@@ -347,7 +348,6 @@ export class TaskContentComponent implements OnInit {
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {
-        // document.getElementById("cancel").click();
         this.onDeleteTaskPopUp();
       } else {
         swal('Cancelled', 'Task(TMS-' + this.task.taskId + ') is not deleted :)', 'error');
@@ -362,6 +362,5 @@ export class TaskContentComponent implements OnInit {
       document.getElementById("cancel").click();
     });
   }
-
 
 }
