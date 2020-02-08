@@ -213,7 +213,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="task?.title != Add Task" class="row comment mt-3">
+            <div *ngIf="taskTitle != 'Add Task'" class="row comment mt-3">
               <div class="col-6">
                 Created By : {{task?.createdBy?.firstName}} {{task?.createdBy?.lastName}}
                 <div *ngIf="task?.updatedBy != null"> Modified By : {{task?.updatedBy?.firstName}}
@@ -222,8 +222,8 @@
               </div>
               <div class="col-6">
                 Created Date/Time : {{task?.createdAt | date:'short'}}
-                <div>Modified Date/Time : <span *ngIf="task?.updatedBy != null">
-                    {{task?.updatedAt | date:'short'}}</span>
+                <div *ngIf="task?.updatedBy != null">Modified Date/Time :
+                  {{task?.updatedAt | date:'short'}}
                 </div>
               </div>
             </div>
@@ -233,7 +233,7 @@
       <div class="modal-footer ">
         <div class="row w-100 m-0">
           <div class="col-2 p-0">
-            <button type="button" *ngIf="task?.title != Add Task" class="btn btn-success" data-toggle="modal"
+            <button type="button" *ngIf="taskTitle != 'Add Task'" class="btn btn-success" data-toggle="modal"
               href=".addCommentModal">
               Add Comment
             </button>
