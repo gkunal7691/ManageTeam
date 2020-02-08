@@ -53,7 +53,7 @@ module.exports = {
                 });
                 var mailOptions = {
                     from: 'notification@softobotics.com',
-                    to: 'gautam.g@softobotics.com',
+                    to: `${mailerList}`,
                     subject: 'TMS-' + data.taskId + ' [' + action + '] ' + data.title,
                     html: '<table style="font-family: arial, sans-serif; border-collapse: collapse;"><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Task ID</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;"><a style="color: #000;" '
                         + `${link.concat(data.taskId)}">` + 'TMS-' + `${data.taskId}` + '</a>' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Title</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
