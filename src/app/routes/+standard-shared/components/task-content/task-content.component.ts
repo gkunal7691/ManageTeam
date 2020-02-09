@@ -29,8 +29,6 @@ export class TaskContentComponent implements OnInit {
 
   modalWidthControl: boolean;
   isEdit: boolean;
-  showCommentSecton: boolean;
-  showCommentButton: boolean;
   showTextButton: boolean = true;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
@@ -212,7 +210,6 @@ export class TaskContentComponent implements OnInit {
         this.updateTaskList.emit(this.taskForm.value);
         document.getElementById("cancel").click();
         this.taskForm.reset();
-        this.showCommentSecton = false;
       })
     }
   }
@@ -224,11 +221,7 @@ export class TaskContentComponent implements OnInit {
     }
     if (this.task) {
       this.isEdit = true;
-      this.showCommentButton = true;
       this.showTextButton = false;
-      if (this.task.comments && this.task.comments.length != 0) {
-        this.showCommentSecton = true;
-      }
       this.taskTitle = 'Edit Task' + '\t' + '(TMS-' + this.task.taskId + ')';
       this.taskForm.disable();
       let estimatedGetTime = this.task.estimatedTime;
@@ -258,8 +251,6 @@ export class TaskContentComponent implements OnInit {
       this.buttonText = "Submit";
       this.showTextButton = true;
       this.isEdit = false;
-      this.showCommentButton = false;
-      this.showCommentSecton = false;
       if (this.taskForm) {
         this.taskForm.enable();
         this.taskForm.get('title').reset();
