@@ -149,13 +149,47 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
 
 })
 
-router.get('/backlog/getTask', async function (req, res, next) {
-  let firstDay = '0000-00-00';
-  let lastDay = '1970-01-01';
+router.post('/backlog/getTask', async function (req, res, next) {
   Task.findAll({
     where: {
       dueDate: {
-        $between: [firstDay, lastDay]
+        $between: [req.body.firstDay, req.body.lastDay]
+      }, organizationId: req.user.orgId
+    },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      res.json({ success: true, data: data })
+    }).catch(next)
+})
+
+router.post('/upcoming-task', async function (req, res, next) {
+  console.log(req.body.dueDate, "testing")
+  Task.findAll({
+    where: {
+      dueDate: {
+        $gte: req.body.dueDate
       }, organizationId: req.user.orgId
     },
     include: [

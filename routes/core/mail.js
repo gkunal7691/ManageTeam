@@ -29,9 +29,9 @@ module.exports = {
                 let dueTimeStamp = new Date(data.dueDate).getDate() + '-' + (new Date(data.dueDate).getMonth() + 1) + '-' + new Date(data.dueDate).getFullYear() + '\t' + new Date(data.dueDate).getHours() + ':' + new Date(data.dueDate).getMinutes() + '\t' + strAmPm;
                 let isDoubt;
                 if (data.isDoubt == 1) {
-                    isDoubt = '<td style="border: 2px solid #000;text-align: left;padding: 8px;"><div style="height:12px;width:18px;background-color: #f05050;padding:8px;">Yes</div>'
+                    isDoubt = '<td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #f05050;">Yes'
                 } else {
-                    isDoubt = '<td style="border: 2px solid #000;text-align: left;padding: 8px;"><div style="height:12px;width:16px;background-color: #23b7e5;padding:8px;">No</div>'
+                    isDoubt = '<td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #28a745;">No'
                 }
                 let mailerList = [];
                 mailerList.push('gkunal7691@gmail.com');
@@ -55,21 +55,21 @@ module.exports = {
                     from: 'notification@softobotics.com',
                     to: `${mailerList}`,
                     subject: 'TMS-' + data.taskId + ' [' + action + '] ' + data.title,
-                    html: '<table style="font-family: arial, sans-serif; border-collapse: collapse;width: 100%;"><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Task ID</th><td style="border: 2px solid #000;text-align: left;padding: 8px;"><a style="color: #000;" '
+                    html: '<table style="font-family: arial, sans-serif; border-collapse: collapse;"><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Task ID</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;"><a style="color: #000;" '
                         + `${link.concat(data.taskId)}">` + 'TMS-' + `${data.taskId}` + '</a>' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Title</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
-                        + data.title + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Description</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + data.description + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Status</th><td style="border: 2px solid #000;text-align: left;padding: 8px;text-transform: capitalize;">'
-                        + data.status + '</td></tr><tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Priority</th><td style="border: 2px solid #000;text-align: left;padding: 8px;text-transform: capitalize;">'
-                        + data.priority + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Due Date</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + dueTimeStamp + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Estimated Time</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + (Math.round((data.estimatedTime / 60) * 100) / 100).toFixed(1) + '\t' + 'Hours' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Client Time</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + (Math.round((data.clientTime / 60) * 100) / 100).toFixed(1) + '\t' + 'Hours' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Original Time</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + (Math.round((data.originalTime / 60) * 100) / 100).toFixed(1) + '\t' + 'Hours' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Assignee</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + data.user.firstName + '&nbsp;' + data.user.lastName + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Has Doubt</th>'
-                        + isDoubt + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Action</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + action + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Action By User</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + req.user.firstName + '&nbsp;' + req.user.lastName + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;">Updated Timestamp</th><td style="border: 2px solid #000;text-align: left;padding: 8px;">'
-                        + timeStamp + '</td></tr></table> <br> <button style="background-color: #007bff;border-color: #007bff;float: left;margin-bottom:10px;"><a style="text-decoration: none;font-size:24px;color:#fff;" '
+                        + data.title + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Description</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + data.description + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Status</th><td style="border: 2px solid #000;text-align: left;padding: 8px;text-transform: capitalize;background-color: #e6e6e6;">'
+                        + data.status + '</td></tr><tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Priority</th><td style="border: 2px solid #000;text-align: left;padding: 8px;text-transform: capitalize;background-color: #e6e6e6;">'
+                        + data.priority + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Due Date</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + dueTimeStamp + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Estimated Time</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + (Math.round((data.estimatedTime / 60) * 100) / 100).toFixed(1) + '\t' + 'Hours' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Client Time</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + (Math.round((data.clientTime / 60) * 100) / 100).toFixed(1) + '\t' + 'Hours' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Original Time</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + (Math.round((data.originalTime / 60) * 100) / 100).toFixed(1) + '\t' + 'Hours' + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Assignee</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + data.user.firstName + '&nbsp;' + data.user.lastName + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Has Doubt</th>'
+                        + isDoubt + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Action</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + action + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Action By User</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + req.user.firstName + '&nbsp;' + req.user.lastName + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Updated Timestamp</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                        + timeStamp + '</td></tr></table> <br> <button style="background-color: #007bff;border-color: #007bff;float: left;border: 1px solid transparent;padding: .375rem .75rem;line-height: 1;border-radius: .25rem;"><a style="text-decoration: none;font-size:24px;color:#fff;" '
                         + `${link.concat(data.taskId)}">` + ' Open Task </a></button>'
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
