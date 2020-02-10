@@ -23,7 +23,7 @@ export class CommentModalComponent implements OnInit {
   }
 
   addComment() {
-    this.commentService.addComment({ comment: this.commentForm.get('comment').value, taskId: this.taskId }).subscribe((res: any) => {
+    this.commentService.addComment({ comment: this.commentForm.get('comment').value, taskId: this.taskId, action: 'Comment is added' }).subscribe((res: any) => {
       if (res.data) {
         swal('Success', 'Comment is added :)', 'success');
       }

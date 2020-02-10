@@ -3,6 +3,8 @@ const router = express.Router();
 const Task = require('../../models').Task;
 const Comment = require('../../models').Comment;
 const User = require('../../models').User;
+const Holiday = require('../../models').Holiday;
+const mail = require('../core/mail');
 
 var currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
@@ -24,6 +26,7 @@ router.post('/', async function (req, res, next) {
     organizationId: req.user.orgId, userId: req.body.assignee, createdById: req.user.id, isDoubt: req.body.isDoubt
   })
     .then((data) => {
+      mail.taskMailer(req, req.body.action, data.taskId)
       res.json({ success: true, data: data });
     }).catch(next);
 })
@@ -131,22 +134,62 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
       ['order', 'ASC'],
     ],
   })
-    .then((data) => {
+    .then((time) => {
+      let x = {}
       let totalEstimatedTime = 0;
-      data.forEach(task => {
+      time.forEach(task => {
         totalEstimatedTime += task.estimatedTime;
       })
-      res.json({ success: true, data: totalEstimatedTime })
+      x['totalEstimatedTime'] = totalEstimatedTime;
+      Holiday.findOne({ where: { organizationId: req.user.orgId, holidayDate: dueDate }, order: [['updatedAt', 'DESC']], }).then((holiday) => {
+        x['isHoliday'] = holiday;
+        res.json({ success: true, data: x });
+      }).catch(next)
     }).catch(next)
+
 })
 
-router.get('/backlog/getTask', async function (req, res, next) {
-  let firstDay = '0000-00-00';
-  let lastDay = '1970-01-01';
+router.post('/backlog/getTask', async function (req, res, next) {
   Task.findAll({
     where: {
       dueDate: {
-        $between: [firstDay, lastDay]
+        $between: [req.body.firstDay, req.body.lastDay]
+      }, organizationId: req.user.orgId
+    },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      res.json({ success: true, data: data })
+    }).catch(next)
+})
+
+router.post('/upcoming-task', async function (req, res, next) {
+  console.log(req.body.dueDate, "testing")
+  Task.findAll({
+    where: {
+      dueDate: {
+        $gte: req.body.dueDate
       }, organizationId: req.user.orgId
     },
     include: [
@@ -218,6 +261,7 @@ router.put('/', function (req, res, next) {
     userId: req.body.assignee, isCloned: req.body.clonned, updatedById: req.user.id, isDoubt: req.body.isDoubt
   }, { where: { taskId: req.body.taskId } })
     .then((data) => {
+      mail.taskMailer(req, req.body.action, req.body.taskId);
       res.json({ success: true, data: data });
     }).catch(next);
 })

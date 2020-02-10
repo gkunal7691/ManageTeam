@@ -11,9 +11,11 @@
       <div class="modal-body pr-0">
         <form>
           <div class="row justify-content-center">
-            <h6 style="text-align: center;">Estimated Time left for <span
-                *ngIf="totalEstimatedTime != null"><b>{{nextDate | date}}</b> is
-                <b>{{480 - totalEstimatedTime | customDate}}</b></span>
+            <h6 style="text-align: center;" *ngIf="totalEstimatedTime == null">Please select date to know the estimated
+              time left</h6>
+            <h6 *ngIf="totalEstimatedTime != null">Estimated Time left for task <b>TMS-{{task?.taskId}}</b> on
+              <b>{{nextDate | date}}</b> is
+              <b>{{480 - totalEstimatedTime | customDate}}</b>
             </h6>
           </div>
           <div class="row">
@@ -63,6 +65,9 @@
               <div class="text-danger" *ngIf="(nextDateModalForm.controls['newDueDate'].invalid &&
                   nextDateModalForm.controls['newDueDate'].touched)">
                 <i>Invalid Date.</i>
+              </div>
+              <div class="text-warning" *ngIf="showHoliday">
+                <i>Select Date is a Holiday</i>
               </div>
             </div>
           </div>

@@ -13,7 +13,11 @@ declare var swal: any;
 export class BacklogComponent implements OnInit {
 
   allBackLogTasks: any;
+  previousTasks: any;
+  upcomingTasks: any;
   filteredBacklogTask: any;
+  filterPreviousTask: any;
+  filterUpcomingTask: any;
   userList: any;
   task: any;
   dueDate: Date;
@@ -27,15 +31,48 @@ export class BacklogComponent implements OnInit {
   constructor(private taskService: TaskService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
-    this.getUserList();
     this.getBackLogTaskList();
   }
 
   getBackLogTaskList() {
-    this.taskService.getBacklogTasks().subscribe((res: any) => {
+    this.taskService.getBacklogTasks({ firstDay: '0000-00-00', lastDay: '1970-01-01' }).subscribe((res: any) => {
+      this.getUserList();
       this.allBackLogTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
         res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
       this.filteredBacklogTask = this.allBackLogTasks.filter(task => {
+        if (this.userIds.length == 0) {
+          return true
+        } else {
+          return this.userIds.includes(task.userId)
+        }
+      });
+    })
+  }
+
+  getPreviousTaskList() {
+    let currentDate = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    let previousDate = new Date();
+    previousDate.setDate(previousDate.getDate() - 7);
+    let finalDate = previousDate.getFullYear() + '-' + (previousDate.getMonth() + 1) + '-' + previousDate.getDate();
+    this.taskService.getBacklogTasks({ firstDay: finalDate, lastDay: currentDate }).subscribe((res: any) => {
+      this.previousTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
+        res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
+      this.filterPreviousTask = this.previousTasks.filter(task => {
+        if (this.userIds.length == 0) {
+          return true
+        } else {
+          return this.userIds.includes(task.userId)
+        }
+      });
+    })
+  }
+
+  getUpcomingTaskList() {
+    let currentDate = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    this.taskService.getUpcomingTasks({ dueDate: currentDate }).subscribe((res: any) => {
+      this.upcomingTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
+        res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
+      this.filterUpcomingTask = this.upcomingTasks.filter(task => {
         if (this.userIds.length == 0) {
           return true
         } else {
@@ -60,6 +97,8 @@ export class BacklogComponent implements OnInit {
       this.userIds.splice(this.userIds.indexOf(userId), 1);
     }
     this.getBackLogTaskList();
+    this.getPreviousTaskList();
+    this.getUpcomingTaskList();
   }
 
   editTask(task) {

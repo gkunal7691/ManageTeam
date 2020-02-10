@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
+import { LeaveRequestService } from '../../../../services/leave-request.service';
 declare var swal: any;
 
 @Component({
@@ -11,12 +12,6 @@ declare var swal: any;
 })
 
 export class MoveToNextDateModalComponent implements OnInit, OnChanges {
-  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    if (this.task && this.nextDateModalForm) {
-      this.nextDateModalForm.get('assignee').setValue(this.task.userId)
-      this.ref.detectChanges();;
-    }
-  }
 
   @Input() task: any;
   @Output() updateTaskList = new EventEmitter();
@@ -26,12 +21,14 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
   nextDate: any;
   totalEstimatedTime: number;
   nextDateModalForm: FormGroup;
+  showHoliday: boolean
   bsValue = new Date();
   bsConfig = {
     containerClass: 'theme-angle'
   }
 
-  constructor(private fb: FormBuilder, private taskService: TaskService, public router: Router, private ref: ChangeDetectorRef) { }
+  constructor(private fb: FormBuilder, private taskService: TaskService, public router: Router,
+    private ref: ChangeDetectorRef, private leaveRequest: LeaveRequestService) { }
 
   ngOnInit() {
     this.nextDateModalForm = this.fb.group({
@@ -40,6 +37,13 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
       newDueDate: ['', [Validators.required, this.validateNewDueDate.bind(this)]],
       assignee: ['', [Validators.required]],
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.task && this.nextDateModalForm) {
+      this.nextDateModalForm.get('assignee').setValue(this.task.userId)
+      this.ref.detectChanges();;
+    }
   }
 
   validateEstimatedHour(control: AbstractControl) {
@@ -125,12 +129,32 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
     if (this.nextDate) {
       let dueDate = this.nextDate.getFullYear() + '-' + (this.nextDate.getMonth() + 1) + '-' + this.nextDate.getDate();
       this.taskService.getSelectedDateTask(this.nextDateModalForm.get('assignee').value, dueDate).subscribe((res: any) => {
-        this.totalEstimatedTime = res.data;
+        this.totalEstimatedTime = res.data.totalEstimatedTime;
+        if (res.data.isHoliday != null) {
+          this.showHoliday = true;
+        }
+        else {
+          this.showHoliday = false;
+        }
         this.nextDateModalForm.get('newEstimatedHour').setValue(0);
         this.nextDateModalForm.get('newEstimatedMin').setValue(0);
       })
     }
   }
+
+  // getSelectedDayLeave() {
+  //   this.leaveRequest.getApprovedLeaveData({ firstDay: '2020-02-01', lastDay: '2020-02-29' }).subscribe((res: any) => {
+  //     console.log(res)
+  //     res.data.forEach(leave => {
+  //       if (new Date(this.nextDate).getDate() + '/' + (new Date(this.nextDate).getMonth() + 1) + '/' + new Date(this.nextDate).getFullYear() ==
+  //         new Date(leave.fromDate).getDate() + '/' + (new Date(leave.fromDate).getMonth() + 1) + '/' + new Date(leave.fromDate).getFullYear()) {
+  //         if (new Date(this.nextDate).getDate() + '/' + (new Date(this.nextDate).getMonth() + 1) + '/' + new Date(this.nextDate).getFullYear() <=
+  //           new Date(leave.toDate).getDate() + '/' + (new Date(leave.toDate).getMonth() + 1) + '/' + new Date(leave.toDate).getFullYear())
+  //           console.log("test")
+  //       }
+  //     })
+  //   })
+  // }
 
   moveTask() {
     let newEstimatedHour = this.nextDateModalForm.get('newEstimatedHour').value;
@@ -147,7 +171,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
           taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
-          estimatedTime: totalEstimatedTime
+          estimatedTime: totalEstimatedTime, action: 'Moved to' + new Date(this.nextDate).toLocaleDateString()
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
@@ -159,13 +183,14 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
           title: this.task.title, description: this.task.description,
           dueDate: this.nextDate, priority: this.task.priority, status: this.task.status,
           estimatedTime: totalEstimatedTime, originalTime: this.task.originalTime, clientTime: this.task.clientTime,
-          assignee: this.nextDateModalForm.get('assignee').value,
+          assignee: this.nextDateModalForm.get('assignee').value, action: 'Clonned to ' + new Date(this.nextDate).toLocaleDateString()
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();
         })
         this.taskService.editTask({
-          taskId: this.task.taskId, clonned: 1, dueDate: this.task.dueDate, assignee: this.nextDateModalForm.get('assignee').value
+          taskId: this.task.taskId, clonned: 1, dueDate: this.task.dueDate, estimatedTime: 0,
+          assignee: this.nextDateModalForm.get('assignee').value,
         }).subscribe((res: any) => {
           this.updateTaskList.emit()
           this.cancelTask()
@@ -176,7 +201,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
         this.nextDate.setHours(this.nextDate.getHours() + 5, 30)
         this.taskService.editTask({
           taskId: this.task.taskId, dueDate: this.nextDate, assignee: this.nextDateModalForm.get('assignee').value,
-          estimatedTime: totalEstimatedTime
+          estimatedTime: totalEstimatedTime, action: 'Moved to ' + new Date(this.nextDate).toLocaleDateString()
         }).subscribe((res: any) => {
           this.updateTaskList.emit();
           this.cancelTask();

@@ -5,6 +5,7 @@ import { TaskService } from '../../../../services/task.service';
 import { UserService } from '../../../../services/user.service';
 import { LoginService } from '../../../../services/login.service';
 declare var swal: any;
+declare var ClipboardJS: any;
 
 @Component({
   selector: 'app-task-content',
@@ -23,14 +24,11 @@ export class TaskContentComponent implements OnInit {
   taskForm: FormGroup
   url: any;
   taskId: any;
-
   buttonText: any;
   taskTitle: any;
 
   modalWidthControl: boolean;
   isEdit: boolean;
-  showCommentSecton: boolean;
-  showCommentButton: boolean;
   showTextButton: boolean = true;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
@@ -69,6 +67,7 @@ export class TaskContentComponent implements OnInit {
     else {
       this.modalWidthControl = false;
     }
+    new ClipboardJS('#btnCopy');
   }
 
   getSingleTask(taskId) {
@@ -167,7 +166,8 @@ export class TaskContentComponent implements OnInit {
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: this.task.dueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId, isDoubt: this.taskForm.get('isDoubt').value
+        assignee: this.taskForm.get('assignee').value, taskId: this.task.taskId, isDoubt: this.taskForm.get('isDoubt').value,
+        action: 'Updated'
       }).subscribe((res: any) => {
         swal('Success', 'Task(TMS-' + this.task.taskId + ') is edited :)', 'success');
         this.updateTaskList.emit(this.taskForm.value);
@@ -195,7 +195,8 @@ export class TaskContentComponent implements OnInit {
         title: this.taskForm.get('title').value, description: this.taskForm.get('description').value,
         dueDate: addDueDate, priority: this.taskForm.get('priority').value, status: this.taskForm.get('status').value,
         estimatedTime: totalEstimatedMin, originalTime: totalOriginalTime, clientTime: totalClientMin,
-        assignee: selectedAssignne, isDoubt: this.taskForm.get('isDoubt').value
+        assignee: selectedAssignne, isDoubt: this.taskForm.get('isDoubt').value,
+        action: 'Created'
       }).subscribe((res: any) => {
         if (res.data != "Error Cant Add") {
           swal('Success', 'Task is added :)', 'success');
@@ -203,10 +204,12 @@ export class TaskContentComponent implements OnInit {
         else {
           swal('Warning', 'Task cannot be added :)', 'error')
         }
+        // this.mailService.sendMail({ to: 'gautam.g@softobotics.com', subject: 'testing', text: 'hey this is good' }).subscribe((res: any) => {
+        //   console.log(res)
+        // })
         this.updateTaskList.emit(this.taskForm.value);
         document.getElementById("cancel").click();
         this.taskForm.reset();
-        this.showCommentSecton = false;
       })
     }
   }
@@ -218,11 +221,7 @@ export class TaskContentComponent implements OnInit {
     }
     if (this.task) {
       this.isEdit = true;
-      this.showCommentButton = true;
       this.showTextButton = false;
-      if (this.task.comments && this.task.comments.length != 0) {
-        this.showCommentSecton = true;
-      }
       this.taskTitle = 'Edit Task' + '\t' + '(TMS-' + this.task.taskId + ')';
       this.taskForm.disable();
       let estimatedGetTime = this.task.estimatedTime;
@@ -252,8 +251,6 @@ export class TaskContentComponent implements OnInit {
       this.buttonText = "Submit";
       this.showTextButton = true;
       this.isEdit = false;
-      this.showCommentButton = false;
-      this.showCommentSecton = false;
       if (this.taskForm) {
         this.taskForm.enable();
         this.taskForm.get('title').reset();
@@ -342,7 +339,6 @@ export class TaskContentComponent implements OnInit {
       dangerMode: true,
     }).then((willRemove) => {
       if (willRemove) {
-        // document.getElementById("cancel").click();
         this.onDeleteTaskPopUp();
       } else {
         swal('Cancelled', 'Task(TMS-' + this.task.taskId + ') is not deleted :)', 'error');
@@ -357,6 +353,5 @@ export class TaskContentComponent implements OnInit {
       document.getElementById("cancel").click();
     });
   }
-
 
 }
