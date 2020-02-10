@@ -35,6 +35,10 @@ export class ForgotPasswordService {
     return this.httpClient.delete<Object>(`${this.apiPath}/${this.route}/${email}/${orgId}`);
   }
 
+  resetLoginPassword(val) {
+    return this.httpClient.patch<Object>(`${this.apiPath}/${this.route}/`, val);
+  }
+
   resetPassword(profileData) {
     return this.httpClient.put<Object>(`${this.apiPath}/${this.users}/`, profileData, this.getHeaders());
   }

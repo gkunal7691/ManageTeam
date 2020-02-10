@@ -35,6 +35,7 @@ export class ForgotpasswordComponent implements OnInit {
     } else {
       this.forgotPasswordService.sendEmail(this.forgotPasswordForm.value.email, this.cacheService.getOrgDetails().organizationId)
         .subscribe((result: any) => {
+          console.log(result)
           if (result.success) {
             this.emailSent = true;
           } else {
