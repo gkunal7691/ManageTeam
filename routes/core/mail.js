@@ -75,12 +75,8 @@ module.exports = {
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error);
-                        res.json({ success: false, data: error });
-
                     } else {
                         console.log('Email sent: ' + info);
-                        res.json({ success: true, data: info });
-
                     }
                 });
             })
