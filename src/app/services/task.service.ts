@@ -22,7 +22,7 @@ export class TaskService {
     const env: any = environment;
     this.apiPath = env.paths.api;
     this.task = 'task';
-    this.getTask = 'task/getTask/dueDate';
+    this.getTask = 'task/month-view';
     this.dayTask = 'task/get-day-task';
     this.backlogTask = 'task/backlog/getTask';
     this.upcomingTask = 'task/upcoming-task';
@@ -39,8 +39,8 @@ export class TaskService {
     };
   }
 
-  getTaskList(dueDate) {
-    return this.httpClient.post<object>(`${this.apiPath}/${this.getTask}/`, dueDate, this.getHeaders())
+  getTaskList(dueDate, userId) {
+    return this.httpClient.get<object>(`${this.apiPath}/${this.getTask}/` + dueDate + '/' + userId, this.getHeaders())
   }
 
   getDayDetails(userId: number, dueDate: string) {

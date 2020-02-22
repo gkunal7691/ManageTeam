@@ -129,6 +129,7 @@ export class BacklogComponent implements OnInit {
 
   getUpdatedTaskList() {
     this.getBackLogTaskList();
+    this.getUpcomingTaskList();
   }
 
 }
