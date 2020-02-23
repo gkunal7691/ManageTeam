@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, ChangeDetectorRef, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
@@ -17,7 +17,6 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
   @Output() updateTaskList = new EventEmitter();
   @Input() dueDate: any;
   @Input() userList: [];
-
   nextDate: any;
   totalEstimatedTime: number;
   nextDateModalForm: FormGroup;
@@ -105,7 +104,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
 
   cancelTask() {
     var x = document.getElementById("testing");
-    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    setTimeout(() => { x.classList.add("modal-open") }, 380);
     this.nextDateModalForm.reset();
     this.totalEstimatedTime = null;
   }

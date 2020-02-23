@@ -3,46 +3,50 @@
 </div>
 
 <div *ngIf="(date | json) != '{}'" style="cursor: pointer;" class="card card-default" data-toggle="modal"
-  [ngClass]="{'holidayColor': holiday,'currentDate':showCurrentDate}" data-target=".dayDetailModal"
-  (click)="showDay(date)">
+  [ngClass]="{'holidayColor': dayOverview != undefined && dayOverview.holiday != null,'currentDate':showCurrentDate}"
+  data-target=".dayDetailModal" (click)="showDay(date)">
   <div style="height: 150px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
       <div class="row" *ngIf="(date | json) != '{}'" style="text-align:center;">
         <div class="col-3 p-0" style="display: flex;">
-          <div *ngIf="clientTime" class="sparkline inline" [sparkline]="sparkOptionsInfo"
-            values="{{clientTime/60}},{{(orginalSpentTime - clientTime)/60}}">
+          <div *ngIf="dayOverview != undefined && dayOverview.totalClientTime" class="sparkline inline"
+            [sparkline]="sparkOptionsInfo"
+            values="{{dayOverview.totalClientTime/60}},{{(dayOverview.totalOrginalTime - dayOverview.totalClientTime)/60}}">
           </div>
         </div>
         <div class="col p-0">
           {{date | date:longDate}}
         </div>
         <div class="col-3 p-0">
-          <a *ngIf="holiday" href="#" [tooltip]="toolTipHolidayTemplate"
-            style="text-decoration: none;color: #656565;float: right;">
+          <a *ngIf="dayOverview != undefined && dayOverview.holiday != null" href="javascript:void(0);"
+            [tooltip]="toolTipHolidayTemplate" style="text-decoration: none;color: #656565;float: right;">
             <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
           </a>
-          <a *ngIf="showLeave && !holiday" href="#" [tooltip]="toolTipLeaveTemplate"
+          <a *ngIf="dayOverview != undefined && dayOverview.leave && dayOverview.holiday == null"
+            href="javascript:void(0);" [tooltip]="toolTipLeaveTemplate"
             style="text-decoration: none;color: #656565;float: right;">
-            <em [ngClass]="{'leaveApproved':leaveStatus == 'approved','leavePending':leaveStatus == 'pending'}"
+            <em
+              [ngClass]="{'leaveApproved':dayOverview.leaveStatus == 'approved','leavePending':dayOverview.leaveStatus == 'pending'}"
               class="fa-lg mr-2 fas fa-briefcase float-right pt-1">
             </em>
           </a>
         </div>
       </div>
-      <div *ngIf="plannedTaskList || inProgressTaskList || completedTaskList"
-        style="padding-top: 12%;text-align: center;">
-        <a href="javascript:void(0);" [tooltip]="toolTipTaskTemplate" style="text-decoration: none;color: #656565;">
+      <div style="padding-top: 12%;text-align: center;">
+        <a *ngIf="dayOverview != undefined" href="javascript:void(0);" [tooltip]="toolTipTaskTemplate"
+          style="text-decoration: none;color: #656565;">
           <progressbar class="progress" [value]="newStacked"
-            [max]="(plannedTaskList.length+inProgressTaskList.length+completedTaskList.length)">
+            [max]="(dayOverview.totalPlannedTasks+dayOverview.totalInProgressTasks+dayOverview.totalCompletedTasks)">
           </progressbar>
-          <span style="font-size: 10px;">Completed / Progress / Planned ({{completedTaskList.length}}
-            / {{inProgressTaskList.length}} / {{(plannedTaskList.length)}})
+          <span style="font-size: 10px;">Completed / Progress / Planned ({{dayOverview.totalCompletedTasks}}
+            / {{dayOverview.totalInProgressTasks}} / {{(dayOverview.totalPlannedTasks)}})
           </span>
         </a>
-        <a href="javascript:void(0);" [tooltip]="toolTipTimeTemplate" style="text-decoration: none;color: #656565;">
+        <a *ngIf="dayOverview != undefined" href="javascript:void(0);" [tooltip]="toolTipTimeTemplate"
+          style="text-decoration: none;color: #656565;">
           <progressbar class="progress" [value]="stacked" [max]="480"></progressbar>
-          <span style="font-size: 10px;">S: {{orginalSpentTime | customDate}}
-            / E: {{estimatedTime | customDate}} / T: {{480 | customDate}}
+          <span style="font-size: 10px;">S: {{dayOverview.totalOrginalTime | customDate}}
+            / E: {{dayOverview.totalEstimatedTime | customDate}} / T: {{480 | customDate}}
           </span>
         </a>
       </div>
@@ -51,22 +55,22 @@
 </div>
 
 <ng-template #toolTipTimeTemplate>
-  <p>Spent Time: {{orginalSpentTime | customDate}}</p>
-  <p>Estimated Time: {{estimatedTime | customDate}}</p>
+  <p>Spent Time: {{dayOverview.totalOrginalTime | customDate}}</p>
+  <p>Estimated Time: {{dayOverview.totalEstimatedTime | customDate}}</p>
   <p>Total Time: {{480 | customDate}}</p>
 </ng-template>
 
 <ng-template #toolTipTaskTemplate>
-  <p>Completed Tasks: {{completedTaskList.length}}</p>
-  <p>Progess Tasks: {{inProgressTaskList.length}}</p>
-  <p>Planned Tasks: {{plannedTaskList.length}}</p>
+  <p>Completed Tasks: {{dayOverview.totalCompletedTasks}}</p>
+  <p>Progess Tasks: {{dayOverview.totalInProgressTasks}}</p>
+  <p>Planned Tasks: {{dayOverview.totalPlannedTasks}}</p>
 </ng-template>
 
 <ng-template #toolTipHolidayTemplate>
-  <p style="width: 150px;">Occasion: {{holiday.occasion | titlecase}}</p>
-  <p style="width: 150px;">Type: {{holiday.holidayType | titlecase}}</p>
+  <p style="width: 150px;">Occasion: {{dayOverview.holiday.occasion | titlecase}}</p>
+  <p style="width: 150px;">Type: {{dayOverview.holiday.holidayType | titlecase}}</p>
 </ng-template>
 
 <ng-template #toolTipLeaveTemplate>
-  <p style="width: 150px;">Leave status: {{leaveStatus | titlecase}}</p>
+  <p style="width: 150px;">Leave status: {{dayOverview.leaveStatus | titlecase}}</p>
 </ng-template>
