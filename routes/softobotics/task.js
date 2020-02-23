@@ -89,20 +89,17 @@ router.get('/month-view/:dueDate/:userId', async function (req, res, next) {
             if (isHoliday == undefined) {
               isHoliday = null;
             }
-            let isLeave;
-            let leaveStatus;
-            leave.forEach(leaveData => {
-              let isFromDate = new Date(new Date(leaveData.fromDate).setUTCHours(0, 0, 0, 0));
-              let isToDate = new Date(new Date(leaveData.toDate).setUTCHours(0, 0, 0, 0));
-              isFromDate.setDate(isFromDate.getDate() + 1);
-              isToDate.setDate(isToDate.getDate() + 1);
-              let leaveFrom = isFromDate.toISOString();
-              let leaveTo = isToDate.toISOString();
-              if (new Date(monthDate).getTime() >= new Date(leaveFrom).getTime() && new Date(monthDate).getTime() <= new Date(leaveTo).getTime()) {
-                isLeave = true;
-                leaveStatus = leaveData.status;
-              }
-            })
+            let isLeave = leave.find(leaveData => new Date(monthDate).getTime() >= new Date(leaveData.fromDate).getTime() && new Date(monthDate).getTime() <= new Date(leaveData.toDate).getTime());
+            if (isLeave == undefined) {
+              isLeave = null;
+            }
+            let isTodaysDate
+            if (new Date(monthDate).getTime() == new Date(new Date().setUTCHours(0, 0, 0, 0)).getTime()) {
+              isTodaysDate = true;
+            }
+            else {
+              isTodaysDate = false;
+            }
             dayObject['totalEstimatedTime'] = 0;
             dayObject['totalClientTime'] = 0;
             dayObject['totalOrginalTime'] = 0;
@@ -113,7 +110,7 @@ router.get('/month-view/:dueDate/:userId', async function (req, res, next) {
             })
             dayObject['holiday'] = isHoliday;
             dayObject['leave'] = isLeave;
-            dayObject['leaveStatus'] = leaveStatus;
+            dayObject['isCurrentDate'] = isTodaysDate;
             dayObject['totalPlannedTasks'] = dayTasks.filter(task => task.status === 'planned').length;
             dayObject['totalInProgressTasks'] = dayTasks.filter(task => task.status === 'progress').length;
             dayObject['totalCompletedTasks'] = dayTasks.filter(task => task.status === 'completed').length;

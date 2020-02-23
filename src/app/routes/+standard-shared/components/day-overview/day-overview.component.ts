@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { ColorsService } from '../../../../shared/colors/colors.service';
 export class DayOverviewComponent implements OnInit, OnChanges {
 
   dayOverview: any;
-  showCurrentDate: boolean;
   stacked: any[] = [];
   newStacked: any[] = [];
   sparkOptionsInfo = {
@@ -21,7 +20,6 @@ export class DayOverviewComponent implements OnInit, OnChanges {
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService) { }
 
-  @Input() userId: any;
   @Input() date: any;
   @Input() monthTasks: any;
   @Output() openModalDate = new EventEmitter();
@@ -40,13 +38,11 @@ export class DayOverviewComponent implements OnInit, OnChanges {
   filterTaskList() {
     this.stacked = [];
     this.newStacked = [];
-    if (new Date(this.date).getTime() == new Date().setHours(0, 0, 0, 0)) {
-      this.showCurrentDate = true;
-    }
     if (this.monthTasks) {
       this.dayOverview = this.monthTasks.find(task => new Date(task.taskDate).getDate() == new Date(this.date).getDate());
     }
     if (this.dayOverview) {
+
       this.newStacked.push({
         value: this.dayOverview.totalCompletedTasks,
         type: "success"
@@ -57,6 +53,7 @@ export class DayOverviewComponent implements OnInit, OnChanges {
         value: (this.dayOverview.totalPlannedTasks + this.dayOverview.totalInProgressTasks + this.dayOverview.totalCompletedTasks),
         type: "danger"
       });
+
       this.stacked.push({
         value: this.dayOverview.totalOrginalTime,
         type: "success"
@@ -69,6 +66,4 @@ export class DayOverviewComponent implements OnInit, OnChanges {
       });
     }
   }
-
-
 }

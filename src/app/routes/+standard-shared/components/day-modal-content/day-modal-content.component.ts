@@ -20,6 +20,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   @Output() getTask = new EventEmitter();
   @Output() addNewTask = new EventEmitter();
   @Output() getTotalEstimatedTime = new EventEmitter();
+  @Output() updateTaskList = new EventEmitter();
 
   calenderDate: any;
   task: any;
@@ -182,6 +183,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
           status = 'In Progress';
         }
         swal('Success', 'Task TMS-' + task.taskId + ' has been moved to ' + status + ' Tasks', 'success');
+        this.updateTaskList.emit();
       })
     }
   }

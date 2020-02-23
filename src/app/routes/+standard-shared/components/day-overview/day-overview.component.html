@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="(date | json) != '{}'" style="cursor: pointer;" class="card card-default" data-toggle="modal"
-  [ngClass]="{'holidayColor': dayOverview != undefined && dayOverview.holiday != null,'currentDate':showCurrentDate}"
+  [ngClass]="{'holidayColor': dayOverview != undefined && dayOverview.holiday != null,'currentDate': dayOverview != undefined && dayOverview.isCurrentDate == true}"
   data-target=".dayDetailModal" (click)="showDay(date)">
   <div style="height: 150px; width: 100%;">
     <div style="padding: 0 5% 0% 5%;">
@@ -22,11 +22,11 @@
             [tooltip]="toolTipHolidayTemplate" style="text-decoration: none;color: #656565;float: right;">
             <em class="fa-lg far fa-calendar-minus float-right pt-1"></em>
           </a>
-          <a *ngIf="dayOverview != undefined && dayOverview.leave && dayOverview.holiday == null"
+          <a *ngIf="dayOverview != undefined && dayOverview.leave != null && dayOverview.holiday == null"
             href="javascript:void(0);" [tooltip]="toolTipLeaveTemplate"
             style="text-decoration: none;color: #656565;float: right;">
             <em
-              [ngClass]="{'leaveApproved':dayOverview.leaveStatus == 'approved','leavePending':dayOverview.leaveStatus == 'pending'}"
+              [ngClass]="{'leaveApproved':dayOverview.leave.status == 'approved','leavePending':dayOverview.leave.status == 'pending'}"
               class="fa-lg mr-2 fas fa-briefcase float-right pt-1">
             </em>
           </a>
@@ -72,5 +72,5 @@
 </ng-template>
 
 <ng-template #toolTipLeaveTemplate>
-  <p style="width: 150px;">Leave status: {{dayOverview.leaveStatus | titlecase}}</p>
+  <p style="width: 150px;">Leave status: {{dayOverview.leave.status | titlecase}}</p>
 </ng-template>

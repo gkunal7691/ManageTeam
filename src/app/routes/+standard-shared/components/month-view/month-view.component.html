@@ -71,7 +71,7 @@
       <h4>Monday</h4>
     </div>
     <div *ngFor="let day of mondayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
@@ -80,7 +80,7 @@
       <h4>Tuesday</h4>
     </div>
     <div *ngFor="let day of tuesdayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
@@ -89,7 +89,7 @@
       <h4>Wednesday</h4>
     </div>
     <div *ngFor="let day of wednesdayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
@@ -98,7 +98,7 @@
       <h4>Thrusday</h4>
     </div>
     <div *ngFor="let day of thrusdayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
@@ -107,7 +107,7 @@
       <h4>Friday</h4>
     </div>
     <div *ngFor="let day of fridayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
@@ -116,7 +116,7 @@
       <h4>Saturday</h4>
     </div>
     <div *ngFor="let day of saturdayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
@@ -125,7 +125,7 @@
       <h4>Sunday</h4>
     </div>
     <div *ngFor="let day of sundayArray">
-      <app-day-overview [userId]="userId" [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
+      <app-day-overview [date]="day" (openModalDate)="onGetModalDate($event)" [monthTasks]="taskList">
       </app-day-overview>
     </div>
   </div>
