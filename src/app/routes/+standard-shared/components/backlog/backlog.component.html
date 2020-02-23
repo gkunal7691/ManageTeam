@@ -1,6 +1,18 @@
 <div class="content-heading">
-    <div class="col-7">
+    <div class="col-4">
         Backlog Tasks
+    </div>
+    <div class="col-3">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for Tasks with Id, Title, Description, Projects"
+                [formControl]="searchFrom.controls['searchText']" />
+            <span class="input-group-btn">
+                <button class="btn btn-secondary search-btn" type="button" (click)="searchTask()"
+                    [disabled]="searchFrom.invalid">
+                    <em class="fa fa-search"></em>
+                </button>
+            </span>
+        </div>
     </div>
     <div class="col-5">
         <div class="row">
@@ -36,6 +48,61 @@
         </div>
     </div>
 </div>
+
+<div class="row" *ngIf="showSearchedTask">
+    <accordion [closeOthers]="true" class="w-100">
+        <accordion-group panelClass="b0" [isOpen]="true">
+            <div accordion-heading>
+                <small class="ml-3">
+                    <em class="fa fa-plus text-primary mr-2"></em>
+                </small>
+                <span style="font-size: 17px;">Search Result Task</span>
+            </div>
+            <div class="row justify-content-center">
+                <div cdkDropList [cdkDropListData]="filterSearchedTask" class="menu-list"
+                    (cdkDropListDropped)="reOrder($event)">
+                    <div class="menu-box" *ngFor="let task of filterSearchedTask" cdkDrag>
+                        <a>
+                            <em *ngIf="task.priority == 'critical'"
+                                class="fas fa-angle-double-up criticalColor mr-2"></em>
+                            <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
+                            <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
+                            <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
+                            <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
+                            <a class="center" data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
+                                TMS-{{ task?.taskId }}
+                            </a>
+                            <a class="center">
+                                <ng-template #toolTipTemplate>
+                                    {{ task?.title }}
+                                </ng-template>
+                                <span [tooltip]="toolTipTemplate">
+                                    : &nbsp; {{ task?.title | slice:0:100 }}
+                                    <span *ngIf="task?.title.length > 100">...</span>
+                                </span>
+                            </a>
+                        </a>
+                        <a class="addCursor center">
+                            <button type="button" class="btn btn-success float-right" data-toggle="modal"
+                                data-target=".nextDateModal" (click)="moveTask(task)">Move to</button>
+                            <span class="moveTop">
+                                <span *ngIf="task.user == null" class="badge badge-info float-right mr-1">
+                                    Unsassigned
+                                </span>
+                                <span *ngIf="task.user != null" class="badge badge-success float-right mr-1">
+                                    {{task.user.firstName}} {{task.user.lastName}}
+                                </span>
+                                <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
+                                <em *ngIf="task?.isDoubt == true" class="fas fa-flag float-right mr-2 flagAlign"></em>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </accordion-group>
+    </accordion>
+</div>
+
 
 <div class="row">
     <accordion [closeOthers]="true" class="w-100">
@@ -198,45 +265,6 @@
         </accordion-group>
     </accordion>
 </div>
-<!-- <div class="row mt-2 justify-content-center">
-    <div cdkDropList [cdkDropListData]="filteredBacklogTask" class="menu-list" (cdkDropListDropped)="reOrder($event)">
-        <div class="menu-box" *ngFor="let task of filteredBacklogTask" cdkDrag>
-            <a>
-                <em *ngIf="task.priority == 'critical'" class="fas fa-angle-double-up criticalColor mr-2"></em>
-                <em *ngIf="task.priority == 'high'" class="fas fa-angle-up highColor mr-2"></em>
-                <em *ngIf="task.priority == 'normal'" class="fas fa-angle-right normalColor mr-2"></em>
-                <em *ngIf="task.priority == 'low'" class="fas fa-angle-down lowColor mr-2"></em>
-                <em *ngIf="task.isCloned" class="fas fa-copy mr-2"></em>
-                <a class="center" data-toggle="modal" href=".dailyTaskModal" (click)="editTask(task)">
-                    TMS-{{ task?.taskId }}
-                </a>
-                <a class="center">
-                    <ng-template #toolTipTemplate>
-                        {{ task?.title }}
-                    </ng-template>
-                    <span [tooltip]="toolTipTemplate">
-                        : &nbsp; {{ task?.title | slice:0:100 }}
-                        <span *ngIf="task?.title.length > 100">...</span>
-                    </span>
-                </a>
-            </a>
-            <a class="addCursor center">
-                <button type="button" class="btn btn-success float-right" data-toggle="modal"
-                    data-target=".nextDateModal" (click)="moveTask(task)">Move to</button>
-                <span class="moveTop">
-                    <span *ngIf="task.user == null" class="badge badge-info float-right mr-1">
-                        Unsassigned
-                    </span>
-                    <span *ngIf="task.user != null" class="badge badge-success float-right mr-1">
-                        {{task.user.firstName}} {{task.user.lastName}}
-                    </span>
-                    <em class="far fa-comment-dots float-right mr-2">&nbsp;({{task?.comments.length}})</em>
-                    <em *ngIf="task?.isDoubt == true" class="fas fa-flag float-right mr-2 flagAlign"></em>
-                </span>
-            </a>
-        </div>
-    </div>
-</div> -->
 
 <app-task-modal [userList]="userList" [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()">
 </app-task-modal>

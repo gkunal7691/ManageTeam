@@ -14,7 +14,8 @@ export class TaskService {
   private dayTask: string;
   private backlogTask: string;
   private upcomingTask: string;
-  private reOrder: string
+  private reOrder: string;
+  private searchTask: string;
   private selectedDateTask: string;
 
 
@@ -23,6 +24,7 @@ export class TaskService {
     this.apiPath = env.paths.api;
     this.task = 'task';
     this.getTask = 'task/month-view';
+    this.searchTask = 'task/search-tasks';
     this.dayTask = 'task/get-day-task';
     this.backlogTask = 'task/backlog/getTask';
     this.upcomingTask = 'task/upcoming-task';
@@ -77,6 +79,10 @@ export class TaskService {
 
   reOrderMenu(taskList) {
     return this.httpClient.put<object>(`${this.apiPath}/${this.reOrder}/`, taskList, this.getHeaders())
+  }
+
+  searchTasks(value) {
+    return this.httpClient.get<object>(`${this.apiPath}/${this.searchTask}/` + value, this.getHeaders())
   }
 
   compareDate(dueDate, noOfDays) {

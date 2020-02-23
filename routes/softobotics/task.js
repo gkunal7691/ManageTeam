@@ -201,10 +201,9 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
       Holiday.findOne({ where: { organizationId: req.user.orgId, holidayDate: dueDate }, order: [['updatedAt', 'DESC']], }).then((holiday) => {
         x['isHoliday'] = holiday;
         res.json({ success: true, data: x });
-      }).catch(next)
-    }).catch(next)
-
-})
+      }).catch(next);
+    }).catch(next);
+});
 
 router.post('/backlog/getTask', async function (req, res, next) {
   Task.findAll({
@@ -306,8 +305,58 @@ router.get('/:taskId', async function (req, res, next) {
   })
     .then((data) => {
       res.json({ success: true, data: data })
-    }).catch(next)
-})
+    }).catch(next);
+});
+
+router.get('/search-tasks/:searchText', async function (req, res, next) {
+  Task.findAll({
+    where: {
+      organizationId: req.user.orgId,
+      $or: [
+        {
+          taskId: {
+            $like: '%' + req.params.searchText + '%'
+          },
+        },
+        {
+          title: {
+            $like: '%' + req.params.searchText + '%'
+          },
+        },
+        {
+          description: {
+            $like: '%' + req.params.searchText + '%'
+          },
+        }
+      ]
+    },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      res.json({ success: true, data: data });
+    }).catch(next);
+});
 
 router.put('/', function (req, res, next) {
   var dueDate = new Date(req.body.dueDate)
