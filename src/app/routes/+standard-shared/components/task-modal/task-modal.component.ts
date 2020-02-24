@@ -14,6 +14,7 @@ export class TaskModalComponent implements OnInit {
   @Input() dueDate: any;
   @Output() updateTaskList = new EventEmitter();
   @Input() task: any;
+  @Input() validateTask: string;
   @Input() totalEstimatedTime: number;
   @ViewChild(TaskContentComponent, { static: true }) taskContent: TaskContentComponent;
 

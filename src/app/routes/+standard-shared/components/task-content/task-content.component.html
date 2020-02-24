@@ -4,9 +4,9 @@
       <div class="col-5 pl-1 pr-0">
         <h4 class="mb-0">{{taskTitle}}</h4>
         <div *ngIf="task" class="row">
-          <a id="link" href="{{url.origin}}/employee/task/{{task?.taskId}}" class="ml-3"
-            target="_blank">{{url.origin}}/employee/task/{{task?.taskId}}</a>
           <button id="btnCopy" class="btn-copy" data-clipboard-target="#link">Copy</button>
+          <a id="link" href="{{url.origin}}/employee/task/{{task?.taskId}}"
+            target="_blank">{{url.origin}}/employee/task/{{task?.taskId}}</a>
         </div>
       </div>
       <div class="col-5">
