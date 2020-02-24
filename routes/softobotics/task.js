@@ -5,6 +5,7 @@ const Comment = require('../../models').Comment;
 const User = require('../../models').User;
 const Holiday = require('../../models').Holiday;
 const mail = require('../core/mail');
+const Leave = require('../../models').Leave;
 
 var currentDate = new Date();
 currentDate.setDate(currentDate.getDate() - 1);
@@ -31,41 +32,97 @@ router.post('/', async function (req, res, next) {
     }).catch(next);
 })
 
-
-router.post('/getTask/dueDate', async function (req, res, next) {
+router.get('/month-view/:dueDate/:userId', async function (req, res, next) {
+  var dueDate = new Date(req.params.dueDate);
+  var firstDate = new Date(dueDate.getFullYear(), dueDate.getMonth(), 1);
+  var firstDay = firstDate.getFullYear() + '-' + (firstDate.getMonth() + 1) + '-' + firstDate.getDate();
+  var lastDate = new Date(dueDate.getFullYear(), dueDate.getMonth() + 1, 0);
+  var lastDay = lastDate.getFullYear() + '-' + (lastDate.getMonth() + 1) + '-' + lastDate.getDate();
+  var monthArray = [];
+  var resultArray = [];
+  firstDate.setDate(firstDate.getDate() + 1);
+  lastDate.setDate(lastDate.getDate() + 1);
+  while (firstDate <= lastDate) {
+    var day = new Date(new Date(firstDate).setUTCHours(0, 0, 0, 0));
+    var convertedDay = day.toISOString();
+    monthArray.push(convertedDay);
+    firstDate.setDate(firstDate.getDate() + 1);
+  }
   Task.findAll({
     where: {
       dueDate: {
-        $between: [req.body.firstDay, req.body.lastDay]
-      }, organizationId: req.user.orgId, userId: req.body.userId
+        $between: [firstDay, lastDay]
+      }, organizationId: req.user.orgId, userId: req.params.userId
     },
-    include: [
-      {
-        model: Comment, include: [
-          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
-        ],
-        order: [
-          ['createdAt', 'desc']
-        ]
-      },
-      {
-        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
-      },
-      {
-        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
-      },
-      {
-        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
-      }
-    ],
-    order: [
-      ['order', 'ASC'],
-    ],
   })
     .then((data) => {
-      res.json({ success: true, data: data })
-    }).catch(next)
-})
+      Holiday.findAll({
+        where: {
+          holidayDate: {
+            $between: [firstDay, lastDay]
+          },
+          organizationId: req.user.orgId,
+        }
+      }).then((holiday) => {
+        Leave.findAll({
+          where: {
+            fromDate: {
+              $between: [firstDay, lastDay]
+            }, toDate: {
+              $between: [firstDay, lastDay]
+            }, status: {
+              $or: [
+                { $eq: 'pending' },
+                { $eq: 'approved' }
+              ]
+            }, organizationId: req.user.orgId, userId: req.params.userId
+          }
+        }).then((leave) => {
+          monthArray.forEach(monthDate => {
+            let dayObject = {};
+            let dayTasks = data.filter(task =>
+              new Date(task.dueDate).getTime() == new Date(monthDate).getTime()
+            )
+            let isHoliday = holiday.find(date =>
+              new Date(date.holidayDate).getTime() == new Date(monthDate).getTime()
+            )
+            if (isHoliday == undefined) {
+              isHoliday = null;
+            }
+            let isLeave = leave.find(leaveData => new Date(monthDate).getTime() >= new Date(leaveData.fromDate).getTime() && new Date(monthDate).getTime() <= new Date(leaveData.toDate).getTime());
+            if (isLeave == undefined) {
+              isLeave = null;
+            }
+            let isTodaysDate
+            if (new Date(monthDate).getTime() == new Date(new Date().setUTCHours(0, 0, 0, 0)).getTime()) {
+              isTodaysDate = true;
+            }
+            else {
+              isTodaysDate = false;
+            }
+            dayObject['totalEstimatedTime'] = 0;
+            dayObject['totalClientTime'] = 0;
+            dayObject['totalOrginalTime'] = 0;
+            dayTasks.forEach(task => {
+              dayObject['totalEstimatedTime'] += task.dataValues.estimatedTime;
+              dayObject['totalClientTime'] += task.dataValues.clientTime;
+              dayObject['totalOrginalTime'] += task.dataValues.originalTime;
+            })
+            dayObject['holiday'] = isHoliday;
+            dayObject['leave'] = isLeave;
+            dayObject['isCurrentDate'] = isTodaysDate;
+            dayObject['totalPlannedTasks'] = dayTasks.filter(task => task.status === 'planned').length;
+            dayObject['totalInProgressTasks'] = dayTasks.filter(task => task.status === 'progress').length;
+            dayObject['totalCompletedTasks'] = dayTasks.filter(task => task.status === 'completed').length;
+            dayObject['totalTasks'] = dayTasks.length;
+            dayObject['taskDate'] = new Date(monthDate)
+            resultArray.push(dayObject)
+          })
+          res.json({ success: true, data: resultArray });
+        }).catch(next);
+      }).catch(next);
+    }).catch(next);
+});
 
 router.post('/get-day-task/:userId', async function (req, res, next) {
   let dueDate = new Date(req.body.dueDate);
@@ -144,10 +201,9 @@ router.post('/get-selected-date-estimate/:userId', async function (req, res, nex
       Holiday.findOne({ where: { organizationId: req.user.orgId, holidayDate: dueDate }, order: [['updatedAt', 'DESC']], }).then((holiday) => {
         x['isHoliday'] = holiday;
         res.json({ success: true, data: x });
-      }).catch(next)
-    }).catch(next)
-
-})
+      }).catch(next);
+    }).catch(next);
+});
 
 router.post('/backlog/getTask', async function (req, res, next) {
   Task.findAll({
@@ -185,7 +241,6 @@ router.post('/backlog/getTask', async function (req, res, next) {
 })
 
 router.post('/upcoming-task', async function (req, res, next) {
-  console.log(req.body.dueDate, "testing")
   Task.findAll({
     where: {
       dueDate: {
@@ -250,8 +305,58 @@ router.get('/:taskId', async function (req, res, next) {
   })
     .then((data) => {
       res.json({ success: true, data: data })
-    }).catch(next)
-})
+    }).catch(next);
+});
+
+router.get('/search-tasks/:searchText', async function (req, res, next) {
+  Task.findAll({
+    where: {
+      organizationId: req.user.orgId,
+      $or: [
+        {
+          taskId: {
+            $like: '%' + req.params.searchText + '%'
+          },
+        },
+        {
+          title: {
+            $like: '%' + req.params.searchText + '%'
+          },
+        },
+        {
+          description: {
+            $like: '%' + req.params.searchText + '%'
+          },
+        }
+      ]
+    },
+    include: [
+      {
+        model: Comment, include: [
+          { model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
+        order: [
+          ['createdAt', 'desc']
+        ]
+      },
+      {
+        model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'createdBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      },
+      {
+        model: User, as: 'updatedBy', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+      }
+    ],
+    order: [
+      ['order', 'ASC'],
+    ],
+  })
+    .then((data) => {
+      res.json({ success: true, data: data });
+    }).catch(next);
+});
 
 router.put('/', function (req, res, next) {
   var dueDate = new Date(req.body.dueDate)
@@ -270,7 +375,6 @@ router.put('/edit/reOrder', function (req, res, next) {
   let order = 1;
   let count = 0;
   req.body.forEach((task, index, array) => {
-    console.log(task.taskId, order)
     Task.update({
       order: order
     }, { where: { taskId: task.taskId, organizationId: req.user.orgId } }).then(() => {

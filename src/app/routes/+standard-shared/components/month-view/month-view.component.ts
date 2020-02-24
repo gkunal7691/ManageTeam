@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DayoffService } from '../../../../services/dayoff.service';
 import { EmployeeService } from '../../../../services/employee.service';
-import { HolidayService } from '../../../../services/holiday.service';
 import { LoginService } from '../../../../services/login.service';
-import { ManageLeaveService } from '../../../../services/manage-leave.service';
-import { SuperAdminService } from '../../../../services/super-admin.service';
 import { TaskService } from '../../../../services/task.service';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 
@@ -15,6 +12,7 @@ import { ColorsService } from '../../../../shared/colors/colors.service';
 })
 
 export class MonthViewComponent implements OnInit {
+
   userId: any;
   userList: any;
 
@@ -41,10 +39,9 @@ export class MonthViewComponent implements OnInit {
   hideSaturday: boolean = true;
   hideSunday: boolean = true;
   showLoader: boolean = true;
-  iscurrentDate: any;
   weekdayIds: any;
-  holidayList = [];
   dueDate: any;
+  monthdate: Date;
   taskList: any[] = []
   leaveRequestList: any[] = [];
   noofWorkingDays: number;
@@ -60,7 +57,6 @@ export class MonthViewComponent implements OnInit {
     },
     barColor: this.colors.byName('danger'),
     trackColor: this.colors.byName('yellow'),
-    // scaleColor: this.colors.byName('gray-dark'),
     lineWidth: 10,
     lineCap: 'circle'
   };
@@ -84,10 +80,8 @@ export class MonthViewComponent implements OnInit {
     ],
   }];
 
-  constructor(private dayoffService: DayoffService, private holidayService: HolidayService,
-    private taskService: TaskService, private manageLeaveService: ManageLeaveService,
-    public colors: ColorsService, public logService: LoginService, private userService: SuperAdminService,
-    private employeeService: EmployeeService) {
+  constructor(private dayoffService: DayoffService, private taskService: TaskService,
+    public colors: ColorsService, public logService: LoginService, private employeeService: EmployeeService) {
     this.userId = this.logService.currentUser.id;
   }
 
@@ -97,10 +91,69 @@ export class MonthViewComponent implements OnInit {
     this.presentdate = new Date();
     this.createMonthDateArray(new Date());
     this.getDayoff();
-    this.getHolidayList();
-    this.filterRequestLeave();
     this.getUserList();
+  }
 
+  createMonthDateArray(date) {
+    this.monthdate = date;
+    this.firstDayofMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    this.firstDay = this.firstDate.getDate();
+    this.lastDay = this.lastDate.getDate();
+
+    while (this.firstDate <= this.lastDate) {
+      let day: Date = new Date(this.firstDate);
+      this.monthArray.push(day);
+      this.firstDate.setDate(this.firstDate.getDate() + 1);
+    }
+    this.splitWeekWise();
+    this.getUpdatedTaskList();
+    this.getDayoff();
+    this.showWeekoff(true);
+  }
+
+  getPreviousMonth() {
+    let predate = new Date(this.presentdate.setMonth(this.presentdate.getMonth() - 1))
+    this.presentdate = predate;
+    this.monthArray = []
+    this.createMonthDateArray(predate)
+  }
+
+  getNextMonth() {
+    let nextdate = new Date(this.presentdate.setMonth(this.presentdate.getMonth() + 1))
+    this.presentdate = nextdate;
+    this.monthArray = []
+    this.createMonthDateArray(nextdate)
+  }
+
+  selectedUserTask(value) {
+    this.userId = value;
+    this.getUpdatedTaskList();
+  }
+
+  getUpdatedTaskList() {
+    this.showLoader = true;
+    this.taskList = [];
+    this.taskService.getTaskList(new Date(this.monthdate), this.userId).subscribe((res: any) => {
+      this.taskList = res.data;
+      console.log(this.taskList)
+      this.showLoader = false;
+      this.totalSpentTime = 0;
+      this.totalClientTime = 0;
+      res.data.forEach(time => {
+        this.totalSpentTime += time.totalEstimatedTime;
+        this.totalClientTime += time.totalClientTime;
+      })
+    });
+  }
+
+  getDayoff() {
+    this.dayoffService.getDayoffList().subscribe((res: any) => {
+      this.weekdayIds = res.data.map(id => id.weekdayId);
+      this.calculateDaysLeft();
+      this.showWeekoff(true);
+    })
   }
 
   showWeekoff(value) {
@@ -158,83 +211,6 @@ export class MonthViewComponent implements OnInit {
     }
   }
 
-  getPreviousMonth() {
-    let predate = new Date(this.presentdate.setMonth(this.presentdate.getMonth() - 1))
-    this.presentdate = predate;
-    this.monthArray = []
-    this.createMonthDateArray(predate)
-  }
-
-  getNextMonth() {
-    let nextdate = new Date(this.presentdate.setMonth(this.presentdate.getMonth() + 1))
-    this.presentdate = nextdate;
-    this.monthArray = []
-    this.createMonthDateArray(nextdate)
-  }
-
-  createMonthDateArray(date) {
-    this.firstDayofMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-    this.firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    this.lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    this.firstDay = this.firstDate.getDate();
-    this.lastDay = this.lastDate.getDate();
-
-    while (this.firstDate <= this.lastDate) {
-      let day: Date = new Date(this.firstDate);
-      this.monthArray.push(day);
-      this.firstDate.setDate(this.firstDate.getDate() + 1);
-    }
-    this.splitWeekWise();
-    var today = new Date();
-    this.monthArray.forEach(d => {
-      var currentDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-      var monthDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-      if (monthDate == currentDate) {
-        this.iscurrentDate = d;
-      }
-    })
-    this.getUpdatedTaskList();
-    this.getDayoff();
-    this.getHolidayList();
-  }
-
-  selectedUserTask(value) {
-    this.userId = value;
-    this.getUpdatedTaskList();
-  }
-
-  getUpdatedTaskList() {
-    let firstdate = new Date(this.firstDate)
-    let FirstDay;
-    if (firstdate.getMonth() == 0) {
-      FirstDay = (firstdate.getFullYear() - 1) + '-' + (firstdate.getMonth() + 12) + '-' + firstdate.getDate()
-    }
-    else {
-      FirstDay = firstdate.getFullYear() + '-' + firstdate.getMonth() + '-' + firstdate.getDate()
-    }
-    let lastdate = new Date(this.lastDate);
-    let LastDay = lastdate.getFullYear() + '-' + (lastdate.getMonth() + 1) + '-' + lastdate.getDate();
-    this.showLoader = true;
-    this.taskList = [];
-    this.taskService.getTaskList({ firstDay: FirstDay, lastDay: LastDay, userId: this.userId }).subscribe((res: any) => {
-      this.taskList = res.data
-      this.showLoader = false;
-      this.totalSpentTime = 0;
-      this.totalClientTime = 0;
-      res.data.forEach(time => {
-        this.totalSpentTime += time.originalTime;
-        this.totalClientTime += time.clientTime;
-      })
-    });
-  }
-
-  getDayoff() {
-    this.dayoffService.getDayoffList().subscribe((res: any) => {
-      this.weekdayIds = res.data.map(id => id.weekdayId);
-      this.calculateDaysLeft();
-    })
-  }
-
   splitWeekWise() {
     this.mondayArray = this.monthArray.filter(day => day.getDay() == 1);
     this.tuesdayArray = this.monthArray.filter(day => day.getDay() == 2);
@@ -285,20 +261,6 @@ export class MonthViewComponent implements OnInit {
       })
   }
 
-  getHolidayList() {
-    this.holidayService.getHolidayList().subscribe((res: any) => {
-      this.holidayList = res.data;
-      this.holidayList.forEach(dates => {
-        let date = new Date(dates.holidayDate)
-        dates.holidayDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
-        this.totalHolidays++;
-      })
-      this.holidayList = this.holidayList.map(i => ({ holidayDate: i.holidayDate, occasion: i.occasion, holidayType: i.holidayType }))
-      this.showWeekoff(true);
-      this.calculateDaysLeft();
-    })
-  }
-
   onGetModalDate(val) {
     this.dueDate = val;
   }
@@ -315,17 +277,6 @@ export class MonthViewComponent implements OnInit {
         })
       }
     })
-    this.monthArray.forEach(allday => {
-      this.holidayList.forEach(date => {
-        if (((allday.getMonth() + 1) + '/' + allday.getDate() + '/' + allday.getFullYear()) == date.holidayDate) {
-          this.weekdayIds.forEach(dayoff => {
-            if (dayoff != allday.getDay()) {
-              holidayDaycount++;
-            }
-          })
-        }
-      })
-    })
     this.noofWorkingDays = this.monthArray.length - (dayOffcount + holidayDaycount);
     if (this.taskList != null) {
       this.doughnutData = {
@@ -340,16 +291,6 @@ export class MonthViewComponent implements OnInit {
         }]
       }
     }
-  }
-
-  filterRequestLeave() {
-    let status = {}
-    status['ispending'] = true;
-    status['isapprove'] = true;
-    this.manageLeaveService.getManageLeaveList(status).subscribe(
-      (result: any) => {
-        this.leaveRequestList = result.data;
-      })
   }
 
 }

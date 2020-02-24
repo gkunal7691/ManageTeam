@@ -60,3 +60,15 @@
   bottom: 5px;
   color: #dc3545;
 }
+
+.search-btn {
+  height: 38px;
+  font-size: 15px;
+  border-color: #dde6e9;
+  background-color: #fff;
+  color: #333;
+}
+
+button:disabled {
+  cursor: default;
+}

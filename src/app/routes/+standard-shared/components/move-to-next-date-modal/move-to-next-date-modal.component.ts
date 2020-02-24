@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, ChangeDetectorRef, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
@@ -17,6 +17,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
   @Output() updateTaskList = new EventEmitter();
   @Input() dueDate: any;
   @Input() userList: [];
+  @Input() validateTask: string;
 
   nextDate: any;
   totalEstimatedTime: number;
@@ -104,8 +105,10 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
   }
 
   cancelTask() {
-    var x = document.getElementById("testing");
-    setTimeout(() => { x.classList.add("modal-open") }, 350);
+    if (this.validateTask != 'backlog') {
+      var x = document.getElementById("testing")
+      setTimeout(() => { x.classList.add("modal-open") }, 150);
+    }
     this.nextDateModalForm.reset();
     this.totalEstimatedTime = null;
   }
@@ -116,7 +119,7 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
     }
   }
 
-  getnewDueDate(val) {
+  getNewDueDate(val) {
     if (val) {
       this.nextDate = new Date(val);
       this.nextDate.setHours(0, 0, 0, 0);
@@ -211,27 +214,20 @@ export class MoveToNextDateModalComponent implements OnInit, OnChanges {
     }
   }
 
-  // Dont Delete
-  // moveToNextDate() {
-  //   if (this.router.url == '/employee/backlog' && this.dueDate != null) {
-  //     let addnextDate = (new Date(this.dueDate).getMonth() + 1) + '/' +
-  //       (new Date(this.dueDate).getDate() + 1) + '/' + (new Date(this.dueDate).getFullYear());
-  //     console.log(new Date(addnextDate).setDate(new Date(addnextDate).getDate() + 1))
-  //     this.nextDateModalForm.get('newDueDate').setValue(new Date(new Date(addnextDate).setDate(new Date(addnextDate).getDate() + 1)));
-  //     this.nextDate = new Date(addnextDate);
-  //     this.getnewDueDate(addnextDate);
-  //   }
-  //   else {
-  //     let date = new Date(this.task.dueDate)
-  //     date.setDate(date.getDate() + 2)
-  //     console.log((date.getDate()) + '/' + (date.getMonth() + 1) + '/' + (date.getFullYear()))
-  //     let addnextDate = ((date.getDate()) + '/' + (date.getMonth() + 1) + '/' + (date.getFullYear()));
-  //     console.log(addnextDate)
-  //     this.nextDateModalForm.get('newDueDate').setValue(addnextDate);
-  //     this.nextDate = new Date(addnextDate);
-  //     this.nextDate.setDate(this.nextDate.getDate() - 1)
-  //     this.getnewDueDate(this.nextDate);
-  //   }
-  // }
+  moveToNextDate() {
+    if (this.validateTask == 'backlog' && this.dueDate != null) {
+      let date = new Date(this.dueDate);
+      date.setDate(date.getDate() + 1);
+      console.log(date.getDate() + '/' + (date.getMonth() + 1) + '/' + (date.getFullYear()))
+      this.nextDateModalForm.get('newDueDate').setValue(date);
+      this.getNewDueDate(date);
+    }
+    else {
+      let taskDate = new Date(this.task.dueDate)
+      taskDate.setDate(taskDate.getDate() + 1);
+      this.nextDateModalForm.get('newDueDate').setValue(taskDate);
+      this.getNewDueDate(taskDate);
+    }
+  }
 
 }

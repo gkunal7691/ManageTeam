@@ -73,7 +73,10 @@ router.post('/', async function (req, res, next) {
    let holidayDateList = []
    let fromdate = new Date(req.body.fromDate)
    let todate = new Date(req.body.toDate)
-
+   let leaveFromDate = new Date(new Date(fromdate).setUTCHours(0, 0, 0, 0));
+   let leaveToDate = new Date(new Date(todate).setUTCHours(0, 0, 0, 0));
+   let convertedFromDate = leaveFromDate.toISOString();
+   let convertedToDate = leaveToDate.toISOString();
    dayOff.findAll({ where: { organizationId: req.user.orgId } }).then((dayOffList) => {
       dayOffList = dayOffList.map(x => x.weekdayId);
       for (let i = 0; i < dayOffList.length; i++) {
@@ -140,13 +143,14 @@ router.post('/', async function (req, res, next) {
          } else {
             noOfdays = -(totalLeaveDay.length)
          }
+
          Leave.create({
             noOfdays: noOfdays,
             type: req.body.type,
             status: req.body.status,
             reason: req.body.reason,
-            toDate: req.body.toDate,
-            fromDate: req.body.fromDate,
+            toDate: convertedToDate,
+            fromDate: convertedFromDate,
             userId: req.user.id,
             organizationId: req.user.orgId
          }).then((data) => {

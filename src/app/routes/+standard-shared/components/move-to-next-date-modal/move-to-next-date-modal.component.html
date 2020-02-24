@@ -51,11 +51,11 @@
             <div class="col-3 pl-0 pr-0">
               <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="Select Date"
                 [formControl]="nextDateModalForm.controls['newDueDate']" name="dp-basic"
-                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getnewDueDate($event)">
+                [bsConfig]="{dateInputFormat: 'DD/MM/YYYY'}" (bsValueChange)="getNewDueDate($event)">
             </div>
-            <!-- <div class="col-3 p-0 mt-1 pl-3">
+            <div class="col-3 p-0 mt-1 pl-3">
               <a class="removeUnderLine" (click)="moveToNextDate()">Select next date</a>
-            </div> -->
+            </div>
           </div>
           <div class="row">
             <div class="col-3 p-0"></div>

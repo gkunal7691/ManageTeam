@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { EmployeeService } from '../../../../services/employee.service';
 import { TaskService } from '../../../../services/task.service';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 declare var swal: any;
 
 @Component({
@@ -15,22 +16,28 @@ export class BacklogComponent implements OnInit {
   allBackLogTasks: any;
   previousTasks: any;
   upcomingTasks: any;
+  searchedTasks: any
   filteredBacklogTask: any;
   filterPreviousTask: any;
   filterUpcomingTask: any;
+  filterSearchedTask: any;
+  searchFrom: FormGroup
   userList: any;
   task: any;
   dueDate: Date;
   userIds = [];
   selectAllUser: boolean = true;
-
+  taskPath = 'backlog';
   @Output() updateTaskList = new EventEmitter();
 
   @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
 
-  constructor(private taskService: TaskService, private employeeService: EmployeeService) { }
+  constructor(private taskService: TaskService, private employeeService: EmployeeService, private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.searchFrom = this.fb.group({
+      searchText: ['', Validators.required]
+    })
     this.getBackLogTaskList();
   }
 
@@ -129,6 +136,21 @@ export class BacklogComponent implements OnInit {
 
   getUpdatedTaskList() {
     this.getBackLogTaskList();
+    this.getUpcomingTaskList();
+  }
+
+  searchTask() {
+    this.taskService.searchTasks(this.searchFrom.get('searchText').value).subscribe((res: any) => {
+      this.searchedTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
+        res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));
+      this.filterSearchedTask = this.searchedTasks.filter(task => {
+        if (this.userIds.length == 0) {
+          return true
+        } else {
+          return this.userIds.includes(task.userId)
+        }
+      });
+    })
   }
 
 }

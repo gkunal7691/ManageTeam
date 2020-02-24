@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
 import { UserService } from '../../../../services/user.service';
 import { LoginService } from '../../../../services/login.service';
@@ -20,6 +20,7 @@ export class TaskContentComponent implements OnInit {
   @Output() updateTaskList = new EventEmitter();
   @Input() task: any;
   @Input() totalEstimatedTime: number;
+  @Input() validateTask: string;
 
   taskForm: FormGroup
   url: any;
@@ -31,8 +32,8 @@ export class TaskContentComponent implements OnInit {
   isEdit: boolean;
   showTextButton: boolean = true;
 
-  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
-    public taskService: TaskService, private userService: UserService, private loginService: LoginService) { }
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, public taskService: TaskService,
+    private userService: UserService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.url = location;
@@ -52,7 +53,7 @@ export class TaskContentComponent implements OnInit {
       isDoubt: ['']
     });
     if (!this.userList && !this.userId) {
-      if (this.router.url != '/employee/backlog' && this.router.url != '/admin/backlog') {
+      if (this.validateTask != 'backlog') {
         this.modalWidthControl = true;
       }
       else {
@@ -90,7 +91,7 @@ export class TaskContentComponent implements OnInit {
 
   validateAssignee(control: AbstractControl) {
     if (this.taskForm) {
-      if (this.router.url == '/employee/backlog') {
+      if (this.validateTask == 'backlog') {
         this.taskForm.get('assignee').setValidators(null)
       }
       else {
@@ -101,7 +102,7 @@ export class TaskContentComponent implements OnInit {
 
   validateEstimatedHour(control: AbstractControl) {
     if (this.taskForm) {
-      if (this.router.url == '/employee/backlog') {
+      if (this.validateTask == 'backlog') {
         this.taskForm.get('estimatedHour').setValidators(null)
       }
       if ((this.taskForm.get('estimatedMin').value + (control.value * 60)) > (480 - this.totalEstimatedTime)) {
@@ -114,7 +115,7 @@ export class TaskContentComponent implements OnInit {
 
   validateEstimatedMin(control: AbstractControl) {
     if (this.taskForm) {
-      if (this.router.url == '/employee/backlog') {
+      if (this.validateTask == 'backlog') {
         this.taskForm.get('estimatedMin').setValidators(null)
       }
       if (((this.taskForm.get('estimatedHour').value * 60) + control.value) > (480 - this.totalEstimatedTime)) {
@@ -126,11 +127,7 @@ export class TaskContentComponent implements OnInit {
   }
 
   cancelTask() {
-    if ('/employee/month-view' == this.router.url) {
-      var x = document.getElementById("testing")
-      setTimeout(() => { x.classList.add("modal-open") }, 150);
-    }
-    else if ('/admin/manage-time' == this.router.url) {
+    if (this.validateTask != 'backlog') {
       var x = document.getElementById("testing")
       setTimeout(() => { x.classList.add("modal-open") }, 150);
     }
