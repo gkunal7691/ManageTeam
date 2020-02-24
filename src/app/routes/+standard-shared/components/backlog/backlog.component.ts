@@ -21,14 +21,13 @@ export class BacklogComponent implements OnInit {
   filterPreviousTask: any;
   filterUpcomingTask: any;
   filterSearchedTask: any;
-  showSearchedTask: boolean;
   searchFrom: FormGroup
   userList: any;
   task: any;
   dueDate: Date;
   userIds = [];
   selectAllUser: boolean = true;
-
+  taskPath = 'backlog';
   @Output() updateTaskList = new EventEmitter();
 
   @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
@@ -141,7 +140,6 @@ export class BacklogComponent implements OnInit {
   }
 
   searchTask() {
-    this.showSearchedTask = true;
     this.taskService.searchTasks(this.searchFrom.get('searchText').value).subscribe((res: any) => {
       this.searchedTasks = res.data.filter(task => task.priority == "critical").concat(res.data.filter(task => task.priority == "high"),
         res.data.filter(task => task.priority == "normal"), res.data.filter(task => task.priority == "low"));

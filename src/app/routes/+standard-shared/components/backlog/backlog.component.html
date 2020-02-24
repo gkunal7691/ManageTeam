@@ -49,9 +49,9 @@
     </div>
 </div>
 
-<div class="row" *ngIf="showSearchedTask">
+<div class="row" *ngIf="filterSearchedTask">
     <accordion [closeOthers]="true" class="w-100">
-        <accordion-group panelClass="b0" [isOpen]="true">
+        <accordion-group panelClass="b0" [isOpen]="filterSearchedTask && filterSearchedTask.length > 1">
             <div accordion-heading>
                 <small class="ml-3">
                     <em class="fa fa-plus text-primary mr-2"></em>
@@ -59,8 +59,11 @@
                 <span style="font-size: 17px;">Search Result Task</span>
             </div>
             <div class="row justify-content-center">
+                <div class="row">
+                    <p *ngIf="filterSearchedTask && filterSearchedTask.length == 0">No Tasks Found</p>
+                </div>
                 <div cdkDropList [cdkDropListData]="filterSearchedTask" class="menu-list"
-                    (cdkDropListDropped)="reOrder($event)">
+                    (cdkDropListDropped)="reOrder($event)" *ngIf="filterSearchedTask && filterSearchedTask.length > 0">
                     <div class="menu-box" *ngFor="let task of filterSearchedTask" cdkDrag>
                         <a>
                             <em *ngIf="task.priority == 'critical'"
@@ -114,8 +117,11 @@
                 <span style="font-size: 17px;">Previous 7 Days Task</span>
             </div>
             <div class="row justify-content-center">
+                <div class="row">
+                    <p *ngIf="filterPreviousTask && filterPreviousTask.length == 0">No Tasks Found</p>
+                </div>
                 <div cdkDropList [cdkDropListData]="filterPreviousTask" class="menu-list"
-                    (cdkDropListDropped)="reOrder($event)">
+                    (cdkDropListDropped)="reOrder($event)" *ngIf="filterPreviousTask && filterPreviousTask.length > 0">
                     <div class="menu-box" *ngFor="let task of filterPreviousTask" cdkDrag>
                         <a>
                             <em *ngIf="task.priority == 'critical'"
@@ -168,8 +174,11 @@
                 <span style="font-size: 17px;">Upcoming Task</span>
             </div>
             <div class="row justify-content-center">
+                <div class="row">
+                    <p *ngIf="filterUpcomingTask && filterUpcomingTask.length == 0">No Tasks Found</p>
+                </div>
                 <div cdkDropList [cdkDropListData]="filterUpcomingTask" class="menu-list"
-                    (cdkDropListDropped)="reOrder($event)">
+                    (cdkDropListDropped)="reOrder($event)" *ngIf="filterUpcomingTask && filterUpcomingTask.length > 0">
                     <div class="menu-box" *ngFor="let task of filterUpcomingTask" cdkDrag>
                         <a>
                             <em *ngIf="task.priority == 'critical'"
@@ -222,8 +231,12 @@
                 <span style="font-size: 17px;">Backlog Task</span>
             </div>
             <div class="row justify-content-center">
+                <div class="row">
+                    <p *ngIf="filteredBacklogTask && filteredBacklogTask.length == 0">No Tasks Found</p>
+                </div>
                 <div cdkDropList [cdkDropListData]="filteredBacklogTask" class="menu-list"
-                    (cdkDropListDropped)="reOrder($event)">
+                    (cdkDropListDropped)="reOrder($event)"
+                    *ngIf="filteredBacklogTask && filteredBacklogTask.length > 0">
                     <div class="menu-box" *ngFor="let task of filteredBacklogTask" cdkDrag>
                         <a>
                             <em *ngIf="task.priority == 'critical'"
@@ -266,7 +279,8 @@
     </accordion>
 </div>
 
-<app-task-modal [userList]="userList" [task]="task" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()">
+<app-task-modal [userList]="userList" [validateTask]="taskPath" [task]="task" [dueDate]="dueDate"
+    (updateTaskList)="getUpdatedTaskList()">
 </app-task-modal>
-<app-move-to-next-date-modal [task]="task" [dueDate]="dueDate" [userList]="userList"
+<app-move-to-next-date-modal [task]="task" [validateTask]="taskPath" [dueDate]="dueDate" [userList]="userList"
     (updateTaskList)="getUpdatedTaskList()"></app-move-to-next-date-modal>

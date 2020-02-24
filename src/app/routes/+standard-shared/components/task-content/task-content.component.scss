@@ -17,13 +17,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .btn-copy {
-  position: absolute;
-  top: 1.7rem;
-  right: -0.6rem;
   z-index: 10;
   display: block;
-  padding: 0.25rem 0.5rem;
-  font-size: 75%;
+  padding: 0.25rem 0.8rem 0.25rem 1rem;
+  font-size: 78%;
   color: #818a91;
   cursor: pointer;
   background-color: transparent;

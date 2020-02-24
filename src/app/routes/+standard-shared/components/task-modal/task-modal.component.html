@@ -1,7 +1,7 @@
 <div class="modal dailyTaskModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
   aria-labelledby="myModalLabel" data-focus-on="modal" aria-hidden="true">
-  <app-task-content [userId]="userId" [userList]="userList" [dueDate]="dueDate" (updateTaskList)="getUpdatedTaskList()"
-    [task]="task" [totalEstimatedTime]="totalEstimatedTime">
+  <app-task-content [userId]="userId" [validateTask]="validateTask" [userList]="userList" [dueDate]="dueDate"
+    (updateTaskList)="getUpdatedTaskList()" [task]="task" [totalEstimatedTime]="totalEstimatedTime">
   </app-task-content>
 </div>
 <app-comment-modal [taskId]="taskId" (updateTask)="updateTaskComment()"></app-comment-modal>
