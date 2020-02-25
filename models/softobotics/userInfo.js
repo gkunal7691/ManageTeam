@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
         userInfoId: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement:true
+            autoIncrement: true
         },
         designation: {
             type: DataTypes.STRING(100),
@@ -24,6 +24,30 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
         mobile: {
+            type: DataTypes.STRING(11),
+            allowNull: true,
+        },
+        bank: {
+            type: DataTypes.STRING(11),
+            allowNull: true,
+        },
+        bankAccountNo: {
+            type: DataTypes.STRING(11),
+            allowNull: true,
+        },
+        doj: {
+            type: DataTypes.STRING(11),
+            allowNull: true,
+        },
+        pfNumber: {
+            type: DataTypes.STRING(11),
+            allowNull: true,
+        },
+        location: {
+            type: DataTypes.STRING(11),
+            allowNull: true,
+        },
+        department: {
             type: DataTypes.STRING(11),
             allowNull: true,
         },
