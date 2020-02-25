@@ -137,8 +137,7 @@ export class MonthViewComponent implements OnInit {
     this.taskList = [];
     this.taskService.getTaskList(new Date(this.monthdate), this.userId).subscribe((res: any) => {
       this.taskList = res.data;
-      console.log(this.taskList)
-      // this.showLoader = false;
+      this.showLoader = false;
       this.totalSpentTime = 0;
       this.totalClientTime = 0;
       res.data.forEach(time => {
