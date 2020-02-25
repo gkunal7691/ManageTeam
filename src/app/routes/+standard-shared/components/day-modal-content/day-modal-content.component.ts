@@ -1,6 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 declare var swal: any;
@@ -53,7 +52,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
-    public taskService: TaskService, private router: Router) { }
+    public taskService: TaskService) { }
 
   ngOnInit() { }
 
