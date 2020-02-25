@@ -35,7 +35,8 @@
     </div>
     <div class="child">
         <app-day-modal-content [userId]="userId" [userList]="userList" [dueDate]="dueDate" (getTask)="getTask($event)"
-            (addNewTask)="addNewTask()" (getTotalEstimatedTime)="getTotalEstimatedTime($event)">
+            (addNewTask)="addNewTask()" (getTotalEstimatedTime)="getTotalEstimatedTime($event)"
+            [manageCloseBtn]="closeBtn">
         </app-day-modal-content>
     </div>
     <div>

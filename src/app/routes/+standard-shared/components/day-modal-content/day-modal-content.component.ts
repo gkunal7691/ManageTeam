@@ -1,6 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
 import { TaskService } from '../../../../services/task.service';
 import { ColorsService } from '../../../../shared/colors/colors.service';
 declare var swal: any;
@@ -17,6 +16,8 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   @Input() userList: any;
   @Input() updatedTaskList: any;
   @Input() dueDate: any;
+  @Input() manageCloseBtn: string;
+
   @Output() getTask = new EventEmitter();
   @Output() addNewTask = new EventEmitter();
   @Output() getTotalEstimatedTime = new EventEmitter();
@@ -51,7 +52,7 @@ export class DayModalContentComponent implements OnInit, OnChanges {
   }
 
   constructor(private ref: ChangeDetectorRef, public colors: ColorsService,
-    public taskService: TaskService, private router: Router) { }
+    public taskService: TaskService) { }
 
   ngOnInit() { }
 
@@ -120,14 +121,11 @@ export class DayModalContentComponent implements OnInit, OnChanges {
     }
 
     // To set the modal in center  
-    if ('/employee/edashboard' == this.router.url) {
+    if (this.manageCloseBtn === 'dashboard') {
       this.modalCenter = false;
     }
-    else if ('/employee/month-view' == this.router.url) {
+    else {
       this.modalCenter = true;
-      for (var i = 0; i < x.length; i++) {
-        x[i].style.minHeight = '300px';
-      }
     }
 
     var y = <HTMLElement[]><any>document.getElementsByTagName("canvas")

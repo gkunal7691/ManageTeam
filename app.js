@@ -25,6 +25,7 @@ const Dayoff = require('./routes/softobotics/dayoff');
 const Weekday = require('./routes/softobotics/weekday');
 const todoRouter = require('./routes/softobotics/todo');
 const UserInfoRouter = require('./routes/softobotics/userInfo');
+const PayslipRouter = require('./routes/softobotics/payslip');
 
 const env = process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
@@ -111,6 +112,7 @@ app.use('/api/dayoff', passport.authenticate('jwt', { session: false }), Dayoff)
 app.use('/api/todo', passport.authenticate('jwt', { session: false }), todoRouter);
 app.use('/api/weekday', passport.authenticate('jwt', { session: false }), Weekday);
 app.use('/api/userInfo', passport.authenticate('jwt', { session: false }), UserInfoRouter);
+app.use('/api/payslip', passport.authenticate('jwt', { session: false }), PayslipRouter);
 
 // error handler, don't remove next
 
