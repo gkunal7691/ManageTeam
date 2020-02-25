@@ -32,8 +32,9 @@ db.Leave = require('./softobotics/leave')(sequelize, Sequelize);
 db.DayOff = require('./softobotics/dayoff')(sequelize, Sequelize);
 db.Holiday = require('./softobotics/holiday')(sequelize, Sequelize);
 db.Todo = require('./softobotics/todo')(sequelize, Sequelize);
-db.WeekDay =  require('./softobotics/weekday')(sequelize, Sequelize);
-db.UserInfo =  require('./softobotics/userInfo')(sequelize, Sequelize);
+db.WeekDay = require('./softobotics/weekday')(sequelize, Sequelize);
+db.UserInfo = require('./softobotics/userInfo')(sequelize, Sequelize);
+db.Payslip = require('./softobotics/payslip')(sequelize, Sequelize);
 
 /* MAPPING */
 
@@ -49,6 +50,7 @@ db.Organization.hasMany(db.DayOff, { foreignKey: 'organizationId', sourceKey: 'o
 db.Organization.hasMany(db.Holiday, { foreignKey: 'organizationId', sourceKey: 'organizationId' });
 db.Organization.hasMany(db.Task, { foreignKey: 'organizationId', sourceKey: 'organizationId' });
 db.Organization.hasMany(db.Leave, { foreignKey: 'organizationId', sourceKey: 'organizationId' });
+db.Organization.hasMany(db.Payslip, { foreignKey: 'organizationId', sourceKey: 'organizationId' });
 db.Task.hasMany(db.Comment, { foreignKey: 'taskId', sourceKey: 'taskId' });
 db.User.belongsToMany(db.Task, { through: 'task_user', foreignKey: 'userId' });
 db.Task.belongsToMany(db.User, { through: 'task_user', foreignKey: 'taskId' });
@@ -63,5 +65,6 @@ db.User.hasMany(db.Todo, { foreignKey: 'userId', sourceKey: 'id' });
 db.User.hasMany(db.Task, { foreignKey: 'userId', sourceKey: 'id' });
 db.WeekDay.hasMany(db.DayOff, { foreignKey: 'weekdayId', sourceKey: 'weekdayId' });
 db.User.hasOne(db.UserInfo, { foreignKey: 'userId', sourceKey: 'id' });
+db.User.hasMany(db.Payslip, { foreignKey: 'userId', sourceKey: 'id' });
 
 module.exports = db;

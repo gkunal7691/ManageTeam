@@ -8,11 +8,24 @@ const userInfo = require('../../models').UserInfo;
 router.post('/', passport.authenticate('jwt', { session: false }), function (req, res, next) {
   userInfo.create({
     designation: req.body.designation, secondaryEmail: req.body.secondaryEmail, tempAddress: req.body.tempAddress,
-    permanentAddress: req.body.permanentAddress, mobile: req.body.mobile, userId: req.body.userId
+    permanentAddress: req.body.permanentAddress, mobile: req.body.mobile, bank: req.body.bank, bankAccountNo: req.body.bankAccountNo,
+    doj: req.body.doj, pfNumber: req.body.pfNumber, location: req.body.location, department: req.body.department, userId: req.body.userId
   }).then((result) => {
     res.json({ success: true, data: result })
   }).catch(next);
 });
+
+router.put('/', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+  console.log(req.body)
+  userInfo.update({
+    designation: req.body.designation, secondaryEmail: req.body.secondaryEmail, tempAddress: req.body.tempAddress,
+    permanentAddress: req.body.permanentAddress, mobile: req.body.mobile, bank: req.body.bank, bankAccountNo: req.body.bankAccountNo,
+    doj: req.body.doj, pfNumber: req.body.pfNumber, location: req.body.location, department: req.body.department
+  }, { where: { userInfoId: req.body.userInfoId } }).then((data) => {
+    res.json({ success: true, data: data })
+  }).catch(next);
+});
+
 
 router.get('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
   userInfo.findOne({
