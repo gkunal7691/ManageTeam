@@ -87,7 +87,7 @@ export class MonthViewComponent implements OnInit {
 
   ngOnInit() {
     this.totalHolidays = 0;
-    this.divHeight = window.innerHeight + 'px';
+    this.divHeight = window.outerHeight + 'px';
     this.presentdate = new Date();
     this.createMonthDateArray(new Date());
     this.getDayoff();
@@ -137,7 +137,6 @@ export class MonthViewComponent implements OnInit {
     this.taskList = [];
     this.taskService.getTaskList(new Date(this.monthdate), this.userId).subscribe((res: any) => {
       this.taskList = res.data;
-      console.log(this.taskList)
       this.showLoader = false;
       this.totalSpentTime = 0;
       this.totalClientTime = 0;
