@@ -6,7 +6,6 @@ const payslip = require('../../models').Payslip;
 // to add more info about user
 
 router.post('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-    console.log(req.user)
     if (req.user.roleId == 3) {
         payslip.create({
             basic: req.body.basic, house_rent_allowance: req.body.house_rent_allowance, special_allowance: req.body.special_allowance,
@@ -24,16 +23,28 @@ router.post('/:userId', passport.authenticate('jwt', { session: false }), functi
 });
 
 router.get('/:year/:month/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-    payslip.findAll({
-        where: { year: req.params.year, month: req.params.month, userId: req.params.userId, organizationId: req.user.orgId },
-    }).then((data) => {
-        res.json({ success: true, data: data })
-    }).catch(next);
+    if (req.user.roleId == 3) {
+        payslip.findAll({
+            where: { year: req.params.year, month: req.params.month, userId: req.params.userId, organizationId: req.user.orgId },
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        }).then((data) => {
+            res.json({ success: true, data: data })
+        }).catch(next);
+    }
+    else {
+        let comment = 'Access Denied'
+        res.json({ success: true, data: comment })
+    }
 });
 
 router.get('/client/:year/:month', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     payslip.findAll({
         where: { year: req.params.year, month: req.params.month, userId: req.user.id, organizationId: req.user.orgId },
+        order: [
+            ['createdAt', 'DESC']
+        ]
     }).then((data) => {
         res.json({ success: true, data: data })
     }).catch(next);
