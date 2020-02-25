@@ -1,0 +1,241 @@
+<div class="content-heading">
+  <div class="col">
+    Payslip Details
+    <small>View and search for Payslip Details of Employees throughout the Organization.</small>
+  </div>
+  <div class="col">
+    <button class="btn btn-primary float-right" data-toggle="modal" data-target=".addPayslipModal"
+      title="Add New Payslip" (click)="formReset()">Add New Payslip
+    </button>
+  </div>
+</div>
+
+<!-- Material Table -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-8">
+              <mat-form-field class="w-50">
+                <input matInput (keyup)="search($event.target.value)" placeholder="Search">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="card card-default">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="year">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.year}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="month">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Month</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.month}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="basicPay">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Basic Pay</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.basicPay}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="hra">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>House Rent Allowance</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.hra}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="specialAllowance">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Special Allowance</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.specialAllowance}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="hotSkillBonus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Hot Skill Bonus</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.hotSkillBonus}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="providentFund">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Provident Fund</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.providentFund}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="professionalTax">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Professional Tax</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.professionalTax}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="incomeTax">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>income Tax</th>
+                <td mat-cell *matCellDef="let userData">{{userData?.incomeTax}}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Payslip Modal -->
+
+<div class="modal fade addPayslipModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <h4 class="modal-title">Enter following information :</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Close" (click)="formReset()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Choose Year :</b></label>
+            </div>
+            <div class="col-7">
+              <select class="form-control mb-1" [formControl]="addPayslipForm.controls['year']"
+                (change)="onSelectYear($event.target.value)">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Choose Month :</b></label>
+            </div>
+            <div class="col-7">
+              <select class="form-control mb-1" [formControl]="addPayslipForm.controls['month']"
+                (change)="onSelectMonth($event.target.value)">
+                <option value="Jan">January</option>
+                <option value="Feb">February</option>
+                <option value="Mar">March</option>
+                <option value="Apr">April</option>
+                <option value="May">May</option>
+                <option value="Jun">June</option>
+                <option value="Jul">July</option>
+                <option value="Aug">August</option>
+                <option value="Sep">September</option>
+                <option value="Oct">October</option>
+                <option value="Nov">November</option>
+                <option value="Dec">December</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Basic Pay :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number" [formControl]="addPayslipForm.controls['basicPay']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['basicPay'].invalid &&
+                addPayslipForm.controls['basicPay'].touched">
+                <i>Invalid Basic Pay entered.</i>
+              </span>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>House Rent Allowance :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number" [formControl]="addPayslipForm.controls['hra']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['hra'].invalid &&
+                addPayslipForm.controls['hra'].touched">
+                <i>Invalid House Rent Allowance entered.</i>
+              </span>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Special Allowance :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number"
+                [formControl]="addPayslipForm.controls['specialAllowance']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['specialAllowance'].invalid &&
+                addPayslipForm.controls['specialAllowance'].touched">
+                <i>Invalid Special Allowance entered.</i>
+              </span>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Hot Skill Bonus :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number" [formControl]="addPayslipForm.controls['hotSkillBonus']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['hotSkillBonus'].invalid &&
+                addPayslipForm.controls['hotSkillBonus'].touched">
+                <i>Invalid Hot Skill Bonus entered.</i>
+              </span>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Provident Fund :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number" [formControl]="addPayslipForm.controls['providentFund']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['providentFund'].invalid &&
+                addPayslipForm.controls['providentFund'].touched">
+                <i>Invalid Provident Fund entered.</i>
+              </span>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Professional Tax :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number" [formControl]="addPayslipForm.controls['professionalTax']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['professionalTax'].invalid &&
+                addPayslipForm.controls['professionalTax'].touched">
+                <i>Invalid Professional Tax entered.</i>
+              </span>
+            </div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label><b>Income Tax :</b></label>
+            </div>
+            <div class="col-7">
+              <input class="form-control mb-1" type="number" [formControl]="addPayslipForm.controls['incomeTax']">
+              <span class="text-danger" *ngIf="addPayslipForm.controls['incomeTax'].invalid &&
+                addPayslipForm.controls['incomeTax'].touched">
+                <i>Invalid Income Tax entered.</i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Cancel" title="Cancel"
+          (click)="formReset()">Cancel
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Save" title="Save"
+          (click)="onAddPayslip()">Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

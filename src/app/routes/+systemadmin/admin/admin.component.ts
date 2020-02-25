@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { CustomValidators } from 'ng2-validation';
+import { Router } from '@angular/router';
 declare var swal: any;
 
 @Component({
@@ -29,13 +30,9 @@ export class AdminComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private superAdminService: SuperAdminService, private fb: FormBuilder,
-    private loginservice: LoginService, private EmployeeService: EmployeeService) {
+    private loginservice: LoginService, private EmployeeService: EmployeeService, private router: Router) {
     this.allAdminList = 'user';
     this.userList = 'user';
-  }
-
-  search(searchValue: string) {
-    this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
   ngOnInit() {
@@ -81,8 +78,8 @@ export class AdminComponent implements OnInit {
       mobile: this.addUserInfoForm.get('mobile').value, userId: this.userId
     }).subscribe(
       (res: any) => {
-        swal('Success', 'User(' +this.addUserForm.get('firstName').value+' '+
-          this.addUserForm.get('lastName').value+') is added to the organization successfully :)', 'success');
+        swal('Success', 'User(' + this.addUserForm.get('firstName').value + ' ' +
+          this.addUserForm.get('lastName').value + ') is added to the organization successfully :)', 'success');
         this.closeAddUserModal();
         this.getUserList();
         this.getAdminList();
@@ -107,13 +104,13 @@ export class AdminComponent implements OnInit {
       (res: any) => {
         res.data.forEach(user => {
           if (user.roleId == 1) {
-            user.roleId = 'Employee'
+            user.roleId = 'Employee';
           }
           else if (user.roleId == 2) {
-            user.roleId = 'Admin/Manager'
+            user.roleId = 'Admin/Manager';
           }
           else if (user.roleId == 3) {
-            user.roleId = 'Super Admin'
+            user.roleId = 'Super Admin';
           }
         })
         this.userList = res.data;
@@ -131,7 +128,15 @@ export class AdminComponent implements OnInit {
       })
   }
 
-  onViewClick(value) {
+  onViewClick(roleId) {
+    if (roleId == 'Employee') {
+      console.log(roleId);
+      this.router.navigateByUrl('/systemadmin/ManagePayslip/' + roleId);
+    }
+  }
+
+  search(searchValue: string) {
+    this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
 }

@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { ManagePayslipComponent } from './manage-payslip/manage-payslip.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSortModule,
     MatTableModule
   ],
-  declarations: [DashboardComponent, AdminComponent, NotificationComponent, HolidayComponent, DayOffComponent],
+  declarations: [DashboardComponent, AdminComponent, NotificationComponent, HolidayComponent, DayOffComponent, ManagePayslipComponent],
 
   providers:[
     ChildAuthGuard
