@@ -16,13 +16,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
 import { UserService } from '../../services/user.service';
+import { PayslipComponent } from './payslip/payslip.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
     ManageLeaveComponent,
     TodoComponent,
-    CompleteTodoTaskComponent
+    CompleteTodoTaskComponent,
+    PayslipComponent
   ],
   imports: [
     CommonModule,
