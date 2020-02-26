@@ -128,10 +128,10 @@ export class AdminComponent implements OnInit {
       })
   }
 
-  onViewClick(roleId) {
-    if (roleId == 'Employee') {
-      console.log(roleId);
-      this.router.navigateByUrl('/systemadmin/ManagePayslip/' + roleId);
+  onViewClick(employeeList) {
+    if (employeeList.roleId == 'Employee') {
+      console.log(employeeList);
+      this.router.navigateByUrl('/systemadmin/ManagePayslip/' + employeeList.id);
     }
   }
 

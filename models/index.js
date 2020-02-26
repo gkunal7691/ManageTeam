@@ -66,5 +66,6 @@ db.User.hasMany(db.Task, { foreignKey: 'userId', sourceKey: 'id' });
 db.WeekDay.hasMany(db.DayOff, { foreignKey: 'weekdayId', sourceKey: 'weekdayId' });
 db.User.hasOne(db.UserInfo, { foreignKey: 'userId', sourceKey: 'id' });
 db.User.hasMany(db.Payslip, { foreignKey: 'userId', sourceKey: 'id' });
+db.Payslip.belongsTo(db.User, { as: 'user', constraints: false });// for include
 
 module.exports = db;

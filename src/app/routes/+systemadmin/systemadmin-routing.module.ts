@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'notification', component: NotificationComponent },
   { path: 'holiday', component: HolidayComponent },
   { path: 'dayoff', component: DayOffComponent },
-  { path: 'ManagePayslip/:roleId', component: ManagePayslipComponent }
+  { path: 'ManagePayslip/:id', component: ManagePayslipComponent }
 ];
 
 @NgModule({

@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 var passport = require('passport');
 const payslip = require('../../models').Payslip;
+const User = require('../../models').User;
 
-// to add more info about user
+// To add more info about user.
 
 router.post('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     if (req.user.roleId == 3) {
@@ -22,10 +23,15 @@ router.post('/:userId', passport.authenticate('jwt', { session: false }), functi
     }
 });
 
+// To get all payslip for superadmin.
+
 router.get('/:year/:month/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     if (req.user.roleId == 3) {
         payslip.findAll({
             where: { year: req.params.year, month: req.params.month, userId: req.params.userId, organizationId: req.user.orgId },
+            include: [
+                { model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+            ],
             order: [
                 ['createdAt', 'DESC']
             ]
@@ -34,10 +40,12 @@ router.get('/:year/:month/:userId', passport.authenticate('jwt', { session: fals
         }).catch(next);
     }
     else {
-        let comment = 'Access Denied'
+        let comment = 'Access Denied';
         res.json({ success: true, data: comment })
     }
 });
+
+// To get all payslip for client.
 
 router.get('/client/:year/:month', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     payslip.findAll({
@@ -49,6 +57,8 @@ router.get('/client/:year/:month', passport.authenticate('jwt', { session: false
         res.json({ success: true, data: data })
     }).catch(next);
 });
+
+// To update a selected payslip for superadmin.
 
 router.put('/', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     if (req.user.roleId == 3) {
@@ -65,9 +75,9 @@ router.put('/', passport.authenticate('jwt', { session: false }), function (req,
         let comment = 'Access Denied'
         res.json({ success: true, data: comment })
     }
-
 });
 
+// To delete a selected payslip for superadmin.
 
 router.delete('/:payslipId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     if (req.user.roleId == 3) {
@@ -81,6 +91,6 @@ router.delete('/:payslipId', passport.authenticate('jwt', { session: false }), f
         let comment = 'Access Denied'
         res.json({ success: true, data: comment })
     }
-
 });
+
 module.exports = router;
