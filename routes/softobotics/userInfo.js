@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 var passport = require('passport');
 const userInfo = require('../../models').UserInfo;
+const User = require('../../models').User;
 
 // to add more info about user
 
@@ -30,6 +31,9 @@ router.put('/', passport.authenticate('jwt', { session: false }), function (req,
 router.get('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
   userInfo.findOne({
     where: { userId: req.params.userId },
+    include: [
+      { model: User, attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+    ],
   }).then((data) => {
     res.json({ success: true, data: data });
   }).catch(next)

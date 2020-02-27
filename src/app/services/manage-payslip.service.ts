@@ -27,16 +27,15 @@ export class ManagePayslipService {
     return this.httpClient.post<object>(`${this.apiPath}/payslip/` + data.userId, data, this.getHeaders());
   }
 
-  getPaySlipList(data) {
-    return this.httpClient.get<object>(`${this.apiPath}/payslip/` + data.year + '/' + data.month + '/' + data.userId, this.getHeaders());
+  getPaySlipList(userId) {
+    return this.httpClient.get<object>(`${this.apiPath}/payslip/` + userId, this.getHeaders());
   }
 
-  getEmployeePaySlip(data) {
-    return this.httpClient.get<object>(`${this.apiPath}/payslip/client/` + data.year + '/' + data.month, this.getHeaders());
+  getEmployeePaySlip() {
+    return this.httpClient.get<object>(`${this.apiPath}/payslip/client/`, this.getHeaders());
   }
 
   updatePaySlip(data) {
-    console.log(data);
     return this.httpClient.put<Object>(`${this.apiPath}/payslip/`, data, this.getHeaders());
   }
 
