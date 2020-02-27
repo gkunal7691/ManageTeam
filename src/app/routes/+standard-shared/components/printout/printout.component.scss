@@ -1,9 +1,26 @@
 #mytable {
-    background-color: white;
+  background-color: white;
 }
 
 @media screen and (max-width: 400px) and (min-width: 320px) {
-    #mytable {
-      background-color: white;
-    }
+  #mytable {
+    background-color: white;
+  }
+}
+
+.tablepadding {
+  width: 40%;
+  background: #98d498;
+  color: black;
+  font-weight: bold;
+}
+
+.tablepaddingDefault {
+  width: 60%;
+  color: black;
+  font-weight: lighter;
+}
+
+.amountEarningsDeduction {
+  text-align: end;
 }

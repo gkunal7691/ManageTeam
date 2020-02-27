@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { ChildAuthGuard } from '../../services/guards/child-auth-guard.service';
@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ManagePayslipComponent } from './manage-payslip/manage-payslip.component';
+import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ManagePayslipComponent } from './manage-payslip/manage-payslip.componen
     NgxSelectModule,
     FormsModule,
     SharedModule,
+    StandardSharedModule,
     MatInputModule,
     MatListModule,
     MatPaginatorModule,
@@ -35,7 +37,7 @@ import { ManagePayslipComponent } from './manage-payslip/manage-payslip.componen
   ],
   declarations: [DashboardComponent, AdminComponent, NotificationComponent, HolidayComponent, DayOffComponent, ManagePayslipComponent],
 
-  providers:[
+  providers: [
     ChildAuthGuard
   ]
 })

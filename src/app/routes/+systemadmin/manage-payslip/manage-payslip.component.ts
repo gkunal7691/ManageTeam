@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ManagePayslipService } from '../../../services/manage-payslip.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 declare var swal: any;
 
 @Component({
@@ -28,7 +28,7 @@ export class ManagePayslipComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private fb: FormBuilder, private managePayslipService: ManagePayslipService, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private managePayslipService: ManagePayslipService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.addPayslipForm = this.fb.group({
@@ -83,6 +83,7 @@ export class ManagePayslipComponent implements OnInit {
       year: this.currentYear, month: this.currentMonth, userId: this.route.snapshot.params.id
     }).subscribe(
       (res: any) => {
+        console.log(res)
         this.paySlipList = res.data;
         console.log(this.paySlipList);
         this.dataSource = new MatTableDataSource(this.paySlipList);
@@ -191,8 +192,9 @@ export class ManagePayslipComponent implements OnInit {
     this.addPayslipForm.get("workedDays").reset();
   }
 
-  downloadPaySlip(paySlip) {
-    console.log(paySlip);
+  downloadPaySlip(payslip_Id) {
+    console.log(payslip_Id);
+    this.router.navigateByUrl('/systemadmin/downloadPdf/' + payslip_Id);
   }
 
   search(searchValue: string) {

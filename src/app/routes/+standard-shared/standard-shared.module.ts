@@ -14,6 +14,7 @@ import { CommentModalComponent } from './components/comment-modal/comment-modal.
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { TaskContentComponent } from './components/task-content/task-content.component';
 import { DayViewComponent } from './components/day-view/day-view.component';
+import { PrintoutComponent } from './components/printout/printout.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DayViewComponent } from './components/day-view/day-view.component';
     CommentModalComponent,
     BacklogComponent,
     TaskContentComponent,
-    DayViewComponent
+    DayViewComponent,
+    PrintoutComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { DayViewComponent } from './components/day-view/day-view.component';
     MoveToCompletedModalComponent,
     MoveToNextDateModalComponent,
     CommentModalComponent,
+    PrintoutComponent
   ]
 })
 
