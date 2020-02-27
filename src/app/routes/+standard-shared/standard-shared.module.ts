@@ -14,8 +14,14 @@ import { CommentModalComponent } from './components/comment-modal/comment-modal.
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { TaskContentComponent } from './components/task-content/task-content.component';
 import { DayViewComponent } from './components/day-view/day-view.component';
+import { CommonPaySlipComponent } from './components/common-pay-slip/common-pay-slip.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { PrintoutComponent } from './components/printout/printout.component';
-
+import { ExportAsModule } from 'ngx-export-as';
 @NgModule({
   declarations: [
     CustomDatePipe,
@@ -31,11 +37,18 @@ import { PrintoutComponent } from './components/printout/printout.component';
     BacklogComponent,
     TaskContentComponent,
     DayViewComponent,
+    CommonPaySlipComponent,
     PrintoutComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
+    MatInputModule,
+    MatListModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    ExportAsModule
   ],
   providers: [
     CustomDatePipe,
@@ -52,6 +65,7 @@ import { PrintoutComponent } from './components/printout/printout.component';
     MoveToCompletedModalComponent,
     MoveToNextDateModalComponent,
     CommentModalComponent,
+    CommonPaySlipComponent,
     PrintoutComponent
   ]
 })

@@ -11,13 +11,13 @@ import { SystemadminRoutingModule } from './systemadmin-routing.module';
 import { HolidayComponent } from './holiday/holiday.component';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { DayOffComponent } from './day-off/day-off.component';
+import { ManagePayslipComponent } from './manage-payslip/manage-payslip.component';
+import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { ManagePayslipComponent } from './manage-payslip/manage-payslip.component';
-import { StandardSharedModule } from '../+standard-shared/standard-shared.module';
 
 @NgModule({
   imports: [
@@ -33,7 +33,7 @@ import { StandardSharedModule } from '../+standard-shared/standard-shared.module
     MatListModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
   ],
   declarations: [DashboardComponent, AdminComponent, NotificationComponent, HolidayComponent, DayOffComponent, ManagePayslipComponent],
 

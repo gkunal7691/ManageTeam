@@ -11,7 +11,7 @@ router.post('/:userId', passport.authenticate('jwt', { session: false }), functi
         payslip.create({
             basic: req.body.basic, house_rent_allowance: req.body.house_rent_allowance, special_allowance: req.body.special_allowance,
             hot_skill_bonus: req.body.hot_skill_bonus, provident_fund: req.body.provident_fund, professional_tax: req.body.professional_tax,
-            income_tax: req.body.income_tax, month: req.body.month, year: req.body.year, lop_days: req.body.lop_days, std_days: req.body.std_days,
+            income_tax: req.body.income_tax, month: req.body.month, year: (req.body.year).toString(), lop_days: req.body.lop_days, std_days: req.body.std_days,
             worked_days: req.body.worked_days, userId: req.params.userId, organizationId: req.user.orgId
         }).then((result) => {
             res.json({ success: true, data: result })
@@ -25,31 +25,19 @@ router.post('/:userId', passport.authenticate('jwt', { session: false }), functi
 
 // To get all payslip for superadmin.
 
-router.get('/:year/:month/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+router.get('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     if (req.user.roleId == 3) {
-        payslip.findAll({
-            where: { year: req.params.year, month: req.params.month, userId: req.params.userId, organizationId: req.user.orgId },
-            include: [
-                { model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
-            ],
-            order: [
-                ['createdAt', 'DESC']
-            ]
-        }).then((data) => {
-            res.json({ success: true, data: data })
-        }).catch(next);
+        userId = req.params.userId
     }
     else {
-        let comment = 'Access Denied';
-        res.json({ success: true, data: comment })
+        userId = req.user.id
     }
-});
-
-// To get all payslip for client.
-
-router.get('/client/:year/:month', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+    console.log('Piyush', userId)
     payslip.findAll({
-        where: { year: req.params.year, month: req.params.month, userId: req.user.id, organizationId: req.user.orgId },
+        where: { userId: userId, organizationId: req.user.orgId },
+        include: [
+            { model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'roleId'] },
+        ],
         order: [
             ['createdAt', 'DESC']
         ]
