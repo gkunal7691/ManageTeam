@@ -44,15 +44,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
         lop_days: {
-            type: DataTypes.STRING,
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         std_days: {
-            type: DataTypes.STRING,
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         worked_days: {
-            type: DataTypes.STRING,
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
     }, {

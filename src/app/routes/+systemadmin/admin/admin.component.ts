@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { CustomValidators } from 'ng2-validation';
+import { Router } from '@angular/router';
 declare var swal: any;
 
 @Component({
@@ -29,13 +30,9 @@ export class AdminComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private superAdminService: SuperAdminService, private fb: FormBuilder,
-    private loginservice: LoginService, private EmployeeService: EmployeeService) {
+    private loginservice: LoginService, private EmployeeService: EmployeeService, private router: Router) {
     this.allAdminList = 'user';
     this.userList = 'user';
-  }
-
-  search(searchValue: string) {
-    this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
   ngOnInit() {
@@ -52,7 +49,13 @@ export class AdminComponent implements OnInit {
       secEmail: ['', Validators.compose([Validators.required, CustomValidators.email])],
       tempAddress: ['', [Validators.required, Validators.maxLength(5000)]],
       permanentAddress: ['', [Validators.required, Validators.maxLength(5000)]],
-      mobile: ['', [Validators.pattern('^[0-9]+$'), Validators.required, Validators.minLength(10), Validators.maxLength(10)]]
+      mobile: ['', [Validators.pattern('^[0-9]+$'), Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      bank: ['', [Validators.required]],
+      banknumber: ['', [Validators.required]],
+      doj: ['', [Validators.required]],
+      pf: ['', [Validators.required]],
+      dept: ['', [Validators.required]],
+      location: ['', [Validators.required]]
     })
     this.getAdminList();
     this.getUserList();
@@ -76,13 +79,15 @@ export class AdminComponent implements OnInit {
   createUserInfo() {
     this.superAdminService.addUserInfo({
       designation: this.addUserInfoForm.get('desg').value, secondaryEmail: this.addUserInfoForm.get('secEmail').value,
-      tempAddress: this.addUserInfoForm.get('tempAddress').value,
-      permanentAddress: this.addUserInfoForm.get('permanentAddress').value,
-      mobile: this.addUserInfoForm.get('mobile').value, userId: this.userId
+      tempAddress: this.addUserInfoForm.get('tempAddress').value, permanentAddress: this.addUserInfoForm.get('permanentAddress').value,
+      mobile: this.addUserInfoForm.get('mobile').value, bank: this.addUserInfoForm.get('bank').value,
+      bankAccountNo: this.addUserInfoForm.get('banknumber').value, doj: this.addUserInfoForm.get('doj').value,
+      pfNumber: this.addUserInfoForm.get('pf').value, department: this.addUserInfoForm.get('dept').value,
+      location: this.addUserInfoForm.get('location').value, userId: this.userId
     }).subscribe(
       (res: any) => {
-        swal('Success', 'User(' +this.addUserForm.get('firstName').value+' '+
-          this.addUserForm.get('lastName').value+') is added to the organization successfully :)', 'success');
+        swal('Success', 'User(' + this.addUserForm.get('firstName').value + ' ' +
+          this.addUserForm.get('lastName').value + ') is added to the organization successfully :)', 'success');
         this.closeAddUserModal();
         this.getUserList();
         this.getAdminList();
@@ -107,13 +112,13 @@ export class AdminComponent implements OnInit {
       (res: any) => {
         res.data.forEach(user => {
           if (user.roleId == 1) {
-            user.roleId = 'Employee'
+            user.roleId = 'Employee';
           }
           else if (user.roleId == 2) {
-            user.roleId = 'Admin/Manager'
+            user.roleId = 'Admin/Manager';
           }
           else if (user.roleId == 3) {
-            user.roleId = 'Super Admin'
+            user.roleId = 'Super Admin';
           }
         })
         this.userList = res.data;
@@ -131,7 +136,15 @@ export class AdminComponent implements OnInit {
       })
   }
 
-  onViewClick(value) {
+  onViewClick(employeeList) {
+    if (employeeList.roleId == 'Employee') {
+      console.log(employeeList);
+      this.router.navigateByUrl('/systemadmin/ManagePayslip/' + employeeList.id);
+    }
+  }
+
+  search(searchValue: string) {
+    this.dataSource.filter = searchValue.trim().toLowerCase();
   }
 
 }

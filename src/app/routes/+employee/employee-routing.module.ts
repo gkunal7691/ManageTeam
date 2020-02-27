@@ -9,6 +9,7 @@ import { CompleteTodoTaskComponent } from './complete-todo-task/complete-todo-ta
 import { BacklogComponent } from '../+standard-shared/components/backlog/backlog.component';
 import { TaskContentComponent } from '../+standard-shared/components/task-content/task-content.component';
 import { DayViewComponent } from '../+standard-shared/components/day-view/day-view.component';
+import { PayslipComponent } from './payslip/payslip.component';
 
 const routes: Routes = [
   // { path: 'edashboard', canActivate: [ChildAuthGuard], component: DashboardComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'todo', canActivate: [ChildAuthGuard], component: TodoComponent },
   { path: 'todo/:id', canActivate: [ChildAuthGuard], component: TodoComponent },
   { path: 'backlog', canActivate: [ChildAuthGuard], component: BacklogComponent },
-  { path: 'todo/completed/:id', canActivate: [ChildAuthGuard], component: CompleteTodoTaskComponent }
+  { path: 'todo/completed/:id', canActivate: [ChildAuthGuard], component: CompleteTodoTaskComponent },
+  { path: 'payslip', canActivate: [ChildAuthGuard], component:PayslipComponent }
 ];
 
 @NgModule({
