@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ManagePayslipService } from '../../../../services/manage-payslip.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SuperAdminService } from '../../../../services/super-admin.service';
 
 declare var swal: any;
@@ -33,10 +33,10 @@ export class CommonPaySlipComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   @Input() userId: number;
+  @Input() hideBtn: boolean;
 
-
-  constructor(private router: Router, private fb: FormBuilder, private managePayslipService: ManagePayslipService, private route: ActivatedRoute,
-    private superAdminService: SuperAdminService) { }
+  constructor(private fb: FormBuilder, private managePayslipService: ManagePayslipService,
+    private route: ActivatedRoute, private superAdminService: SuperAdminService) { }
 
   ngOnInit() {
     this.addPayslipForm = this.fb.group({
@@ -61,7 +61,6 @@ export class CommonPaySlipComponent implements OnInit {
     this.managePayslipService.getPaySlipList(this.userId).subscribe(
       (res: any) => {
         this.paySlipList = res.data;
-        console.log(this.paySlipList)
         this.dataSource = new MatTableDataSource(this.paySlipList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -75,7 +74,6 @@ export class CommonPaySlipComponent implements OnInit {
   }
 
   onAddPayslip() {
-    console.log(this.addPayslipForm.get('year').value)
     this.managePayslipService.addPaySlip({
       year: this.addPayslipForm.get('year').value,
       month: this.addPayslipForm.get('month').value,
@@ -85,7 +83,6 @@ export class CommonPaySlipComponent implements OnInit {
       worked_days: this.addPayslipForm.get('workedDays').value, userId: this.route.snapshot.params.id
     }).subscribe(
       (res: any) => {
-        console.log(res.data)
         swal('Success', 'Payslip added successfully :)', 'success');
         this.getPaySlipList();
       })
@@ -166,7 +163,6 @@ export class CommonPaySlipComponent implements OnInit {
   }
 
   downloadPaySlip(paySlip) {
-    console.log();
     this.isView = false;
     this.isPrintout = true;
     this.singlePayslipList = paySlip;
