@@ -4,16 +4,27 @@
 <div id="mytable">
     <div class="container">
         <div class="row">
-            <div class="col-12 p-0">
-                <h5 class="mb-0" style="border: 1px solid black;  background: black; color: #f1d5a2;">Softobotics
-                    Technology Pvt
-                    Ltd.</h5>
+            <div class="col">
+                <img src="assets/img/logo.png" style="width: 150px; height: 45px;">
+            </div>
+            <div class="col" style="text-align: end;">
+                <label class="m-0">Softobotics Technology Pvt Ltd.</label><br>
+                <label class="m-0">Registered Office:-Btm first stage</label><br>
+                <label class="m-0">#3rd cross,17th Main</label><br>
+                <label class="m-0">Bangalore 560076</label>
+
             </div>
         </div>
         <div class="row">
             <div class="col-12 p-0">
-                <h5 class="mb-0" style="text-align: center; border: 1px solid;  background: #ffff;">Payslip For
-                    {{month}} {{payslipList?.year}}.</h5>
+                <h5 class="mb-0" style="border: 1px solid black; background: #d4cccc; color: #7b157b;">Softobotics
+                    Technology Pvt Ltd.</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 p-0">
+                <h5 class="mb-0" style="text-align: center; border: 1px solid;  background: #ffff;">Payslip for
+                    the month of {{month}} {{payslipList?.year}}.</h5>
             </div>
         </div>
         <div class="row">
@@ -80,33 +91,35 @@
                 <table style="width: 100%; border: 1px solid black;">
                     <tr>
                         <th
-                            style="text-align: center;width:70%; border-bottom: 1px solid; border-right: 1px solid; background: #98d498;">
+                            style="text-align: center;width:70%; border-bottom: 1px solid; border-right: 1px solid; background: #d4cccc; color: #7b157b;">
                             Earnings</th>
-                        <th style="width:30%; border-bottom: 1px solid; background: #98d498;  text-align: end;">Amount
+                        <th
+                            style="width:30%; border-bottom: 1px solid; background: #d4cccc; color: #7b157b;  text-align: end;">
+                            Amount
                             in Rs
                         </th>
                     </tr>
                     <tr>
-                        <td>BASIC</td>
+                        <td class="deductionsEarnings">BASIC</td>
                         <td class="amountEarningsDeduction">{{payslipList?.basic}}</td>
                     </tr>
                     <tr>
-                        <td>HOUSE RENT ALLOWANCE</td>
+                        <td class="deductionsEarnings">HOUSE RENT ALLOWANCE</td>
                         <td class="amountEarningsDeduction">{{payslipList?.house_rent_allowance}}</td>
                     </tr>
                     <tr>
-                        <td>SPECIAL ALLOWANCE</td>
+                        <td class="deductionsEarnings">SPECIAL ALLOWANCE</td>
                         <td class="amountEarningsDeduction">{{payslipList?.special_allowance}}</td>
                     </tr>
                     <tr>
-                        <td>HOT SKILL BONUS</td>
+                        <td class="deductionsEarnings">HOT SKILL BONUS</td>
                         <td class="amountEarningsDeduction">{{payslipList?.hot_skill_bonus}}</td>
                     </tr>
                     <tr>
                         <th
-                            style="width:70%; border-bottom: 1px solid; border-right: 1px solid; border-top: 1px solid;">
+                            style="padding-right: 5px;width:70%; border-bottom: 1px solid; border-right: 1px solid; border-top: 1px solid;">
                             GROSS EARNING</th>
-                        <th class="amountEarningsDeduction"
+                        <th class="padding-right: 5px; amountEarningsDeduction"
                             style="width:30%; border-bottom: 1px solid; border-top: 1px solid;">
                             {{payslipList?.basic + payslipList?.house_rent_allowance + payslipList?.special_allowance + payslipList?.hot_skill_bonus}}
                         </th>
@@ -123,31 +136,33 @@
                 <table style="width: 100%; border: 1px solid black;">
                     <tr>
                         <th
-                            style="text-align: center; width:80%; border-bottom: 1px solid; border-right: 1px solid; background: #98d498;">
+                            style="text-align: center; width:80%; border-bottom: 1px solid; border-right: 1px solid; background: #d4cccc; color: #7b157b;">
                             Deductions</th>
-                        <th style="width:20%; border-bottom: 1px solid; background: #98d498;  text-align: end;">Amount
+                        <th
+                            style="width:20%; border-bottom: 1px solid; background: #d4cccc; color: #7b157b;  text-align: end;">
+                            Amount
                             in Rs
                         </th>
                     </tr>
                     <tr>
-                        <td>PROFESSIONAL TAX</td>
+                        <td class="deductionsEarnings">PROFESSIONAL TAX</td>
                         <td class="amountEarningsDeduction">{{payslipList?.professional_tax}}</td>
                     </tr>
                     <tr>
-                        <td>PROVIDENT FUND</td>
+                        <td class="deductionsEarnings">PROVIDENT FUND</td>
                         <td class="amountEarningsDeduction">{{payslipList?.provident_fund}}</td>
                     </tr>
                     <tr>
-                        <td>INCOME TAX</td>
+                        <td class="deductionsEarnings">INCOME TAX</td>
                         <td class="amountEarningsDeduction">{{payslipList?.income_tax}}</td>
                     </tr>
-                    <tr style="color: #ffffff;">
-                        <td>HOT SKILL BONUS</td>
-                        <td>{{payslipList?.hot_skill_bonus}}</td>
+                    <tr style="height: 28.5px;">
+                        <td></td>
+                        <td style="border-right: 1px solid;"></td>
                     </tr>
                     <tr>
                         <th
-                            style="width:70%; border-bottom: 1px solid; border-right: 1px solid; border-top: 1px solid;">
+                            style="padding-left: 5px; width:70%; border-bottom: 1px solid; border-right: 1px solid; border-top: 1px solid;">
                             GROSS DEDUCTIONS</th>
                         <th class="amountEarningsDeduction"
                             style="width:30%; border-bottom: 1px solid; border-top: 1px solid;">
@@ -155,7 +170,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th style="width:70%; border-bottom: 1px solid; border-top: 1px solid;">
+                        <th style="padding-left: 5px; width:70%; border-bottom: 1px solid; border-top: 1px solid;">
                             {{(payslipList?.basic + payslipList?.house_rent_allowance + payslipList?.special_allowance + payslipList?.hot_skill_bonus) - (payslipList?.professional_tax + payslipList?.provident_fund + payslipList?.income_tax)}}
                         </th>
                         <th style="width:30%; border-bottom: 1px solid; border-top: 1px solid;"></th>
