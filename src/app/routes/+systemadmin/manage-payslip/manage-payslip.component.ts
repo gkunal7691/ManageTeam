@@ -9,8 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 export class ManagePayslipComponent implements OnInit {
 
   userId: number;
+  hideBtn: boolean = true;
 
-  constructor(private route: ActivatedRoute,) {
+  constructor(private route: ActivatedRoute, ) {
     this.userId = this.route.snapshot.params.id
   }
 
