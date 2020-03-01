@@ -17,12 +17,13 @@ export class DayViewComponent implements OnInit {
   userId: number;
   showLoader: any;
   totalEstimatedTime: number;
+  closeBtn: string = 'dashboard'
 
   @ViewChild(DayModalContentComponent, { static: true }) dayModalContent: DayModalContentComponent;
   @ViewChild(TaskModalComponent, { static: true }) taskModal: TaskModalComponent;
 
 
-  constructor(public loginService: LoginService, private userService: UserService) { 
+  constructor(public loginService: LoginService, private userService: UserService) {
     this.userId = this.loginService.currentUser.id
   }
 

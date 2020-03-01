@@ -27,20 +27,6 @@ const TimeAttendance = {
     roleId: [1],
 };
 
-const AdminDashboard = {
-    text: 'Day View',
-    link: '/admin/adashboard',
-    icon: 'icon-speedometer',
-    roleId: [2]
-};
-
-const AdminTimeAttendance = {
-    text: 'Month View',
-    link: '/admin/manage-time',
-    icon: 'icon-clock',
-    roleId: [2],
-};
-
 const EmployeeProfile = {
     text: 'Profile',
     link: '/employee/eprofile',
@@ -48,13 +34,20 @@ const EmployeeProfile = {
     roleId: [1]
 };
 
-
 const EmpBacklog = {
     text: 'Backlog',
     link: '/employee/backlog',
     icon: 'icon-list',
     roleId: [1],
 };
+
+const Payslip = {
+    text: 'Payslip',
+    link: '/employee/payslip',
+    icon: 'icon-doc',
+    roleId: [1],
+};
+
 
 const AdminBacklog = {
     text: 'Backlog',
@@ -77,6 +70,26 @@ const AdminEmployee = {
     roleId: [2]
 };
 
+const LeaveRequest = {
+    text: 'Leave Requests',
+    link: '/admin/leave-request',
+    icon: 'icon-notebook',
+    roleId: [2]
+}
+
+const AdminDashboard = {
+    text: 'Day View',
+    link: '/admin/adashboard',
+    icon: 'icon-speedometer',
+    roleId: [2]
+};
+
+const AdminTimeAttendance = {
+    text: 'Month View',
+    link: '/admin/manage-time',
+    icon: 'icon-clock',
+    roleId: [2],
+};
 
 const SuperadminDashboard = {
     text: 'Dashboard',
@@ -113,13 +126,6 @@ const Dayoff = {
     roleId: [3]
 }
 
-const LeaveRequest = {
-    text: 'Leave Requests',
-    link: '/admin/leave-request',
-    icon: 'icon-notebook',
-    roleId: [2]
-}
-
 export const menu = [
     
     EmployeeDashboard,
@@ -127,6 +133,7 @@ export const menu = [
     TimeAttendance,
     EmpBacklog,
     ManageLeave,
+    Payslip,
     AdminDashboard,
     AdminEmployee,
     AdminTimeAttendance,
