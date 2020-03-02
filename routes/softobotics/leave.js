@@ -80,10 +80,8 @@ router.post('/', async function (req, res, next) {
    dayOff.findAll({ where: { organizationId: req.user.orgId } }).then((dayOffList) => {
       dayOffList = dayOffList.map(x => x.weekdayId);
       for (let i = 0; i < dayOffList.length; i++) {
-         if (dayOffList[i] == 0) {
-            dayOffList[i] = 'sunday';
-         }
-         else if (dayOffList[i] == 1) {
+
+         if (dayOffList[i] == 1) {
             dayOffList[i] = 'monday';
          }
          else if (dayOffList[i] == 2) {
@@ -100,6 +98,9 @@ router.post('/', async function (req, res, next) {
          }
          else if (dayOffList[i] == 6) {
             dayOffList[i] = 'saturday';
+         }
+         else if (dayOffList[i] == 7) {
+            dayOffList[i] = 'sunday';
          }
       }
       Holiday.findAll({ where: { organizationId: req.user.orgId } }).then((holidayList) => {
