@@ -22,7 +22,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   leaveRequestForm: FormGroup;
-  public leaveData: any;
+  leaveData: any;
 
   showTable: boolean;
   isAccOpen2;
@@ -221,9 +221,9 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       this.leaveRequestForm.get("type").reset();
       this.leaveError = '';
       this.fromDate = new Date(date);
-      let currentDate: Date = new Date();
-      var noOfDates = this.fromDate.getTime() - currentDate.getTime();
-      if (noOfDates < 0) {
+
+      let Difference_In_Time = this.fromDate.getTime() - new Date().getTime();
+      if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
         this.isPastDate = true;
       } else {
         this.isPastDate = false;
@@ -286,6 +286,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   getNoOfDays(val) {
     this.toDate = val;
+    console.log(this.toDate)
     this.leaveRequestForm.get("type").reset();
     this.leaveError = null;
     if (val != null && this.fromDate != undefined) {

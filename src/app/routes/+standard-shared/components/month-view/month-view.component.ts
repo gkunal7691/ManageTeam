@@ -184,7 +184,7 @@ export class MonthViewComponent implements OnInit {
         }
         else if (id == 7) {
           this.sundayArray = [];
-          this.hideSaturday = false;
+          this.hideSunday = false;
         }
         else {
           this.hideMonday = true;
