@@ -259,10 +259,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
       this.dayOffList = res.data.map(x => x.weekdayId);
       for (let i = 0; i < this.dayOffList.length; i++) {
-        if (this.dayOffList[i] == 0) {
-          this.dayOffList[i] = 'sunday';
-        }
-        else if (this.dayOffList[i] == 1) {
+        if (this.dayOffList[i] == 1) {
           this.dayOffList[i] = 'monday';
         }
         else if (this.dayOffList[i] == 2) {
@@ -280,18 +277,22 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         else if (this.dayOffList[i] == 6) {
           this.dayOffList[i] = 'saturday';
         }
+        else if (this.dayOffList[i] == 7) {
+          this.dayOffList[i] = 'sunday';
+        }
       }
     })
   }
 
   getNoOfDays(val) {
     this.toDate = val;
-    console.log(this.toDate)
     this.leaveRequestForm.get("type").reset();
     this.leaveError = null;
     if (val != null && this.fromDate != undefined) {
       if (val) {
         var Difference_In_Time = this.toDate.getTime() - this.fromDate.getTime();
+        var totalDays = parseInt(((Difference_In_Time / (1000 * 3600 * 24)) + 1).toFixed(0))
+
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
           this.invalidDate = true;
         } else {
@@ -301,11 +302,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       var totaldate = [];
       let fromdate = new Date(this.fromDate);
       let todate = new Date(this.toDate);
-      for (let date = fromdate.getDate(); date <= todate.getDate(); date++) {
+
+      for (let date = 0; date < totalDays; date++) {
         let day: Date = new Date(fromdate);
         totaldate.push(day);
         fromdate.setDate(fromdate.getDate() + 1);
       }
+
       totaldate.forEach(x => {
         if (x.getDay() == 0) {
           x.day = 'sunday';
@@ -339,7 +342,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       } else {
         this.isvalid = false;
       }
-
     }
   }
 
