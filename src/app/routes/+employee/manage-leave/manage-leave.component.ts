@@ -326,7 +326,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
           x.day = 'thursday';
         }
         if (x.getDay() == 5) {
-          x.day = '5';
+          x.day = 'friday';
         }
         if (x.getDay() == 6) {
           x.day = 'saturday';
