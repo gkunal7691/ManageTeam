@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'leave-request', canActivate: [ChildAuthGuard], component: LeaveRequestComponent },
   { path: 'admin-employee', canActivate: [ChildAuthGuard], component: AdminEmployeeComponent },
   { path: 'manage-time', canActivate: [ChildAuthGuard], component: MonthViewComponent },
-  { path: 'backlog', canActivate: [ChildAuthGuard], component: BacklogComponent },
+  { path: 'backlog', canActivate: [ChildAuthGuard], component: BacklogComponent }
 ];
 
 @NgModule({
