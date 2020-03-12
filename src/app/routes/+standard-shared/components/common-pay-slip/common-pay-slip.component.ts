@@ -88,8 +88,9 @@ export class CommonPaySlipComponent implements OnInit {
   }
 
   updatePaySlipForEdit(paySlip) {
+    console.log(paySlip);
     this.title = "Edit";
-    this.paySlipId = paySlip.payslip_Id
+    this.paySlipId = paySlip.payslip_Id;
     this.addPayslipForm.get('year').setValue(paySlip.year);
     this.addPayslipForm.get('month').setValue(paySlip.month);
     this.addPayslipForm.get('basic').setValue(paySlip.basic);

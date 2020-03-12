@@ -23,6 +23,7 @@ export class AdminComponent implements OnInit {
   userId: any;
   private allAdminList: any;
   private userList: any;
+  modalTitle: string;
 
   displayedColumns: string[] = ["id", "user", "roleId", "lastLogin", "action"];
   dataSource = new MatTableDataSource();
@@ -59,7 +60,6 @@ export class AdminComponent implements OnInit {
     })
     this.getAdminList();
     this.getUserList();
-
   }
 
   createUser() {
@@ -88,15 +88,10 @@ export class AdminComponent implements OnInit {
       (res: any) => {
         swal('Success', 'User(' + this.addUserForm.get('firstName').value + ' ' +
           this.addUserForm.get('lastName').value + ') is added to the organization successfully :)', 'success');
-        this.closeAddUserModal();
+        this.formReset();
         this.getUserList();
         this.getAdminList();
       })
-  }
-
-  closeAddUserModal() {
-    this.addUserForm.reset();
-    this.addUserInfoForm.reset();
   }
 
   deleteAdmin(value) {
@@ -136,15 +131,35 @@ export class AdminComponent implements OnInit {
       })
   }
 
+  updateFormForEdit(employeeList) {
+    console.log(employeeList);
+    console.log(employeeList.roleId);
+    this.modalTitle = "Edit User Information";
+    this.addUserForm.get('firstName').setValue(employeeList.firstName);
+    this.addUserForm.get('lastName').setValue(employeeList.lastName);
+    this.addUserForm.get('roleId').setValue(employeeList.roleId);
+    this.addUserForm.get('email').setValue(employeeList.email);
+
+    console.log(this.addUserForm.get('roleId').value);
+
+  }
+
   onViewClick(employeeList) {
+    console.log(employeeList);
     if (employeeList.roleId == 'Employee') {
-      console.log(employeeList);
       this.router.navigateByUrl('/systemadmin/ManagePayslip/' + employeeList.id);
     }
+  }
+
+  formReset() {
+    this.modalTitle = "Add New User";
+    this.addUserForm.reset();
+    this.addUserInfoForm.reset();
+    this.addUserForm.get('roleId').setValue('');
+    this.addUserInfoForm.get('desg').setValue('');
   }
 
   search(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
-
 }

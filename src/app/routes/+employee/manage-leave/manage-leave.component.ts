@@ -186,12 +186,14 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   cancelLeaveRequestSwal(value) {
+    console.log(value);
+    console.log(this.leaveData);
     let totalLeaveDays = value.noOfdays;
     if (totalLeaveDays < 0)
       totalLeaveDays = Math.abs(totalLeaveDays);
     swal({
       title: "Are you sure ?",
-      text: "Leave request for " + totalLeaveDays + " days will be cancelled!",
+      text: "Leave request for " + totalLeaveDays + " days will be cancelled !",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -213,12 +215,12 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       (result: any) => {
         swal('Deleted', 'Leave request for ' + totalLeaveDays + ' days has been removed :)', 'warning');
         this.filterRequestLeave();
+        this.leaveCalculation();
       })
   }
 
   getFromDate(date) {
     if (date != null) {
-      this.leaveRequestForm.get("type").reset();
       this.leaveError = '';
       this.fromDate = new Date(date);
 
@@ -286,7 +288,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   getNoOfDays(val) {
     this.toDate = val;
-    this.leaveRequestForm.get("type").reset();
     this.leaveError = null;
     if (val != null && this.fromDate != undefined) {
       if (val) {
@@ -351,7 +352,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.earned = 0
       }
       if (this.leaveData.earned < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.earned + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -362,7 +363,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.casual = 0
       }
       if (this.leaveData.casual < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.casual + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -373,7 +374,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.optional = 0
       }
       if (this.leaveData.optional < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.optional + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -384,7 +385,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.wfh = 0
       }
       if (this.leaveData.wfh < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.wfh + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -397,6 +398,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   formReset() {
     this.leaveRequestForm.reset();
+    this.leaveRequestForm.get('type').setValue('');
   }
-
 }
