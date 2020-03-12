@@ -6,7 +6,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ManagePayslipService } from '../../../../services/manage-payslip.service';
 import { ActivatedRoute } from '@angular/router';
 import { SuperAdminService } from '../../../../services/super-admin.service';
-
 declare var swal: any;
 
 @Component({
@@ -14,8 +13,8 @@ declare var swal: any;
   templateUrl: './common-pay-slip.component.html',
   styleUrls: ['./common-pay-slip.component.scss']
 })
-export class CommonPaySlipComponent implements OnInit {
 
+export class CommonPaySlipComponent implements OnInit {
   addPayslipForm: FormGroup;
   paySlipList: any;
   title: string;
@@ -171,5 +170,4 @@ export class CommonPaySlipComponent implements OnInit {
   search(searchValue: string) {
     this.dataSource.filter = searchValue.trim().toLowerCase();
   }
-
 }

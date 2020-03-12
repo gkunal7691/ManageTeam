@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: 'admin-employee', canActivate: [ChildAuthGuard], component: AdminEmployeeComponent },
   { path: 'manage-time', canActivate: [ChildAuthGuard], component: MonthViewComponent },
   { path: 'backlog', canActivate: [ChildAuthGuard], component: BacklogComponent },
-
 ];
 
 @NgModule({
