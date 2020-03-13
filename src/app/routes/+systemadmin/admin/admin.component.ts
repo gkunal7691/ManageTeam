@@ -21,9 +21,10 @@ export class AdminComponent implements OnInit {
   addUserInfoForm: FormGroup;
   adminList: any[] = [];
   userId: any;
-  // private allAdminList: any;
+  private allAdminList: any;
   private userList: any;
   modalTitle: string;
+  selectedUserId: number;
 
   displayedColumns: string[] = ["id", "user", "roleId", "lastLogin", "action"];
   dataSource = new MatTableDataSource();
@@ -32,7 +33,7 @@ export class AdminComponent implements OnInit {
 
   constructor(private superAdminService: SuperAdminService, private fb: FormBuilder,
     private loginservice: LoginService, private EmployeeService: EmployeeService, private router: Router) {
-    // this.allAdminList = 'user';
+    this.allAdminList = 'user';
     this.userList = 'user';
   }
 
@@ -58,7 +59,7 @@ export class AdminComponent implements OnInit {
       dept: ['', [Validators.required]],
       location: ['', [Validators.required]]
     })
-    // this.getAdminList();
+    this.getAdminList();
     this.getUserList();
   }
 
@@ -90,16 +91,16 @@ export class AdminComponent implements OnInit {
           this.addUserForm.get('lastName').value + ') is added to the organization successfully :)', 'success');
         this.formReset();
         this.getUserList();
-        // this.getAdminList();
+        this.getAdminList();
       })
   }
 
-  // deleteAdmin(value) {
-  //   this.superAdminService.deleteClient(value).subscribe(
-  //     (res: any) => {
-  //       this.getAdminList();
-  //     })
-  // }
+  deleteAdmin(value) {
+    this.superAdminService.deleteClient(value).subscribe(
+      (res: any) => {
+        this.getAdminList();
+      })
+  }
 
   getUserList() {
     this.superAdminService.getUserList().subscribe(
@@ -122,24 +123,47 @@ export class AdminComponent implements OnInit {
       })
   }
 
-  // getAdminList() {
-  //   this.EmployeeService.getAllAdminList().subscribe(
-  //     (res: any) => {
-  //       this.allAdminList = res.data;
-  //     })
-  // }
+  getAdminList() {
+    this.EmployeeService.getAllAdminList().subscribe(
+      (res: any) => {
+        this.allAdminList = res.data;
+      })
+  }
 
   updateFormForEdit(employeeList) {
-    console.log(employeeList);
-    console.log(employeeList.roleId);
+    this.selectedUserId = employeeList.id;
     this.modalTitle = "Edit User Information";
     this.addUserForm.get('firstName').setValue(employeeList.firstName);
     this.addUserForm.get('lastName').setValue(employeeList.lastName);
-    this.addUserForm.get('roleId').setValue(employeeList.roleId);
+    this.addUserForm.get('roleId').setValue(1);
+
+    this.addUserInfoForm.get('desg').setValue(employeeList.userInfo.designation);
     this.addUserForm.get('email').setValue(employeeList.email);
+    this.addUserInfoForm.get('secEmail').setValue(employeeList.userInfo.secondaryEmail);
+    this.addUserInfoForm.get('tempAddress').setValue(employeeList.userInfo.tempAddress);
+    this.addUserInfoForm.get('mobile').setValue(employeeList.userInfo.mobile);
+    this.addUserInfoForm.get('bank').setValue(employeeList.userInfo.bank);
+    this.addUserInfoForm.get('banknumber').setValue(employeeList.userInfo.bankAccountNo);
+    this.addUserInfoForm.get('doj').setValue(employeeList.userInfo.doj);
+    this.addUserInfoForm.get('pf').setValue(employeeList.userInfo.pfNumber);
+    this.addUserInfoForm.get('location').setValue(employeeList.userInfo.location);
+    this.addUserInfoForm.get('dept').setValue(employeeList.userInfo.department);
+    this.addUserInfoForm.get('permanentAddress').setValue(employeeList.userInfo.permanentAddress);
+  }
 
-    // console.log(this.addUserForm.get('roleId').value);
-
+  updateUserData() {
+    this.superAdminService.updateUserData({
+      firstName: this.addUserForm.get('firstName').value, lastName: this.addUserForm.get('lastName').value,
+      email: this.addUserForm.get('email').value, roleId: this.addUserForm.get('roleId').value, id: this.selectedUserId,
+      desg: this.addUserInfoForm.get('desg').value, secEmail: this.addUserInfoForm.get('secEmail').value,
+      tempAddress: this.addUserInfoForm.get('tempAddress').value, mobile: this.addUserInfoForm.get('mobile').value,
+      permanentAddress: this.addUserInfoForm.get('permanentAddress').value, doj: this.addUserInfoForm.get('doj').value,
+      bankAccountNo: this.addUserInfoForm.get('banknumber').value, pfNumber: this.addUserInfoForm.get('pf').value,
+      location: this.addUserInfoForm.get('location').value, dept: this.addUserInfoForm.get('dept').value,
+      bank: this.addUserInfoForm.get('bank').value
+    }).subscribe((res: any) => {
+      this.getUserList();
+    })
   }
 
   onViewClick(employeeList) {
@@ -155,6 +179,9 @@ export class AdminComponent implements OnInit {
     this.addUserInfoForm.reset();
     this.addUserForm.get('roleId').setValue('');
     this.addUserInfoForm.get('desg').setValue('');
+    this.addUserForm.get('email').setValue('');
+    this.addUserInfoForm.get('secEmail').setValue('');
+    this.addUserForm.get('password').setValue('');
   }
 
   search(searchValue: string) {

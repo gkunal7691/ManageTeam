@@ -6,26 +6,23 @@ import { CacheService } from '../../../services/cache.service';
 import { LoginService } from '../../../services/login.service';
 import { MESSAGES } from '../../../services/messages.service';
 
-
-
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
     encapsulation: ViewEncapsulation.None
 })
+
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loginFailText: string;
     organizationId: number;
 
     constructor(
-        private router: Router,
-        private fb: FormBuilder,
+        private router: Router, private fb: FormBuilder,
         private loginservice: LoginService,
         private cacheService: CacheService,
-        private authLoadService: AuthLoadService
-    ) {
+        private authLoadService: AuthLoadService) {
     }
 
     ngOnInit() {
@@ -57,7 +54,7 @@ export class LoginComponent implements OnInit {
             ).then((result: any) => {
                 if (result.success) {
                     this.loginservice.checkToken().then((data: any) => {
-                        console.log(data.user.roleId);
+                        // console.log(data.user.roleId);
                         this.loginservice.setUser(data.user);
                         if (data.user.roleId == 1) {
                             this.router.navigateByUrl('/employee/edashboard');
