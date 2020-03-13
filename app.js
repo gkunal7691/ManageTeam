@@ -40,7 +40,6 @@ originsWhitelist.push('http://localhost:8000');
 originsWhitelist.push('https://employee.softobotics.com');
 originsWhitelist.push('https://softobotics.herokuapp.com');
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +47,7 @@ app.use('/login', express.static('dist'));
 app.use('/registration', express.static('dist'));
 app.use('/forgotpassword', express.static('dist'));
 app.use('/resetpassword/:id', express.static('dist'));
+
 app.use('/employee/edashboard', express.static('dist'));
 app.use('/employee/eprofile', express.static('dist'));
 app.use('/employee/month-view', express.static('dist'));
@@ -57,18 +57,23 @@ app.use('/employee/task/:id', express.static('dist'));
 app.use('/employee/todo', express.static('dist'));
 app.use('/employee/todo/:id', express.static('dist'));
 app.use('/employee/todo/completed/:id', express.static('dist'));
+app.use('/employee/payslip', express.static('dist'));
+
 app.use('/admin/adashboard', express.static('dist'));
 app.use('/admin/aprofile', express.static('dist'));
 app.use('/admin/leave-request', express.static('dist'));
 app.use('/admin/admin-employee', express.static('dist'));
-app.use('/admin/month-view', express.static('dist'));
+app.use('/admin/manage-time', express.static('dist'));
 app.use('/admin/backlog', express.static('dist'));
 
-app.use('/superadmin/sadashboard', express.static('dist'));
-app.use('/superadmin/admin', express.static('dist'));
-app.use('/superadmin/notification', express.static('dist'));
-app.use('/superadmin/holiday', express.static('dist'));
-app.use('/superadmin/dayoff', express.static('dist'));
+
+app.use('/systemadmin/sadashboard', express.static('dist'));
+app.use('/systemadmin/admin', express.static('dist'));
+app.use('/systemadmin/notification', express.static('dist'));
+app.use('/systemadmin/holiday', express.static('dist'));
+app.use('/systemadmin/dayoff', express.static('dist'));
+app.use('/systemadmin/ManagePayslip/:id', express.static('dist'));
+app.use('/systemadmin/downloadPdf', express.static('dist'));
 
 app.use(express.static('dist'));
 app.use(cookieParser());
@@ -78,7 +83,6 @@ app.use(cookieParser());
 app.use(cors({
     origin: (origin, callback) => {
         const isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
-
         callback(null, isWhitelisted);
     },
     credentials: true
@@ -132,19 +136,15 @@ app.use(function (err, req, res, next) {
         case 'TokenExpiredError':
             errorCode = 'expired_token';
             break;
-
         case 'JsonWebTokenError':
             errorCode = 'invalid_token';
             break;
-
         case 'SequelizeUniqueConstraintError':
             errorCode = 'duplicated_' + Object.keys(err.fields)[0];
             break;
-
         case 'SequelizeDatabaseError':
             errorCode = 'invalid_inputs';
             break;
-
         default:
             errorCode = 'unrecognized';
     }
@@ -152,11 +152,9 @@ app.use(function (err, req, res, next) {
     if (err.code === 'LIMIT_FILE_SIZE') {
         errorCode = 'INCORRECT_FILE_SIZE';
     }
-
     if (err.message && errorCodes.includes(err.message.toUpperCase())) {
         errorCode = err.message;
     }
-
     res.json({
         success: false,
         error: {
