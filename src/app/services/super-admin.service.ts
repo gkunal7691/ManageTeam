@@ -1,32 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CacheService } from './cache.service';
-import { LoginService } from './login.service';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SuperAdminService {
 
+export class SuperAdminService {
   private apiPath: string;
   private clientList: string;
   private createUser: string;
   private deleteUser: string;
   private notification: string;
   private getUserData: string;
+  private userList: any;
 
-  private userList:any;
-
-  constructor(private httpClient: HttpClient, private cacheService: CacheService, private loginService: LoginService) {
-
+  constructor(private httpClient: HttpClient, private cacheService: CacheService) {
     const env: any = environment;
-    this.apiPath = env.paths.api;
+    this.apiPath = env.paths.api
     this.clientList = 'users/userlist';
     this.deleteUser = 'users';
     this.createUser = 'users/superAdmin/createUser';
     this.notification = 'notification';
-    this.userList = 'users/superAdmin/userList'
+    this.userList = 'users/superAdmin/userList';
     this.getUserData = 'userInfo';
   }
 
@@ -58,16 +55,15 @@ export class SuperAdminService {
     return this.httpClient.get<any>(`${this.apiPath}/${this.notification}/`)
   }
 
-  getUserList(){
-    return this.httpClient.get<any>(`${this.apiPath}/${this.userList}`, this.getHeaders())
+  getUserList() {
+    return this.httpClient.get<any>(`${this.apiPath}/${this.userList}`, this.getHeaders());
   }
-  
+
   addUserInfo(value) {
     return this.httpClient.post<object>(`${this.apiPath}/${this.getUserData}/`, value, this.getHeaders())
   }
 
-  getUserInfo(userId){  
+  getUserInfo(userId) {
     return this.httpClient.get<any>(`${this.apiPath}/${this.getUserData}/` + userId, this.getHeaders())
   }
-
 }

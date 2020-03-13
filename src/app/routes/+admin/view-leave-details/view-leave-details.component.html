@@ -76,9 +76,9 @@
                   </div>
                   <div class="col-9 text-right">
                     <div class="text-lg">
-                      {{leaveData?.compoff !== undefined ? leaveData?.compoff : 0 | number: '1.2-2'}}
+                      {{leaveData?.wfh !== undefined ? leaveData?.wfh : 0 | number: '1.2-2'}}
                     </div>
-                    <p class="m-0">Comp Off</p>
+                    <p class="m-0">Work From Home</p>
                   </div>
                 </div>
               </div>
@@ -90,11 +90,17 @@
           <table class="table table-bordered table-striped dt-responsive nowrap mb-0">
             <tr>
               <th>From Date</th>
-              <td>{{leaveRequest?.fromDate | date : "dd/MM/yyyy"}}</td>
+              <td>
+                <span *ngIf="leaveRequest?.fromDate == null">No Data Found</span>
+                <span>{{leaveRequest?.fromDate | date : "dd/MM/yyyy"}}</span>
+              </td>
             </tr>
             <tr>
               <th>To Date</th>
-              <td>{{leaveRequest?.toDate | date : "dd/MM/yyyy"}}</td>
+              <td>
+                <span *ngIf="leaveRequest?.toDate == null">No Data Found</span>
+                <span>{{leaveRequest?.toDate | date : "dd/MM/yyyy"}}</span>
+              </td>
             </tr>
             <tr>
               <th>No Of Days</th>
@@ -119,17 +125,17 @@
               <td>{{leaveRequest?.status}}</td>
             </tr>
             <tr>
-              <th>Request On</th>
+              <th>Requested On</th>
               <td>{{leaveRequest?.createdAt | date : "dd/MM/yyyy"}}</td>
             </tr>
           </table>
         </div>
       </div>
       <div class="modal-footer" style="border-top: none !important;">
-        <button [disabled]="leaveRequest?.status != 'pending'" class="btn btn-success mr-1" data-dismiss="modal" 
+        <button [disabled]="leaveRequest?.status != 'pending'" class="btn btn-success mr-1" data-dismiss="modal"
           (click)=approvedSweetAlert(leaveRequest)>Approve
         </button>
-        <button [disabled]="leaveRequest?.status != 'pending'" class="btn btn-danger" data-dismiss="modal" 
+        <button [disabled]="leaveRequest?.status != 'pending'" class="btn btn-danger" data-dismiss="modal"
           (click)=rejectedSweetAlert(leaveRequest)>Reject
         </button>
       </div>
