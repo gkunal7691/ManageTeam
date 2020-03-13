@@ -12,7 +12,6 @@ router.get('/:id?', passport.authenticate('jwt', { session: false }), async func
     const query = {};
     if (req.query && req.query.email) {
         query.where = query.where || {};
-
         query.where.email = req.query.email;
     }
 
@@ -34,7 +33,6 @@ router.post('/', function (req, res, next) {
         password: User.generateHash(req.body.password),
         UserSentimentIndexs: req.body.UserSentimentIndex,
         Accounts: req.body.Accounts,
-
     };
 
     utils.validateQuery(req.body, newData, 'email');
@@ -107,9 +105,9 @@ router.get('/admin/allAdminList', passport.authenticate('jwt', { session: false 
 router.get('/superAdmin/userList', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     User.findAll({
         where: { organizationId: req.user.orgId }, order: [['updatedAt', 'DESC']],
-        // include: [
-        //     { model: userInfo }
-        // ]
+        include: [
+            { model: userInfo }
+        ]
     }).then((data) => {
         res.json({ success: true, data: data });
     }).catch(next)
@@ -137,9 +135,34 @@ router.post('/createUserMetaList', async function (req, res, next) {
 /* Update Client with U */
 
 router.post('/updateUser', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-    User.update({ firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email }, { where: { id: req.body.clientId } }).then((data) => {
-        res.json({ success: true, data: data })
-    }).catch(next)
+    User.update({ firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email },
+        { where: { id: req.body.clientId } }).then((data) => {
+            res.json({ success: true, data: data })
+        }).catch(next)
+})
+
+//To update a selected user.
+
+router.put('/superAdmin/updateUser', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+    User.update({
+        firstName: req.body.firstName, lastName: req.body.lastName,
+        email: req.body.email, roleId: req.body.roleId
+    }, {
+        where: { id: req.body.id, organizationId: req.user.orgId }
+    }).then(() => {
+        userInfo.update({
+            designation: req.body.desg, secondaryEmail: req.body.secEmail,
+            tempAddress: req.body.tempAddress, permanentAddress: req.body.permanentAddress,
+            mobile: req.body.mobile, bank: req.body.bank, doj: req.body.doj,
+            bankAccountNo: req.body.bankAccountNo, pfNumber: req.body.pfNumber,
+            location: req.body.location, department: req.body.dept
+        }, {
+            where: { userId: req.body.id }
+        }
+        ).then((result) => {
+            res.json({ success: true, data: result });
+        })
+    }).catch(next);
 })
 
 module.exports = router;

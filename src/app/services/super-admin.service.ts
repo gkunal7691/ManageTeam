@@ -66,4 +66,8 @@ export class SuperAdminService {
   getUserInfo(userId) {
     return this.httpClient.get<any>(`${this.apiPath}/${this.getUserData}/` + userId, this.getHeaders())
   }
+
+  updateUserData(data) {
+    return this.httpClient.put<Object>(`${this.apiPath}/users/superAdmin/updateUser`, data, this.getHeaders());
+  }
 }

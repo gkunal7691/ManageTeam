@@ -115,7 +115,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div *ngIf="modalTitle != 'Edit User Information'" class="row">
                 <div class="col-4 mt-2">
                   <label>Password :</label>
                 </div>
@@ -252,8 +252,13 @@
         <button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close"
           (click)="formReset()">Cancel
         </button>
-        <button type="button" class="btn btn-primary" [disabled]="addUserForm.invalid || addUserInfoForm.invalid"
-          data-dismiss="modal" aria-label="Save" (click)="createUser()">Save
+        <button *ngIf="modalTitle == 'Add New User'" type="button" class="btn btn-primary"
+          [disabled]="addUserForm.invalid || addUserInfoForm.invalid" data-dismiss="modal" aria-label="Add"
+          (click)="createUser()">Add
+        </button>
+        <button *ngIf="modalTitle == 'Edit User Information'" type="button" class="btn btn-primary"
+          [disabled]="addUserForm.invalid || addUserInfoForm.invalid" data-dismiss="modal" aria-label="Save"
+          (click)="updateUserData()">Save
         </button>
       </div>
     </div>
