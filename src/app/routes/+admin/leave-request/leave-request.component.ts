@@ -168,7 +168,7 @@ export class LeaveRequestComponent implements OnInit {
       this.days = this.days * (-1);
     }
     swal({
-      title: "Are you sure?",
+      title: "Are you sure ?",
       text: "Leave will be rejected for " + this.days + " days(" + this.from + " - " + this.to + ")",
       icon: "warning",
       buttons: true,
@@ -197,5 +197,4 @@ export class LeaveRequestComponent implements OnInit {
   getUpdatedLeave(leave) {
     this.filterRequestLeave();
   }
-
 }

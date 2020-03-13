@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
   addUserInfoForm: FormGroup;
   adminList: any[] = [];
   userId: any;
-  private allAdminList: any;
+  // private allAdminList: any;
   private userList: any;
   modalTitle: string;
 
@@ -32,7 +32,7 @@ export class AdminComponent implements OnInit {
 
   constructor(private superAdminService: SuperAdminService, private fb: FormBuilder,
     private loginservice: LoginService, private EmployeeService: EmployeeService, private router: Router) {
-    this.allAdminList = 'user';
+    // this.allAdminList = 'user';
     this.userList = 'user';
   }
 
@@ -58,7 +58,7 @@ export class AdminComponent implements OnInit {
       dept: ['', [Validators.required]],
       location: ['', [Validators.required]]
     })
-    this.getAdminList();
+    // this.getAdminList();
     this.getUserList();
   }
 
@@ -90,17 +90,16 @@ export class AdminComponent implements OnInit {
           this.addUserForm.get('lastName').value + ') is added to the organization successfully :)', 'success');
         this.formReset();
         this.getUserList();
-        this.getAdminList();
+        // this.getAdminList();
       })
   }
 
-  deleteAdmin(value) {
-    this.superAdminService.deleteClient(value).subscribe(
-      (res: any) => {
-        this.getAdminList();
-      }
-    )
-  }
+  // deleteAdmin(value) {
+  //   this.superAdminService.deleteClient(value).subscribe(
+  //     (res: any) => {
+  //       this.getAdminList();
+  //     })
+  // }
 
   getUserList() {
     this.superAdminService.getUserList().subscribe(
@@ -120,16 +119,15 @@ export class AdminComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.userList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      }
-    )
-  }
-
-  getAdminList() {
-    this.EmployeeService.getAllAdminList().subscribe(
-      (res: any) => {
-        this.allAdminList = res.data;
       })
   }
+
+  // getAdminList() {
+  //   this.EmployeeService.getAllAdminList().subscribe(
+  //     (res: any) => {
+  //       this.allAdminList = res.data;
+  //     })
+  // }
 
   updateFormForEdit(employeeList) {
     console.log(employeeList);
@@ -140,7 +138,7 @@ export class AdminComponent implements OnInit {
     this.addUserForm.get('roleId').setValue(employeeList.roleId);
     this.addUserForm.get('email').setValue(employeeList.email);
 
-    console.log(this.addUserForm.get('roleId').value);
+    // console.log(this.addUserForm.get('roleId').value);
 
   }
 

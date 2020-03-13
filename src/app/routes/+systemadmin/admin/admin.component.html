@@ -263,63 +263,58 @@
 <!-- Material Table -->
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-4">
-            <div class="col-8">
-              <mat-form-field class="w-50">
-                <input matInput (keyup)="search($event.target.value)" placeholder="Search">
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="card card-default">
-            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                <td mat-cell *matCellDef="let employeeList">{{employeeList?.id}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="user">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Users</th>
-                <td mat-cell *matCellDef="let employeeList">
-                  {{employeeList?.firstName}} {{employeeList?.lastName}} ({{employeeList?.email}})</td>
-              </ng-container>
-
-              <ng-container matColumnDef="roleId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
-                <td mat-cell *matCellDef="let employeeList">
-                  {{employeeList?.roleId}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="lastLogin">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
-                <td mat-cell *matCellDef="let employeeList">{{employeeList?.lastLogin | date:longDate}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="action" style="text-align: center;">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header Sty>Action</th>
-                <td mat-cell *matCellDef="let employeeList" style="display: flex;justify-content: space-evenly;">
-                  <button title="Edit Information" class="btn btn-warning" data-toggle="modal"
-                    data-target=".addUserModal" [disabled]="employeeList.roleId != 'Employee'"
-                    (click)="updateFormForEdit(employeeList)">
-                    <em class="icon-pencil"></em>
-                  </button>
-                  <button title="View Information" class="btn btn-success"
-                    [disabled]="employeeList.roleId != 'Employee'" (click)="onViewClick(employeeList)">
-                    <em class="fas fa-eye"></em>
-                  </button>
-                </td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-          </div>
-          <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-8">
+          <mat-form-field class="w-50">
+            <input matInput (keyup)="search($event.target.value)" placeholder="Search">
+          </mat-form-field>
         </div>
       </div>
+      <div class="card card-default">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let employeeList">{{employeeList?.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Users</th>
+            <td mat-cell *matCellDef="let employeeList">
+              {{employeeList?.firstName}} {{employeeList?.lastName}} ({{employeeList?.email}})</td>
+          </ng-container>
+
+          <ng-container matColumnDef="roleId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+            <td mat-cell *matCellDef="let employeeList">
+              {{employeeList?.roleId}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastLogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
+            <td mat-cell *matCellDef="let employeeList">{{employeeList?.lastLogin | date:longDate}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header Sty>Action</th>
+            <td mat-cell *matCellDef="let employeeList" style="display: flex;justify-content: space-evenly;">
+              <button title="Edit Information" class="btn btn-warning" data-toggle="modal" data-target=".addUserModal"
+                [disabled]="employeeList.roleId != 'Employee'" (click)="updateFormForEdit(employeeList)">
+                <em class="icon-pencil"></em>
+              </button>
+              <button title="View Information" class="btn btn-success" [disabled]="employeeList.roleId != 'Employee'"
+                (click)="onViewClick(employeeList)">
+                <em class="fas fa-eye"></em>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>
