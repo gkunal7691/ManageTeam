@@ -17,7 +17,7 @@
     <div class="modal-content">
       <div class="modal-header pb-0">
         <h4 class="modal-title">{{modalTitle}} :</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeAddUserModal()">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="formReset()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -250,7 +250,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close"
-          (click)="closeAddUserModal()">Cancel
+          (click)="formReset()">Cancel
         </button>
         <button type="button" class="btn btn-primary" [disabled]="addUserForm.invalid || addUserInfoForm.invalid"
           data-dismiss="modal" aria-label="Save" (click)="createUser()">Save
