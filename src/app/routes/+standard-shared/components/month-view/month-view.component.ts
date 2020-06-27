@@ -252,7 +252,7 @@ export class MonthViewComponent implements OnInit {
       this.hideThrusday = true;
       this.hideFriday = true;
       this.hideSaturday = true;
-      this.hideSunday = true;
+      this.hideSunday = false;
       this.splitWeekWise();
     }
   }
