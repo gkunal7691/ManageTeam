@@ -162,10 +162,10 @@
                 </div>
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['bank']">
-                  <span class="text-danger" *ngIf="addUserInfoForm.controls['bank'].invalid &&
+                  <!-- <span class="text-danger" *ngIf="addUserInfoForm.controls['bank'].invalid &&
                     addUserInfoForm.controls['bank'].touched">
                     <i>Invalid Bank Name.</i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="row mt-1">
@@ -174,10 +174,10 @@
                 </div>
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['banknumber']">
-                  <span class="text-danger" *ngIf="addUserInfoForm.controls['banknumber'].invalid &&
+                  <!-- <span class="text-danger" *ngIf="addUserInfoForm.controls['banknumber'].invalid &&
                     addUserInfoForm.controls['banknumber'].touched">
                     <i>Invalid Account Number.</i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="row mt-1">
@@ -198,10 +198,10 @@
                 </div>
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['pf']">
-                  <span class="text-danger" *ngIf="addUserInfoForm.controls['pf'].invalid &&
+                  <!-- <span class="text-danger" *ngIf="addUserInfoForm.controls['pf'].invalid &&
                     addUserInfoForm.controls['pf'].touched">
                     <i>Invalid Provident Fund Number.</i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="row mt-1">
@@ -306,12 +306,19 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header Sty>Action</th>
             <td mat-cell *matCellDef="let employeeList" style="display: flex;justify-content: space-evenly;">
               <button title="Edit Information" class="btn btn-warning" data-toggle="modal" data-target=".addUserModal"
-                [disabled]="employeeList.roleId != 'Employee'" (click)="updateFormForEdit(employeeList)">
+                [disabled]="employeeList.roleId != 'Employee' && employeeList.roleId != 'Admin/Manager'"
+                (click)="updateFormForEdit(employeeList)">
                 <em class="icon-pencil"></em>
               </button>
-              <button title="View Information" class="btn btn-success" [disabled]="employeeList.roleId != 'Employee'"
+              <button title="View Information" class="btn btn-success"
+                [disabled]="employeeList.roleId != 'Employee' && employeeList.roleId != 'Admin/Manager'"
                 (click)="onViewClick(employeeList)">
                 <em class="fas fa-eye"></em>
+              </button>
+              <button title="Delete Information" class="btn btn-danger" data-toggle="modal"
+                [disabled]="employeeList.roleId != 'Employee' && employeeList.roleId != 'Admin/Manager'"
+                (click)="deleteUser(employeeList?.id)">
+                <em class="fas fa-trash"></em>
               </button>
             </td>
           </ng-container>

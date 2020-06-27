@@ -70,4 +70,7 @@ export class SuperAdminService {
   updateUserData(data) {
     return this.httpClient.put<Object>(`${this.apiPath}/users/superAdmin/updateUser`, data, this.getHeaders());
   }
+  deleteUserData(id) {
+    return this.httpClient.delete<object>(`${this.apiPath}/${this.deleteUser}/` + id, this.getHeaders())
+  }
 }
