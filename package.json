@@ -78,7 +78,7 @@
     "jquery.browser": "0.1.0",
     "jquery.flot.tooltip": "github:krzysu/flot.tooltip",
     "jsonwebtoken": "^8.4.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "modernizr": "3.8.0",
     "moment": "^2.24.0",
     "morgan": "~1.9.0",
