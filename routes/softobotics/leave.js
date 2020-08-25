@@ -7,6 +7,7 @@ const Organization = require('../../models').Organization;
 const dayOff = require('../../models').DayOff;
 const Holiday = require('../../models').Holiday;
 const cron = require('node-cron');
+const mail = require('../core/mail');
 
 
 router.get('/', async function (req, res, next) {
@@ -155,6 +156,7 @@ router.post('/', async function (req, res, next) {
             userId: req.user.id,
             organizationId: req.user.orgId
          }).then((data) => {
+            mail.leaveMailer(req, noOfdays, convertedToDate, convertedFromDate, data.leaveId)
             res.json({ success: true, data: data })
          }).catch(next);
       }).catch(next);

@@ -52,10 +52,10 @@ export class AdminComponent implements OnInit {
       tempAddress: ['', [Validators.required, Validators.maxLength(5000)]],
       permanentAddress: ['', [Validators.required, Validators.maxLength(5000)]],
       mobile: ['', [Validators.pattern('^[0-9]+$'), Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      bank: ['', [Validators.required]],
-      banknumber: ['', [Validators.required]],
+      bank: '',
+      banknumber: '',
       doj: ['', [Validators.required]],
-      pf: ['', [Validators.required]],
+      pf: '',
       dept: ['', [Validators.required]],
       location: ['', [Validators.required]]
     })
@@ -152,6 +152,7 @@ export class AdminComponent implements OnInit {
   }
 
   updateUserData() {
+    console.log('save')
     this.superAdminService.updateUserData({
       firstName: this.addUserForm.get('firstName').value, lastName: this.addUserForm.get('lastName').value,
       email: this.addUserForm.get('email').value, roleId: this.addUserForm.get('roleId').value, id: this.selectedUserId,
@@ -172,6 +173,19 @@ export class AdminComponent implements OnInit {
       this.router.navigateByUrl('/systemadmin/ManagePayslip/' + employeeList.id);
     }
   }
+
+  deleteUser(id) {
+    this.superAdminService.deleteUserData(id).subscribe(
+      (res: any) => {
+        this.getUserList();
+      })
+    // let user = this.userList.map(employee => { return employee.id }).indexOf(id)
+    // let newUSerLIst = this.userList.splice(user, 1)
+    // console.log(this.userList)
+    // this.getUserList()
+
+  }
+
 
   formReset() {
     this.modalTitle = "Add New User";
