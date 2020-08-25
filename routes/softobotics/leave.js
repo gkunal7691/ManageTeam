@@ -7,6 +7,7 @@ const Organization = require('../../models').Organization;
 const dayOff = require('../../models').DayOff;
 const Holiday = require('../../models').Holiday;
 const cron = require('node-cron');
+const mail = require('../core/mail');
 
 
 router.get('/', async function (req, res, next) {
@@ -80,10 +81,8 @@ router.post('/', async function (req, res, next) {
    dayOff.findAll({ where: { organizationId: req.user.orgId } }).then((dayOffList) => {
       dayOffList = dayOffList.map(x => x.weekdayId);
       for (let i = 0; i < dayOffList.length; i++) {
-         if (dayOffList[i] == 0) {
-            dayOffList[i] = 'sunday';
-         }
-         else if (dayOffList[i] == 1) {
+
+         if (dayOffList[i] == 1) {
             dayOffList[i] = 'monday';
          }
          else if (dayOffList[i] == 2) {
@@ -100,6 +99,9 @@ router.post('/', async function (req, res, next) {
          }
          else if (dayOffList[i] == 6) {
             dayOffList[i] = 'saturday';
+         }
+         else if (dayOffList[i] == 7) {
+            dayOffList[i] = 'sunday';
          }
       }
       Holiday.findAll({ where: { organizationId: req.user.orgId } }).then((holidayList) => {
@@ -154,6 +156,7 @@ router.post('/', async function (req, res, next) {
             userId: req.user.id,
             organizationId: req.user.orgId
          }).then((data) => {
+            mail.leaveMailer(req, noOfdays, convertedToDate, convertedFromDate, data.leaveId)
             res.json({ success: true, data: data })
          }).catch(next);
       }).catch(next);

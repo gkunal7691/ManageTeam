@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const Task = require('../../models').Task;
 const User = require('../../models').User;
+const Leave = require('../../models').Leave;
 
 module.exports = {
     taskMailer: async function (req, action, taskId) {
@@ -35,6 +36,7 @@ module.exports = {
                 }
                 let mailerList = [];
                 mailerList.push('gkunal7691@gmail.com');
+                mailerList.push('gautam.g@softobotics.com');
                 if (req.user.email != compMail) {
                     mailerList.push(compMail)
                 }
@@ -80,5 +82,56 @@ module.exports = {
                     }
                 });
             })
+    },
+    leaveMailer: async function (req, noofDays, toDate, fromDate, leaveId) {
+        let compMail = 'kunal@softobotics.com';
+        Leave.findOne({
+            where: {
+                leaveId: leaveId
+            },
+            include: [
+                {
+                    model: User, attributes: ['id', 'firstName', 'lastName', 'email', 'roleId']
+                },
+            ],
+        }).then((data) => {
+            let timeStamp = new Date(fromDate).getDate() + '-' + (new Date(fromDate).getMonth() + 1) + '-' + new Date(fromDate).getFullYear() + '\t' + new Date(fromDate).getHours() + ':' + new Date(fromDate).getMinutes();
+            let dueTimeStamp = new Date(toDate).getDate() + '-' + (new Date(toDate).getMonth() + 1) + '-' + new Date(toDate).getFullYear() + '\t' + new Date(toDate).getHours() + ':' + new Date(toDate).getMinutes();
+            let mailerList = [];
+            mailerList.push('gkunal7691@gmail.com');
+            if (req.user.email != compMail) {
+                mailerList.push(compMail)
+            }
+            if (req.user.email != data.User.email) {
+                mailerList.push(data.User.email)
+            }
+            mailerList = mailerList.join(',');
+            let transporter = nodemailer.createTransport({
+                host: "mail.softobotics.com",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: 'notification@softobotics.com',
+                    pass: 'notification@123'
+                }
+            });
+            var mailOptions = {
+                from: 'notification@softobotics.com',
+                to: `${mailerList}`,
+                subject: 'Leave Apply By - ' + req.user.firstName + ' ' + req.user.lastName,
+                html: '<table style="font-family: arial, sans-serif; border-collapse: collapse;"><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">From Date</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                    + timeStamp + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">To Date</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                    + dueTimeStamp + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Number of Days</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                    + noofDays + '</td></tr><tr><th style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #ffefc4;">Applied By</th><td style="border: 2px solid #000;text-align: left;padding: 8px;background-color: #e6e6e6;">'
+                    + req.user.firstName + '&nbsp;' + req.user.lastName + '</td></tr></table>'
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info);
+                }
+            });
+        })
     }
 };
