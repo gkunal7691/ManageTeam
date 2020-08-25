@@ -22,7 +22,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   leaveRequestForm: FormGroup;
-  public leaveData: any;
+  leaveData: any;
 
   showTable: boolean;
   isAccOpen2;
@@ -186,12 +186,14 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
   }
 
   cancelLeaveRequestSwal(value) {
+    console.log(value);
+    console.log(this.leaveData);
     let totalLeaveDays = value.noOfdays;
     if (totalLeaveDays < 0)
       totalLeaveDays = Math.abs(totalLeaveDays);
     swal({
       title: "Are you sure ?",
-      text: "Leave request for " + totalLeaveDays + " days will be cancelled!",
+      text: "Leave request for " + totalLeaveDays + " days will be cancelled !",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -213,17 +215,17 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       (result: any) => {
         swal('Deleted', 'Leave request for ' + totalLeaveDays + ' days has been removed :)', 'warning');
         this.filterRequestLeave();
+        this.leaveCalculation();
       })
   }
 
   getFromDate(date) {
     if (date != null) {
-      this.leaveRequestForm.get("type").reset();
       this.leaveError = '';
       this.fromDate = new Date(date);
-      let currentDate: Date = new Date();
-      var noOfDates = this.fromDate.getTime() - currentDate.getTime();
-      if (noOfDates < 0) {
+
+      let Difference_In_Time = this.fromDate.getTime() - new Date().getTime();
+      if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
         this.isPastDate = true;
       } else {
         this.isPastDate = false;
@@ -259,10 +261,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
       this.dayOffList = res.data.map(x => x.weekdayId);
       for (let i = 0; i < this.dayOffList.length; i++) {
-        if (this.dayOffList[i] == 0) {
-          this.dayOffList[i] = 'sunday';
-        }
-        else if (this.dayOffList[i] == 1) {
+        if (this.dayOffList[i] == 1) {
           this.dayOffList[i] = 'monday';
         }
         else if (this.dayOffList[i] == 2) {
@@ -280,17 +279,21 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         else if (this.dayOffList[i] == 6) {
           this.dayOffList[i] = 'saturday';
         }
+        else if (this.dayOffList[i] == 7) {
+          this.dayOffList[i] = 'sunday';
+        }
       }
     })
   }
 
   getNoOfDays(val) {
     this.toDate = val;
-    this.leaveRequestForm.get("type").reset();
     this.leaveError = null;
     if (val != null && this.fromDate != undefined) {
       if (val) {
         var Difference_In_Time = this.toDate.getTime() - this.fromDate.getTime();
+        var totalDays = parseInt(((Difference_In_Time / (1000 * 3600 * 24)) + 1).toFixed(0))
+
         if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
           this.invalidDate = true;
         } else {
@@ -300,11 +303,13 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       var totaldate = [];
       let fromdate = new Date(this.fromDate);
       let todate = new Date(this.toDate);
-      for (let date = fromdate.getDate(); date <= todate.getDate(); date++) {
+
+      for (let date = 0; date < totalDays; date++) {
         let day: Date = new Date(fromdate);
         totaldate.push(day);
         fromdate.setDate(fromdate.getDate() + 1);
       }
+
       totaldate.forEach(x => {
         if (x.getDay() == 0) {
           x.day = 'sunday';
@@ -338,7 +343,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       } else {
         this.isvalid = false;
       }
-
     }
   }
 
@@ -348,7 +352,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.earned = 0
       }
       if (this.leaveData.earned < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.earned + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -359,7 +363,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.casual = 0
       }
       if (this.leaveData.casual < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.casual + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -370,7 +374,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.optional = 0
       }
       if (this.leaveData.optional < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.optional + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -381,7 +385,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
         this.leaveData.wfh = 0
       }
       if (this.leaveData.wfh < this.leaveRequestForm.get("totalDays").value) {
-        this.leaveError = "Cant apply leave for " + this.leaveRequestForm.get("totalDays").value +
+        this.leaveError = "Applying for " + this.leaveRequestForm.get("totalDays").value +
           " day(s), you have only " + this.leaveData.wfh + " day(s) of " + value + " leave left.";
       } else {
         this.leaveError = null;
@@ -394,6 +398,6 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
 
   formReset() {
     this.leaveRequestForm.reset();
+    this.leaveRequestForm.get('type').setValue('');
   }
-
 }

@@ -3,9 +3,9 @@
     All Users
     <small>View and search for Admins and Employees throughout the Organization.</small>
   </div>
-  <div class="col">
-    <button class="btn btn-primary float-right" data-toggle="modal" data-target=".addUserModal"
-      style="position: relative;">Add Another User
+  <div class="col pr-0">
+    <button class="btn btn-primary float-right" data-toggle="modal" data-target=".addUserModal" (click)="formReset()">
+      Add Another User
     </button>
   </div>
 </div>
@@ -16,9 +16,10 @@
   <div class="modal-dialog  modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header pb-0">
-        <h4 class="modal-title">Enter following information :</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeAddUserModal()">
-          <span aria-hidden="true">&times;</span> </button>
+        <h4 class="modal-title">{{modalTitle}} :</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="formReset()">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
@@ -31,7 +32,7 @@
                 <div class="col-7">
                   <input class="form-control mb-1" type="text" [formControl]="addUserForm.controls['firstName']">
                   <span class="text-danger" *ngIf="addUserForm.controls['firstName'].invalid &&
-                addUserForm.controls['firstName'].touched">
+                    addUserForm.controls['firstName'].touched">
                     <i>Invalid first name entered.</i>
                   </span>
                 </div>
@@ -44,7 +45,7 @@
                 <div class="col-7">
                   <input class="form-control mb-1" type="text" [formControl]="addUserForm.controls['lastName']">
                   <span class="text-danger" *ngIf="addUserForm.controls['lastName'].invalid &&
-                addUserForm.controls['lastName'].touched">
+                    addUserForm.controls['lastName'].touched">
                     <i>Invalid last name entered.</i>
                   </span>
                 </div>
@@ -62,8 +63,8 @@
                     <option value="3">Super Admin</option>
                   </select>
                   <span class="text-danger" *ngIf="addUserForm.controls['roleId'].invalid &&
-                addUserForm.controls['roleId'].touched">
-                    <i>Selected an Invalid Role.</i>
+                    addUserForm.controls['roleId'].touched">
+                    <i>Selected Role is invalid.</i>
                   </span>
                 </div>
               </div>
@@ -74,7 +75,7 @@
                 </div>
                 <div class="col-7">
                   <select class="form-control mb-1" [formControl]="addUserInfoForm.controls['desg']">
-                    <option [selected]="true">Select</option>
+                    <option [selected]="true" value="">Select</option>
                     <option value="Associate Software Developer">Associate Software Developer</option>
                     <option value="Software Developer">Software Developer</option>
                     <option value="Senior Software Developer">Senior Software Developer</option>
@@ -82,7 +83,7 @@
                     <option value="Manager">Manager</option>
                   </select>
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['desg'].invalid &&
-                addUserInfoForm.controls['desg'].touched">
+                    addUserInfoForm.controls['desg'].touched">
                     <i>Selected an Invalid Designation.</i>
                   </span>
                 </div>
@@ -95,7 +96,7 @@
                 <div class="col-7">
                   <input class="form-control mb-1" type="email" [formControl]="addUserForm.controls['email']" />
                   <span class="text-danger" *ngIf="addUserForm.controls['email'].invalid &&
-                addUserForm.controls['email'].touched">
+                    addUserForm.controls['email'].touched">
                     Invalid email entered.
                   </span>
                 </div>
@@ -108,20 +109,20 @@
                 <div class="col-7">
                   <input class="form-control mb-1" type="email" [formControl]="addUserInfoForm.controls['secEmail']" />
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['secEmail'].invalid &&
-                addUserInfoForm.controls['secEmail'].touched">
+                    addUserInfoForm.controls['secEmail'].touched">
                     Invalid email entered.
                   </span>
                 </div>
               </div>
 
-              <div class="row">
+              <div *ngIf="modalTitle != 'Edit User Information'" class="row">
                 <div class="col-4 mt-2">
                   <label>Password :</label>
                 </div>
                 <div class="col-7">
                   <input class="form-control mb-1" type="password" [formControl]="addUserForm.controls['password']">
                   <span class="text-danger" *ngIf="addUserForm.controls['password'].invalid &&
-                addUserForm.controls['password'].touched">
+                    addUserForm.controls['password'].touched">
                     <i>Invalid email entered.</i>
                   </span>
                 </div>
@@ -135,7 +136,7 @@
                   <textarea class="form-control pb-0" rows="3"
                     [formControl]="addUserInfoForm.controls['tempAddress']"></textarea>
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['tempAddress'].invalid &&
-                addUserInfoForm.controls['tempAddress'].touched">
+                    addUserInfoForm.controls['tempAddress'].touched">
                     <i>Invalid Current Address entered.</i>
                   </span>
                 </div>
@@ -150,7 +151,7 @@
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['mobile']">
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['mobile'].invalid &&
-                addUserInfoForm.controls['mobile'].touched">
+                    addUserInfoForm.controls['mobile'].touched">
                     <i>Invalid Mobile Number entered.</i>
                   </span>
                 </div>
@@ -161,10 +162,10 @@
                 </div>
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['bank']">
-                  <span class="text-danger" *ngIf="addUserInfoForm.controls['bank'].invalid &&
-                addUserInfoForm.controls['bank'].touched">
+                  <!-- <span class="text-danger" *ngIf="addUserInfoForm.controls['bank'].invalid &&
+                    addUserInfoForm.controls['bank'].touched">
                     <i>Invalid Bank Name.</i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="row mt-1">
@@ -173,10 +174,10 @@
                 </div>
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['banknumber']">
-                  <span class="text-danger" *ngIf="addUserInfoForm.controls['banknumber'].invalid &&
-                addUserInfoForm.controls['banknumber'].touched">
+                  <!-- <span class="text-danger" *ngIf="addUserInfoForm.controls['banknumber'].invalid &&
+                    addUserInfoForm.controls['banknumber'].touched">
                     <i>Invalid Account Number.</i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="row mt-1">
@@ -186,7 +187,7 @@
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['doj']">
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['doj'].invalid &&
-                addUserInfoForm.controls['doj'].touched">
+                    addUserInfoForm.controls['doj'].touched">
                     <i>Invalid Account Number.</i>
                   </span>
                 </div>
@@ -197,10 +198,10 @@
                 </div>
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['pf']">
-                  <span class="text-danger" *ngIf="addUserInfoForm.controls['pf'].invalid &&
-                addUserInfoForm.controls['pf'].touched">
+                  <!-- <span class="text-danger" *ngIf="addUserInfoForm.controls['pf'].invalid &&
+                    addUserInfoForm.controls['pf'].touched">
                     <i>Invalid Provident Fund Number.</i>
-                  </span>
+                  </span> -->
                 </div>
               </div>
               <div class="row mt-1">
@@ -210,7 +211,7 @@
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['location']">
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['location'].invalid &&
-                addUserInfoForm.controls['location'].touched">
+                    addUserInfoForm.controls['location'].touched">
                     <i>Invalid Location.</i>
                   </span>
                 </div>
@@ -223,7 +224,7 @@
                 <div class="col-7">
                   <input class="form-control" type="text" [formControl]="addUserInfoForm.controls['dept']">
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['dept'].invalid &&
-                addUserInfoForm.controls['dept'].touched">
+                    addUserInfoForm.controls['dept'].touched">
                     <i>Invalid Department.</i>
                   </span>
                 </div>
@@ -237,7 +238,7 @@
                   <textarea class="form-control pb-0" rows="3"
                     [formControl]="addUserInfoForm.controls['permanentAddress']"></textarea>
                   <span class="text-danger" *ngIf="addUserInfoForm.controls['permanentAddress'].invalid &&
-                addUserInfoForm.controls['permanentAddress'].touched">
+                    addUserInfoForm.controls['permanentAddress'].touched">
                     <i>Invalid Current Permanent entered.</i>
                   </span>
                 </div>
@@ -249,10 +250,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close"
-          (click)="closeAddUserModal()">Cancel
+          (click)="formReset()">Cancel
         </button>
-        <button type="button" class="btn btn-primary" [disabled]="addUserForm.invalid || addUserInfoForm.invalid"
-          data-dismiss="modal" aria-label="Save" (click)="createUser()">Save
+        <button *ngIf="modalTitle == 'Add New User'" type="button" class="btn btn-primary"
+          [disabled]="addUserForm.invalid || addUserInfoForm.invalid" data-dismiss="modal" aria-label="Add"
+          (click)="createUser()">Add
+        </button>
+        <button *ngIf="modalTitle == 'Edit User Information'" type="button" class="btn btn-primary"
+          [disabled]="addUserForm.invalid || addUserInfoForm.invalid" data-dismiss="modal" aria-label="Save"
+          (click)="updateUserData()">Save
         </button>
       </div>
     </div>
@@ -262,56 +268,65 @@
 <!-- Material Table -->
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-4">
-            <div class="col-8">
-              <mat-form-field class="w-50">
-                <input matInput (keyup)="search($event.target.value)" placeholder="Search">
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="card card-default">
-            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                <td mat-cell *matCellDef="let employeeList">{{employeeList?.id}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="user">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Users</th>
-                <td mat-cell *matCellDef="let employeeList">
-                  {{employeeList?.firstName}} {{employeeList?.lastName}} ({{employeeList?.email}})</td>
-              </ng-container>
-
-              <ng-container matColumnDef="roleId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
-                <td mat-cell *matCellDef="let employeeList">
-                  {{employeeList?.roleId}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="lastLogin">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Login </th>
-                <td mat-cell *matCellDef="let employeeList">{{employeeList?.lastLogin | date:longDate}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-                <td mat-cell *matCellDef="let employeeList">
-                  <button class="btn btn-success" (click)="onViewClick(employeeList)">View</button>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-          </div>
-          <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-8">
+          <mat-form-field class="w-50">
+            <input matInput (keyup)="search($event.target.value)" placeholder="Search">
+          </mat-form-field>
         </div>
       </div>
+      <div class="card card-default">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let employeeList">{{employeeList?.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Users</th>
+            <td mat-cell *matCellDef="let employeeList">
+              {{employeeList?.firstName}} {{employeeList?.lastName}} ({{employeeList?.email}})</td>
+          </ng-container>
+
+          <ng-container matColumnDef="roleId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+            <td mat-cell *matCellDef="let employeeList">
+              {{employeeList?.roleId}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastLogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
+            <td mat-cell *matCellDef="let employeeList">{{employeeList?.lastLogin | date:longDate}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="action" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header Sty>Action</th>
+            <td mat-cell *matCellDef="let employeeList" style="display: flex;justify-content: space-evenly;">
+              <button title="Edit Information" class="btn btn-warning" data-toggle="modal" data-target=".addUserModal"
+                [disabled]="employeeList.roleId != 'Employee' && employeeList.roleId != 'Admin/Manager'"
+                (click)="updateFormForEdit(employeeList)">
+                <em class="icon-pencil"></em>
+              </button>
+              <button title="View Information" class="btn btn-success"
+                [disabled]="employeeList.roleId != 'Employee' && employeeList.roleId != 'Admin/Manager'"
+                (click)="onViewClick(employeeList)">
+                <em class="fas fa-eye"></em>
+              </button>
+              <button title="Delete Information" class="btn btn-danger" data-toggle="modal"
+                [disabled]="employeeList.roleId != 'Employee' && employeeList.roleId != 'Admin/Manager'"
+                (click)="deleteUser(employeeList?.id)">
+                <em class="fas fa-trash"></em>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>

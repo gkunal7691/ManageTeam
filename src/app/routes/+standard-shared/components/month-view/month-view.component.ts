@@ -137,21 +137,68 @@ export class MonthViewComponent implements OnInit {
     this.taskList = [];
     this.taskService.getTaskList(new Date(this.monthdate), this.userId).subscribe((res: any) => {
       this.taskList = res.data;
+      console.log(this.taskList)
       this.showLoader = false;
       this.totalSpentTime = 0;
       this.totalClientTime = 0;
-      res.data.forEach(time => {
+      this.taskList.forEach(time => {
         this.totalSpentTime += time.totalEstimatedTime;
         this.totalClientTime += time.totalClientTime;
+
+        if (new Date(time.taskDate).getDay() == 0) {
+          time.day = 'sunday';
+        }
+        if (new Date(time.taskDate).getDay() == 1) {
+          time.day = 'monday';
+        }
+        if (new Date(time.taskDate).getDay() == 2) {
+          time.day = 'tuesday';
+        }
+        if (new Date(time.taskDate).getDay() == 3) {
+          time.day = 'wednesday';
+        }
+        if (new Date(time.taskDate).getDay() == 4) {
+          time.day = 'thursday';
+        }
+        if (new Date(time.taskDate).getDay() == 5) {
+          time.day = '5';
+        }
+        if (new Date(time.taskDate).getDay() == 6) {
+          time.day = 'saturday';
+        }
       })
+      this.calculateDaysLeft();
     });
   }
 
   getDayoff() {
     this.dayoffService.getDayoffList().subscribe((res: any) => {
       this.weekdayIds = res.data.map(id => id.weekdayId);
-      this.calculateDaysLeft();
       this.showWeekoff(true);
+
+      for (let i = 0; i < this.weekdayIds.length; i++) {
+        if (this.weekdayIds[i] == 1) {
+          this.weekdayIds[i] = 'monday';
+        }
+        else if (this.weekdayIds[i] == 2) {
+          this.weekdayIds[i] = 'tuesday';
+        }
+        else if (this.weekdayIds[i] == 3) {
+          this.weekdayIds[i] = 'wednesday';
+        }
+        else if (this.weekdayIds[i] == 4) {
+          this.weekdayIds[i] = 'thursday';
+        }
+        else if (this.weekdayIds[i] == 5) {
+          this.weekdayIds[i] = 'friday';
+        }
+        else if (this.weekdayIds[i] == 6) {
+          this.weekdayIds[i] = 'saturday';
+        }
+        else if (this.weekdayIds[i] == 7) {
+          this.weekdayIds[i] = 'sunday';
+        }
+      }
     })
   }
 
@@ -184,7 +231,7 @@ export class MonthViewComponent implements OnInit {
         }
         else if (id == 7) {
           this.sundayArray = [];
-          this.hideSaturday = false;
+          this.hideSunday = false;
         }
         else {
           this.hideMonday = true;
@@ -193,7 +240,7 @@ export class MonthViewComponent implements OnInit {
           this.hideThrusday = true;
           this.hideFriday = true;
           this.hideSaturday = true;
-          this.hideSunday = true;
+          this.hideSunday = false;
           this.splitWeekWise();
         }
       });
@@ -265,18 +312,9 @@ export class MonthViewComponent implements OnInit {
   }
 
   calculateDaysLeft() {
-    let dayOffcount = 0;
-    let holidayDaycount = 0;
-    this.monthArray.forEach(allday => {
-      if (this.weekdayIds) {
-        this.weekdayIds.forEach(dayoff => {
-          if (allday.getDay() == dayoff) {
-            dayOffcount++;
-          }
-        })
-      }
-    })
-    this.noofWorkingDays = this.monthArray.length - (dayOffcount + holidayDaycount);
+    let y = this.taskList.filter(x => (x.holiday == null) && (!this.weekdayIds.includes(x.day)));
+    this.noofWorkingDays = y.length;
+
     if (this.taskList != null) {
       this.doughnutData = {
         labels: [

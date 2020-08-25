@@ -294,7 +294,8 @@
           </div>
         </div>
         <div class="row" style="justify-content: center;">
-          <span *ngIf="leaveError != ''" class="text-danger">{{leaveError}}
+          <span *ngIf="leaveError != ''" class="text-danger">
+            {{leaveError}}
           </span>
         </div>
         <div class="fontStyle">
@@ -310,8 +311,8 @@
           (click)="leaveRequestFormReset()">Cancel
         </button>
         <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal"
-          (click)="createLeaveRequest()"
-          [disabled]="leaveError != null  || !leaveRequestForm.valid || isPastDate">Submit
+          [disabled]="leaveRequestForm.invalid || isPastDate" (click)="createLeaveRequest()">
+          Submit
         </button>
       </div>
     </div>

@@ -27,7 +27,6 @@ router.put('/', passport.authenticate('jwt', { session: false }), function (req,
   }).catch(next);
 });
 
-
 router.get('/:userId', passport.authenticate('jwt', { session: false }), function (req, res, next) {
   userInfo.findOne({
     where: { userId: req.params.userId },
