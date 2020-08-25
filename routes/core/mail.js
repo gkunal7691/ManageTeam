@@ -36,7 +36,6 @@ module.exports = {
                 }
                 let mailerList = [];
                 mailerList.push('gkunal7691@gmail.com');
-                mailerList.push('gautam.g@softobotics.com');
                 if (req.user.email != compMail) {
                     mailerList.push(compMail)
                 }
