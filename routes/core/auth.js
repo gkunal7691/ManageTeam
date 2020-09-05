@@ -70,7 +70,7 @@ router.post('/', function (req, res, next) {
 // Password Reset mail
 router.delete('/:email/:orgId', async function (req, res, next) {
     const query = {};
-    let url = 'href="https://' + req.headers.host + '/login/resetpassword/';
+    let url = 'href="'+ req.headers.origin + '/login/resetpassword/';
 
     query.where = { email: req.params.email, organizationId: req.params.orgId };
 
