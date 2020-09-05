@@ -44,9 +44,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/login', express.static('dist'));
-app.use('/registration', express.static('dist'));
-app.use('/forgotpassword', express.static('dist'));
-app.use('/resetpassword/:id', express.static('dist'));
+app.use('/login/registration', express.static('dist'));
+app.use('/login/forgotpassword', express.static('dist'));
+app.use('/login/resetpassword/:id', express.static('dist'));
 
 app.use('/employee/edashboard', express.static('dist'));
 app.use('/employee/eprofile', express.static('dist'));
