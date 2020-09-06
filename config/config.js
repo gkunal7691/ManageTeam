@@ -46,10 +46,10 @@ config.development = {
 
 config.local = {
     db: {
-        username: "gauranrc_tms",
-        password: "tms@123456",
+        username: "root",
+        password: "",
         database: "gauranrc_softobotics-tms",
-        host: "162.215.241.152",
+        host: "127.0.0.1",
         dialect: "mysql",
         migrationStorage: "json",
         define: {
