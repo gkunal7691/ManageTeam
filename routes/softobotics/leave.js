@@ -241,7 +241,7 @@ router.post('/leaverequestlist', async function (req, res, next) {
          {
             model: User, attributes: ['id', 'firstName', 'lastName', 'email']
          }
-      ], where: condition, order: [['fromDate', 'DESC']]
+      ], where: condition, order: [['updatedAt', 'DESC']]
    }).then((data) => {
       res.json({ success: true, data: data })
    }).catch(next);
