@@ -74,7 +74,7 @@
               <ng-container matColumnDef="employee">
                 <th style="width: 25%;" mat-header-cell *matHeaderCellDef mat-sort-header>Employee</th>
                 <td mat-cell *matCellDef="let leaveRequest">
-                  {{leaveRequest.User?.firstName}}{{leaveRequest.User?.lastName}} ({{leaveRequest.User?.email}})</td>
+                  {{leaveRequest.User?.firstName}} {{leaveRequest.User?.lastName}} ({{leaveRequest.User?.email}})</td>
               </ng-container>
               <ng-container matColumnDef="fromDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>From</th>
