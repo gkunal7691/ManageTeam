@@ -48,7 +48,7 @@ export class ViewLeaveDetailsComponent implements OnInit {
       dangerMode: true,
     }).then((willAprrove) => {
       if (willAprrove) {
-        this.approvedPopUp(leaveRequest.leaveId);
+        this.approvedPopUp(leaveRequest);
       } else {
         swal('Cancelled', 'Leave is not granted for ' + this.days + ' days(' + this.from + " - " + this.to + ')', 'error');
       }
