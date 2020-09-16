@@ -225,7 +225,7 @@ export class ManageLeaveComponent implements OnInit, AfterViewInit {
       this.fromDate = new Date(date);
 
       let Difference_In_Time = this.fromDate.getTime() - new Date().getTime();
-      if (((Difference_In_Time / (1000 * 3600 * 24)) + 1) <= 0) {
+      if (((Difference_In_Time / (1000 * 3600 * 24)) + 30) <= 0) {
         this.isPastDate = true;
       } else {
         this.isPastDate = false;
