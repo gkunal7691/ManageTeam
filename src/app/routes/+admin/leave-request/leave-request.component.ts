@@ -117,8 +117,16 @@ export class LeaveRequestComponent implements OnInit {
       (res: any) => {
         this.leaveRequestList = res.data;
         this.dataSource = new MatTableDataSource(this.leaveRequestList)
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'employee': return item['User'].firstName;
+            case 'employee': return item['User'].lastName;
+            case 'employee': return item['User'].email;
+            default: return item[property];
+          }
+        };
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort;        
       })
   }
 
