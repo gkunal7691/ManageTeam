@@ -14,6 +14,7 @@ export class ForgotpasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
   emailNotFound: boolean = false;
   emailSent: boolean;
+  organization:any;
 
   constructor(
     private cacheService: CacheService,
@@ -22,6 +23,8 @@ export class ForgotpasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.organization = this.cacheService.organizationDetail;
+
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
