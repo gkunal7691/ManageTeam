@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   envName: 'local',
   paths: {
-    ui: 'softobotics-dev.herokuapp.com',
+    // ui: 'softobotics-dev.herokuapp.com',
+    ui: 'employee.cloudprism.in',
     api: 'http://localhost:3000/api',
   },
 };

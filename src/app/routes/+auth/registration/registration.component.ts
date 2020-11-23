@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CacheService } from '../../../services/cache.service';
 
 @Component({
   selector: 'app-registration',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() {
+  organization: any;
+  constructor(private cacheService: CacheService) {
   }
 
   ngOnInit() {
+    this.organization = this.cacheService.organizationDetail;
   }
 }
 

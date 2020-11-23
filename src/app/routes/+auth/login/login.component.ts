@@ -16,7 +16,7 @@ import { MESSAGES } from '../../../services/messages.service';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loginFailText: string;
-    organizationId: number;
+    organization: any;
 
     constructor(
         private router: Router, private fb: FormBuilder,
@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.organization = this.cacheService.organizationDetail;
         if (this.cacheService.getCache('user') != null) {
             let user = this.authLoadService.user;
             if (user.roleId == 1) {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ForgotPasswordService } from '../../../services/forgot-password.service';
-
+import { CacheService } from '../../../services/cache.service';
 @Component({
   selector: 'app-resetpassword',
   templateUrl: './resetpassword.component.html',
@@ -13,10 +13,12 @@ export class ResetpasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   token: string;
   isPasswordReseted: boolean;
+  organization: any;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private cacheService: CacheService,
     private route: ActivatedRoute,
     private forgotPasswordService: ForgotPasswordService
   ) {
@@ -24,7 +26,7 @@ export class ResetpasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.organization = this.cacheService.organizationDetail;
     this.resetPasswordForm = this.fb.group({
 
       password: ['', [Validators.required, Validators.minLength(6)]],
